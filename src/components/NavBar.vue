@@ -1,18 +1,19 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Accueil</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav" >
-          <li class="nav-item" v-for="(title, index) in titles" :key="index">
-            <a class="nav-link" href="#">{{ title }}</a>
-          </li>
-        </ul>
+    <nav class="container">
+      <div class="item">
+        <a class="navbar-brand" href="/">Accueil</a>
       </div>
-    </nav>
+        <div class="item">
+        <a class="navbar-brand" href="/reservation">Réservation</a>
+      </div>
+      <div class="item">
+        <a class="navbar-brand" href="/classements">Classements</a>
+      </div>
+      <div class="item">
+        <a class="navbar-brand" href="/more">More</a>
+      </div>
+     </nav>
   </div>
 </template>
 
@@ -25,4 +26,32 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  padding: 1rem;
+  background-color: #333;
+  height: 20px;
+  z-index: 1;
+}
+
+.item {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.navbar-brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.navbar-brand:hover {
+  color: #007bff;
+}
 </style>

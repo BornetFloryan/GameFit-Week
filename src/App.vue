@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <NavBar />
     <div class="carousel">
+      <NavBar />
       <h1>
         GameFit Week
       </h1>
@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue';
+import NavBar from '@/components/NavBar.vue';
 
 
 export default {
   name: 'App',
   components: {
-    NavBar
+    NavBar,
   },
 
   data: () => ({
@@ -114,7 +114,7 @@ h1{
 }
 .carousel > h1 {
   position: absolute;
-  margin-top: 2vh;
+  margin-top: 10vh;
   top: 0;
   color: white;
   text-align: center;
