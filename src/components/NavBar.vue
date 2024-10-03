@@ -3,7 +3,7 @@
     <header :class="{ 'scrolled-nav': scrollPosition }">
       <nav>
         <div class="branding">
-          <img src="#" alt="Logo">
+          <img src="../assets/img/logo.png" alt="Logo">
         </div>
 
         <ul v-show="!mobile" class="navigation">

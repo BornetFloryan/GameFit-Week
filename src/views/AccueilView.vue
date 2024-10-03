@@ -1,7 +1,26 @@
 <template >
   <div>
     <NavView />
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio fugiat modi nemo perspiciatis quod ullam veniam. Accusantium, aperiam aut debitis, dignissimos est eum libero nostrum officia qui, quisquam quod repellendus sit voluptate. Adipisci amet autem doloribus facere nihil nisi sed! Ad aliquid consequuntur dignissimos dolor ducimus enim eveniet explicabo hic molestias nostrum nulla odit, quod ratione vel vitae. Cum dolorum eligendi eum fugit id ipsum itaque iusto laboriosam, laborum minus non omnis pariatur quam quo quod sit voluptates! Alias aliquam beatae ducimus ea eius fugiat hic ipsa magnam, non praesentium quae quisquam reprehenderit repudiandae tenetur velit. Accusantium error expedita iusto minima modi molestias odio pariatur possimus, quasi quibusdam quisquam quod tempore voluptatum? Accusamus beatae eaque explicabo fugit molestiae odit! Animi aperiam consequatur cum deleniti dolore dolores dolorum earum enim eos est eum expedita explicabo illum iste iure iusto labore laudantium minima mollitia odio officia, quam quasi qui quo totam vel, voluptates! Cum debitis explicabo incidunt, magni nulla quod tempora! Accusamus alias aperiam atque, commodi earum eius eveniet in labore laudantium obcaecati porro qui, quo reiciendis repellendus sed sequi voluptatem. Autem incidunt iste minus nisi quae repudiandae tempore, unde. A commodi ex, facilis harum veritatis voluptatibus voluptatum! Autem consequatur cumque hic non nulla numquam pariatur sed sunt totam! Alias aliquid commodi eos ex explicabo facilis nisi, perferendis quos tenetur? Alias animi assumenda dolor dolores dolorum, hic neque nostrum, obcaecati quibusdam, recusandae sed suscipit voluptas. Delectus doloribus est nobis sit veniam vitae! Alias assumenda consequuntur, debitis distinctio dolorum, ea, enim ipsum laborum laudantium mollitia nihil nostrum praesentium quisquam sint voluptatibus? Dolorem, fuga ipsum modi odit quidem rem unde veritatis voluptas? Alias animi facilis fugit libero nihil non nostrum perspiciatis quas. Aliquid aperiam dolorem eum fugit libero neque quas, sapiente tempora. Ab accusamus animi beatae commodi consequatur, consequuntur dicta earum eum fugit hic impedit in ipsam iusto laboriosam, laborum molestiae mollitia natus nemo nihil nisi numquam omnis placeat porro, quibusdam ratione recusandae reprehenderit sed ut vero voluptatibus. Accusantium asperiores autem corporis cupiditate delectus dignissimos distinctio doloribus dolorum esse et eveniet ex fuga hic impedit ipsam laudantium minima nisi nulla, odit possimus quia reprehenderit repudiandae sed tempore, unde ut voluptas! Ad animi aspernatur aut commodi culpa deleniti dolore dolores ducimus ea eaque eius eligendi est explicabo fuga hic illum ipsum laudantium molestias nesciunt odit pariatur perspiciatis quibusdam quis repellat saepe sed sit tempora velit veritatis, vero. Aliquid dolores ducimus in ipsum laborum molestias non repellendus sequi tenetur veniam? A accusamus atque consequuntur debitis doloribus ducimus eaque, eius et laboriosam laudantium magnam nam nemo neque nulla officiis qui quisquam ratione reiciendis rerum vel. Accusamus amet, animi, asperiores at consequuntur dolores eius ex magni nihil omnis perspiciatis, quas similique. A ab ad alias aliquid amet at commodi dignissimos distinctio dolores doloribus dolorum ducimus eaque eveniet facilis fuga harum incidunt, iure laudantium nam neque nobis numquam officia officiis optio quaerat quasi ratione repellat repellendus reprehenderit sequi similique tempora temporibus unde ut vel veniam vitae. Accusamus adipisci architecto atque autem commodi consequuntur cum cumque cupiditate debitis delectus distinctio dolorem dolorum ducimus eaque, eligendi esse eveniet excepturi explicabo fuga fugit in labore minus natus obcaecati officiis perspiciatis quaerat quas quis reiciendis rem saepe sequi suscipit temporibus ut vel vero voluptatibus! Amet at debitis et exercitationem fuga ipsa magnam natus necessitatibus nostrum nulla pariatur perferendis, quas sunt, tenetur ullam unde vero. Accusamus aliquid atque aut blanditiis delectus dicta doloremque dolores eaque enim et eum eveniet ex excepturi expedita fugit in ipsa iure nam officiis omnis placeat quae quidem quos ratione repudiandae sapiente tenetur vel, velit veritatis, vero? A aliquam beatae dolorum ducimus earum esse eum harum illum impedit iusto libero magni nam natus necessitatibus nisi nulla officia, omnis quo repellat saepe sit suscipit tempore veritatis voluptates voluptatibus. A amet atque aut blanditiis delectus deserunt dignissimos, dolor dolore dolorem ducimus eos eveniet ex harum hic inventore ipsa itaque iure libero magni maxime mollitia nostrum odio odit omnis perspiciatis possimus quae quaerat repellendus sapiente unde ut, vel voluptas voluptatum! Aliquam aperiam commodi deleniti ducimus enim eos et eum, facere illum, in ipsam iure laudantium maiores maxime necessitatibus nemo nisi nobis odit omnis, perspiciatis porro possimus quasi repudiandae. Atque eligendi eos ex inventore maiores maxime natus nostrum odio omnis optio perferendis quas quia quibusdam quis quisquam ratione, suscipit velit! A, accusamus accusantium adipisci, amet aperiam assumenda consectetur dolorem dolores ipsa laudantium magnam magni maxime modi pariatur porro praesentium quis reiciendis sequi ut vitae! Dolorum enim expedita laudantium magni minima natus, nemo non odit repellendus voluptate! Beatae consequuntur facere facilis iure sint. Accusamus accusantium assumenda cupiditate debitis deserunt, iure labore molestias neque nobis non tempora voluptate voluptates. Accusantium alias aliquam, amet aperiam aspernatur atque aut beatae consectetur culpa deleniti dicta distinctio dolores ducimus enim, et ex fuga harum hic illo laborum magnam maxime necessitatibus nesciunt obcaecati pariatur praesentium provident quae rerum sed sunt suscipit, tempora tempore temporibus veniam voluptate voluptatem voluptatum! Ad earum fugiat impedit incidunt ipsa ipsam iusto laborum libero modi nam nesciunt, odio officia quia quo reiciendis sint suscipit tenetur unde ut voluptatum. Aut laudantium nostrum placeat quod vero? Ducimus facere facilis possimus. Aperiam architecto assumenda aut blanditiis consectetur culpa cumque dolores eos est et expedita fuga illum iure maiores nemo nisi nobis perferendis perspiciatis quaerat qui quis quod quos ratione, sit suscipit temporibus unde? Aspernatur doloremque dolorum excepturi illum incidunt laudantium, numquam odio officia optio quae quos saepe sunt velit. Enim ex excepturi id maxime possimus praesentium, repellendus. Ab adipisci aliquam animi consectetur consequatur debitis dolorum, ea iusto labore libero necessitatibus nesciunt non qui quia quibusdam quos reiciendis repellat sed soluta tenetur! Deserunt enim molestiae nemo non sequi ullam ut vel! Alias, animi consequuntur deleniti deserunt ducimus earum expedita hic in iusto nisi rem sed. Ab animi, architecto consectetur cum eligendi esse nesciunt omnis, pariatur quis reprehenderit sint sunt ut. Culpa enim nulla obcaecati odio tempora? Accusamus alias aliquid amet, aspernatur beatae commodi consectetur delectus dicta distinctio error eum ex excepturi fuga, harum impedit incidunt ipsa laudantium non numquam optio quam quis quos reiciendis rem reprehenderit sapiente sit soluta totam voluptatem?</p>
+    <div class = "container">
+      <div class = "carousel">
+        <div class = "carousel-inner">
+          <div class = "carousel-item">
+            <img :src="slides[currentIndex].imageSrc"
+                 :alt="slides[currentIndex].alt"
+                 :sizes="slides[currentIndex].sizes">
+            <div class = "carousel-caption">
+              <h3>{{slides[currentIndex].title}}</h3>
+              <p>{{slides[currentIndex].text}}</p>
+              <a :href="slides[currentIndex].link" class = "btn btn-primary">Voir plus</a>
+            </div>
+            <div class = "carousel-controls">
+              <button @click="prevSlide" class = "btn btn-primary">Précédent</button>
+              <button @click="nextSlide" class = "btn btn-primary">Suivant</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,6 +30,80 @@ import NavView from '@/components/NavBar.vue';
 export default {
   name: 'AccueilView',
   components: {NavView},
-  props: { titles: Array }
-}
+  props: { titles: Array },
+
+  data : () => ({
+    currentIndex: 0,
+    slides: [],
+    carouselProperties: {},
+    file: '@/assets/img/',
+  }),
+
+  methods : {
+    nextSlide(){
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    },
+    prevSlide(){
+      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    },
+  },
+  mounted() {
+    for(let i = 1; i <= 2 ; i++){
+      this.slides.push({
+        imageSrc: require(`@/assets/img/slide${i}.jpg`),
+        alt: `Slide ${i}`,
+        sizes: '(max-width: 600px) 480px',
+        title: `Title ${i}`,
+        text: `Description for slide ${i}`,
+        link: `#`,
+        variantItemId: `${i}`,
+      });
+    }
+    setInterval(() => {
+      this.nextSlide();
+    }, 8000);
+  }
+};
 </script>
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-inner {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item img {
+  object-fit: cover;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+}
+
+.carousel-controls {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+}
+</style>
