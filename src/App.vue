@@ -20,9 +20,9 @@ body {
   background-color: #f4f4f4;
 }
 
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+a {
+  color: black;
+  text-decoration: none;
 }
+
 </style>
