@@ -19,7 +19,7 @@ export default {
   data: () => ({
     currentIndex: 0,
     slides: [],
-    routes: ['shopitems', 'bankaccount'], // Nom de la route
+    routes: [],
   }),
   methods: {
     nextSlide() {

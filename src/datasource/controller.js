@@ -1,4 +1,4 @@
-import { items, shopusers, bankaccounts, transactions } from './data'
+import { items, shopusers, bankaccounts, transactions, animators, availabledates } from './data'
 import {v4 as uuidv4} from 'uuid'
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -46,7 +46,7 @@ function getAccountAmount(number){
 function getAccountTransaction(number){
   if (!number) return {error: 1, status: 404, data: 'aucun compte'}
   let account = bankaccounts.find(e => e.number === number.number)
-  console.log(account._id)
+
   if (!account) return {error: 1, status: 404, data: "compte incorrect"}
   let accountTransactions = transactions.filter(e => e.account === account._id)
 
@@ -58,8 +58,39 @@ function getAccountTransaction(number){
       uuid: transaction.uuid
     }
   });
-  console.log(transactionsData)
   return {error: 0, status: 200, data: transactionsData}
+}
+
+function getAnimatorAvailableDates(_id){
+  let dates = availabledates.filter(e => e.anim_id === _id)
+
+  return {
+    error: 0,
+    status: 200,
+    data: dates.map(dateObj => new Date(dateObj.$date))
+  };
+}
+
+function getAvailableTimes(date){
+  const selectedDateUTC = new Date(Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+  )).toISOString().split('T')[0];
+
+  for (let i = 0; i < availabledates.length; i++) {
+    if (new Date(availabledates[i].$date).toISOString().split('T')[0] === selectedDateUTC) {
+        return {
+            error: 0,
+            status: 200,
+            data: availabledates[i].times
+        };
+    }
+  }
+}
+
+function getAnimators() {
+  return {error: 0, data: animators}
 }
 
 export default{
@@ -67,4 +98,7 @@ export default{
   getAllViruses,
   getAccountAmount,
   getAccountTransaction,
+  getAnimatorAvailableDates,
+  getAvailableTimes,
+  getAnimators,
 }

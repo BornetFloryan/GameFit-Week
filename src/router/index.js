@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
-import VirusesView from '../views/VirusesView.vue'
+import ServicesView from "../views/ServicesView.vue";
 
 Vue.use(VueRouter)
 
@@ -12,9 +12,9 @@ const routes = [
     component: AccueilView
   },
   {
-    path: '/shop/items',
-    name: 'shopitems',
-    component: VirusesView
+    path: '/services/',
+    name: 'services',
+    component: ServicesView
   },
   {
     path: '/shop/login',

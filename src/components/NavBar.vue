@@ -1,37 +1,49 @@
 <template>
-  <div>
-    <header :class="{ 'scrolled-nav': scrollPosition }">
-      <nav>
-        <div class="branding">
-          <img src="../assets/img/logo.png" alt="Logo">
-        </div>
+  <header :class="{ 'scrolled-nav': scrollPosition }">
+    <nav>
+      <div class="branding">
+        <router-link :to="{ name: 'home' }" class="link">
+          <img src="../assets/img/logo.png" alt="Logo" />
+        </router-link>
+      </div>
 
-        <ul v-show="!mobile" class="navigation">
-          <li><router-link :to="{ name: 'home'}" class="link">Accueil</router-link></li>
-          <li><router-link :to="{ name: ''}" class="link">A propos</router-link></li>
-          <li><router-link :to="{ name: ''}" class="link">Services</router-link></li>
-          <li><router-link :to="{ name: ''}" class="link">Contact</router-link></li>
-        </ul>
-
-        <div class="icon">
-          <i @click="toggleMobileView" v-show="mobile && !mobileNav" class="fa fa-bars"></i>
-          <i @click="toggleMobileView" v-show="mobileNav" class="fa fa-x"></i>
-        </div>
-
-        <transition name="mobile-nav">
-          <ul v-show="mobileNav" class="dropdown-nav">
-            <li><router-link :to="{ name: 'home'}" class="link">Accueil</router-link></li>
-            <li><router-link :to="{ name: ''}" class="link">A propos</router-link></li>
-            <li><router-link :to="{ name: ''}" class="link">Services</router-link></li>
-            <li><router-link :to="{ name: ''}" class="link">Contact</router-link></li>
+      <ul v-show="!mobile" class="navigation">
+        <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
+        <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
+        <li class="services" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
+          <router-link to="" class="link">Services</router-link>
+          <ul v-show="showDropdown" class="dropdown">
+            <router-link :to="{ name: 'services' }">
+              <li @click="selectService('dedication')" class="link">Dédicace</li>
+              <li @click="selectService('service2')" class="link">Service 2</li>
+              <li @click="selectService('service3')" class="link">Service 3</li>
+            </router-link>
           </ul>
-        </transition>
-      </nav>
-    </header>
-  </div>
+        </li>
+        <li><router-link :to="{ name: '' }" class="link">Contact</router-link></li>
+      </ul>
+
+      <div class="icon">
+        <i @click="toggleMobileView" v-show="mobile && !mobileNav" class="fa fa-bars"></i>
+        <i @click="toggleMobileView" v-show="mobileNav" class="fa fa-x"></i>
+      </div>
+
+      <transition name="mobile-nav">
+        <ul v-show="mobileNav" class="dropdown-nav">
+          <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
+          <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
+          <li><router-link :to="{ name: 'services' }" class="link">Services</router-link></li>
+          <li><router-link :to="{ name: '' }" class="link">Contact</router-link></li>
+        </ul>
+      </transition>
+    </nav>
+  </header>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+
 export default {
   name: 'NavView',
   data() {
@@ -40,7 +52,11 @@ export default {
       mobile: null,
       mobileNav: null,
       windowWidth: null,
+      showDropdown: false,
     };
+  },
+  computed: {
+    ...mapState(['selectedService']),
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
@@ -50,6 +66,7 @@ export default {
     window.addEventListener('scroll', this.updateScroll);
   },
   methods: {
+    ...mapActions(['selectService']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
@@ -69,6 +86,9 @@ export default {
       }
       this.mobile = false;
       this.mobileNav = false;
+    },
+    selectService(service) {
+      this.$store.dispatch('selectService', service);
     }
   },
 }
@@ -84,6 +104,9 @@ header {
   position: fixed;
   color: #fff;
   transition: .5s ease all;
+  height: 84px;
+  top: 0;
+  left: 0;
 }
 
 header nav {
@@ -214,6 +237,42 @@ nav .mobile-nav-enter-to{
 .scrolled-nav nav .branding img {
   width: 40px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+ .services {
+   position: relative;
+ }
+
+.services .dropdown {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 8px 0;
+  border-radius: 4px;
+  width: max-content;
+  z-index: 1000;
+  text-align: center;
+}
+
+.services:hover .dropdown,
+.services .dropdown-nav .dropdown {
+  display: block;
+}
+
+.services .dropdown li {
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+.services .dropdown li .link {
+  color: #fff;
+}
+
+.services .dropdown li .link:hover {
+  color: #00afea;
 }
 
 </style>
