@@ -17,17 +17,11 @@ const routes = [
     component: ServicesView
   },
   {
-    path: '/shop/login',
-    name: 'shoplogin',
+    path: '/login',
+    name: 'login',
     // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
-    component: () => import('../views/ShopLoginView.vue')
+    component: () => import('../views/LoginView.vue')
   },
-  {
-    path: '/bank/amount',
-    name: 'bankaccount',
-    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
-    component: () => import('../views/BankAccountView.vue')
-  }
 ]
 
 const router = new VueRouter({

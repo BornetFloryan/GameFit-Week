@@ -14,13 +14,26 @@
           <router-link to="" class="link">Services</router-link>
           <ul v-show="showDropdown" class="dropdown">
             <router-link :to="{ name: 'services' }">
-              <li @click="selectService('dedication')" class="link">Dédicace</li>
-              <li @click="selectService('service2')" class="link">Service 2</li>
-              <li @click="selectService('service3')" class="link">Service 3</li>
+              <li @click="setSelectService('dedication')" class="link">Dédicace</li>
+              <li @click="setSelectService('service2')" class="link">Service 2</li>
+              <li @click="setSelectService('service3')" class="link">Service 3</li>
             </router-link>
           </ul>
         </li>
         <li><router-link :to="{ name: '' }" class="link">Contact</router-link></li>
+        <li><router-link v-if="currentUser === null" :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
+        <li v-if="currentUser !== null" class="account" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
+          <router-link to="" class="link">{{ currentUser.login }}</router-link>
+          <ul v-show="showDropdown" class="dropdown">
+            <router-link :to="{ name: 'account' }">
+              <li @click="setSelectAccountInfo('profil')" class="link">Profil</li>
+              <li @click="setSelectAccountInfo('reservation')" class="link">Réservations</li>
+            </router-link>
+            <router-link :to="{ name: 'home' }">
+              <li @click="disconnected" class="link disconnect">Déconnexion</li>
+            </router-link>
+          </ul>
+        </li>
       </ul>
 
       <div class="icon">
@@ -34,6 +47,7 @@
           <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
           <li><router-link :to="{ name: 'services' }" class="link">Services</router-link></li>
           <li><router-link :to="{ name: '' }" class="link">Contact</router-link></li>
+          <li><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         </ul>
       </transition>
     </nav>
@@ -41,8 +55,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'NavView',
@@ -56,7 +69,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['selectedService']),
+    ...mapState(['selectedService', 'currentUser']),
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
@@ -66,30 +79,27 @@ export default {
     window.addEventListener('scroll', this.updateScroll);
   },
   methods: {
-    ...mapActions(['selectService']),
+    ...mapActions(['setSelectService', 'setCurrentUser']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
     updateScroll() {
       const scroll = window.scrollY;
-      if (scroll > 50) {
-        this.scrollPosition = true;
-        return;
-      }
-      this.scrollPosition = false;
+      this.scrollPosition = scroll > 50;
     },
     checkScreen() {
       this.windowWidth = window.innerWidth;
-      if (this.windowWidth <= 750) {
-        this.mobile = true;
-        return;
+      this.mobile = this.windowWidth <= 750;
+      if (!this.mobile) {
+        this.mobileNav = false;
       }
-      this.mobile = false;
-      this.mobileNav = false;
     },
-    selectService(service) {
-      this.$store.dispatch('selectService', service);
-    }
+    async disconnected() {
+      await this.setCurrentUser(null);
+      if (this.$route.name !== 'home') {
+        this.$router.push({ name: 'home' });
+      }
+    },
   },
 }
 </script>
@@ -143,6 +153,28 @@ nav .link {
   transition: .5s ease all;
   padding-bottom: 4px;
   border-bottom: 1px solid transparent;
+}
+
+nav .link.login {
+  border: 2px solid #00afea;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: #fff;
+}
+
+nav .link.login:hover {
+  background-color: #00afea;
+  color: #fff;
+}
+
+nav .link.disconnect {
+  padding: 8px 16px;
+  color: #ffffff;
+}
+
+nav .link.disconnect:hover {
+  color: #ff0000;
+  border-bottom: 1px solid #ff0000;
 }
 
 nav .link:hover {
@@ -239,11 +271,13 @@ nav .mobile-nav-enter-to{
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
- .services {
+ .services,
+ .account {
    position: relative;
  }
 
-.services .dropdown {
+.services .dropdown,
+.account .dropdown {
   display: none;
   position: absolute;
   left: 50%;
@@ -254,24 +288,29 @@ nav .mobile-nav-enter-to{
   border-radius: 4px;
   width: max-content;
   z-index: 1000;
-  text-align: center;
+  text-align: left;
 }
 
 .services:hover .dropdown,
-.services .dropdown-nav .dropdown {
+.services .dropdown-nav .dropdown,
+.account:hover .dropdown,
+.account .dropdown-nav .dropdown {
   display: block;
 }
 
-.services .dropdown li {
+.services .dropdown li,
+.account .dropdown li {
   padding: 8px 16px;
   white-space: nowrap;
 }
 
-.services .dropdown li .link {
+.services .dropdown li .link,
+.account .dropdown li .link {
   color: #fff;
 }
 
-.services .dropdown li .link:hover {
+.services .dropdown li .link:hover,
+.account .dropdown li .link:hover {
   color: #00afea;
 }
 

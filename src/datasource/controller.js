@@ -1,4 +1,4 @@
-import { items, shopusers, bankaccounts, transactions, animators, availabledates } from './data'
+import { customersAccounts, animators, availabledates } from './data'
 import {v4 as uuidv4} from 'uuid'
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -8,10 +8,10 @@ import {v4 as uuidv4} from 'uuid'
   Exemple 1 : se loguer auprès de la boutique
  */
 
-function shopLogin(data) {
+function setCurrentUser(data) {
   if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
   // pour simplifier : test uniquement le login
-  let user = shopusers.find(e => e.login === data.login)
+  let user = customersAccounts.find(e => e.login === data.login)
   if (!user) return {error: 1, status: 404, data: 'login/pass incorrect'}
   // générer un uuid de session pour l'utilisateur si non existant
   if (!user.session) {
@@ -28,41 +28,8 @@ function shopLogin(data) {
   return {error: 0, status: 200, data: u}
 }
 
-function getAllViruses() {
-  return {error: 0, data: items}
-}
-
-function getAccountAmount(number){
-  if (!number) return {error: 1, status: 404, data: 'aucun compte'}
-
-  let account = bankaccounts.find(e => e.number === number.number)
-
-  if (!account) return {error: 1, status: 404, data: 'compte incorrect'}
-
-  let amount = account.amount
-  return {error: 0, status: 200, data: amount}
-}
-
-function getAccountTransaction(number){
-  if (!number) return {error: 1, status: 404, data: 'aucun compte'}
-  let account = bankaccounts.find(e => e.number === number.number)
-
-  if (!account) return {error: 1, status: 404, data: "compte incorrect"}
-  let accountTransactions = transactions.filter(e => e.account === account._id)
-
-  let transactionsData = accountTransactions.map(transaction => {
-    return {
-      account: transaction.account,
-      amount: transaction.amount,
-      date: transaction.date,
-      uuid: transaction.uuid
-    }
-  });
-  return {error: 0, status: 200, data: transactionsData}
-}
-
-function getAnimatorAvailableDates(_id){
-  let dates = availabledates.filter(e => e.anim_id === _id)
+function getAnimatorAvailableDates(animator){
+  let dates = availabledates.filter(e => e.anim_id === animator._id)
 
   return {
     error: 0,
@@ -93,12 +60,34 @@ function getAnimators() {
   return {error: 0, data: animators}
 }
 
+function getCustomersAccounts() {
+    return {error: 0, data: customersAccounts}
+}
+
+function addCustomerAccount(customer) {
+  if (customersAccounts.find(e => e.email === customer.email))
+    return {error: 1, status: 404, data: 'Adresse email déjà utilisée'}
+
+  let _id = customersAccounts.length ? parseInt(customersAccounts[customersAccounts.length - 1]._id, 10) + 1 : 0;
+
+  // retourne uniquement les champs nécessaires
+  let u = {
+    _id: _id,
+    name: customer.name,
+    login: customer.login,
+    password: customer.password,
+    email: customer.email,
+    session: uuidv4()
+  };
+  return {error: 0, status: 200, data: u};
+}
+
 export default{
-  shopLogin,
-  getAllViruses,
-  getAccountAmount,
-  getAccountTransaction,
+  setCurrentUser,
   getAnimatorAvailableDates,
   getAvailableTimes,
   getAnimators,
+  getCustomersAccounts,
+
+  addCustomerAccount,
 }

@@ -4,8 +4,8 @@ async function getAnimatorsFromLocalSource(){
     return LocalSource.getAnimators()
 }
 
-async function getAnimatorAvailableDatesFromLocalSource(_id){
-    return LocalSource.getAnimatorAvailableDates(_id)
+async function getAnimatorAvailableDatesFromLocalSource(animator){
+    return LocalSource.getAnimatorAvailableDates(animator)
 }
 
 async function getAvailableTimesFromLocalSource(date){

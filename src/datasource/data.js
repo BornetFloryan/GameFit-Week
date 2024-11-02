@@ -1,53 +1,91 @@
-let items=[
-{"_id":"6476f0e1c7e21b2b33a35d78","name":"variole","description":"variole","links":["https://fr.wikipedia.org/wiki/Variole"],"stock":0,"wait":{"$date":"2023-05-31T07:01:53.733Z"},"sold":false,"price":75000,"promotion":[],"object":"{ \"code\": \"ACBCBBACADDCADDBCDDCABBBCADDCADDBCD\"}"},
-{"_id":"6476f0e1c7e21b2b33a35d79","name":"ebola","description":"ebola","links":["https://fr.wikipedia.org/wiki/Virus_Ebola"],"stock":0,"wait":{"$date":"2023-05-31T07:01:53.733Z"},"sold":true,"price":65000,"promotion":[],"object":"{ \"code\": \"AAAABBBBCCCCDDDDDDDDCCCCBBBBAAAA\"}"},
-{"_id":"6476f0e1c7e21b2b33a35d6c","name":"adeno","description":"adenovirus","links":["https://fr.wikipedia.org/wiki/Adenoviridae"],"stock":10,"wait":{"$date":"2023-05-31T07:01:53.73Z"},"sold":true,"price":5000,"promotion":[{"discount":5,"amount":2,"_id":"6476f0e1c7e21b2b33a35d6d"},{"discount":10,"amount":5,"_id":"6476f0e1c7e21b2b33a35d6e"}],"object":"{ \"code\": \"ABABABABABAB\"}"},
-{"_id":"6476f0e1c7e21b2b33a35d6f","name":"covid","description":"covid 19","links":["https://fr.wikipedia.org/wiki/SARS-CoV-2"],"stock":50,"wait":{"$date":"2023-05-31T07:01:53.732Z"},"sold":true,"price":1000,"promotion":[{"discount":10,"amount":10,"_id":"6476f0e1c7e21b2b33a35d70"},{"discount":20,"amount":50,"_id":"6476f0e1c7e21b2b33a35d71"}],"object":"{ \"code\": \"ABADBADCCCBADCBABADBADCCCBADCB\"}"},
-{"_id":"6476f0e1c7e21b2b33a35d72","name":"staphy","description":"staphylocoque","links":["https://fr.wikipedia.org/wiki/Staphylococcus"],"stock":100,"wait":{"$date":"2023-05-31T07:01:53.732Z"},"sold":true,"price":500,"promotion":[{"discount":5,"amount":5,"_id":"6476f0e1c7e21b2b33a35d73"},{"discount":10,"amount":10,"_id":"6476f0e1c7e21b2b33a35d74"},{"discount":20,"amount":50,"_id":"6476f0e1c7e21b2b33a35d75"}],"object":"{ \"code\": \"ABBCDDDDCBBB\"}"},
-{"_id":"6476f0e1c7e21b2b33a35d76","name":"prion","description":"prion","links":["https://fr.wikipedia.org/wiki/Prion_(prot%C3%A9ine)"],"stock":1,"wait":{"$date":"2023-05-31T07:01:53.733Z"},"sold":true,"price":10000,"promotion":[{"discount":10,"amount":2,"_id":"6476f0e1c7e21b2b33a35d77"}],"object":"{ \"code\": \"ABCACACABCAB\"}"},
+let customersAccounts=[
+{"_id":"0","name":"tester user","login":"tester","password":"tester","email":"tester@nowhere.org", "session":""},
 ]
-let shopusers=[
-{"_id":"66d58122c08b4d64db14cd01","name":"tester user","login":"tester","password":"$2a$10$v4tIpEQnaEJPsRxRiGcN2OGqmlkhZ2qx20COEidbt/EG0uX/.vSWa","email":"tester@nowhere.org","session":"00000000-0000-0000-0000-000000000000","orders":[]},
-{"_id":"66d58122c08b4d64db14cd04","name":"doctor mad","login":"drmad","password":"$2a$10$NOsxgLgAUS83f.nGsmU2qevDe.mnBpEC0fDHeUOWSY6z/0TprYqPa","email":"drmad@bad.org","orders":[{"items":[{"item":{"name":"adeno","description":"adenovirus","price":5000,"promotion":[{"discount":5,"amount":2,"_id":"6476f0e1c7e21b2b33a35d6d"},{"discount":10,"amount":5,"_id":"6476f0e1c7e21b2b33a35d6e"}],"object":"{ \"code\": \"ABABABABABAB\"}"},"amount":2,"_id":"66d58122c08b4d64db14cd06"},{"item":{"name":"covid","description":"covid 19","price":1000,"promotion":[{"discount":10,"amount":10,"_id":"6476f0e1c7e21b2b33a35d70"},{"discount":20,"amount":50,"_id":"6476f0e1c7e21b2b33a35d71"}],"object":"{ \"code\": \"ABADBADCCCBADCBABADBADCCCBADCB\"}"},"amount":1,"_id":"66d58122c08b4d64db14cd09"}],"date":{"$date":"2024-09-02T09:10:58.884Z"},"total":10500,"status":"finalized","uuid":"01010101-0000-0000-0000-010101010101","_id":"66d58122c08b4d64db14cd05"}]},
-]
-let bankaccounts=[
-{"_id":"64762dc9066dd654632aed50","number":"FRBADORG78901234567890-0000001","amount":1000000},
-{"_id":"64762dc9066dd654632aed53","number":"FRBADORG78901234567890-0000002","amount":3000000},
-{"_id":"64762dc9066dd654632aed56","number":"FRDRMAD578901234567890-0000666","amount":200000},
-{"_id":"65d721c44399ae9c8321832c","number":"FRSHOP4578901234567890-0000999","amount":200000},
-]
-let transactions=[
-{"_id":"64762dc9066dd654632aed59","amount":-10500,"account":"64762dc9066dd654632aed56","date":{"$date":"2023-05-30T17:09:29.199Z"},"uuid":"99990000-0000-0000-0000-000000000001"},
-{"_id":"64762dc9066dd654632aed5b","amount":75000,"account":"64762dc9066dd654632aed56","date":{"$date":"2023-05-30T17:09:29.201Z"},"uuid":"99990000-0000-0000-0000-000000000002"},
-{"_id":"64762dc9066dd654632aed5d","amount":-75000,"account":"64762dc9066dd654632aed50","date":{"$date":"2023-05-30T17:09:29.202Z"},"uuid":"99990000-0000-0000-0000-000000000003"},
-]
-let auctionusers=[
-{"_id":"64762dc9066dd654632aed69","pseudo":"drmad","password":"$2a$10$BnPODInoJJJxLcjLDOBL3uHFUQQD9KiM5jfRVoEa0QmTHYSTzL/te","email":"drmad@bad.org","account":"FRDRMAD578901234567890-0000666"},
-{"_id":"64762dc9066dd654632aed6c","pseudo":"crime1","password":"$2a$10$NApPjAFy68l9TQO6iUIwYueK3hiA80tSdbPUZr5FYl5Aje8GPxHfO","email":"crime1@bad.org","account":"FRBADORG78901234567890-0000001"},
-{"_id":"64762dc9066dd654632aed6f","pseudo":"crime2","password":"$2a$10$t7JOXL3n/jQdOmJO7Tf71OJMVBCE83rawRTk/Seb./sIQeB9W1qPO","email":"crime2@bad.org","account":"FRBADORG78901234567890-0000002"},
-]
-let auctionrequests=[
-{"_id":"64762dc9066dd654632aed72","buyer":"64762dc9066dd654632aed6c","price":50000,"lethality":10,"kidneysVirulence":1,"survival":{"air":100}},
-{"_id":"64762dc9066dd654632aed74","buyer":"64762dc9066dd654632aed6f","price":10000,"lethality":3,"brainVirulence":2,"lungsVirulence":1,"heartVirulence":3,"temperature":{"min":-10,"max":40},"survival":{"ground":10,"water":1000}},
-]
-let auctiontransactions=[
-{"_id":"64762dc9066dd654632aed77","buyer":{"ref":"64762dc9066dd654632aed6c","pseudo":"crime1","email":"crime1@bad.org","account":"FRBADORG78901234567890-0000001"},"seller":{"ref":"64762dc9066dd654632aed69","pseudo":"drmad","email":"drmad@bad.org","account":"FRDRMAD578901234567890-0000666"},"date":{"$date":"2023-05-30T17:09:29.506Z"},"name":"madovirus","price":75000,"lethality":40,"brainVirulence":9,"lungsVirulence":7,"kidneysVirulence":2,"heartVirulence":2,"temperature":{"min":-30,"max":70},"survival":{"air":1000,"ground":30,"water":200}},
-]
-
 let animators = [
-    {
-    "_id": "0",
-    "name": "Astérion",
-    "email": "",
-    },
    {
-      "_id": "1",
-      "name": "Astéfion",
+      "_id": "0",
+      "name": "Lionel Messi",
       "email": "",
    },
+   {
+      "_id": "1",
+      "name": "LeBron James",
+      "email": "",
+   },
+   {
+      "_id": "2",
+      "name": "Serena Williams",
+      "email": "",
+   },
+   {
+      "_id": "3",
+      "name": "Cristiano Ronaldo",
+      "email": "",
+   },
+   {
+      "_id": "4",
+      "name": "Tom Brady",
+      "email": "",
+   },
+   {
+      "_id": "5",
+      "name": "Roger Federer",
+      "email": "",
+   },
+   {
+      "_id": "6",
+      "name": "Stephen Curry",
+      "email": "",
+   },
+   {
+      "_id": "7",
+      "name": "Usain Bolt",
+      "email": "",
+   },
+   {
+      "_id": "8",
+      "name": "Neymar Jr.",
+      "email": "",
+   },
+   {
+      "_id": "9",
+      "name": "Michael Jordan",
+      "email": "",
+   },
+   {
+      "_id": "10",
+      "name": "Khabib Nurmagomedov",
+      "email": "",
+   },
+   {
+      "_id": "11",
+      "name": "Pele",
+      "email": "",
+   },
+   {
+      "_id": "12",
+      "name": "Virat Kohli",
+      "email": "",
+   },
+   {
+      "_id": "13",
+      "name": "Misty May-Treanor",
+      "email": "",
+   },
+   {
+      "_id": "14",
+      "name": "Bugha",
+      "email": "",
+   },
+   {
+      "_id": "15",
+      "name": "Ninja",
+      "email": "",
+   }
 ]
 
 let availabledates = [
+   // Lionel Messi
    {
       "_id": "0",
       "$date": "2024-10-30T00:00:00.000Z",
@@ -64,7 +102,7 @@ let availabledates = [
    },
    {
       "_id": "1",
-      "$date" : "2024-10-31T00:00:00.000Z",
+      "$date": "2024-10-31T00:00:00.000Z",
       "times": [
          "08:00",
          "10:00",
@@ -74,11 +112,13 @@ let availabledates = [
          "15:00",
          "16:00"
       ],
-      "anim_id" : "0",
+      "anim_id": "0",
    },
+
+   // LeBron James
    {
       "_id": "2",
-      "$date" : "2024-10-31T00:00:00.000Z",
+      "$date": "2024-10-31T00:00:00.000Z",
       "times": [
          "08:00",
          "10:00",
@@ -88,18 +128,348 @@ let availabledates = [
          "15:00",
          "16:00"
       ],
-      "anim_id" : "1",
+      "anim_id": "1",
+   },
+   {
+      "_id": "3",
+      "$date": "2024-11-01T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "1",
+   },
+
+   // Serena Williams
+   {
+      "_id": "4",
+      "$date": "2024-11-01T00:00:00.000Z",
+      "times": [
+         "10:00",
+         "12:00",
+         "14:00",
+         "16:00"
+      ],
+      "anim_id": "2",
+   },
+   {
+      "_id": "5",
+      "$date": "2024-11-02T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "14:00",
+         "16:00"
+      ],
+      "anim_id": "2",
+   },
+
+   // Cristiano Ronaldo
+   {
+      "_id": "6",
+      "$date": "2024-11-02T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "3",
+   },
+   {
+      "_id": "7",
+      "$date": "2024-11-03T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "3",
+   },
+
+   // Tom Brady
+   {
+      "_id": "8",
+      "$date": "2024-11-03T00:00:00.000Z",
+      "times": [
+         "10:00",
+         "12:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "4",
+   },
+   {
+      "_id": "9",
+      "$date": "2024-11-04T00:00:00.000Z",
+      "times": [
+         "07:00",
+         "09:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "4",
+   },
+
+   // Roger Federer
+   {
+      "_id": "10",
+      "$date": "2024-11-04T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "5",
+   },
+   {
+      "_id": "11",
+      "$date": "2024-11-05T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "5",
+   },
+
+   // Stephen Curry
+   {
+      "_id": "12",
+      "$date": "2024-11-05T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "6",
+   },
+   {
+      "_id": "13",
+      "$date": "2024-11-06T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "6",
+   },
+
+   // Usain Bolt
+   {
+      "_id": "14",
+      "$date": "2024-11-06T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "7",
+   },
+   {
+      "_id": "15",
+      "$date": "2024-11-07T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "7",
+   },
+
+   // Neymar Jr.
+   {
+      "_id": "16",
+      "$date": "2024-11-07T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "8",
+   },
+   {
+      "_id": "17",
+      "$date": "2024-11-08T00:00:00.000Z",
+      "times": [
+         "07:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "8",
+   },
+
+   // Michael Jordan
+   {
+      "_id": "18",
+      "$date": "2024-11-08T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "11:00",
+         "13:00",
+         "15:00"
+      ],
+      "anim_id": "9",
+   },
+   {
+      "_id": "19",
+      "$date": "2024-11-09T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "9",
+   },
+
+   // Khabib Nurmagomedov
+   {
+      "_id": "20",
+      "$date": "2024-11-09T00:00:00.000Z",
+      "times": [
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "10",
+   },
+   {
+      "_id": "21",
+      "$date": "2024-11-10T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00"
+      ],
+      "anim_id": "10",
+   },
+
+   // Pele
+   {
+      "_id": "22",
+      "$date": "2024-11-10T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "11",
+   },
+   {
+      "_id": "23",
+      "$date": "2024-11-11T00:00:00.000Z",
+      "times": [
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "11",
+   },
+
+   // Virat Kohli
+   {
+      "_id": "24",
+      "$date": "2024-11-11T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00"
+      ],
+      "anim_id": "12",
+   },
+   {
+      "_id": "25",
+      "$date": "2024-11-12T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "14:00"
+      ],
+      "anim_id": "12",
+   },
+
+   // Misty May-Treanor
+   {
+      "_id": "26",
+      "$date": "2024-11-12T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "13",
+   },
+   {
+      "_id": "27",
+      "$date": "2024-11-13T00:00:00.000Z",
+      "times": [
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "13",
+   },
+
+   // Bugha
+   {
+      "_id": "28",
+      "$date": "2024-11-13T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00"
+      ],
+      "anim_id": "14",
+   },
+   {
+      "_id": "29",
+      "$date": "2024-11-14T00:00:00.000Z",
+      "times": [
+         "10:00",
+         "12:00",
+         "14:00"
+      ],
+      "anim_id": "14",
+   },
+
+   // Ninja
+   {
+      "_id": "30",
+      "$date": "2024-11-14T00:00:00.000Z",
+      "times": [
+         "09:00",
+         "11:00",
+         "13:00"
+      ],
+      "anim_id": "15",
+   },
+   {
+      "_id": "31",
+      "$date": "2024-11-15T00:00:00.000Z",
+      "times": [
+         "08:00",
+         "10:00",
+         "14:00"
+      ],
+      "anim_id": "15",
    }
 ];
 
 module.exports = {
-   items,
-   shopusers,
-   bankaccounts,
-   transactions,
-   auctionusers,
-   auctionrequests,
-   auctiontransactions,
+   customersAccounts,
    availabledates,
    animators,
 }

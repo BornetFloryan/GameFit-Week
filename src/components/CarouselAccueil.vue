@@ -1,12 +1,12 @@
 <template>
   <div :style="carouselBackground" class="container-carousel">
-    <div class="carousel-items">
+    <div class="carousel-items" v-if="slides.length > 0">
       <h1>{{ slides[currentIndex].title }}</h1>
       <p>{{ slides[currentIndex].text }}</p>
       <router-link :to="slides[currentIndex].link" class="router-link">Voir plus</router-link>
     </div>
 
-    <div class="carousel-controls">
+    <div class="carousel-controls" v-if="slides.length > 0">
       <button @click="prevSlide" class="btn"><i class="fa-solid fa-arrow-left"></i></button>
       <button @click="nextSlide" class="btn"><i class="fa-solid fa-arrow-right"></i></button>
     </div>
@@ -35,7 +35,7 @@ export default {
         imageSrc: require(`@/assets/img/slide${i}.jpg`),
         title: `Title ${i}`,
         text: `Description for slide ${i}`,
-        link: this.routes[i-1],
+        link: this.routes[i-1] || '/',
       });
     }
     setInterval(() => {
@@ -53,7 +53,7 @@ export default {
           height: '100vh'
         };
       }
-      // Style par default si slides non charger
+      // Default style if slides are not loaded
       return {
         backgroundColor: '#f1f1f1',
         width: '100%',

@@ -1,60 +1,100 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import BankService from '../services/bankaccount.service'
 
 Vue.use(Vuex)
 
-import ShopService from '../services/shop.service'
-
+import LoginService from '../services/login.service'
 import DedicationService from '../services/dedication.service'
 
 export default new Vuex.Store({
   // state = les données centralisées
   state: () => ({
-    viruses: [],
-    shopUser: null,
-    accountAmount: 0,
-    accountTransactions : [],
-    accountNumberError : 0,
-
+    currentUser: sessionStorage.getItem('currentUser') || null,
     selectedService: localStorage.getItem('selectedService') || '',
+    selected: '',
     animatorAvailableDates: [],
     availableTimes: [],
-    animators:[],
+    animators: [],
+    customersAccounts: sessionStorage.getItem('customersAccounts') || [],
   }),
   // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
   mutations: {
-    setSelectedService(state, service) {
+    updateCurrentUser(state, user) {
+      state.currentUser = user;
+      if (user === null) {
+        sessionStorage.removeItem('currentUser');
+      } else {
+        sessionStorage.setItem('currentUser', user);
+      }
+    },
+    updateSelectedService(state, service) {
       state.selectedService = service;
       localStorage.setItem('selectedService', service);
     },
     updateAnimatorAvailableDates(state, date) {
-        state.animatorAvailableDates = date;
+      state.animatorAvailableDates = date;
     },
     updateAvailableTimes(state, times) {
-        state.availableTimes = times;
+      state.availableTimes = times;
     },
     updateAnimators(state, animators) {
-        state.animators = animators;
+      state.animators = animators;
     },
-
-    updateViruses(state, viruses) {
-      state.viruses = viruses
+    updateCustomersAccounts(state, customers) {
+      state.customersAccounts = customers;
+      sessionStorage.setItem('customersAccounts', customers);
     },
-    updateShopUser(state, user) {
-      state.shopUser = user
+    addCustomerAccount(state, customer) {
+      state.customersAccounts.push(customer);
+      sessionStorage.setItem('customersAccounts', state.customersAccounts);
     },
-      updateAccountAmount(state, mount) {
-      state.accountAmount = mount
-    },
-    updateAccountTransactions(state, transactions) {
-      state.accountTransactions = transactions;
-    }
   },
   // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
   actions: {
-    selectService({ commit }, service) {
-      commit('setSelectedService', service);
+    setSelectService({ commit }, service) {
+      commit('updateSelectedService', service);
+    },
+    async setCurrentUser({ commit }, data) {
+      try {
+        console.log('non');
+        if (data === null) {
+          commit('updateCurrentUser', null);
+          return { error: 0, data: 'Déconnexion réussie' };
+        }
+
+        let response = await LoginService.setCurrentUser(data);
+        if (response.error === 0) {
+          commit('updateCurrentUser', response.data);
+        }
+        return response;
+      } catch (error) {
+        console.error('Erreur lors de la connexion:', error);
+        return { error: 1, data: 'Erreur lors de la connexion' };
+      }
+    },
+    async getCustomersAccounts({ commit }) {
+      try {
+        let response = await LoginService.getCustomersAccounts();
+        if (response.error === 0) {
+          commit('updateCustomersAccounts', response.data);
+        } else {
+          console.error(response.data);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des comptes:', error);
+      }
+    },
+    async addCustomerAccount({ commit }, customer) {
+      try {
+        let response = await LoginService.addCustomerAccount(customer);
+        if (response.error === 0) {
+          commit('addCustomerAccount', response.data);
+        }
+        return response;
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout de l\'utilisateur:', error);
+        return { error: 1, data: 'Erreur lors de l\'ajout de l\'utilisateur' };
+      }
     },
     async getAnimators({ commit }) {
       try {
@@ -68,9 +108,9 @@ export default new Vuex.Store({
         console.error('Erreur lors de la récupération des animateurs:', error);
       }
     },
-    async getAnimatorAvailableDates({ commit }, _id) {
+    async getAnimatorAvailableDates({ commit }, animator) {
       try {
-        let response = await DedicationService.getAnimatorAvailableDates(_id);
+        let response = await DedicationService.getAnimatorAvailableDates(animator);
         if (response.error === 0) {
           commit('updateAnimatorAvailableDates', response.data);
         } else {
@@ -81,57 +121,16 @@ export default new Vuex.Store({
       }
     },
     async getAvailableTimes({ commit }, date) {
-        try {
-            let response = await DedicationService.getAvailableTimes(date);
-            if (response.error === 0) {
-            commit('updateAvailableTimes', response.data);
-            } else {
-            console.error(response.data);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération des horaires:', error);
+      try {
+        let response = await DedicationService.getAvailableTimes(date);
+        if (response.error === 0) {
+          commit('updateAvailableTimes', response.data);
+        } else {
+          console.error(response.data);
         }
-    },
-
-    async shopLogin({commit}, data) {
-      console.log('login');
-      let response = await ShopService.shopLogin(data)
-      if (response.error === 0) {
-        commit('updateShopUser', response.data)
-      }
-      else {
-        console.log(response.data)
+      } catch (error) {
+        console.error('Erreur lors de la récupération des horaires:', error);
       }
     },
-    async getAllViruses({commit}) {
-      console.log('récupération des viruses');
-      let response = await ShopService.getAllViruses()
-      if (response.error === 0) {
-        commit('updateViruses', response.data)
-      }
-      else {
-        console.log(response.data)
-      }
-    },
-    async getAccountAmount({commit}, data) {
-      console.log('récupération du montant du compte');
-      let response = await BankService.getAccountAmount(data)
-      if (response.error === 0) {
-        commit('updateAccountAmount', response.data)
-      }
-      else {
-        console.log(response.data)
-      }
-    },
-    async getAccountTransaction({commit}, data) {
-      console.log("récupération des transactions du compte");
-      let response = await BankService.getAccountTransaction(data)
-      if (response.error === 0) {
-        commit('updateAccountTransactions', response.data)
-      }
-      else {
-        console.log(response.data)
-      }
-    }
   }
 })
