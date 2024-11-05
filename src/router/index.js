@@ -12,7 +12,7 @@ const routes = [
     component: AccueilView
   },
   {
-    path: '/services/',
+    path: '/services',
     name: 'services',
     component: ServicesView
   },

@@ -1,5 +1,5 @@
 let customersAccounts=[
-{"_id":"0","name":"tester user","login":"tester","password":"tester","email":"tester@nowhere.org", "session":""},
+{"_id":"0","name":"test","login":"test","password":"test","email":"tester@nowhere.org", "session":""},
 ]
 let animators = [
    {

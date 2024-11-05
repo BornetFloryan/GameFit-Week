@@ -9,7 +9,7 @@
 
       <ul v-show="!mobile" class="navigation">
         <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
-        <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
+        <li><router-link :to="{ name: 'ticketing' }" class="link">Billeterie</router-link></li>
         <li class="services" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
           <router-link to="" class="link">Services</router-link>
           <ul v-show="showDropdown" class="dropdown">
@@ -20,7 +20,7 @@
             </router-link>
           </ul>
         </li>
-        <li><router-link :to="{ name: '' }" class="link">Contact</router-link></li>
+        <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
         <li><router-link v-if="currentUser === null" :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         <li v-if="currentUser !== null" class="account" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
@@ -46,7 +46,6 @@
           <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
           <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
           <li><router-link :to="{ name: 'services' }" class="link">Services</router-link></li>
-          <li><router-link :to="{ name: '' }" class="link">Contact</router-link></li>
           <li><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         </ul>
       </transition>
