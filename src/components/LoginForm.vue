@@ -1,29 +1,7 @@
 <template>
-  <div class="register-container">
-    <form @submit.prevent="addUser">
-      <h2>Enregistrement</h2>
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-            type="text"
-            id="email"
-            v-model="email"
-            required
-            placeholder="Entrez votre email"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="name">NOM Prénom</label>
-        <input
-            type="text"
-            id="name"
-            v-model="name"
-            required
-            placeholder="Entrez votre NOM Prénom"
-        />
-      </div>
+  <div class="login-container">
+    <form @submit.prevent="loggedUser()">
+      <h2>Connexion</h2>
 
       <div class="form-group">
         <label for="username">Nom d'utilisateur</label>
@@ -47,49 +25,50 @@
         />
       </div>
       <div class="form-button">
-        <button type="submit" class="register-button">S'enregistrer</button>
-        <router-link :to="{ name: 'home' }">
-          <button type="button" class="cancel-button">Annuler</button>
-        </router-link>
+          <button type="submit" class="login-button">Se connecter</button>
+        <button @click="aCustomer" v-if="!login && !password" type="button" class="register-button">Créer un compte</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'RegisterView',
+  name: 'LoginFormView',
   components: {
   },
   data() {
     return {
-      email: '',
-      name: '',
       login: '',
       password:'',
     };
   },
   computed: {
+    ...mapState(['currentUser']),
 
   },
   watch: {
   },
   methods: {
-    addUser() {
-      this.$emit('addUser', {
-        newUser:{
-          name: this.name,
-          login: this.login,
-          password: this.password,
-          email: this.email,
-        },
+    ...mapActions(['setCurrentUser']),
+
+    loggedUser() {
+      this.$emit('loggedUser', {
+        login: this.login,
+        password: this.password,
+        logged: true,
       });
 
-      this.email = '';
-      this.name = '';
       this.login = '';
       this.password = '';
+    },
+
+    aCustomer() {
+      this.$emit('aCustomer', {
+        customer: false,
+      });
     },
   },
   mounted() {
@@ -98,7 +77,7 @@ export default {
 </script>
 
 <style scoped>
-.register-container {
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,6 +135,21 @@ input[type="password"]:focus {
   align-items: flex-end;
 }
 
+.login-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75em;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
 .register-button {
   background-color: #28a745;
   color: white;
@@ -170,20 +164,5 @@ input[type="password"]:focus {
 
 .register-button:hover {
   background-color: #218838;
-}
-
-.cancel-button {
-  background-color: #dc3545;
-  color: white;
-  padding: 0.75em;
-  border: none;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.cancel-button:hover {
-  background-color: #ff0000;
 }
 </style>

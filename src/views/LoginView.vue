@@ -2,10 +2,10 @@
   <div class="login-view">
     <NavView />
     <div v-if="!currentUser && customer">
-      <LoginInView @aCustomer="aCustomer" @loggedUser="loggedUser"/>
+      <LoginFormView @aCustomer="aCustomer" @loggedUser="loggedUser"/>
     </div>
     <div v-if="!customer">
-      <RegisterView @addUser="addUser"/>
+      <RegisterFormView @addUser="addUser"/>
     </div>
   </div>
 </template>
@@ -14,12 +14,12 @@
 
 import { mapState, mapActions } from 'vuex'
 import NavView from "@/components/NavBar.vue";
-import LoginInView from "@/components/LoginIn.vue";
-import RegisterView from "@/components/Register.vue";
+import LoginFormView from "@/components/LoginForm.vue";
+import RegisterFormView from "@/components/RegisterForm.vue";
 
 export default {
   name: 'LoginView',
-  components: { NavView, LoginInView, RegisterView },
+  components: { NavView, LoginFormView, RegisterFormView },
   data: () => {
     return {
       customer: true,
