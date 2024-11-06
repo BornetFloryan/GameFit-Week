@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
 import ServicesView from "../views/ServicesView.vue";
+import TicketingView from "@/views/TicketingView.vue";
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: AccueilView
+  },
+  {
+    path: '/ticketing',
+    name: 'ticketing',
+    component: TicketingView
   },
   {
     path: '/services',

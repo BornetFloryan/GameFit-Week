@@ -1,6 +1,27 @@
 let customersAccounts=[
 {"_id":"0","name":"test","login":"test","password":"test","email":"tester@nowhere.org", "session":""},
 ]
+
+let ticketAnimationCategories = [
+   {"_id":"0","name":"Sport","description":"Les plus grands sportifs de tous les temps"},
+   {"_id":"1","name":"Jeux Vidéo","description":"Les plus grands joueurs de jeux vidéo de tous les temps"},
+   {"_id":"2","name":"Sport et Jeux Vidéo","description":"Les plus grands sportifs et les plus grands joueurs de jeux vidéo de tous les temps"},
+]
+
+let ticketAgeCategories = [
+   {"_id":"0","name":"Enfant", "Prix":"5", "description":"Pour les enfants de 0 à 12 ans", "_idticketAnimationCategories":"0"},
+   {"_id":"1","name":"Etudiant", "Prix":"8","description":"Pour les étudiants de 13 à 25 ans", "_idticketAnimationCategories":"0"},
+   {"_id":"2","name":"Adulte", "Prix":"10","description":"Pour les adultes à partir 26 ans", "_idticketAnimationCategories":"0"},
+
+   {"_id":"3","name":"Enfant", "Prix":"5", "description":"Pour les enfants de 0 à 12 ans", "_idticketAnimationCategories":"1"},
+   {"_id":"4","name":"Etudiant", "Prix":"8","description":"Pour les étudiants de 13 à 25 ans", "_idticketAnimationCategories":"1"},
+   {"_id":"5","name":"Adulte", "Prix":"10","description":"Pour les adultes à partir 26 ans", "_idticketAnimationCategories":"1"},
+
+   {"_id":"6","name":"Enfant", "Prix":"8", "description":"Pour les enfants de 0 à 12 ans", "_idticketAnimationCategories":"2"},
+   {"_id":"7","name":"Etudiant", "Prix":"14","description":"Pour les étudiants de 13 à 25 ans", "_idticketAnimationCategories":"2"},
+   {"_id":"8","name":"Adulte", "Prix":"18","description":"Pour les adultes à partir 26 ans", "_idticketAnimationCategories":"2"},
+]
+
 let animators = [
    {
       "_id": "0",
@@ -470,6 +491,8 @@ let availabledates = [
 
 module.exports = {
    customersAccounts,
+   ticketAnimationCategories,
+   ticketAgeCategories,
    availabledates,
    animators,
 }
