@@ -9,7 +9,7 @@
 
       <ul v-show="!mobile" class="navigation">
         <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
-        <li><router-link :to="{ name: 'ticketing' }" class="link">Billeterie</router-link></li>
+        <li><router-link :to="{ name: 'ticketing' }" class="link">Billetterie</router-link></li>
         <li class="services" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
           <router-link to="" class="link">Services</router-link>
           <ul v-show="showDropdown" class="dropdown">
@@ -68,7 +68,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['selectedService', 'currentUser']),
+    ...mapState('service', ['selectedService']),
+    ...mapState('user', ['currentUser']),
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
@@ -78,7 +79,8 @@ export default {
     window.addEventListener('scroll', this.updateScroll);
   },
   methods: {
-    ...mapActions(['setSelectService', 'setCurrentUser']),
+    ...mapActions('service', ['setSelectService']),
+    ...mapActions('user', ['setCurrentUser']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },

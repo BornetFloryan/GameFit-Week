@@ -6,7 +6,7 @@
       <div class="form-group">
         <label for="email">Email</label>
         <input
-            type="text"
+            type="email"
             id="email"
             v-model="email"
             required
@@ -135,6 +135,7 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 0.75em;
@@ -146,6 +147,7 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #007bff;
 }

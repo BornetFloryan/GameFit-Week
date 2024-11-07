@@ -16,7 +16,7 @@ export default {
   name: 'ServicesView',
   components: { NavView, DedicationView },
   computed: {
-    ...mapState(['selectedService'])
+    ...mapState('service', ['selectedService'])
   },
 };
 </script>

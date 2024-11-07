@@ -46,13 +46,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(['currentUser']),
+    ...mapState('user', ['currentUser']),
 
   },
   watch: {
   },
   methods: {
-    ...mapActions(['setCurrentUser']),
+    ...mapActions('user', ['setCurrentUser']),
 
     loggedUser() {
       this.$emit('loggedUser', {

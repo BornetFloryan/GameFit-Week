@@ -1,62 +1,77 @@
-import LocalSource from "@/datasource/controller";
+import LocalSource from "@/datasource/controller/ticketing.controller";
 
-async function getAnimatorsFromLocalSource(){
-    return LocalSource.getAnimators()
+async function getTicketsFromLocalSource(){
+    return LocalSource.getTickets()
 }
 
-async function getAnimatorAvailableDatesFromLocalSource(animator){
-    return LocalSource.getAnimatorAvailableDates(animator)
+async function getTicketsAnimationCategoriesFromLocalSource(){
+    return LocalSource.getTicketsAnimationCategories()
 }
 
-async function getAvailableTimesFromLocalSource(date){
-    return LocalSource.getAvailableTimes(date)
+async function getTicketsAgeCategoriesFromLocalSource(ticket){
+    return LocalSource.getTicketsAgeCategories(ticket)
 }
 
-async function getAnimators(){
+async function getTicketPriceFromLocalSource(ticket){
+    return LocalSource.getTicketPrice(ticket)
+}
+
+
+async function getTickets(){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getAnimatorsFromLocalSource()
+        response = await getTicketsFromLocalSource()
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
-        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des animateurs'  }
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des tickets '  }
     }
     return response
 }
 
-async function getAnimatorAvailableDates(_id){
+async function getTicketsAnimationCategories(){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getAnimatorAvailableDatesFromLocalSource(_id)
+        response = await getTicketsAnimationCategoriesFromLocalSource()
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
-        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des dates'  }
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des catégories d\'animations des tickets'  }
     }
     return response
 }
 
-async function getAvailableTimes(date){
+async function getTicketsAgeCategories(ticket){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getAvailableTimesFromLocalSource(date)
+        response = await getTicketsAgeCategoriesFromLocalSource(ticket)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
-        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des horaires'  }
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste d\'âges des tickets'  }
     }
     return response
 }
 
-
-
+async function getTicketPrice(ticket){
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getTicketPriceFromLocalSource(ticket)
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer le prix du ticket'  }
+    }
+    return response
+}
 
 export default {
-    getAnimators,
-    getAnimatorAvailableDates,
-    getAvailableTimes,
-
+    getTickets,
+    getTicketsAnimationCategories,
+    getTicketsAgeCategories,
+    getTicketPrice
 }

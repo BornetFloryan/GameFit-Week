@@ -79,7 +79,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['animatorAvailableDates', 'availableTimes', 'animators', 'currentUser']),
+    ...mapState('animator', ['animatorAvailableDates', 'availableTimes', 'animators']),
+    ...mapState('user', ['currentUser']),
     disabledDates() {
       const availableDatesSet = new Set(this.animatorAvailableDates.map(date => new Date(date).toDateString()));
       return date => !availableDatesSet.has(date.toDateString());
@@ -100,7 +101,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getAnimatorAvailableDates', 'getAvailableTimes', "getAnimators"]),
+    ...mapActions('animator', ['getAnimatorAvailableDates', 'getAvailableTimes', 'getAnimators']),
     selectAnimator(card) {
       for (let animator of this.animators) {
         if (animator.name === card.name) {

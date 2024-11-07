@@ -1,4 +1,4 @@
-import LocalSource from "@/datasource/controller";
+import LocalSource from "@/datasource/controller/dedication.controller";
 
 async function getAnimatorsFromLocalSource(){
     return LocalSource.getAnimators()

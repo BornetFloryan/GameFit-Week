@@ -1,4 +1,4 @@
-import LocalSource from "@/datasource/controller";
+import LocalSource from "@/datasource/controller/login.controller";
 
 async function setCurrentUserFromLocalSource(data) {
     // rÃ©cupÃ©ration auprÃ¨s de la source locale

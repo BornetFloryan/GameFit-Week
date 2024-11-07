@@ -27,10 +27,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(['currentUser', 'customersAccounts']),
+    ...mapState('user', ['currentUser']),
+    ...mapState('customer', ['customersAccounts']),
   },
   methods: {
-    ...mapActions(['setCurrentUser', 'addCustomerAccount', 'getCustomersAccounts']),
+    ...mapActions('user', ['setCurrentUser']),
+    ...mapActions('customer', ['addCustomerAccount', 'getCustomersAccounts']),
 
     aCustomer(data) {
       this.customer = data.customer;
