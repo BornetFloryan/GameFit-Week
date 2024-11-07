@@ -1,4 +1,4 @@
-# tp1
+# GameFit Week
 
 ## Project setup
 ```
