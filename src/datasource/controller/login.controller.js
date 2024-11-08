@@ -17,7 +17,7 @@ function addCustomerAccount(customer) {
     if (customersAccounts.find(e => e.email === customer.email && e.login))
         return {error: 1, status: 404, data: 'Adresse email déjà utilisée'}
 
-    let _id = customersAccounts.length ? parseInt(customersAccounts[customersAccounts.length - 1]._id, 10) + 1 : 0;
+    let _id = customersAccounts.length ? parseInt(customersAccounts[customersAccounts.length - 1]._id) + 1 : 0;
 
     // retourne uniquement les champs nécessaires
     let u = {

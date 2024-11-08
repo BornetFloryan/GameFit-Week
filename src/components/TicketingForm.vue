@@ -29,7 +29,7 @@
       <div v-if="ticketsAnimationCategories.length" class="form-group">
         <label for="event">Animation:</label>
         <select v-model="formData._idTicketAnimationCategories" required>
-          <option value="" disabled>Choisissez votre type d'animation</option>
+          <option value="" disabled>Choisissez votre catégorie d'animation</option>
           <option v-for="animation in ticketsAnimationCategories"
                   :value="animation._id"
                   :key="animation._id">
@@ -41,7 +41,7 @@
       <div v-if="ticketsAgeCategories.length && formData._idTicketAnimationCategories" class="form-group">
         <label for="event">Âge:</label>
         <select v-model="formData._idTicketAgeCategories" required>
-          <option value="" disabled>Choisissez votre type d'animation</option>
+          <option value="" disabled>Choisissez votre catégorie d'âge</option>
           <option v-for="age in ticketsAgeCategories"
                   :value="age._id"
                   :key="age._id">
@@ -70,7 +70,6 @@
             v-model="formData.price"
             disabled
         />
-        <p>prix ticket : {{ formData.price }}</p>
       </div>
 
       <div class="form-group">
@@ -123,29 +122,36 @@ export default {
   },
   computed: {
     ...mapState('user', ['currentUser']),
-    ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrice"]),
+    ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrice", "tickets"]),
 
   },
   watch: {
     'formData._idTicketAnimationCategories': function () {
-      this.formData.price = '';
-      this.getTicketsAgeCategories(this.formData);
+      if(this.submissionSuccess === false){
+        this.formData.price = '';
+        this.getTicketsAgeCategories(this.formData);
+      }
     },
     'formData._idTicketAgeCategories': function () {
-      this.updateTicketPrice();
+      if(this.submissionSuccess === false){
+        this.updateTicketPrice();
+      }
     },
     'formData.ticketCount': function () {
-      this.updateTicketPrice();
+      if(this.submissionSuccess === false){
+        this.updateTicketPrice();
+      }
     },
   },
   methods: {
-    ...mapActions('ticket', ['getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrice']),
+    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrice', "addTickets"]),
     submitForm() {
       this.formData.date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
 
       console.log("Données de réservation :", this.formData);
 
+      this.addTickets(this.formData);
       this.submissionSuccess = true;
 
       this.formData = {
@@ -172,6 +178,7 @@ export default {
       this.formData.email = this.currentUser.email;
     }
     this.getTicketsAnimationCategories();
+    this.getTickets();
   },
 };
 </script>

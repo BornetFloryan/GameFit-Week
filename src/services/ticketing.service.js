@@ -16,6 +16,10 @@ async function getTicketPriceFromLocalSource(ticket){
     return LocalSource.getTicketPrice(ticket)
 }
 
+async function addTicketsFromLocalSource(ticket){
+    return LocalSource.addTickets(ticket)
+}
+
 
 async function getTickets(){
     let response = null;
@@ -69,9 +73,23 @@ async function getTicketPrice(ticket){
     return response
 }
 
+async function addTickets(formData){
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await addTicketsFromLocalSource(formData)
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible d\'ajouter le ticket'  }
+    }
+    return response
+}
+
 export default {
     getTickets,
     getTicketsAnimationCategories,
     getTicketsAgeCategories,
-    getTicketPrice
+    getTicketPrice,
+    addTickets,
 }

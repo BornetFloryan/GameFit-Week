@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <h1>Réservation de créneau de dédicace</h1>
+    <h1>Réservation de créneau de dédicaces</h1>
     <form>
       <div v-if="!submitted" class="animator-selection">
         <h2 v-if="!selectedAnimator">Sélectionnez votre animateur</h2>

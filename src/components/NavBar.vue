@@ -10,24 +10,25 @@
       <ul v-show="!mobile" class="navigation">
         <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
         <li><router-link :to="{ name: 'ticketing' }" class="link">Billetterie</router-link></li>
-        <li class="services" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
+        <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
           <router-link to="" class="link">Services</router-link>
-          <ul v-show="showDropdown" class="dropdown">
+          <ul v-show="showServicesDropdown" class="dropdown">
             <router-link :to="{ name: 'services' }">
-              <li @click="setSelectService('dedication')" class="link">Dédicace</li>
+              <li @click="setSelectService('dedication')" class="link">Dédicaces</li>
               <li @click="setSelectService('service2')" class="link">Service 2</li>
               <li @click="setSelectService('service3')" class="link">Service 3</li>
             </router-link>
           </ul>
         </li>
         <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
-        <li><router-link v-if="currentUser === null" :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
-        <li v-if="currentUser !== null" class="account" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
+        <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
+        <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
-          <ul v-show="showDropdown" class="dropdown">
+          <ul v-show="showAccountDropdown" class="dropdown">
             <router-link :to="{ name: 'account' }">
               <li @click="setSelectAccountInfo('profil')" class="link">Profil</li>
-              <li @click="setSelectAccountInfo('reservation')" class="link">Réservations</li>
+              <li @click="setSelectAccountInfo('reservations')" class="link">Réservations</li>
+              <li @click="setSelectAccountInfo('orders')" class="link">Commandes</li>
             </router-link>
             <router-link :to="{ name: 'home' }">
               <li @click="disconnected" class="link disconnect">Déconnexion</li>
@@ -64,7 +65,8 @@ export default {
       mobile: null,
       mobileNav: null,
       windowWidth: null,
-      showDropdown: false,
+      showServicesDropdown: false,
+      showAccountDropdown: false,
     };
   },
   computed: {
@@ -95,8 +97,8 @@ export default {
         this.mobileNav = false;
       }
     },
-    async disconnected() {
-      await this.setCurrentUser(null);
+    disconnected() {
+      this.setCurrentUser(null);
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
