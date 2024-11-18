@@ -1,6 +1,5 @@
 <template>
   <div class="twitch-stream-container">
-    <NavView />
     <div class="iframe-container">
       <iframe
           src="https://player.twitch.tv/?channel=otplol_&parent=localhost&parent=127.0.0.1"
@@ -12,11 +11,10 @@
 </template>
 
 <script>
-import NavView from "@/components/NavBar.vue";
 
 export default {
   name: 'StreamView',
-  components: { NavView },
+  components: { },
 };
 </script>
 

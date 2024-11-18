@@ -29,7 +29,4 @@ export default {
 </script>
 
 <style scoped>
-.ticketing-view {
-  padding-top: 84px;
-}
 </style>

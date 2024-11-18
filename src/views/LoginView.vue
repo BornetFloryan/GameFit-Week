@@ -76,7 +76,4 @@ export default {
 </script>
 
 <style scoped>
-.login-view {
-  padding-top: 84px;
-}
 </style>

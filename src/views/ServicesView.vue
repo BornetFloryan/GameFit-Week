@@ -26,7 +26,4 @@ export default {
 </script>
 
 <style scoped>
-.services-view {
-  padding-top: 84px;
-}
 </style>
