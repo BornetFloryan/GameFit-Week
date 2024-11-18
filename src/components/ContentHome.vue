@@ -48,6 +48,8 @@
       </div>
     </div>
 
+    <router-link :to="{ name: 'ticketing' }" class="btn">Rejoignez-nous</router-link>
+
   </div>
 </template>
 
@@ -67,7 +69,7 @@
 
 .card {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-beetween;
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -76,7 +78,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 32%;
+  width: 30%;
   padding: 20px;
   border-radius: 10px;
   background-color: #3c4c59;
@@ -86,8 +88,18 @@
 .card-content img {
   width: 100%;
   aspect-ratio: 16/9;
-  border-radius: 10px;
+}
 
+.btn {
+  margin: 0 auto;
+  padding: 10px 40px;
+  border-radius: 5px;
+  background-color: #00afea;
+  color: #f1f1f1;
+  border: none;
+  font-size: 20px;
+  width: fit-content;
+  cursor: pointer;
 }
 
 </style>
