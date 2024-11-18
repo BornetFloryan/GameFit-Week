@@ -111,14 +111,10 @@ export default {
 
 header {
   background-color: rgba(0, 0, 0, .8);
-  z-index: 99;
   width: 100%;
-  position: fixed;
   color: #fff;
   transition: .5s ease all;
   height: 84px;
-  top: 0;
-  left: 0;
 }
 
 header nav {

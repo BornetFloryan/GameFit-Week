@@ -56,14 +56,14 @@ export default {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           width: '100%',
-          height: '100vh'
+          height: '86vh'
         };
       }
       // Default style if slides are not loaded
       return {
         backgroundColor: '#f1f1f1',
         width: '100%',
-        height: '100vh'
+        height: '86vh'
       };
     }
   }
@@ -78,7 +78,7 @@ export default {
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  min-height: 100vh;
+  min-height: 86vh;
 }
 
 .container-carousel .carousel-items {
