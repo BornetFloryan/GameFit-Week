@@ -15,8 +15,7 @@
           <ul v-show="showServicesDropdown" class="dropdown">
             <router-link :to="{ name: 'services' }">
               <li @click="setSelectService('dedication')" class="link">Dédicaces</li>
-              <li @click="setSelectService('service2')" class="link">Service 2</li>
-              <li @click="setSelectService('service3')" class="link">Service 3</li>
+              <li @click="setSelectService('stream')" class="link">Diffusion</li>
             </router-link>
           </ul>
         </li>

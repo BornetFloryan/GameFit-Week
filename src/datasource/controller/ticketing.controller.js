@@ -1,6 +1,6 @@
 import {tickets, ticketsAnimationCategories, ticketsAgeCategories, customersAccounts} from '../data'
 import LoginController from './login.controller'
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4} from "uuid";
 
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -35,6 +35,7 @@ function getTicketPrice(ticket){
 }
 
 function addTickets(formData) {
+
     let customer = customersAccounts.find(customer => customer.email === formData.email);
 
     if (customer === undefined) {
@@ -52,9 +53,16 @@ function addTickets(formData) {
 
     let addedTickets = [];
     for (let i = 0; i < formData.ticketCount; i++) {
-        let _idTicket = tickets.length ? parseInt(tickets[tickets.length - 1]._id) + 1 : 0;
+
+        let _idTicket = tickets.length ? parseInt((tickets[tickets.length - 1]._id) % 10) + 1 : 0;
+        let _id = (parseInt(Date.now() / 1000)).toString() + customer._id.toString() + formData._idTicketAnimationCategories.toString()
+        + formData._idTicketAgeCategories.toString() + (_idTicket + i).toString();
+        
+        console.log(_id);
+        console.log(parseInt(_id));
+
         let ticket = {
-            _id: _idTicket + i,
+            _id: parseInt(_id),
             date: formData.date,
             time: formData.time,
             _idCustomer: customer._id,
@@ -64,6 +72,7 @@ function addTickets(formData) {
         };
         addedTickets.push(ticket);
     }
+    console.log(addedTickets);
     return { error: 0, status: 201, data: addedTickets };
 }
 

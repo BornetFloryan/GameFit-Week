@@ -1,6 +1,12 @@
 <template>
   <div :style="carouselBackground" class="container-carousel">
     <div class="carousel-items" v-if="slides.length > 0">
+      <h1>Bienvenue à <span>GameFit Week</span></h1>
+      <p class="subtitle">
+        L’événement incontournable qui fusionne sport et esport dans une expérience inédite et immersive.
+      </p>
+    </div>
+    <div class="carousel-items" v-if="slides.length > 0">
       <h1>{{ slides[currentIndex].title }}</h1>
       <p>{{ slides[currentIndex].text }}</p>
       <router-link :to="slides[currentIndex].link" class="router-link">Voir plus</router-link>
@@ -65,7 +71,6 @@ export default {
 </script>
 
 <style scoped>
-
 .container-carousel {
   display: flex;
   justify-content: center;
@@ -85,6 +90,21 @@ export default {
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 70px;
   border-radius: 5px;
+}
+
+.carousel-items h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.carousel-items h1 span {
+  color: #00afea;
+}
+
+.carousel-items .subtitle {
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-bottom: 40px;
 }
 
 .carousel-items .router-link {
@@ -107,5 +127,4 @@ export default {
   font-size: 20px;
   cursor: pointer;
 }
-
 </style>
