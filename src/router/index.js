@@ -28,6 +28,18 @@ const routes = [
     // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
     component: () => import('../views/LoginView.vue')
   },
+  {
+    path: '/account',
+    name: 'account',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/AccountView.vue')
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/DashBoardView.vue')
+  },
 ]
 
 const router = new VueRouter({

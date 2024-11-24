@@ -19,7 +19,6 @@ const mutations = {
 const actions = {
     async setCurrentUser({ commit }, data) {
         try {
-            console.log('non');
             if (data === null) {
                 commit('updateCurrentUser', null);
                 return { error: 0, data: 'Déconnexion réussie' };

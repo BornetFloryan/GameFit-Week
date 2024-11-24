@@ -5,6 +5,16 @@ let customersAccounts=[
       "login":"test",
       "password":"test",
       "email":"test@test.com",
+      "privilege":"0",
+      "session":""
+   },
+   {
+      "_id":"1",
+      "name":"admin",
+      "login":"admin",
+      "password":"admin",
+      "email":"admin@admin.com",
+      "privilege":"2",
       "session":""
    },
 ]

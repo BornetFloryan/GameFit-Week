@@ -16,6 +16,7 @@ import { mapState, mapActions } from 'vuex'
 import NavView from "@/components/NavBar.vue";
 import LoginFormView from "@/components/LoginForm.vue";
 import RegisterFormView from "@/components/RegisterForm.vue";
+import {customersAccounts} from "@/datasource/data";
 
 export default {
   name: 'LoginView',
@@ -52,14 +53,15 @@ export default {
     },
     async loggedUser(data) {
       try {
-        let response = await this.setCurrentUser({
-          login: data.login,
-          password: data.password,
-        });
+        let response = await this.setCurrentUser(data);
         if (response.error === 0) {
           this.logged = data.logged;
-          console.log("User logged in:", data);
-          await this.$router.push({name: 'home'});
+          let user = customersAccounts.find((customer) => customer.login === data.login);
+          console.log("User logged in:", user);
+          if (user.privilege !== "0")
+            await this.$router.push({name: 'dashboard'});
+          else
+            await this.$router.push({name: 'home'});
         } else {
           alert('Login or password is incorrect');
         }

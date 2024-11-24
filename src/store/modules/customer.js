@@ -2,19 +2,29 @@ import LoginService from '../../services/login.service';
 
 const state = () => ({
     // state = les données centralisées
-    customersAccounts: sessionStorage.getItem('customersAccounts') || [],
+    customersAccounts: sessionStorage.getItem('customersAccounts') ? sessionStorage.getItem('customersAccounts').split(',') : [],
 });
+
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
     updateCustomersAccounts(state, customers) {
         state.customersAccounts = customers;
-        sessionStorage.setItem('customersAccounts', customers);
+        sessionStorage.setItem('customersAccounts', customers.join(','));
     },
     addCustomerAccount(state, customer) {
         state.customersAccounts.push(customer);
-        sessionStorage.setItem('customersAccounts', state.customersAccounts);
+        sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
     },
+    updateCustomerAccount(state, customer) {
+        let index = state.customersAccounts.findIndex(e => e._id === customer._id);
+        state.customersAccounts.splice(index, 1);
+        if (index !== -1) {
+            state.customersAccounts.push(customer);
+            sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
+        }
+    }
 };
+
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
 const actions = {
     async getCustomersAccounts({ commit }) {
@@ -41,6 +51,18 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de l\'utilisateur' };
         }
     },
+    async updateCustomerAccount({commit}, customer) {
+        try {
+            let response = await LoginService.updateCustomerAccount(customer);
+            if (response.error === 0) {
+                commit('updateCustomerAccount', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de l\'utilisateur:', error);
+            return { error: 1, data: 'Erreur lors de la mise à jour de l\'utilisateur' };
+        }
+    }
 };
 
 export default {
