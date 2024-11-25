@@ -7,6 +7,9 @@
     <div v-if="selectedService === 'stream'">
       <StreamView />
     </div>
+    <div v-if="selectedService === 'tournois'">
+      <BracketsDisplay />
+    </div>
   </div>
 </template>
 
@@ -14,11 +17,12 @@
 import NavView from '@/components/NavBar.vue';
 import DedicationView from '@/components/Dedication.vue';
 import StreamView from "@/components/StreamView.vue";
+import BracketsDisplay from "@/components/BracketsDisplay.vue";
 import { mapState } from 'vuex';
 
 export default {
   name: 'ServicesView',
-  components: { NavView, DedicationView, StreamView },
+  components: { NavView, DedicationView, StreamView, BracketsDisplay },
   computed: {
     ...mapState('service', ['selectedService'])
   },

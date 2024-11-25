@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <div class="content-accueil">
 
@@ -48,6 +44,7 @@
       </div>
     </div>
 
+
     <router-link :to="{ name: 'ticketing' }" class="btn">Rejoignez-nous</router-link>
 
   </div>
@@ -76,6 +73,7 @@
 
 .card-content {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   gap: 10px;
   width: 30%;

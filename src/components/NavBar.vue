@@ -16,6 +16,7 @@
             <router-link :to="{ name: 'services' }">
               <li @click="setSelectService('dedication')" class="link">Dédicaces</li>
               <li @click="setSelectService('stream')" class="link">Diffusion</li>
+              <li @click="setSelectService('tournois')" class="link">Tournois</li>
             </router-link>
           </ul>
         </li>
