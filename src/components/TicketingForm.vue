@@ -84,6 +84,7 @@
       </div>
 
     </form>
+    <p>{{ tickets }}</p>
 
     <div v-if="submissionSuccess">
       <h2>Merci pour votre réservation !</h2>

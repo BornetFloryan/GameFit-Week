@@ -15,6 +15,11 @@ async function addCustomerAccountFromLocalSource(customer) {
     return LocalSource.addCustomerAccount(customer)
 }
 
+async function updateCustomerAccountFromLocalSource(customer) {
+    // rÃ©cupÃ©ration auprÃ¨s de la source locale
+    return LocalSource.updateCustomerAccount(customer)
+}
+
 /*
 async function shopLoginFromAPI(data) {
   // a Ã©crire quand l'API est fonctionnelle
@@ -62,11 +67,24 @@ async function addCustomerAccount(customer) {
     return response
 }
 
+async function updateCustomerAccount(customer) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await updateCustomerAccountFromLocalSource(customer)
+        console.log("response", response);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de mettre à jour le compte'  }
+    }
+    return response
+}
 
 
 export default {
     setCurrentUser,
     getCustomersAccounts,
-
+    updateCustomerAccount,
     addCustomerAccount,
 }

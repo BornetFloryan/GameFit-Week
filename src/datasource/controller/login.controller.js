@@ -26,9 +26,24 @@ function addCustomerAccount(customer) {
         login: customer.login ? customer.login : "",
         password: customer.password ? customer.password : "",
         email: customer.email,
+        privilege: "0",
         session: uuidv4()
     };
     return {error: 0, status: 200, data: u};
+}
+
+function updateCustomerAccount(customer) {
+
+    let updatedCustomer = {
+        _id: customer._id,
+        name: customer.name,
+        login: customer.login,
+        email: customer.email,
+        privilege: customer.privilege,
+        session: customer.session
+    };
+    console.log("updatedCustomer ", updatedCustomer);
+    return {error: 0, status: 200, data: updatedCustomer};
 }
 
 function setCurrentUser(data) {
@@ -46,6 +61,7 @@ function setCurrentUser(data) {
         name: user.name,
         login: user.login,
         email: user.email,
+        privilege: user.privilege,
         session: user.session
     }
     return {error: 0, status: 200, data: u}
@@ -56,5 +72,6 @@ function setCurrentUser(data) {
 export default{
     getCustomersAccounts,
     addCustomerAccount,
+    updateCustomerAccount,
     setCurrentUser,
 }

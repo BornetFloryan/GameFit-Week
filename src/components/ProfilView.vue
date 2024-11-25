@@ -1,7 +1,26 @@
 <template>
-  <div class="login-container">
-    <form @submit.prevent="loggedUser()">
-      <h2>Connexion</h2>
+  <div class="info-container">
+    <form @submit.prevent="UpdateUser">
+      <h2>Informations Personnelles</h2>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            v-model="email"
+            required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="name">NOM Prénom</label>
+        <input
+            type="text"
+            id="name"
+            v-model="name"
+            required
+        />
+      </div>
 
       <div class="form-group">
         <label for="username">Nom d'utilisateur</label>
@@ -10,73 +29,64 @@
             id="username"
             v-model="login"
             required
-            placeholder="Entrez votre nom d'utilisateur"
         />
       </div>
 
-      <div class="form-group">
-        <label for="password">Mot de passe</label>
-        <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            placeholder="Entrez votre mot de passe"
-        />
-      </div>
       <div class="form-button">
-          <button type="submit" class="login-button">Se connecter</button>
-        <button @click="aCustomer" v-if="!login && !password" type="button" class="register-button">Créer un compte</button>
+        <button type="submit" class="register-button">Modifier</button>
+        <router-link :to="{ name: 'home' }">
+          <button type="button" class="cancel-button">Annuler</button>
+        </router-link>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+
+import {mapState} from "vuex";
 
 export default {
-  name: 'LoginFormView',
+  name: 'ProfilView',
   components: {
   },
   data() {
     return {
-      login: '',
-      password:'',
+      name: "",
+      login: "",
+      email: "",
     };
   },
   computed: {
     ...mapState('user', ['currentUser']),
-
   },
   watch: {
   },
   methods: {
-    ...mapActions('user', ['setCurrentUser']),
-
-    loggedUser() {
-      this.$emit('loggedUser', {
-        login: this.login,
-        password: this.password,
-        logged: true,
-      });
-      this.login = '';
-      this.password = '';
-    },
-
-    aCustomer() {
-      this.$emit('aCustomer', {
-        customer: false,
+    UpdateUser() {
+      this.$emit('UpdateUser', {
+        UpdateUser:{
+          _id: this.currentUser._id,
+          name: this.name,
+          login: this.login,
+          email: this.email,
+          password: this.currentUser.password,
+          privilege: this.currentUser.privilege,
+          session: this.currentUser.session,
+        },
       });
     },
   },
   mounted() {
+    this.email = this.currentUser.email;
+    this.name = this.currentUser.name;
+    this.login = this.currentUser.login;
   },
 };
 </script>
 
 <style scoped>
-.login-container {
+.info-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,6 +123,7 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 0.75em;
@@ -124,6 +135,7 @@ input[type="password"] {
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #007bff;
 }
@@ -132,21 +144,6 @@ input[type="password"]:focus {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
-}
-
-.login-button {
-  background-color: #007bff;
-  color: white;
-  padding: 0.75em;
-  border: none;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login-button:hover {
-  background-color: #0056b3;
 }
 
 .register-button {
@@ -163,5 +160,20 @@ input[type="password"]:focus {
 
 .register-button:hover {
   background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.75em;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #ff0000;
 }
 </style>

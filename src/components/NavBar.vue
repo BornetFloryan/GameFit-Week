@@ -26,9 +26,9 @@
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
           <ul v-show="showAccountDropdown" class="dropdown">
             <router-link :to="{ name: 'account' }">
-              <li @click="setSelectAccountInfo('profil')" class="link">Profil</li>
-              <li @click="setSelectAccountInfo('reservations')" class="link">Réservations</li>
-              <li @click="setSelectAccountInfo('orders')" class="link">Commandes</li>
+              <li @click="setSelectedAccountInfo('profil')" class="link">Profil</li>
+              <li @click="setSelectedAccountInfo('reservations')" class="link">Réservations</li>
+              <li @click="setSelectedAccountInfo('tickets')" class="link">Billets</li>
             </router-link>
             <router-link :to="{ name: 'home' }">
               <li @click="disconnected" class="link disconnect">Déconnexion</li>
@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapState('service', ['selectedService']),
     ...mapState('user', ['currentUser']),
+    ...mapState('account', ['selectedAccountInfo']),
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
@@ -83,6 +84,7 @@ export default {
   methods: {
     ...mapActions('service', ['setSelectService']),
     ...mapActions('user', ['setCurrentUser']),
+    ...mapActions('account', ['setSelectedAccountInfo']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
