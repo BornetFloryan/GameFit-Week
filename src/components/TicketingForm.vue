@@ -122,7 +122,7 @@ export default {
           };
   },
   computed: {
-    ...mapState('user', ['currentUser']),
+    ...mapState('login', ['currentUser']),
     ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrice", "tickets"]),
 
   },

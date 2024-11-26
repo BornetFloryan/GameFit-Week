@@ -53,10 +53,10 @@ export default {
     };
   },
   computed: {
-    ...mapState('user', ['currentUser']),
+    ...mapState('login', ['currentUser']),
   },
   methods: {
-    ...mapActions('user', ['setCurrentUser']),
+    ...mapActions('login', ['setCurrentUser']),
     ToggleMenu() {
       this.is_expanded = !this.is_expanded;
     },

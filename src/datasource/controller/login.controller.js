@@ -32,20 +32,6 @@ function addCustomerAccount(customer) {
     return {error: 0, status: 200, data: u};
 }
 
-function updateCustomerAccount(customer) {
-
-    let updatedCustomer = {
-        _id: customer._id,
-        name: customer.name,
-        login: customer.login,
-        email: customer.email,
-        privilege: customer.privilege,
-        session: customer.session
-    };
-    console.log("updatedCustomer ", updatedCustomer);
-    return {error: 0, status: 200, data: updatedCustomer};
-}
-
 function setCurrentUser(data) {
     if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
     // pour simplifier : test uniquement le login
@@ -60,6 +46,7 @@ function setCurrentUser(data) {
         _id: user._id,
         name: user.name,
         login: user.login,
+        password: user.password,
         email: user.email,
         privilege: user.privilege,
         session: user.session
@@ -67,11 +54,23 @@ function setCurrentUser(data) {
     return {error: 0, status: 200, data: u}
 }
 
+function ModifyCustomer(customer) {
+    let user = customersAccounts.find(e => e._id === customer._id)
+    if (!user) return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
+
+    user.name = customer.name
+    user.login = customer.login
+    user.password = customer.password
+    user.email = customer.email
+
+    return {error: 0, status: 200, data: user}
+}
+
 //Ticketing
 
 export default{
     getCustomersAccounts,
     addCustomerAccount,
-    updateCustomerAccount,
     setCurrentUser,
+    ModifyCustomer,
 }

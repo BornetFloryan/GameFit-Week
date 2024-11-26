@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import account from './modules/account';
-import animator from './modules/animator';
+import dedication from './modules/dedication';
 import customer from "./modules/customer";
 import service from './modules/service';
-import user from './modules/user';
+import login from './modules/login';
 import ticket from './modules/ticket';
 
 Vue.use(Vuex);
@@ -12,10 +12,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     account,
-    animator,
+    dedication,
     customer,
     service,
-    user,
+    login,
     ticket,
   },
 });

@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     ...mapState('service', ['selectedService']),
-    ...mapState('user', ['currentUser']),
+    ...mapState('login', ['currentUser']),
     ...mapState('account', ['selectedAccountInfo']),
   },
   created() {
@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     ...mapActions('service', ['setSelectService']),
-    ...mapActions('user', ['setCurrentUser']),
+    ...mapActions('login', ['setCurrentUser']),
     ...mapActions('account', ['setSelectedAccountInfo']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;

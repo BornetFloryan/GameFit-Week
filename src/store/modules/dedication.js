@@ -5,6 +5,7 @@ const state = () => ({
     animators: [],
     animatorAvailableDates: [],
     availableTimes: [],
+    dedicationReservations: sessionStorage.getItem('dedicationReservations') || [],
 });
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
@@ -16,6 +17,14 @@ const mutations = {
     },
     updateAvailableTimes(state, times) {
         state.availableTimes = times;
+    },
+    updateDedicationReservations(state, dedicationReservations) {
+        state.dedicationReservations = dedicationReservations;
+        sessionStorage.setItem('dedicationReservations', dedicationReservations);
+    },
+    addDedicationReservation(state, dedicationReservation) {
+        state.dedicationReservations.push(dedicationReservation);
+        sessionStorage.setItem('dedicationReservations', state.dedicationReservations);
     },
 
 };
@@ -55,6 +64,30 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des horaires:', error);
+        }
+    },
+    async getDedicationReservations({ commit }) {
+        try {
+            let response = await DedicationService.getDedicationReservations();
+            if (response.error === 0) {
+                commit('updateDedicationReservations', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des réservations:', error);
+        }
+    },
+    async addDedicationReservation({ commit }, dedicationReservation) {
+        try {
+            let response = await DedicationService.addDedicationReservation(dedicationReservation);
+            if (response.error === 0) {
+                commit('addDedicationReservation', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout de la réservation:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout de la réservation' };
         }
     },
 };

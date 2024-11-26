@@ -28,11 +28,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('user', ['currentUser']),
+    ...mapState('login', ['currentUser']),
     ...mapState('customer', ['customersAccounts']),
   },
   methods: {
-    ...mapActions('user', ['setCurrentUser']),
+    ...mapActions('login', ['setCurrentUser']),
     ...mapActions('customer', ['addCustomerAccount', 'getCustomersAccounts']),
 
     aCustomer(data) {

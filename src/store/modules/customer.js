@@ -8,6 +8,9 @@ const state = () => ({
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
     updateCustomersAccounts(state, customers) {
+        if (!Array.isArray(customers)) {
+            customers = [customers];
+        }
         state.customersAccounts = customers;
         sessionStorage.setItem('customersAccounts', customers.join(','));
     },
@@ -15,13 +18,14 @@ const mutations = {
         state.customersAccounts.push(customer);
         sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
     },
-    updateCustomerAccount(state, customer) {
+    ModifyCustomer(state, customer) {
+        console.log(state.customersAccounts);
         let index = state.customersAccounts.findIndex(e => e._id === customer._id);
-        state.customersAccounts.splice(index, 1);
         if (index !== -1) {
-            state.customersAccounts.push(customer);
-            sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
+            state.customersAccounts[index] = customer;
         }
+        console.log(state.customersAccounts);
+        sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
     }
 };
 
@@ -51,16 +55,16 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de l\'utilisateur' };
         }
     },
-    async updateCustomerAccount({commit}, customer) {
+    async ModifyCustomer({ commit }, customer) {
         try {
-            let response = await LoginService.updateCustomerAccount(customer);
+            let response = await LoginService.ModifyCustomer(customer);
             if (response.error === 0) {
-                commit('updateCustomerAccount', response.data);
+                commit('ModifyCustomer', response.data);
             }
             return response;
         } catch (error) {
-            console.error('Erreur lors de la mise à jour de l\'utilisateur:', error);
-            return { error: 1, data: 'Erreur lors de la mise à jour de l\'utilisateur' };
+            console.error('Erreur lors de la modification de l\'utilisateur:', error);
+            return { error: 1, data: 'Erreur lors de la modification de l\'utilisateur' };
         }
     }
 };

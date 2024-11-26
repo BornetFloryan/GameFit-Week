@@ -53,6 +53,7 @@
         </router-link>
       </div>
     </form>
+    {{dedicationReservations}}
   </div>
 </template>
 
@@ -79,8 +80,8 @@ export default {
     };
   },
   computed: {
-    ...mapState('animator', ['animatorAvailableDates', 'availableTimes', 'animators']),
-    ...mapState('user', ['currentUser']),
+    ...mapState('dedication', ['animatorAvailableDates', 'availableTimes', 'animators', "dedicationReservations"]),
+    ...mapState('login', ['currentUser']),
     disabledDates() {
       const availableDatesSet = new Set(this.animatorAvailableDates.map(date => new Date(date).toDateString()));
       return date => !availableDatesSet.has(date.toDateString());
@@ -101,7 +102,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('animator', ['getAnimatorAvailableDates', 'getAvailableTimes', 'getAnimators']),
+    ...mapActions('dedication', ['getAnimatorAvailableDates', 'getAvailableTimes', 'getAnimators', "addDedicationReservation", "getDedicationReservations"]),
     selectAnimator(card) {
       for (let animator of this.animators) {
         if (animator.name === card.name) {
@@ -110,10 +111,16 @@ export default {
       }
     },
 
-    submitForm() {
+    async submitForm() {
       if (!this.selectedDate && !this.selectedTime) {
         alert('Veuillez sélectionner une date et une heure');
       }
+      await this.addDedicationReservation({
+        date: this.selectedDate,
+        time: this.selectedTime,
+        customer: this.currentUser,
+        anim_id: this.selectedAnimator._id,
+      });
       this.submitted = true;
     },
 
@@ -141,6 +148,8 @@ export default {
 
     if(this.currentUser)
       this.logged = true;
+
+    this.getDedicationReservations();
   },
 };
 </script>

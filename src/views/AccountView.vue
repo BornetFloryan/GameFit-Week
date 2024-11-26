@@ -2,9 +2,11 @@
   <div class="account-view">
     <NavView />
     <div v-if="selectedAccountInfo === 'profil'">
-      <ProfilView @UpdateUser="UpdateUser"/>
+      <ProfilView @ModifyCustomer=HandleModifyCustomer />
     </div>
-    {{ customersAccounts }}
+    <div v-if="selectedAccountInfo === 'reservations'">
+      <ReservationView />
+    </div>
   </div>
 </template>
 
@@ -13,40 +15,45 @@
 import {mapState, mapActions} from 'vuex'
 import NavView from "@/components/NavBar.vue";
 import ProfilView from "@/components/ProfilView.vue";
+import ReservationView from "@/components/ReservationView.vue";
 
 export default {
   name: 'LoginView',
-  components: {NavView, ProfilView},
+  components: {NavView, ProfilView, ReservationView},
   data: () => {
     return {
     };
   },
   computed: {
-    ...mapState('user', ['currentUser']),
     ...mapState('account', ['selectedAccountInfo']),
-    ...mapState('customer', ['customersAccounts']),
   },
   methods: {
-    ...mapActions('user', ['setCurrentUser']),
-    ...mapActions('customer', ['getCustomersAccounts', 'updateCustomerAccount']),
+    ...mapActions('login', ['setCurrentUser']),
+    ...mapActions('customer', ['ModifyCustomer']),
 
-    async UpdateUser(data) {
+    async HandleModifyCustomer(data) {
       try {
-        let response = await this.updateCustomerAccount(data.UpdateUser);
-          if (response.error === 0) {
-            await this.setCurrentUser(data.UpdateUser);
-            console.log("Utilisateur Actuel:", this.currentUser);
-            console.log("Utilisateur Modifié:", data.UpdateUser);
-          } else {
-            alert(response.data);
+        let response = await this.ModifyCustomer(data.modifyUser);
+        if (response.error === 0) {
+          await this.updateCurrentUser(data.modifyUser);
+        } else {
+          alert(response.data.modifyUser);
         }
       } catch (error) {
         console.error('Erreur lors de la modification de l\'utilisateur:', error);
       }
     },
+
+    async updateCurrentUser(data) {
+      try {
+        await this.setCurrentUser(data);
+      } catch (error) {
+        console.error('Erreur lors du changement des informations de l\'utilisateur courant:', error);
+        alert('Erreur lors du changement des informations de l\'utilisateur courant');
+      }
+    }
   },
   mounted() {
-    this.getCustomersAccounts();
   }
 }
 </script>

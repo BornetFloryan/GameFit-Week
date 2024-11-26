@@ -1,6 +1,6 @@
 <template>
-  <div class="info-container">
-    <form @submit.prevent="UpdateUser">
+  <div class="profil-container">
+    <form @submit.prevent="ModifyCustomer">
       <h2>Informations Personnelles</h2>
       <div class="form-group">
         <label for="email">Email</label>
@@ -35,7 +35,7 @@
       <div class="form-button">
         <button type="submit" class="register-button">Modifier</button>
         <router-link :to="{ name: 'home' }">
-          <button type="button" class="cancel-button">Annuler</button>
+          <button type="button" class="cancel-button">Retour</button>
         </router-link>
       </div>
     </form>
@@ -43,50 +43,53 @@
 </template>
 
 <script>
-
-import {mapState} from "vuex";
+import { mapState } from 'vuex';
 
 export default {
   name: 'ProfilView',
-  components: {
-  },
   data() {
     return {
-      name: "",
-      login: "",
-      email: "",
+      id: '',
+      name: '',
+      login: '',
+      password: '',
+      email: '',
+      privilege: '',
+      session: '',
     };
   },
   computed: {
-    ...mapState('user', ['currentUser']),
-  },
-  watch: {
+    ...mapState('login', ['currentUser']),
   },
   methods: {
-    UpdateUser() {
-      this.$emit('UpdateUser', {
-        UpdateUser:{
-          _id: this.currentUser._id,
+    ModifyCustomer() {
+      this.$emit('ModifyCustomer', {
+        modifyUser: {
+          _id: this.id,
           name: this.name,
           login: this.login,
+          password: this.password,
           email: this.email,
-          password: this.currentUser.password,
-          privilege: this.currentUser.privilege,
-          session: this.currentUser.session,
+          privilege: this.privilege,
+          session: this.session,
         },
       });
     },
   },
   mounted() {
-    this.email = this.currentUser.email;
+    this.id = this.currentUser._id;
     this.name = this.currentUser.name;
     this.login = this.currentUser.login;
+    this.password = this.currentUser.password;
+    this.email = this.currentUser.email;
+    this.privilege = this.currentUser.privilege;
+    this.session = this.currentUser.session;
   },
 };
 </script>
 
 <style scoped>
-.info-container {
+.profil-container {
   display: flex;
   justify-content: center;
   align-items: center;

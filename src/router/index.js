@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
 import ServicesView from "../views/ServicesView.vue";
 import TicketingView from "@/views/TicketingView.vue";
+import AccountView from "@/views/AccountView.vue";
 
 Vue.use(VueRouter)
 
@@ -32,7 +33,7 @@ const routes = [
     path: '/account',
     name: 'account',
     // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
-    component: () => import('../views/AccountView.vue')
+    component: AccountView
   },
   {
     path: '/dashboard',

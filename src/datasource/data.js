@@ -19,17 +19,6 @@ let customersAccounts=[
    },
 ]
 
-let tickets = [
-   {
-      "_id":"0",
-      "date":"2024-10-30T00:00:00.000Z",
-      "time":"07:00",
-      "_idCustomer":"0",
-      "_idTicketAnimationCategories":"0",
-      "_idTicketAgeCategories":"0"
-   },
-]
-
 let ticketsAnimationCategories = [
   {
     "_id": "0",
@@ -114,6 +103,17 @@ let ticketsAgeCategories = [
     "description": "Pour les adultes à partir 26 ans",
     "_idTicketAnimationCategories": "2",
   },
+]
+
+let tickets = [
+   {
+      "_id":"0",
+      "date":"2024-10-30T00:00:00.000Z",
+      "time":"07:00",
+      "_idCustomer":"0",
+      "_idTicketAnimationCategories":"0",
+      "_idTicketAgeCategories":"0"
+   },
 ]
 
 let animators = [
@@ -583,6 +583,16 @@ let availabledates = [
    }
 ];
 
+let dedicationreservations = [
+   {
+      "_id":"0",
+      "date":"2024-11-15T00:00:00.000Z",
+      "time":"08:00",
+      "_idCustomer":"0",
+      "anim_id":"15",
+   },
+]
+
 module.exports = {
    customersAccounts,
    tickets,
@@ -590,4 +600,5 @@ module.exports = {
    ticketsAgeCategories,
    availabledates,
    animators,
+   dedicationreservations,
 }
