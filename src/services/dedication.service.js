@@ -20,6 +20,10 @@ async function addDedicationReservationFromLocalSource(dedicationReservation){
     return LocalSource.addDedicationReservation(dedicationReservation)
 }
 
+async function getCustomerDedicationReservationsFromLocalSource(customer){
+    return LocalSource.getCustomerDedicationReservations(customer)
+}
+
 async function getAnimators(){
     let response = null;
     try {
@@ -85,6 +89,18 @@ async function addDedicationReservation(dedicationReservation){
     return response
 }
 
+async function getCustomerDedicationReservations(customer){
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getCustomerDedicationReservationsFromLocalSource(customer)
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des rÃ©servations'  }
+    }
+    return response
+}
 
 
 
@@ -94,4 +110,5 @@ export default {
     getAvailableTimes,
     getDedicationReservations,
     addDedicationReservation,
+    getCustomerDedicationReservations
 }

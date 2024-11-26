@@ -6,6 +6,7 @@ const state = () => ({
     animatorAvailableDates: [],
     availableTimes: [],
     dedicationReservations: sessionStorage.getItem('dedicationReservations') || [],
+    customerDedicationReservations: sessionStorage.getItem('customerDedicationReservations') || [],
 });
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
@@ -26,6 +27,10 @@ const mutations = {
         state.dedicationReservations.push(dedicationReservation);
         sessionStorage.setItem('dedicationReservations', state.dedicationReservations);
     },
+    updateCustomerDedicationReservations(state, customerDedicationReservations){
+        state.customerDedicationReservations = customerDedicationReservations;
+        sessionStorage.setItem('customerDedicationReservations', customerDedicationReservations);
+    }
 
 };
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -88,6 +93,18 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de l\'ajout de la réservation:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout de la réservation' };
+        }
+    },
+    async getCustomerDedicationReservations({commit}, customer){
+        try {
+            let response = await DedicationService.getCustomerDedicationReservations(customer);
+            if (response.error === 0) {
+                commit('updateCustomerDedicationReservations', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des réservations:', error);
         }
     },
 };

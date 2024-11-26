@@ -46,12 +46,9 @@ function getDedicationReservations(){
 }
 
 function addDedicationReservation(dedicationReservation){
-    console.log("dedicationReservation", dedicationReservation)
     let _idReservation = dedicationreservations.length ? parseInt(dedicationreservations[dedicationreservations.length - 1]._id.toString().slice(-1)) + 1 : 0;
-    console.log("_idReservation",_idReservation)
     let _id = (parseInt(Date.now() / 1000)).toString() + dedicationReservation.customer._id.toString()
         + dedicationReservation.anim_id.toString() + (_idReservation + 1).toString();
-    console.log("_id",_id)
 
     let reservation = {
         _id: parseInt(_id),
@@ -60,8 +57,13 @@ function addDedicationReservation(dedicationReservation){
         _idCustomer: dedicationReservation.customer._id,
         anim_id: dedicationReservation.anim_id,
     };
-    console.log("reservation", reservation);
     return {error: 0, data: reservation}
+}
+
+function getCustomerDedicationReservations(customer) {
+    let reservations = dedicationreservations.filter(e => e._idCustomer === customer._id);
+
+    return {error: 0, data: reservations}
 }
 
 export default{
@@ -69,5 +71,6 @@ export default{
     getAnimatorAvailableDates,
     getAvailableTimes,
     getDedicationReservations,
-    addDedicationReservation
+    addDedicationReservation,
+    getCustomerDedicationReservations,
 }

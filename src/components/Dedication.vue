@@ -45,6 +45,10 @@
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-btn">Retour à la page principale</button>
         </router-link>
+        <br>
+        <router-link :to="{ name: 'account' }">
+          <button @click="setSelectedAccountInfo('reservations')" type="button" class="home-btn">Voir vos réservations</button>
+        </router-link>
       </div>
       <div v-if="submitted && !logged">
         <h3>Vous devez être connecté pour réserver un créneau de dédicace</h3>
@@ -53,7 +57,6 @@
         </router-link>
       </div>
     </form>
-    {{dedicationReservations}}
   </div>
 </template>
 
@@ -103,6 +106,8 @@ export default {
   },
   methods: {
     ...mapActions('dedication', ['getAnimatorAvailableDates', 'getAvailableTimes', 'getAnimators', "addDedicationReservation", "getDedicationReservations"]),
+    ...mapActions('account', ['setSelectedAccountInfo']),
+    
     selectAnimator(card) {
       for (let animator of this.animators) {
         if (animator.name === card.name) {

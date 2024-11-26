@@ -57,9 +57,6 @@ function addTickets(formData) {
         let _idTicket = tickets.length ? parseInt((tickets[tickets.length - 1]._id) % 10) + 1 : 0;
         let _id = (parseInt(Date.now() / 1000)).toString() + customer._id.toString() + formData._idTicketAnimationCategories.toString()
         + formData._idTicketAgeCategories.toString() + (_idTicket + i).toString();
-        
-        console.log(_id);
-        console.log(parseInt(_id));
 
         let ticket = {
             _id: parseInt(_id),
@@ -72,7 +69,6 @@ function addTickets(formData) {
         };
         addedTickets.push(ticket);
     }
-    console.log(addedTickets);
     return { error: 0, status: 201, data: addedTickets };
 }
 

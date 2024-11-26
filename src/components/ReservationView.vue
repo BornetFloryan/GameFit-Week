@@ -18,10 +18,6 @@
       </tr>
       </tbody>
     </table>
-    {{ customerDedicationReservations }}
-    <br>
-     {{ dedicationReservations }}
-    <br>
   </div>
 </template>
 
@@ -34,15 +30,14 @@ export default {
   data() {
     return {
       animateur: null,
-      customerDedicationReservations: [],
     };
   },
   computed: {
     ...mapState('login', ['currentUser']),
-    ...mapState('dedication', ['dedicationReservations']),
+    ...mapState('dedication', ['customerDedicationReservations']),
   },
   methods: {
-    ...mapActions('dedication', ['getDedicationReservations']),
+    ...mapActions('dedication', ['getCustomerDedicationReservations']),
     animators() {
       return animators;
     },
@@ -50,7 +45,7 @@ export default {
   watch: {
   },
   mounted() {
-    this.getDedicationReservations();
+    this.getCustomerDedicationReservations(this.currentUser);
   },
 };
 </script>

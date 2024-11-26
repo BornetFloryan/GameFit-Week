@@ -19,12 +19,10 @@ const mutations = {
         sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
     },
     ModifyCustomer(state, customer) {
-        console.log(state.customersAccounts);
         let index = state.customersAccounts.findIndex(e => e._id === customer._id);
         if (index !== -1) {
             state.customersAccounts[index] = customer;
         }
-        console.log(state.customersAccounts);
         sessionStorage.setItem('customersAccounts', state.customersAccounts.join(','));
     }
 };
