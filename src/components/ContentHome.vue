@@ -50,6 +50,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'ContentHome',
+}
+</script>
+
 <style scoped>
 
 .content-accueil {
