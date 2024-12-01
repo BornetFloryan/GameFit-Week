@@ -6,6 +6,7 @@ import TicketingView from "@/views/TicketingView.vue";
 import AccountView from "@/views/AccountView.vue";
 import AdminDashBoardView from '../views/admin/AdminDashBoardView.vue';
 import AdminDedication from '../views/admin/AdminDedication.vue';
+import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
 
 
 Vue.use(VueRouter)
@@ -37,6 +38,11 @@ const routes = [
     name: 'account',
     // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
     component: AccountView
+  },
+  {
+    path: '/prestataire/:id',
+    name: 'PrestataireInfo',
+    component: PrestataireInfoView
   },
   {
     path: '/dashboard',

@@ -107,7 +107,7 @@ export default {
   methods: {
     ...mapActions('dedication', ['getAnimatorAvailableDates', 'getAvailableTimes', 'getAnimators', "addDedicationReservation", "getDedicationReservations"]),
     ...mapActions('account', ['setSelectedAccountInfo']),
-    
+
     selectAnimator(card) {
       for (let animator of this.animators) {
         if (animator.name === card.name) {
@@ -140,6 +140,9 @@ export default {
       if (!date) return '';
       return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
     },
+  },
+  created() {
+    this.selectedAnimator = this.$route.params.selectedAnimator;
   },
   mounted() {
     this.getAnimators().then(() => {

@@ -3,7 +3,7 @@
     <div class="carousel-items" v-if="slides.length > 0">
       <h1>Bienvenue à <span>GameFit Week</span></h1>
       <p class="subtitle">
-        L’événement incontournable qui fusionne sport et esport dans une expérience inédite et immersive <span>du 7 juillet au 12 juillet 2025.</span>
+        L’événement incontournable qui fusionne sport et esport dans une expérience inédite et immersive <span>du 7 au 12 juillet 2025.</span>
       </p>
     </div>
     <div class="carousel-items" v-if="slides.length > 0">
