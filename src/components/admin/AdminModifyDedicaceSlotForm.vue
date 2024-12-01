@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      date: this.availableDate.$date,
+      $date: this.availableDate.$date,
       times: [...this.availableDate.times],
       anim_id: this.availableDate.anim_id,
     };
@@ -71,8 +71,11 @@ export default {
   computed: {
     ...mapState('dedication', ['dedicationReservations', 'availableDates', 'animators']),
     formattedDate() {
-      return this.date.split('T')[0];
-    }
+      if (this.availableDate && this.availableDate.$date) {
+        return this.availableDate.$date.split('T')[0];
+      }
+      return '';
+    },
   },
   methods: {
     ...mapActions('dedication', ['modifyAvailableDate', 'getDedicationReservations', 'getAvailableDates', 'getAnimators']),
@@ -91,14 +94,14 @@ export default {
       this.$emit('modifyDedicaceSlot', {
         availableDate: {
           _id: this.availableDate._id,
-          $date: this.date,
+          $date: this.availableDate.$date,
           times: this.times,
           anim_id: this.anim_id,
         },
       });
     },
     resetForm() {
-      this.date = this.availableDate.$date;
+      this.$date = this.availableDate.$date;
       this.times = [...this.availableDate.times];
       this.anim_id = this.availableDate.anim_id;
     },

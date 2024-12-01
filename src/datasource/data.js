@@ -320,7 +320,7 @@ let ticketsAgeCategories = [
 let tickets = [
     {
         "_id": "0",
-        "date": "2024-10-30T00:00:00.000Z",
+        "$date": "2024-10-30T00:00:00.000Z",
         "time": "07:00",
         "_idCustomer": "0",
         "_idTicketAnimationCategories": "0",
@@ -715,7 +715,7 @@ let availabledates = [
 let dedicationreservations = [
     {
         "_id": "0",
-        "date": "2024-11-15T00:00:00.000Z",
+        "$date": "2024-11-15T00:00:00.000Z",
         "time": "08:00",
         "_idCustomer": "0",
         "anim_id": "17",

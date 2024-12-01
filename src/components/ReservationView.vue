@@ -12,7 +12,7 @@
       <tbody>
       <tr v-for="dedicationReservation in customerDedicationReservations" :key="dedicationReservation._id">
         <td>{{ dedicationReservation._id }}</td>
-        <td>{{ dedicationReservation.date }}</td>
+        <td>{{ dedicationReservation.$date }}</td>
         <td>{{ dedicationReservation.time }}</td>
         <td>{{ animators.find(e => e._id === dedicationReservation.anim_id)?.name }}</td>
       </tr>

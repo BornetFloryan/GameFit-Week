@@ -14,10 +14,9 @@ function getAnimators() {
     return {error: 0, data: animators}
 }
 
-function getAvailableDates(){
-    return {error: 0, data: availabledates}
+function getAvailableDates() {
+    return { error: 0, data: availabledates };
 }
-
 function addAvailableDate(data) {
     if (data.$date) {
         data.$date = new Date(data.$date).toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -39,15 +38,12 @@ function addAvailableDate(data) {
         }
     }
 
-    let _id = availabledates.length ? parseInt(availabledates[availabledates.length - 1]._id) + 1 : 0;
-
     let availableDate = {
-        _id: _id,
+        _id: data._id,
         $date: data.$date,
         times: data.times,
         anim_id: data.anim_id,
     };
-
     return {error: 0, data: availableDate};
 }
 
@@ -84,7 +80,7 @@ function getAnimatorAvailableDates(animator){
     };
 }
 
-function getAvailableTimes(date){
+function getAvailableTimes(date) {
     const selectedDateUTC = new Date(Date.UTC(
         date.getFullYear(),
         date.getMonth(),
@@ -93,33 +89,52 @@ function getAvailableTimes(date){
 
     for (const element of availabledates) {
         if (new Date(element.$date).toISOString().split('T')[0] === selectedDateUTC) {
+            const reservedTimes = dedicationreservations
+                .filter(reservation => reservation.$date === element.$date)
+                .map(reservation => reservation.time);
+            console.log('reservedTimes', reservedTimes);
+
+            const availableTimes = element.times.filter(time => !reservedTimes.includes(time));
+
+            console.log('availableTimes', availableTimes);
             return {
                 error: 0,
                 status: 200,
-                data: element.times
+                data: availableTimes
             };
         }
     }
+    return { error: 1, status: 404, data: 'No available times found' };
 }
 
 function getDedicationReservations(){
     return {error: 0, data: dedicationreservations}
 }
 
-function addDedicationReservation(dedicationReservation){
+function addDedicationReservation(dedicationReservation) {
+    let existingReservation = dedicationreservations.find(reservation =>
+        reservation.date === dedicationReservation.date &&
+        reservation.time === dedicationReservation.time &&
+        reservation.anim_id === dedicationReservation.anim_id
+    );
+
+    if (existingReservation) {
+        return { error: 1, data: 'Time slot already reserved' };
+    }
+
     let _idReservation = dedicationreservations.length ? parseInt(dedicationreservations[dedicationreservations.length - 1]._id.toString().slice(-1)) + 1 : 0;
     let _id = (parseInt(Date.now() / 1000)).toString() + dedicationReservation.customer._id.toString()
         + dedicationReservation.anim_id.toString() + (_idReservation + 1).toString();
 
     let reservation = {
         _id: parseInt(_id),
-        date: dedicationReservation.date,
+        $date: dedicationReservation.$date,
         time: dedicationReservation.time,
         _idCustomer: dedicationReservation.customer._id,
         anim_id: dedicationReservation.anim_id,
     };
 
-    return {error: 0, data: reservation}
+    return { error: 0, data: reservation };
 }
 
 function getCustomerDedicationReservations(customer) {

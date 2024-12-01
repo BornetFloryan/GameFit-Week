@@ -60,7 +60,7 @@ function addTickets(formData) {
 
         let ticket = {
             _id: parseInt(_id),
-            date: formData.date,
+            $date: formData.$date,
             time: formData.time,
             _idCustomer: customer._id,
             _idTicketAnimationCategories: formData._idTicketAnimationCategories,

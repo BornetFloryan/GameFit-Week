@@ -121,7 +121,7 @@ export default {
         alert('Veuillez sélectionner une date et une heure');
       }
       await this.addDedicationReservation({
-        date: this.selectedDate,
+        $date: this.selectedDate,
         time: this.selectedTime,
         customer: this.currentUser,
         anim_id: this.selectedAnimator._id,

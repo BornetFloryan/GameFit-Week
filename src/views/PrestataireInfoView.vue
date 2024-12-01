@@ -17,8 +17,6 @@ export default {
     ...mapState('customer', ['customersAccounts']),
     prestataire() {
       const id = this.$route.params.id;
-      console.log('Route ID:', id);
-      console.log('Customers Accounts:', this.customersAccounts);
       return this.customersAccounts.find(p => p._id === id);
     }
   }

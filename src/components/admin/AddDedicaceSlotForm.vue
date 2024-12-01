@@ -6,7 +6,7 @@
         <input
             type="date"
             id="date"
-            v-model="date"
+            v-model="$data.$date"
             required
         />
       </div>
@@ -57,7 +57,7 @@ export default {
   name: 'AddDedicaceSlotForm',
   data() {
     return {
-      date: '',
+      $date: '',
       times: [''],
     };
   },
@@ -78,9 +78,12 @@ export default {
         alert('Les plages horaires en double ne sont pas autorisées.');
         return;
       }
+      const _id = this.availableDates.length ? parseInt(this.availableDates[this.availableDates.length - 1]._id) + 1 : 0;
+      console.log("_id", _id)
       const anim_id = document.getElementById('anim_id').value;
       this.$emit('addDedicaceSlot', {
-        $date: this.date,
+        _id: _id,
+        $date: this.$data.$date,
         times: this.times,
         anim_id});
     },

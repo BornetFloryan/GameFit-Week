@@ -110,7 +110,7 @@ export default {
       formData: {
         name: '',
         price: '',
-        date: '',
+        $date: '',
         time: '',
         email: '',
         _idTicketAnimationCategories: '',
@@ -147,7 +147,7 @@ export default {
   methods: {
     ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrice', "addTickets"]),
     submitForm() {
-      this.formData.date = new Date().toLocaleDateString();
+      this.formData.$date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
 
       this.addTickets(this.formData);
@@ -156,7 +156,7 @@ export default {
       this.formData = {
         name: '',
         price: '',
-        date: '',
+        $date: '',
         time: '',
         email: '',
         _idTicketAnimationCategories: '',
