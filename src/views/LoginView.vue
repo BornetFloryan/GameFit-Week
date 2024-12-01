@@ -43,7 +43,6 @@ export default {
         let response = await this.addCustomerAccount(data.newUser);
         if (response.error === 0) {
           this.customer = true;
-          console.log("Nouvel utilisateur ajouté:", data.newUser);
         } else {
           alert(response.data);
         }
@@ -57,7 +56,6 @@ export default {
         if (response.error === 0) {
           this.logged = data.logged;
           let user = customersAccounts.find((customer) => customer.login === data.login);
-          console.log("User logged in:", user);
           if (user.privilege !== "0")
             await this.$router.push({name: 'dashboard'});
           else

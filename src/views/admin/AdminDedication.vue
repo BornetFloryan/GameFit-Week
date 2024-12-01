@@ -4,7 +4,8 @@
     <button v-if="isShowDedicationAvailableDatesTableVisible === false" @click="showDedicationAvailableDatesTable">Voir les créneaux des animateurs</button>
     <button v-if="isShowCustomersDedicationTableVisible === false" @click="showCustomersDedicationTable">Voir les réservations clientes</button>
     <button v-if="isAddFormVisible === false" @click="showAddForm">Ajouter un créneaux de dédicace</button>
-    <AddDedicaceSlotForm v-if="isAddFormVisible"></AddDedicaceSlotForm>
+    <AddDedicaceSlotForm v-if="isAddFormVisible" @addDedicaceSlot="addDedicaceSlot"></AddDedicaceSlotForm>
+    <AdminModifyDedicaceSlotForm v-if="isModifyFormVisible" :availableDate="selectedAvailableDate" @modifyDedicaceSlot="modifyDedicaceSlot"></AdminModifyDedicaceSlotForm>
     <table v-if="isShowDedicationAvailableDatesTableVisible">
       <thead>
       <tr>
@@ -22,8 +23,8 @@
         <td>{{ availableDate.times }}</td>
         <td>{{ animators.find(e => e._id === availableDate.anim_id)?.name }}</td>
         <td>
-          <button>Modifier</button>
-          <button>Supprimer</button>
+          <button @click="showModifyForm(availableDate)">Modifier</button>
+          <button @click="deleteDedicaceSlot(availableDate)">Supprimer</button>
         </td>
       </tr>
       </tbody>
@@ -54,43 +55,80 @@
   </div>
 </template>
 
-
 <script>
 import {mapActions, mapState} from 'vuex';
 import AddDedicaceSlotForm from "@/components/admin/AddDedicaceSlotForm.vue";
+import AdminModifyDedicaceSlotForm from "@/components/admin/AdminModifyDedicaceSlotForm.vue";
 
 export default {
   name: 'AdminDedication',
-  components: {AddDedicaceSlotForm},
+  components: {AddDedicaceSlotForm, AdminModifyDedicaceSlotForm},
   data() {
     return {
       isShowDedicationAvailableDatesTableVisible: true,
       isShowCustomersDedicationTableVisible: false,
       isAddFormVisible: false,
+      isModifyFormVisible: false,
+      selectedAvailableDate: null,
     };
   },
   computed: {
     ...mapState('dedication', ['dedicationReservations', 'availableDates', 'animators']),
   },
   methods: {
-    ...mapActions('dedication', ['getDedicationReservations', 'getAvailableDates', 'getAnimators']),
+    ...mapActions('dedication', ['addAvailableDate', 'deleteAvailableDate', 'modifyAvailableDate', 'getDedicationReservations', 'getAvailableDates', 'getAnimators']),
     showDedicationAvailableDatesTable() {
       this.isShowDedicationAvailableDatesTableVisible = true;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = false;
+      this.isModifyFormVisible = false;
     },
     showCustomersDedicationTable() {
       this.isShowDedicationAvailableDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = true;
       this.isAddFormVisible = false;
+      this.isModifyFormVisible = false;
     },
     showAddForm() {
       this.isShowDedicationAvailableDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = true;
+      this.isModifyFormVisible = false;
     },
-  },
-  watch: {
+    showModifyForm(availableDate) {
+      this.selectedAvailableDate = availableDate;
+      this.isShowDedicationAvailableDatesTableVisible = false;
+      this.isShowCustomersDedicationTableVisible = false;
+      this.isAddFormVisible = false;
+      this.isModifyFormVisible = true;
+    },
+    async addDedicaceSlot(data) {
+      try {
+        await this.addAvailableDate(data);
+        this.showDedicationAvailableDatesTable();
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout du créneau de dédicace:', error);
+        alert('Erreur lors de l\'ajout du créneau de dédicace');
+      }
+    },
+    async modifyDedicaceSlot(data) {
+      try {
+        await this.modifyAvailableDate(data.availableDate);
+        this.showDedicationAvailableDatesTable();
+      } catch (error) {
+        console.error('Erreur lors de la modification du créneau de dédicace:', error);
+        alert('Erreur lors de la modification du créneau de dédicace');
+      }
+    },
+    async deleteDedicaceSlot(availableDate) {
+      try {
+        await this.deleteAvailableDate(availableDate);
+        this.showDedicationAvailableDatesTable();
+      } catch (error) {
+        console.error('Erreur lors de la suppression du créneau de dédicace:', error);
+        alert('Erreur lors de la suppression du créneau de dédicace');
+      }
+    },
   },
   mounted() {
     this.getAvailableDates();
@@ -120,4 +158,21 @@ th {
   background-color: #f2f2f2;
   text-align: left;
 }
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
 </style>

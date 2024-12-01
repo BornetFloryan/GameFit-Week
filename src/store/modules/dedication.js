@@ -22,6 +22,20 @@ const mutations = {
         state.availableDates.push(data);
         sessionStorage.setItem('availableDates', state.availableDates);
     },
+    modifyAvailableDate(state, data) {
+        let index = state.availableDates.findIndex(e => e._id === data._id);
+        if (index !== -1) {
+            state.availableDates[index] = data;
+        }
+        sessionStorage.setItem('availableDates', state.availableDates.join(','));
+    },
+    deleteAvailableDate(state, data) {
+        let index = state.availableDates.findIndex(e => e._id === data._id);
+        if (index !== -1) {
+            state.availableDates.splice(index, 1);
+        }
+        sessionStorage.setItem('availableDates', state.availableDates.join(','));
+    },
     updateAnimatorAvailableDates(state, date) {
         state.animatorAvailableDates = date;
     },
@@ -71,7 +85,6 @@ const actions = {
     async addAvailableDate({ commit }, data) {
         try {
             let response = await DedicationService.addAvailableDate(data);
-            console.log(response);
             if (response.error === 0) {
                 if(response.data)
                     commit('addAvailableDate', response.data);
@@ -80,6 +93,30 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de l\'ajout de la date:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout de la date' };
+        }
+    },
+    async modifyAvailableDate({ commit }, data) {
+        try {
+            let response = await DedicationService.modifyAvailableDate(data);
+            if (response.error === 0) {
+                commit('modifyAvailableDate', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification de la date:', error);
+            return { error: 1, data: 'Erreur lors de la modification de la date' };
+        }
+    },
+    async deleteAvailableDate({ commit }, data) {
+        try {
+            let response = await DedicationService.deleteAvailableDate(data);
+            if (response.error === 0) {
+                commit('deleteAvailableDate', data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la date:', error);
+            return {error: 1, data: 'Erreur lors de la suppression de la date'};
         }
     },
     async getAnimatorAvailableDates({ commit }, animator) {

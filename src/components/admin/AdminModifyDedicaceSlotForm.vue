@@ -1,12 +1,12 @@
 <template>
-  <div class="add-dedicace-slot-form">
-    <form @submit.prevent="addDedicaceSlot">
+  <div class="modify-dedicace-slot-form">
+    <form @submit.prevent="modifyDedicaceSlot">
       <div class="form-group">
         <label for="date">Date</label>
         <input
             type="date"
             id="date"
-            v-model="date"
+            v-model="formattedDate"
             required
         />
       </div>
@@ -33,7 +33,7 @@
 
       <div class="form-group">
         <label for="anim_id">Animateur</label>
-        <select id="anim_id" required>
+        <select id="anim_id" v-model="anim_id" required>
           <option value="" disabled selected>Choisissez un animateur</option>
           <option v-for="animator in animators"
                   :key="animator._id"
@@ -43,8 +43,8 @@
       </div>
 
       <div class="form-button">
-        <button type="submit" class="add-button">Ajouter</button>
-        <button type="reset" class="cancel-button">Annuler</button>
+        <button type="submit" class="add-button">Modifier</button>
+        <button type="button" @click="resetForm" class="cancel-button">Annuler</button>
       </div>
     </form>
   </div>
@@ -54,35 +54,53 @@
 import {mapActions, mapState} from 'vuex';
 
 export default {
-  name: 'AddDedicaceSlotForm',
+  name: 'ModifyDedicaceSlotForm',
+  props: {
+    availableDate: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      date: '',
-      times: [''],
+      date: this.availableDate.$date,
+      times: [...this.availableDate.times],
+      anim_id: this.availableDate.anim_id,
     };
   },
   computed: {
     ...mapState('dedication', ['dedicationReservations', 'availableDates', 'animators']),
+    formattedDate() {
+      return this.date.split('T')[0];
+    }
   },
   methods: {
-    ...mapActions('dedication', ['addAvailableDate', 'getDedicationReservations', 'getAvailableDates', 'getAnimators']),
+    ...mapActions('dedication', ['modifyAvailableDate', 'getDedicationReservations', 'getAvailableDates', 'getAnimators']),
     addTime() {
       this.times.push('');
     },
     delTime() {
       this.times.pop();
     },
-    addDedicaceSlot() {
+    async modifyDedicaceSlot() {
       const uniqueTimes = new Set(this.times);
       if (uniqueTimes.size !== this.times.length) {
         alert('Les plages horaires en double ne sont pas autorisées.');
         return;
       }
-      const anim_id = document.getElementById('anim_id').value;
-      this.$emit('addDedicaceSlot', {
-        $date: this.date,
-        times: this.times,
-        anim_id});
+      this.$emit('modifyDedicaceSlot', {
+        availableDate: {
+          _id: this.availableDate._id,
+          $date: this.date,
+          times: this.times,
+          anim_id: this.anim_id,
+        },
+      });
+    },
+    resetForm() {
+      this.date = this.availableDate.$date;
+      this.times = [...this.availableDate.times];
+      this.anim_id = this.availableDate.anim_id;
     },
   },
   mounted() {
@@ -94,7 +112,7 @@ export default {
 </script>
 
 <style scoped>
-.add-dedicace-slot-form {
+.modify-dedicace-slot-form {
   display: flex;
   justify-content: center;
   align-items: center;

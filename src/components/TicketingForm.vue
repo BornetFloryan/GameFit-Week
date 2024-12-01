@@ -150,8 +150,6 @@ export default {
       this.formData.date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
 
-      console.log("Données de réservation :", this.formData);
-
       this.addTickets(this.formData);
       this.submissionSuccess = true;
 

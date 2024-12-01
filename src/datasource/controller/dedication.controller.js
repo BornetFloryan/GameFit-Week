@@ -51,6 +51,29 @@ function addAvailableDate(data) {
     return {error: 0, data: availableDate};
 }
 
+function modifyAvailableDate(data) {
+    if (data.$date) {
+        data.$date = new Date(data.$date).toISOString().split('T')[0] + 'T00:00:00.000Z';
+    }
+
+    if (!data.$date || !data.times || !data.anim_id) {
+        return {error: 1, data: 'Missing parameters'};
+    }
+
+    let existingEntry = availabledates.find(e => e.$date === data.$date && e.anim_id === data.anim_id);
+    if (!existingEntry) {
+
+        return {error: 1, data: 'No entry found'};
+
+    }
+    existingEntry.times = data.times;
+    return {error: 0, data: existingEntry };
+}
+
+function deleteAvailableDate(data) {
+    return {error: 0, data: data._id};
+}
+
 function getAnimatorAvailableDates(animator){
     let dates = availabledates.filter(e => e.anim_id === animator._id)
 
@@ -109,6 +132,8 @@ export default{
     getAnimators,
     getAvailableDates,
     addAvailableDate,
+    deleteAvailableDate,
+    modifyAvailableDate,
     getAnimatorAvailableDates,
     getAvailableTimes,
     getDedicationReservations,

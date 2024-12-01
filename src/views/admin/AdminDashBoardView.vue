@@ -14,6 +14,7 @@ export default {
   name: 'DashBoardView',
   components: { AdminSideBar },
 };
+
 </script>
 
 <style scoped>
