@@ -1,4 +1,4 @@
-import {animators, availabledates, dedicationreservations} from '../data'
+import { availabledates, customersAccounts, dedicationreservations} from '../data'
 
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -10,7 +10,45 @@ import {animators, availabledates, dedicationreservations} from '../data'
 
 //Dedication
 function getAnimators() {
+    let animators = customersAccounts.filter(e => e.privilege === "1");
     return {error: 0, data: animators}
+}
+
+function getAvailableDates(){
+    return {error: 0, data: availabledates}
+}
+
+function addAvailableDate(data) {
+    if (data.$date) {
+        data.$date = new Date(data.$date).toISOString().split('T')[0] + 'T00:00:00.000Z';
+    }
+
+    if (!data.$date || !data.times || !data.anim_id) {
+        return {error: 1, data: 'Missing parameters'};
+    }
+
+    let existingEntry = availabledates.find(e => e.$date === data.$date && e.anim_id === data.anim_id);
+    if (existingEntry) {
+        const newTimes = data.times.filter(time => !existingEntry.times.includes(time));
+        if (newTimes.length > 0) {
+            existingEntry.times.push(...newTimes);
+            return {error: 0, data: null };
+        } else {
+            alert(`A cette date, l'animateur à déjà ouvert un créneau à cet/ces horaires : ${data.times.join(', ')} !`);
+            return {error: 1, data: `This date and times (${data.times.join(', ')}) are already available`};
+        }
+    }
+
+    let _id = availabledates.length ? parseInt(availabledates[availabledates.length - 1]._id) + 1 : 0;
+
+    let availableDate = {
+        _id: _id,
+        $date: data.$date,
+        times: data.times,
+        anim_id: data.anim_id,
+    };
+
+    return {error: 0, data: availableDate};
 }
 
 function getAnimatorAvailableDates(animator){
@@ -57,6 +95,7 @@ function addDedicationReservation(dedicationReservation){
         _idCustomer: dedicationReservation.customer._id,
         anim_id: dedicationReservation.anim_id,
     };
+
     return {error: 0, data: reservation}
 }
 
@@ -68,6 +107,8 @@ function getCustomerDedicationReservations(customer) {
 
 export default{
     getAnimators,
+    getAvailableDates,
+    addAvailableDate,
     getAnimatorAvailableDates,
     getAvailableTimes,
     getDedicationReservations,

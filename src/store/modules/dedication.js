@@ -3,6 +3,7 @@ import DedicationService from '../../services/dedication.service';
 const state = () => ({
     // state = les données centralisées
     animators: [],
+    availableDates: sessionStorage.getItem('availableDates') || [],
     animatorAvailableDates: [],
     availableTimes: [],
     dedicationReservations: sessionStorage.getItem('dedicationReservations') || [],
@@ -12,6 +13,14 @@ const state = () => ({
 const mutations = {
     updateAnimators(state, animators) {
         state.animators = animators;
+    },
+    updateAvailableDates(state, dates) {
+        state.availableDates = dates;
+        sessionStorage.setItem('availableDates', dates);
+    },
+    addAvailableDate(state, data) {
+        state.availableDates.push(data);
+        sessionStorage.setItem('availableDates', state.availableDates);
     },
     updateAnimatorAvailableDates(state, date) {
         state.animatorAvailableDates = date;
@@ -45,6 +54,32 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des animateurs:', error);
+        }
+    },
+    async getAvailableDates({ commit }) {
+        try {
+            let response = await DedicationService.getAvailableDates();
+            if (response.error === 0) {
+                commit('updateAvailableDates', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des dates:', error);
+        }
+    },
+    async addAvailableDate({ commit }, data) {
+        try {
+            let response = await DedicationService.addAvailableDate(data);
+            console.log(response);
+            if (response.error === 0) {
+                if(response.data)
+                    commit('addAvailableDate', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout de la date:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout de la date' };
         }
     },
     async getAnimatorAvailableDates({ commit }, animator) {

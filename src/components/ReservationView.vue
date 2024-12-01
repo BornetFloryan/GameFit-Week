@@ -14,7 +14,7 @@
         <td>{{ dedicationReservation._id }}</td>
         <td>{{ dedicationReservation.date }}</td>
         <td>{{ dedicationReservation.time }}</td>
-        <td>{{ animators().find(e => e._id === dedicationReservation.anim_id)?.name }}</td>
+        <td>{{ animators.find(e => e._id === dedicationReservation.anim_id)?.name }}</td>
       </tr>
       </tbody>
     </table>
@@ -23,7 +23,6 @@
 
 <script>
 import {mapActions, mapState} from 'vuex';
-import {animators} from "@/datasource/data";
 
 export default {
   name: 'ReservationView',
@@ -34,18 +33,16 @@ export default {
   },
   computed: {
     ...mapState('login', ['currentUser']),
-    ...mapState('dedication', ['customerDedicationReservations']),
+    ...mapState('dedication', ['customerDedicationReservations', 'animators']),
   },
   methods: {
-    ...mapActions('dedication', ['getCustomerDedicationReservations']),
-    animators() {
-      return animators;
-    },
+    ...mapActions('dedication', ['getCustomerDedicationReservations', 'getAnimators']),
   },
   watch: {
   },
   mounted() {
     this.getCustomerDedicationReservations(this.currentUser);
+    this.getAnimators();
   },
 };
 </script>
