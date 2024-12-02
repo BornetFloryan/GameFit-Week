@@ -84,12 +84,14 @@
       </div>
 
     </form>
-    <p>{{ tickets }}</p>
 
     <div v-if="submissionSuccess">
       <h2>Merci pour votre réservation !</h2>
       <p>Un e-mail de confirmation a été envoyé.</p>
       <div class="home-button-container">
+        <router-link :to="{ name: 'account' }">
+          <button type="button" class="ticket-button" @click="setSelectedAccountInfo('tickets')">Voir les tickets</button>
+        </router-link>
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-button">Retour à la page d'accueil</button>
         </router-link>
@@ -124,7 +126,6 @@ export default {
   computed: {
     ...mapState('login', ['currentUser']),
     ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrice", "tickets"]),
-
   },
   watch: {
     'formData._idTicketAnimationCategories': function () {
@@ -146,6 +147,7 @@ export default {
   },
   methods: {
     ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrice', "addTickets"]),
+    ...mapActions('account', ['setSelectedAccountInfo']),
     submitForm() {
       this.formData.$date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
@@ -189,6 +191,7 @@ export default {
   align-items: center;
   height: 80vh;
   background-color: #f3f4f6;
+  text-align: center;
 }
 
 form {
@@ -265,11 +268,11 @@ select:focus {
 
 .home-button-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 }
 
-.home-button {
+.ticket-button, .home-button {
   background-color: #007bff;
   color: white;
   padding: 0.75em;
@@ -278,9 +281,11 @@ select:focus {
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+  width: 200px; /* Set a fixed width */
 }
 
-.home-button:hover {
+.ticket-button:hover, .home-button:hover {
   background-color: #0056b3;
 }
 </style>

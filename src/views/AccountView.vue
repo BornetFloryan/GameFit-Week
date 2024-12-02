@@ -7,6 +7,9 @@
     <div v-if="selectedAccountInfo === 'reservations'">
       <ReservationView />
     </div>
+    <div v-if="selectedAccountInfo === 'tickets'">
+      <TicketView />
+    </div>
   </div>
 </template>
 
@@ -16,10 +19,11 @@ import {mapState, mapActions} from 'vuex'
 import NavView from "@/components/NavBar.vue";
 import ProfilView from "@/components/ProfilView.vue";
 import ReservationView from "@/components/ReservationView.vue";
+import TicketView from "@/components/TicketView.vue";
 
 export default {
   name: 'LoginView',
-  components: {NavView, ProfilView, ReservationView},
+  components: { NavView, ProfilView, ReservationView, TicketView},
   data: () => {
     return {
     };

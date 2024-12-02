@@ -7,15 +7,15 @@
       <h2 class="provider-name">{{ prestataire.name }}</h2>
       <p class="provider-description">{{ prestataire.description }}</p>
 
-      <router-link :to="{ name: 'services', params: { selectedAnimator: prestataire } }" @click="setSelectService('dedication')">
-        <button class="btn-more-info">Réserver une dédicace</button>
+      <router-link :to="{ name: 'services', params: { selectedAnimator: prestataire } }" @click="setSelectService('dedication')" >
+        <button @click="setSelectService('dedication')" class="btn-more-info">Réserver une dédicace</button>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   name: "PrestataireInfo",
@@ -26,7 +26,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('service', ['setSelectService'])
+    ...mapActions('service', ['setSelectService']),
   }
 };
 </script>
