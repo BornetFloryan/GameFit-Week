@@ -31,6 +31,7 @@ let customersAccounts = [
         "description": "Lionel Messi, de son nom complet Lionel Andrés Messi Cuccittini, né le 24 juin 1987 à Rosario, " +
             "est un footballeur international argentin évoluant au poste d'attaquant au Paris Saint-Germain. " +
             "Surnommé La Pulga, il est considéré comme l'un des plus grands footballeurs de l'histoire.",
+        "sportsCategories_id": "0",
         "privilege": "1",
         "session": ""
     },
@@ -44,6 +45,7 @@ let customersAccounts = [
         "description": "LeBron Raymone James, né le 30 décembre 1984 à Akron, est un joueur professionnel américain de basket-ball. " +
             "Surnommé King James, il évolue au poste d'ailier fort ou d'ailier pour les Lakers de Los Angeles en NBA. " +
             "Considéré comme l'un des meilleurs joueurs de l'histoire de la NBA, il est comparé à Michael Jordan.",
+        "sportsCategories_id": "1",
         "privilege": "1",
         "session": ""
     },
@@ -57,6 +59,7 @@ let customersAccounts = [
         "description": "Serena Jameka Williams, née le 26 septembre 1981 à Saginaw, est une joueuse de tennis américaine. " +
             "Professionnelle depuis 1995, elle a remporté 23 titres en simple en Grand Chelem, ce qui constitue un record de l'ère " +
             "Open, et 14 titres en double dames avec sa sœur Venus Williams. Elle a été numéro un mondiale à sept reprises entre 2002 et 2017.",
+        "sportsCategories_id": "2",
         "privilege": "1",
         "session": ""
     },
@@ -71,6 +74,7 @@ let customersAccounts = [
             "international portugais qui évolue au poste d'attaquant à Manchester United. " +
             "Considéré comme l'un des meilleurs joueurs de l'histoire de ce sport, il est le premier footballeur à avoir remporté " +
             "le Ballon d'or avec deux clubs différents.",
+        "sportsCategories_id": "0",
         "privilege": "1",
         "session": ""
     },
@@ -84,6 +88,7 @@ let customersAccounts = [
         "description": "Thomas Edward Patrick Brady Jr., né le 3 août 1977 à San Mateo, est un joueur américain de football américain " +
             "évoluant au poste de quarterback pour les Buccaneers de Tampa Bay en NFL. " +
             "Considéré comme l'un des meilleurs joueurs de l'histoire de la NFL, il a remporté sept Super Bowl, un record.",
+        "sportsCategories_id": "6",
         "privilege": "1",
         "session": ""
     },
@@ -97,6 +102,7 @@ let customersAccounts = [
         "description": "Roger Federer, né le 8 août 1981 à Bâle, est un joueur de tennis suisse. " +
             "Professionnel depuis 1998, il a remporté 20 titres en simple en Grand Chelem, un record, et a été numéro un mondial à " +
             "plusieurs reprises entre 2004 et 2018. Il est considéré comme l'un des plus grands joueurs de l'histoire du tennis.",
+        "sportsCategories_id": "2",
         "privilege": "1",
         "session": ""
     },
@@ -110,6 +116,7 @@ let customersAccounts = [
         "description": "Wardell Stephen Curry II, né le 14 mars 1988 à Akron, est un joueur américain de basket-ball évoluant au poste " +
             "de meneur pour les Warriors de Golden State en NBA. " +
             "Considéré comme l'un des meilleurs shooteurs de l'histoire de la NBA, il a révolutionné le jeu par son adresse à trois points.",
+        "sportsCategories_id": "1",
         "privilege": "1",
         "session": ""
     },
@@ -122,6 +129,7 @@ let customersAccounts = [
         "picture": "Usain Bolt.jpg",
         "description": "Usain Bolt, né le 21 août 1986 à Sherwood Content, est un athlète jamaïcain spécialiste des épreuves de sprint. " +
             "Surnommé Lightning Bolt, il est l'athlète le plus titré de l'histoire des Jeux olympiques, avec huit médailles d'or.",
+        "sportsCategories_id": "3",
         "privilege": "1",
         "session": ""
     },
@@ -135,6 +143,7 @@ let customersAccounts = [
         "description": "Neymar da Silva Santos Júnior, dit Neymar Jr., né le 5 février 1992 à Mogi das Cruzes, est un footballeur " +
             "international brésilien évoluant au poste d'attaquant au Paris Saint-Germain. " +
             "Considéré comme l'un des meilleurs joueurs de sa génération, il est comparé à Pelé.",
+        "sportsCategories_id": "0",
         "privilege": "1",
         "session": ""
     },
@@ -148,6 +157,7 @@ let customersAccounts = [
         "description": "Michael Jeffrey Jordan, né le 17 février 1963 à Brooklyn, est un joueur de basket-ball américain. " +
             "Considéré comme le plus grand joueur de l'histoire de la NBA et l'un des plus grands sportifs de tous les temps, " +
             "il a remporté six titres de champion NBA avec les Bulls de Chicago.",
+        "sportsCategories_id": "1",
         "privilege": "1",
         "session": ""
     },
@@ -161,6 +171,7 @@ let customersAccounts = [
         "description": "Khabib Abdulmanapovich Nurmagomedov, né le 20 septembre 1988 à Sildi, est un pratiquant russe d'arts martiaux " +
             "mixtes (MMA) d'origine avar. Il a été champion du monde de sambo et champion du monde de combat sambo. " +
             "Il a été champion de l'UFC dans la catégorie des poids légers.",
+        "sportsCategories_id": "7",
         "privilege": "1",
         "session": ""
     },
@@ -174,6 +185,7 @@ let customersAccounts = [
         "description": "Pelé, de son vrai nom Edson Arantes do Nascimento, né le 23 octobre 1940 à Três Corações, est un footballeur " +
             "international brésilien. Il est considéré comme l'un des plus grands joueurs de l'histoire du football. " +
             "Il a remporté trois Coupes du monde avec la sélection brésilienne en 1958, 1962 et 1970.",
+        "sportsCategories_id": "0",
         "privilege": "1",
         "session": ""
     },
@@ -187,6 +199,7 @@ let customersAccounts = [
         "description": "Virat Kohli, né le 5 novembre 1988 à Delhi, est un joueur de cricket international indien. " +
             "Il est capitaine de l'équipe d'Inde de cricket dans les formats ODI et Test. " +
             "Il est considéré comme l'un des meilleurs batteurs de cricket de tous les temps.",
+        "sportsCategories_id": "4",
         "privilege": "1",
         "session": ""
     },
@@ -200,6 +213,7 @@ let customersAccounts = [
         "description": "Misty May-Treanor, née le 30 juillet 1977 à Los Angeles, est une joueuse de beach-volley américaine. " +
             "Avec sa partenaire Kerri Walsh, elle a remporté trois médailles d'or olympiques en 2004, 2008 et 2012. " +
             "Elle est considérée comme l'une des meilleures joueuses de beach-volley de l'histoire.",
+        "sportsCategories_id": "5",
         "privilege": "1",
         "session": ""
     },
@@ -213,6 +227,7 @@ let customersAccounts = [
         "description": "Kyle Giersdorf, dit Bugha, né le 30 décembre 2002 à Pottsgrove, est un joueur professionnel américain de jeux vidéo. " +
             "Il est spécialisé dans le jeu Fortnite et a remporté la Fortnite World Cup en 2019. " +
             "Il est considéré comme l'un des meilleurs joueurs de Fortnite de tous les temps.",
+        "sportsCategories_id": "8",
         "privilege": "1",
         "session": ""
     },
@@ -226,9 +241,67 @@ let customersAccounts = [
         "description": "Richard Tyler Blevins, dit Ninja, né le 5 juin 1991 à Detroit, est un joueur professionnel américain de jeux vidéo. " +
             "Il est spécialisé dans les jeux Fortnite et Halo. " +
             "Il est considéré comme l'un des meilleurs joueurs de jeux vidéo de tous les temps.",
+        "sportsCategories_id": "8",
         "privilege": "1",
         "session": ""
     }
+]
+
+let sportsCategories = [
+    {
+        "_id": "0",
+        "name": "Football",
+        "description": "Le football est un sport collectif opposant deux équipes de onze joueurs dans un stade. " +
+            "Le but est de marquer des buts en envoyant un ballon dans les buts adverses.",
+    },
+    {
+        "_id": "1",
+        "name": "Basket-ball",
+        "description": "Le basket-ball est un sport collectif opposant deux équipes de cinq joueurs sur un terrain rectangulaire. " +
+            "Le but est de marquer des paniers en lançant un ballon dans un panier.",
+    },
+    {
+        "_id": "2",
+        "name": "Tennis",
+        "description": "Le tennis est un sport individuel ou collectif opposant deux joueurs ou deux équipes de deux joueurs sur un court. " +
+            "Le but est de renvoyer une balle par-dessus un filet à l'aide d'une raquette.",
+    },
+    {
+        "_id": "3",
+        "name": "Athlétisme ",
+        "description": "L'athlétisme est un sport individuel ou collectif regroupant différentes épreuves de course, de saut et de lancer. " +
+            "Le but est de réaliser les meilleures performances dans chaque discipline.",
+    },
+    {
+        "_id": "4",
+        "name": "Cricket",
+        "description": "Le cricket est un sport collectif opposant deux équipes de onze joueurs sur un terrain ovale. " +
+            "Le but est de marquer des points en frappant une balle avec une batte.",
+    },
+    {
+        "_id": "5",
+        "name": "Beach-volley",
+        "description": "Le beach-volley est un sport collectif opposant deux équipes de deux joueurs sur une plage. " +
+            "Le but est de marquer des points en envoyant un ballon dans le camp adverse.",
+    },
+    {
+        "_id": "6",
+        "name": "Football Américain",
+        "description": "Le football américain est un sport collectif opposant deux équipes de onze joueurs sur un terrain rectangulaire. " +
+            "Le but est de marquer des touchdowns en portant le ballon dans la zone d'en-but adverse.",
+    },
+    {
+        "_id": "7",
+        "name": "MMA",
+        "description": "Le MMA (Mixed Martial Arts) est un sport de combat opposant deux combattants dans un octogone. " +
+            "Le but est de remporter le combat par soumission, KO ou décision des juges.",
+    },
+    {
+        "_id": "8",
+        "name": "Esports",
+        "description": "Les esports sont des compétitions de jeux vidéo opposant des joueurs ou des équipes de joueurs. " +
+            "Le but est de remporter la partie en réalisant les meilleures performances.",
+    },
 ]
 
 let ticketsAnimationCategories = [
@@ -1010,6 +1083,7 @@ let stands = [
 
 module.exports = {
     customersAccounts,
+    sportsCategories,
     tickets,
     ticketsAnimationCategories,
     ticketsAgeCategories,

@@ -8,6 +8,7 @@ const state = () => ({
     availableTimes: [],
     dedicationReservations: sessionStorage.getItem('dedicationReservations') || [],
     customerDedicationReservations: sessionStorage.getItem('customerDedicationReservations') || [],
+    sportsCategories: [],
 });
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
@@ -53,8 +54,10 @@ const mutations = {
     updateCustomerDedicationReservations(state, customerDedicationReservations){
         state.customerDedicationReservations = customerDedicationReservations;
         sessionStorage.setItem('customerDedicationReservations', customerDedicationReservations);
-    }
-
+    },
+    updateSportsCategories(state, sportsCategories){
+        state.sportsCategories = sportsCategories;
+    },
 };
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
 const actions = {
@@ -177,6 +180,18 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des réservations:', error);
+        }
+    },
+    async getSportsCategories({commit}){
+        try {
+            let response = await DedicationService.getSportsCategories();
+            if (response.error === 0) {
+                commit('updateSportsCategories', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des catégories de sports:', error);
         }
     },
 };

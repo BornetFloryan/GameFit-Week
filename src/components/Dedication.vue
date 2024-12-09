@@ -5,49 +5,116 @@
       <div v-if="!submitted" class="animator-selection">
         <h2 v-if="!selectedAnimator">Sélectionnez votre animateur</h2>
         <h2 v-if="selectedAnimator">Votre animateur</h2>
-        <div v-if="!selectedAnimator" class="scroll-container">
-          <div class="grid">
-            <div v-for="(card, index) in cards" :key="index" class="card">
-              <img :src="card.imageSrc" alt="Image de la carte" />
-              <h2>{{ card.name }}</h2>
-              <button v-if="!card.empty" type="button" @click="selectAnimator(card)">Réserver</button>
+        <div v-if="!selectedAnimator">
+          <input
+              type="text"
+              v-model="searchQuery"
+              placeholder="Rechercher un animateur..."
+              class="search-bar"
+          />
+          <select v-model="selectedCategory">
+            <option value="">Sélectionnez une catégorie</option>
+            <option
+                v-for="category in sportsCategories"
+                :key="category._id"
+                :value="category"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+          <div class="scroll-container">
+            <div class="grid">
+              <div
+                  v-for="(card, index) in filteredCards"
+                  :key="index"
+                  class="card"
+              >
+                <img :src="card.imageSrc" alt="Image de la carte" />
+                <h2>{{ card.name }}</h2>
+                <button
+                    v-if="!card.empty"
+                    type="button"
+                    @click="selectAnimator(card)"
+                >
+                  Réserver
+                </button>
+              </div>
             </div>
           </div>
         </div>
         <h2 v-if="selectedAnimator">{{ selectedAnimator.name }}</h2>
-        <button type="button" v-if="selectedAnimator && !submitted" class="reset-btn" @click.prevent="resetForm">Changer d'animateur</button>
+        <button
+            type="button"
+            v-if="selectedAnimator && !submitted"
+            class="reset-btn"
+            @click.prevent="resetForm"
+        >
+          Changer d'animateur
+        </button>
       </div>
       <div class="time-slot-selection" v-if="selectedAnimator && !submitted">
         <h2 v-if="!submitted">Sélectionnez votre créneau horaire</h2>
-        <date-picker v-if="!submitted"
-                     v-model="selectedDate"
-                     format="DD/MM/YYYY"
-                     :lang="fr"
-                     :disabled-date="disabledDates"
+        <date-picker
+            v-if="!submitted"
+            v-model="selectedDate"
+            format="DD/MM/YYYY"
+            :lang="fr"
+            :disabled-date="disabledDates"
         />
         <div class="form-group" v-if="selectedDate">
           <label for="time">Heure :</label>
           <select v-model="selectedTime" required>
             <option value="" disabled>Sélectionnez une heure</option>
-            <option v-for="time in availableTimes" :key="time" :value="time">{{ time }}</option>
+            <option
+                v-for="time in availableTimes"
+                :key="time"
+                :value="time"
+            >
+              {{ time }}
+            </option>
           </select>
         </div>
         <div class="form-buttons">
-          <button v-if="selectedTime && !submitted" type="button" class="submit-btn" @click.prevent="submitForm">Réserver</button>
-          <button v-if="selectedTime && !submitted" type="button" class="reset-btn" @click.prevent="resetForm">Annuler</button>
+          <button
+              v-if="selectedTime && !submitted"
+              type="button"
+              class="submit-btn"
+              @click.prevent="submitForm"
+          >
+            Réserver
+          </button>
+          <button
+              v-if="selectedTime && !submitted"
+              type="button"
+              class="reset-btn"
+              @click.prevent="resetForm"
+          >
+            Annuler
+          </button>
         </div>
       </div>
       <div v-if="submitted && logged">
         <h3>Réservation confirmée !</h3>
-        <p>Vous avez réservé un créneau de dédicace avec <b>{{ selectedAnimator.name }} !</b></p>
+        <p>
+          Vous avez réservé un créneau de dédicace avec
+          <b>{{ selectedAnimator.name }} !</b>
+        </p>
         <p>Date : {{ formatDate(selectedDate) }}</p>
         <p>Heure : {{ selectedTime }}</p>
         <router-link :to="{ name: 'home' }">
-          <button type="button" class="home-btn">Retour à la page principale</button>
+          <button type="button" class="home-btn">
+            Retour à la page principale
+          </button>
         </router-link>
-        <br>
+        <br />
         <router-link :to="{ name: 'account' }">
-          <button @click="setSelectedAccountInfo('reservations')" type="button" class="home-btn">Voir vos réservations</button>
+          <button
+              @click="setSelectedAccountInfo('reservations')"
+              type="button"
+              class="home-btn"
+          >
+            Voir vos réservations
+          </button>
         </router-link>
       </div>
       <div v-if="submitted && !logged">
@@ -61,33 +128,54 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker';
-import 'vue2-datepicker/index.css';
-import { mapState, mapActions } from 'vuex';
-import fr from 'vue2-datepicker/locale/fr';
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+import { mapState, mapActions } from "vuex";
+import fr from "vue2-datepicker/locale/fr";
 
 export default {
-  name: 'DedicationView',
+  name: "DedicationView",
   components: {
     DatePicker,
   },
   data() {
     return {
+      searchQuery: "",
       selectedDate: null,
-      selectedTime: '',
-      selectedAnimator: '',
+      selectedTime: "",
+      selectedAnimator: "",
       submitted: false,
       fr: fr,
       cards: [],
       logged: false,
+      selectedCategory: "",
     };
   },
   computed: {
-    ...mapState('dedication', ['animatorAvailableDates', 'availableTimes', 'animators', "dedicationReservations"]),
-    ...mapState('login', ['currentUser']),
+    ...mapState("dedication", [
+      "animatorAvailableDates",
+      "availableTimes",
+      "animators",
+      "dedicationReservations",
+        "sportsCategories",
+    ]),
+    ...mapState("login", ["currentUser"]),
+    filteredCards() {
+      return this.cards.filter((card) => {
+        console.log(card);
+        const animator = this.animators.find((animator) => animator.name === card.name);
+        const matchesQuery = this.searchQuery === "" || card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesCategory = this.selectedCategory === "" || (animator && animator.sportsCategories_id.includes(this.selectedCategory._id));
+        return matchesQuery && matchesCategory;
+      });
+    },
     disabledDates() {
-      const availableDatesSet = new Set(this.animatorAvailableDates.map(date => new Date(date).toDateString()));
-      return date => !availableDatesSet.has(date.toDateString());
+      const availableDatesSet = new Set(
+          this.animatorAvailableDates.map((date) =>
+              new Date(date).toDateString()
+          )
+      );
+      return (date) => !availableDatesSet.has(date.toDateString());
     },
   },
   watch: {
@@ -99,14 +187,21 @@ export default {
     selectedAnimator(newAnimator) {
       if (newAnimator) {
         this.selectedDate = null;
-        this.selectedTime = '';
+        this.selectedTime = "";
         this.getAnimatorAvailableDates(newAnimator);
       }
     },
   },
   methods: {
-    ...mapActions('dedication', ['getAnimatorAvailableDates', 'getAvailableTimes', 'getAnimators', "addDedicationReservation", "getDedicationReservations"]),
-    ...mapActions('account', ['setSelectedAccountInfo']),
+    ...mapActions("dedication", [
+      "getAnimatorAvailableDates",
+      "getAvailableTimes",
+      "getAnimators",
+      "addDedicationReservation",
+      "getDedicationReservations",
+      "getSportsCategories",
+    ]),
+    ...mapActions("account", ["setSelectedAccountInfo"]),
 
     selectAnimator(card) {
       for (let animator of this.animators) {
@@ -118,7 +213,7 @@ export default {
 
     async submitForm() {
       if (!this.selectedDate && !this.selectedTime) {
-        alert('Veuillez sélectionner une date et une heure');
+        alert("Veuillez sélectionner une date et une heure");
       }
       await this.addDedicationReservation({
         $date: this.selectedDate,
@@ -131,14 +226,19 @@ export default {
 
     resetForm() {
       this.selectedDate = null;
-      this.selectedTime = '';
-      this.selectedAnimator = '';
+      this.selectedTime = "";
+      this.selectedAnimator = "";
       this.submitted = false;
     },
 
     formatDate(date) {
-      if (!date) return '';
-      return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+      if (!date) return "";
+      return `${date
+          .getDate()
+          .toString()
+          .padStart(2, "0")}/${(date.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}/${date.getFullYear()}`;
     },
   },
   created() {
@@ -147,17 +247,17 @@ export default {
   mounted() {
     this.getAnimators().then(() => {
       if (this.animators.length > 0) {
-        this.cards = this.animators.map(animator => ({
+        this.cards = this.animators.map((animator) => ({
           imageSrc: require(`@/assets/img/${animator.name}.jpg`),
           name: `${animator.name}`,
         }));
       }
     });
 
-    if(this.currentUser)
-      this.logged = true;
+    if (this.currentUser) this.logged = true;
 
     this.getDedicationReservations();
+    this.getSportsCategories();
   },
 };
 </script>
@@ -166,6 +266,14 @@ export default {
 .scroll-container {
   height: 500px;
   overflow-y: auto;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .grid {
@@ -288,4 +396,66 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.animator-selection {
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #1a365d;
+}
+
+.search-bar {
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.search-bar::placeholder {
+  color: #666;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  color: #333;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.scroll-container {
+  height: 500px;
+  overflow-y: auto;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: #2a436a;
+  padding: 10px;
+}
+
+button, .search-bar, select {
+  transition: all 0.3s ease;
+}
+
 </style>

@@ -1,4 +1,4 @@
-import { availabledates, customersAccounts, dedicationreservations} from '../data'
+import {availabledates, customersAccounts, dedicationreservations, sportsCategories} from '../data'
 
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -143,6 +143,10 @@ function getCustomerDedicationReservations(customer) {
     return {error: 0, data: reservations}
 }
 
+function getSportsCategories(){
+    return {error: 0, data: sportsCategories}
+}
+
 export default{
     getAnimators,
     getAvailableDates,
@@ -154,4 +158,5 @@ export default{
     getDedicationReservations,
     addDedicationReservation,
     getCustomerDedicationReservations,
+    getSportsCategories,
 }
