@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
-import ServicesView from "../views/ServicesView.vue";
-import TicketingView from "@/views/TicketingView.vue";
-import AccountView from "@/views/AccountView.vue";
-import AdminDashBoardView from '../views/admin/AdminDashBoardView.vue';
-import AdminDedication from '../views/admin/AdminDedication.vue';
-import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
+import TicketingView from "@/views/client/TicketingView.vue";
+import PrestataireInfoView from '@/views/client/PrestataireInfoView.vue';
 
+import AccountRoutes from './account.router';
+import ServiceRoutes from './service.router';
+import AdminRoutes from './admin.router';
+import store from '@/store';
 
 Vue.use(VueRouter)
 
@@ -23,39 +23,13 @@ const routes = [
     component: TicketingView
   },
   {
-    path: '/services',
-    name: 'services',
-    component: ServicesView
-  },
-  {
-    path: '/login',
-    name: 'login',
-    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
-    component: () => import('../views/LoginView.vue')
-  },
-  {
-    path: '/account',
-    name: 'account',
-    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
-    component: AccountView
-  },
-  {
     path: '/prestataire/:id',
     name: 'PrestataireInfo',
     component: PrestataireInfoView
   },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: AdminDashBoardView,
-    children: [
-      {
-        path: 'dedication',
-        name: 'dedication',
-        component: AdminDedication,
-      },
-    ],
-  },
+    ...AccountRoutes,
+    ...ServiceRoutes,
+    ...AdminRoutes,
 ]
 
 const router = new VueRouter({
@@ -63,5 +37,31 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.state.account.currentUser) {
+      next({ name: 'login' });
+    } else if (to.matched.some(record => record.meta.requiredPrivilege)) {
+      const userPrivilege = store.state.account.currentUser.privilege;
+      const requiredPrivilege = to.meta.requiredPrivilege;
+      if (userPrivilege === requiredPrivilege) {
+        next();
+      } else {
+        next({ name: 'home' });
+      }
+    } else {
+      next();
+    }
+  } else if (to.name === 'login' || to.name === 'register') {
+    if (store.state.account.currentUser) {
+      next({ name: 'home' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router

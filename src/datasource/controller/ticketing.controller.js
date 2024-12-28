@@ -1,5 +1,5 @@
 import {tickets, ticketsAnimationCategories, ticketsAgeCategories, customersAccounts} from '../data'
-import LoginController from './login.controller'
+import LoginController from './account.controller'
 import { v4 as uuidv4} from "uuid";
 
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
@@ -20,8 +20,10 @@ function getTicketsAnimationCategories() {
 }
 
 function getTicketsAgeCategories(ticket) {
+    console.log(ticket)
     if(!ticket._idTicketAnimationCategories) return {error: 1, status: 404, data: 'aucune catégorie d\'animation fournie'}
     let data = ticketsAgeCategories.filter(categorie => categorie._idTicketAnimationCategories === ticket._idTicketAnimationCategories)
+    console.log(data)
     return {error: 0, status: 200, data: data};
 }
 

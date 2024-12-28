@@ -6,7 +6,7 @@
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link to="/dashboard/dedication" class="button">
+      <router-link to="/admindashboard/admindedication" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
     </div>

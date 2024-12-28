@@ -31,7 +31,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import PrestataireInfo from "@/components/PrestataireInfo.vue";
+import PrestataireInfo from "@/components/client/PrestataireInfo.vue";
 
 export default {
   name: "InteractiveMap",
@@ -53,8 +53,7 @@ export default {
   },
   methods: {
     ...mapActions('stands', ['getStands']),
-    ...mapActions('customer', ['getCustomersAccounts']),
-    ...mapActions('service', ['setSelectService']),
+    ...mapActions('account', ['getCustomersAccounts']),
     async fetchSvgContent() {
       try {
         const response = await fetch(require("@/assets/svg/Carte GFW.svg"));

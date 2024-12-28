@@ -2,16 +2,17 @@ import TicketingService from "@/services/ticketing.service";
 
 const state = () => ({
     // state = les données centralisées
-    tickets: sessionStorage.getItem('tickets') || [],
+    tickets: localStorage.getItem('tickets') ? localStorage.getItem('tickets') : [],
     ticketsAnimationCategories: [],
     ticketsAgeCategories: [],
     ticketPrice: "",
 });
+
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
     updatetickets(state, tickets) {
         state.tickets = tickets;
-        sessionStorage.setItem('tickets', tickets);
+        localStorage.setItem('tickets', tickets);
     },
     updateticketsAnimationCategories(state, animationCategories) {
         state.ticketsAnimationCategories = animationCategories;
@@ -25,9 +26,10 @@ const mutations = {
     addTickets(state, tickets) {
         for (let ticket of tickets)
             state.tickets.push(ticket);
-        sessionStorage.setItem('tickets', state.tickets);
+        localStorage.setItem('tickets', state.tickets);
     },
 };
+
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
 const actions = {
     async getTickets({ commit }) {

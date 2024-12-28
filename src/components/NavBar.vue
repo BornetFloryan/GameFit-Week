@@ -13,11 +13,9 @@
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
           <router-link to="" class="link">Services</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
-            <router-link :to="{ name: 'services' }">
-              <li @click="setSelectService('dedication')" class="link">Dédicaces</li>
-              <li @click="setSelectService('stream')" class="link">Diffusion</li>
-              <li @click="setSelectService('tournois')" class="link">Tournois</li>
-            </router-link>
+              <li><router-link :to="{ path: '/services/dedication' }" class="link">Dedication</router-link></li>
+              <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
+              <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
           </ul>
         </li>
         <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
@@ -25,14 +23,10 @@
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
           <ul v-show="showAccountDropdown" class="dropdown">
-            <router-link :to="{ name: 'account' }">
-              <li @click="setSelectedAccountInfo('profil')" class="link">Profil</li>
-              <li @click="setSelectedAccountInfo('reservations')" class="link">Réservations</li>
-              <li @click="setSelectedAccountInfo('tickets')" class="link">Billets</li>
-            </router-link>
-            <router-link :to="{ name: 'home' }">
+              <li><router-link :to="{ path: '/account/profil' }" class="link">Profil</router-link></li>
+              <li><router-link :to="{ path: '/account/reservation' }" class="link">Réservations</router-link></li>
+              <li><router-link :to="{ path: '/account/ticket' }" class="link">Billets</router-link></li>
               <li @click="disconnected" class="link disconnect">Déconnexion</li>
-            </router-link>
           </ul>
         </li>
       </ul>
@@ -70,21 +64,18 @@ export default {
     };
   },
   computed: {
-    ...mapState('service', ['selectedService']),
-    ...mapState('login', ['currentUser']),
-    ...mapState('account', ['selectedAccountInfo']),
+    ...mapState('account', ['currentUser']),
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
     this.checkScreen();
+    this.loadCurrentUser();
   },
   mounted() {
     window.addEventListener('scroll', this.updateScroll);
   },
   methods: {
-    ...mapActions('service', ['setSelectService']),
-    ...mapActions('login', ['setCurrentUser']),
-    ...mapActions('account', ['setSelectedAccountInfo']),
+    ...mapActions('account', ['logoutUser']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
@@ -99,14 +90,29 @@ export default {
         this.mobileNav = false;
       }
     },
-    disconnected() {
-      this.setCurrentUser(null);
+    async disconnected() {
+      await this.logoutUser();
+      localStorage.removeItem('currentUser');
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
       }
     },
+    loadCurrentUser() {
+      const user = localStorage.getItem('currentUser');
+      if (user) {
+        this.$store.commit('account/setCurrentUser', JSON.parse(user));
+      }
+    },
   },
-}
+  watch: {
+    currentUser(newUser) {
+      if (newUser) {
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        localStorage.removeItem('currentUser');
+      }
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -176,6 +182,7 @@ nav .link.disconnect {
 nav .link.disconnect:hover {
   color: #ff0000;
   border-bottom: 1px solid #ff0000;
+  cursor: pointer;
 }
 
 nav .link:hover {

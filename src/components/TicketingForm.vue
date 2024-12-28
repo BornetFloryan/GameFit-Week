@@ -89,8 +89,8 @@
       <h2>Merci pour votre réservation !</h2>
       <p>Un e-mail de confirmation a été envoyé.</p>
       <div class="home-button-container">
-        <router-link :to="{ name: 'account' }">
-          <button type="button" class="ticket-button" @click="setSelectedAccountInfo('tickets')">Voir les tickets</button>
+        <router-link :to="{ name: 'ticket' }">
+          <button type="button" class="ticket-button">Voir les tickets</button>
         </router-link>
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-button">Retour à la page d'accueil</button>
@@ -124,7 +124,7 @@ export default {
           };
   },
   computed: {
-    ...mapState('login', ['currentUser']),
+    ...mapState('account', ['currentUser']),
     ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrice", "tickets"]),
   },
   watch: {
@@ -147,7 +147,6 @@ export default {
   },
   methods: {
     ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrice', "addTickets"]),
-    ...mapActions('account', ['setSelectedAccountInfo']),
     submitForm() {
       this.formData.$date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();

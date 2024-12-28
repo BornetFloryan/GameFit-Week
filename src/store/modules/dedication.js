@@ -3,13 +3,14 @@ import DedicationService from '../../services/dedication.service';
 const state = () => ({
     // state = les données centralisées
     animators: [],
-    availableDates: sessionStorage.getItem('availableDates') || [],
+    availableDates: localStorage.getItem('availableDates') ? localStorage.getItem('availableDates') : [],
     animatorAvailableDates: [],
     availableTimes: [],
-    dedicationReservations: sessionStorage.getItem('dedicationReservations') || [],
-    customerDedicationReservations: sessionStorage.getItem('customerDedicationReservations') || [],
+    dedicationReservations: localStorage.getItem('dedicationReservations') ? localStorage.getItem('dedicationReservations') : [],
+    customerDedicationReservations: localStorage.getItem('customerDedicationReservations') ? localStorage.getItem('customerDedicationReservations') : [],
     sportsCategories: [],
 });
+
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
     updateAnimators(state, animators) {
@@ -17,25 +18,25 @@ const mutations = {
     },
     updateAvailableDates(state, dates) {
         state.availableDates = dates;
-        sessionStorage.setItem('availableDates', dates);
+        localStorage.setItem('availableDates', dates);
     },
     addAvailableDate(state, data) {
         state.availableDates.push(data);
-        sessionStorage.setItem('availableDates', state.availableDates);
+        localStorage.setItem('availableDates', state.availableDates);
     },
     modifyAvailableDate(state, data) {
         let index = state.availableDates.findIndex(e => e._id === data._id);
         if (index !== -1) {
             state.availableDates[index] = data;
         }
-        sessionStorage.setItem('availableDates', state.availableDates.join(','));
+        localStorage.setItem('availableDates', state.availableDates);
     },
     deleteAvailableDate(state, data) {
         let index = state.availableDates.findIndex(e => e._id === data._id);
         if (index !== -1) {
             state.availableDates.splice(index, 1);
         }
-        sessionStorage.setItem('availableDates', state.availableDates.join(','));
+        localStorage.setItem('availableDates', state.availableDates);
     },
     updateAnimatorAvailableDates(state, date) {
         state.animatorAvailableDates = date;
@@ -45,20 +46,21 @@ const mutations = {
     },
     updateDedicationReservations(state, dedicationReservations) {
         state.dedicationReservations = dedicationReservations;
-        sessionStorage.setItem('dedicationReservations', dedicationReservations);
+        localStorage.setItem('dedicationReservations', dedicationReservations);
     },
     addDedicationReservation(state, dedicationReservation) {
         state.dedicationReservations.push(dedicationReservation);
-        sessionStorage.setItem('dedicationReservations', state.dedicationReservations);
+        localStorage.setItem('dedicationReservations', state.dedicationReservations);
     },
     updateCustomerDedicationReservations(state, customerDedicationReservations){
         state.customerDedicationReservations = customerDedicationReservations;
-        sessionStorage.setItem('customerDedicationReservations', customerDedicationReservations);
+        localStorage.setItem('customerDedicationReservations', customerDedicationReservations);
     },
     updateSportsCategories(state, sportsCategories){
         state.sportsCategories = sportsCategories;
     },
 };
+
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
 const actions = {
     async getAnimators({ commit }) {
