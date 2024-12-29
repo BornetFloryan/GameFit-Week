@@ -1,14 +1,13 @@
-require('./utils/parser');
+require('./parser');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocs = require('./utils/swaggerConfig');
 const pool = require('./database/db');
 
 const standsRoutes = require('./routes/stands.router');
 const accountRoutes = require('./routes/account.router');
-const ticketRoutes = require('./routes/ticket.router');
 
 const app = express();
 const PORT = 3000;
@@ -16,11 +15,29 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "GameFit App",
+            description: "API documentation",
+            version: "1.0.0",
+        },
+        servers: [
+            {
+                url: "http://localhost:3000/",
+                description: "Local server",
+            },
+        ],
+    },
+    apis: ["./routes/*.js"],
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/stands', standsRoutes);
 app.use('/accounts', accountRoutes);
-app.use('/tickets', ticketRoutes);
 
 app.use(session({
     secret: 'votre_secret',

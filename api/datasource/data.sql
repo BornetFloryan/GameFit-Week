@@ -31,34 +31,28 @@ CREATE TABLE IF NOT EXISTS sportscategories
 CREATE TABLE IF NOT EXISTS ticketsanimationcategories
 (
     _id         SERIAL PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
+    name        VARCHAR(255),
     description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS ticketsagecategories
 (
-    _id         SERIAL PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
-    description TEXT
-);
-
-CREATE TABLE IF NOT EXISTS ticketprices
-(
     _id                          SERIAL PRIMARY KEY,
-    age_category_id              INT NOT NULL REFERENCES ticketsagecategories(_id) ON DELETE CASCADE,
-    animation_category_id        INT NOT NULL REFERENCES ticketsanimationcategories(_id) ON DELETE CASCADE,
-    price                        NUMERIC(10, 2) NOT NULL
+    name                         VARCHAR(255),
+    price                        NUMERIC(10, 2),
+    description                  TEXT,
+    _idTicketAnimationCategories INT REFERENCES ticketsanimationcategories (_id)
 );
 
 CREATE TABLE IF NOT EXISTS tickets
 (
-    _id               SERIAL PRIMARY KEY,
-    date              DATE NOT NULL,
-    time              TIME NOT NULL,
-    customer_id       INT NOT NULL REFERENCES customersaccounts(_id) ON DELETE CASCADE,
-    price_id          INT NOT NULL REFERENCES ticketprices(_id) ON DELETE CASCADE
+    _id                          SERIAL PRIMARY KEY,
+    date                         DATE,
+    time                         TIME,
+    _idCustomer                  INT REFERENCES customersAccounts (_id),
+    _idTicketAnimationCategories INT REFERENCES ticketsanimationcategories (_id),
+    _idTicketAgeCategories       INT REFERENCES ticketsagecategories (_id)
 );
-
 
 CREATE TABLE IF NOT EXISTS availabledates
 (
