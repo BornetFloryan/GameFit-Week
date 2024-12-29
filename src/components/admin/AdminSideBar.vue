@@ -1,12 +1,7 @@
 <template>
-  <aside class="modern-sidebar">
-    <div class="header">
-      <div class="logo">
-        <img :src="logoURL" alt="GameFit Week Logo" />
-      </div>
-      <button @click="logout" class="button logout-button" title="Déconnexion">
-        <span class="material-icons">Déconnexion</span>
-      </button>
+  <aside class="is-expanded">
+    <div class="logo">
+      <img :src="logoURL" alt="GameFit Week Logo" />
     </div>
 
     <h3>Menu</h3>
@@ -19,130 +14,90 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
   name: 'AdminSidebar',
   data() {
     return {
-      logoURL: require('@/assets/img/logo.png'),
+      logoURL: require('@/assets/img/logo.png'), // Change to dynamic import if applicable
     };
-  },
-  methods: {
-    ...mapActions('account', ['logoutUser']),
-    logout() {
-      this.logoutUser();
-      this.$router.push('/');
-    },
   },
 };
 </script>
 
 <style scoped>
-:root {
-  --primary-color: #3498db;
-  --secondary-color: #2c3e50;
-  --text-color: #ffffff;
-  --hover-color: #5dade2;
-  --logout-color: #e74c3c;
-  --logout-hover-color: #c0392b;
-  --background-gradient: linear-gradient(135deg, #2c3e50, #34495e);
-}
-
-.modern-sidebar {
+aside {
   display: flex;
   flex-direction: column;
-  background: var(--background-gradient);
-  color: var(--text-color);
-  width: 220px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  width: 250px; /* Toujours développé */
+  overflow: hidden;
   min-height: 100vh;
   padding: 1rem;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  transition: none; /* Plus de transition pour le développement */
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+.logo {
+  margin-bottom: 1rem;
 }
 
 .logo img {
-  width: 3rem;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
+  width: 2rem;
 }
 
 h3 {
-  color: var(--primary-color);
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  color: #95a5a6;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  font-weight: 600;
+  opacity: 1;
 }
 
 .menu {
-  display: flex;
-  flex-direction: column;
+  margin: 0 -1rem;
 }
 
 .button {
   display: flex;
   align-items: center;
   text-decoration: none;
-  padding: 0.8rem 1rem;
-  background: none;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  color: var(--text-color);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  padding: 0.5rem 1rem;
 }
 
 .button .material-icons {
-  font-size: 1.5rem;
-  margin-right: 0.5rem;
+  font-size: 2rem;
+  color: #ecf0f1;
+}
+
+.button .text {
+  color: #ecf0f1;
+  opacity: 1;
 }
 
 .button:hover {
-  background-color: var(--hover-color);
-  transform: translateX(5px);
+  background-color: #34495e;
 }
+
+.button:hover .material-icons,
+.button:hover .text {
+  color: #3498db;
+}
+
 
 .router-link-exact-active .material-icons,
 .router-link-exact-active .text {
-  color: var(--primary-color);
+  color: #3498db;
 }
 
-.logout-button {
-  background-color: var(--logout-color);
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-}
-
-.logout-button:hover {
-  background-color: var(--logout-hover-color);
-  transform: scale(1.05);
-}
-
-.logout-button .material-icons,
-.logout-button .text {
-  color: var(--text-color);
+.is-expanded .button .material-icons {
+  margin-right: 1rem;
 }
 
 @media (max-width: 1024px) {
-  .modern-sidebar {
+  aside {
     position: absolute;
-    width: 200px;
-    z-index: 10;
-    transform: translateX(-100%);
+    z-index: 99;
   }
 }
 </style>

@@ -1,30 +1,22 @@
 <template>
   <div class="reservation-view">
-    <table v-if="currentUser">
+    <table>
       <thead>
       <tr>
         <th>Numéro</th>
-        <th>Date</th>
         <th>Nom complet</th>
         <th>Adresse e-mail</th>
         <th>Catégorie d'animation</th>
         <th>Catégorie d'âge</th>
-        <th>Prix</th>
-        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="customerTicket in customerTickets" :key="customerTicket._id">
         <td>{{ customerTicket._id }}</td>
-        <td>{{ customerTicket.$date }}</td>
         <td>{{ currentUser.name }}</td>
         <td>{{ currentUser.email }}</td>
-        <td>{{ ticketAnimationCategory(customerTicket)?.name }}</td>
-        <td>{{ ticketAgeCategory(customerTicket)?.name }}</td>
-        <td>{{ price(customerTicket)?.price }}</td>
-        <td>
-          <button @click="deleteTicketAction(customerTicket)">Supprimer</button>
-        </td>
+        <td>{{ ticketsAnimationCategories.find(cat => cat._id === customerTicket._idTicketAnimationCategories).name }}</td>
+        <td>{{ customerTicket._idTicketAgeCategories }}</td>
       </tr>
       </tbody>
     </table>
@@ -32,7 +24,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'TicketView',
@@ -43,103 +35,34 @@ export default {
   },
   computed: {
     ...mapState('account', ['currentUser']),
-    ...mapState('ticket', ['tickets', 'ticketsAnimationCategories', 'ticketsAgeCategories', 'ticketPrices']),
-    price() {
-      return (ticket) => {
-        if (!this.ticketPrices) return null;
-        return this.ticketPrices.find(price => price._id === ticket.price_id);
-      };
-    },
-    ticketAnimationCategory() {
-      return (ticket) => {
-        const price = this.price(ticket);
-        if (!price || !this.ticketsAnimationCategories) return null;
-        return this.ticketsAnimationCategories.find(animationCategory => animationCategory._id === price.animation_category_id);
-      };
-    },
-    ticketAgeCategory() {
-      return (ticket) => {
-        const price = this.price(ticket);
-        if (!price || !this.ticketsAgeCategories) return null;
-        return this.ticketsAgeCategories.find(ageCategory => ageCategory._id === price.age_category_id);
-      };
-    }
+    ...mapState('ticket', ['tickets', 'ticketsAnimationCategories', "ticketsAgeCategories"]),
   },
   methods: {
-    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrices', 'deleteTicket']),
-    deleteTicketAction(ticket) {
-      this.deleteTicket(ticket._id);
-      this.customerTickets = this.customerTickets.filter(t => t._id !== ticket._id);
-    },
+    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories']),
   },
   mounted() {
     this.getTickets()
         .then(() => {
-          this.customerTickets = this.tickets.filter(ticket => ticket._idCustomer === this.currentUser?._id);
+          this.customerTickets = this.tickets.filter(ticket => ticket._idCustomer === this.currentUser._id);
         })
     this.getTicketsAnimationCategories();
-    this.getTicketsAgeCategories();
-    this.getTicketPrices();
   },
 };
 </script>
 
 <style scoped>
-.reservation-view {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  background-color: #f9fafb;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-table {
-  width: 90%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px;
-  font-family: 'Arial', sans-serif;
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
 th {
-  background-color: #2a4269;
-  color: white;
-  padding: 12px 15px;
+  background-color: #f2f2f2;
   text-align: left;
-  text-transform: uppercase;
-  font-size: 14px;
-}
-
-td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #ddd;
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-  transition: background-color 0.3s ease;
-}
-
-button {
-  padding: 8px 12px;
-  font-size: 14px;
-  color: white;
-  background-color: #ff6b6b;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #ff3b3b;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
 }
 </style>
