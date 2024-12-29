@@ -79,7 +79,6 @@ export default {
         return;
       }
       const _id = this.availableDates.length ? parseInt(this.availableDates[this.availableDates.length - 1]._id) + 1 : 0;
-      console.log("_id", _id)
       const anim_id = document.getElementById('anim_id').value;
       this.$emit('addDedicaceSlot', {
         _id: _id,

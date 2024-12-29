@@ -107,9 +107,8 @@
           </button>
         </router-link>
         <br />
-        <router-link :to="{ name: 'account' }">
+        <router-link :to="{ name: 'reservation' }">
           <button
-              @click="setSelectedAccountInfo('reservations')"
               type="button"
               class="home-btn"
           >
@@ -157,12 +156,11 @@ export default {
       "availableTimes",
       "animators",
       "dedicationReservations",
-        "sportsCategories",
+      "sportsCategories",
     ]),
-    ...mapState("login", ["currentUser"]),
+    ...mapState("account", ["currentUser"]),
     filteredCards() {
       return this.cards.filter((card) => {
-        console.log(card);
         const animator = this.animators.find((animator) => animator.name === card.name);
         const matchesQuery = this.searchQuery === "" || card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
         const matchesCategory = this.selectedCategory === "" || (animator && animator.sportsCategories_id.includes(this.selectedCategory._id));
@@ -201,7 +199,6 @@ export default {
       "getDedicationReservations",
       "getSportsCategories",
     ]),
-    ...mapActions("account", ["setSelectedAccountInfo"]),
 
     selectAnimator(card) {
       for (let animator of this.animators) {

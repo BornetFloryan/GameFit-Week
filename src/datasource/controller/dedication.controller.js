@@ -92,11 +92,9 @@ function getAvailableTimes(date) {
             const reservedTimes = dedicationreservations
                 .filter(reservation => reservation.$date === element.$date)
                 .map(reservation => reservation.time);
-            console.log('reservedTimes', reservedTimes);
 
             const availableTimes = element.times.filter(time => !reservedTimes.includes(time));
 
-            console.log('availableTimes', availableTimes);
             return {
                 error: 0,
                 status: 200,

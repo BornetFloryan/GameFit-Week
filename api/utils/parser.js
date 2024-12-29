@@ -1,5 +1,5 @@
 const fs = require('fs');
-const pool = require('./database/db');
+const pool = require('../database/db');
 
 // Charger les données depuis le fichier JS
 const {
@@ -8,11 +8,12 @@ const {
     tickets,
     ticketsAnimationCategories,
     ticketsAgeCategories,
+    ticketPrices,
     availabledates,
     dedicationreservations,
     pavillons,
     stands,
-} = require('../src/datasource/data');
+} = require('../../src/datasource/data');
 
 const executeSQLFile = async (filePath) => {
     const sql = fs.readFileSync(filePath, 'utf8');
@@ -85,7 +86,7 @@ const insertData = async () => {
 
     // Insérer les données dans la table ticketsAgeCategories
     for (const ageCategory of ticketsAgeCategories) {
-        const {_id, name, price, description, _idTicketAnimationCategories} = ageCategory;
+        const {_id, name, description} = ageCategory;
 
         const res = await pool.query(
             'SELECT _id FROM ticketsagecategories WHERE _id = $1',
@@ -94,11 +95,29 @@ const insertData = async () => {
 
         if (res.rows.length === 0) {
             await pool.query(
-                'INSERT INTO ticketsagecategories (_id, name, price, description, "_idticketanimationcategories") VALUES ($1, $2, $3, $4, $5)',
-                [_id, name, price, description, _idTicketAnimationCategories || 0]
+                'INSERT INTO ticketsagecategories (_id, name, description) VALUES ($1, $2, $3)',
+                [_id, name, description || 0]
             );
         }
     }
+
+    // Insérer les données dans la table ticketPrices
+    for (const prix of ticketPrices) {
+        const {_id, age_category_id, animation_category_id, price} = prix;
+
+        const res = await pool.query(
+            'SELECT _id FROM ticketprices WHERE _id = $1',
+            [_id]
+        );
+
+        if (res.rows.length === 0) {
+            await pool.query(
+                'INSERT INTO ticketprices (_id, age_category_id, animation_category_id, price) VALUES ($1, $2, $3, $4)',
+                [_id, age_category_id || 0, animation_category_id || 0, price || 0]
+            );
+        }
+    }
+
 
     // Insérer les données dans la table tickets
     for (const ticket of tickets) {
@@ -107,23 +126,22 @@ const insertData = async () => {
             $date,
             time,
             _idCustomer,
-            _idTicketAnimationCategories,
-            _idTicketAgeCategories,
+            price_id,
         } = ticket;
 
         const res = await pool.query('SELECT _id FROM tickets WHERE _id = $1', [_id]);
 
         if (res.rows.length === 0) {
             await pool.query(
-                'INSERT INTO tickets (_id, date, time, _idcustomer, _idticketanimationcategories, _idticketagecategories) VALUES ($1, $2, $3, $4, $5, $6)',
-                [_id, $date, time, _idCustomer || 0, _idTicketAnimationCategories || 0, _idTicketAgeCategories || 0]
+                'INSERT INTO tickets (_id, date, time, customer_id, price_id) VALUES ($1, $2, $3, $4, $5)',
+                [_id, $date, time, _idCustomer || 0, price_id || 0]
             );
         }
     }
 
     // Insérer les données dans la table availabledates
     for (const date of availabledates) {
-        const {_id, $date, times, anim_id} = date;
+        const {_id, date: availableDate, times, anim_id} = date;
 
         const res = await pool.query(
             'SELECT _id FROM availabledates WHERE _id = $1',
@@ -133,14 +151,14 @@ const insertData = async () => {
         if (res.rows.length === 0) {
             await pool.query(
                 'INSERT INTO availabledates (_id, date, times, anim_id) VALUES ($1, $2, $3, $4)',
-                [_id, $date, JSON.stringify(times), anim_id || 0]
+                [_id, availableDate, JSON.stringify(times), anim_id || 0]
             );
         }
     }
 
     // Insérer les données dans la table dedicationreservations
     for (const reservation of dedicationreservations) {
-        const {_id, $date, time, _idCustomer, anim_id} = reservation;
+        const {_id, date, time, _idCustomer, anim_id} = reservation;
 
         const res = await pool.query(
             'SELECT _id FROM dedicationreservations WHERE _id = $1',
@@ -150,7 +168,7 @@ const insertData = async () => {
         if (res.rows.length === 0) {
             await pool.query(
                 'INSERT INTO dedicationreservations (_id, date, time, _idcustomer, anim_id) VALUES ($1, $2, $3, $4, $5)',
-                [_id, $date, time, _idCustomer || 0, anim_id || 0]
+                [_id, date, time, _idCustomer || 0, anim_id || 0]
             );
         }
     }

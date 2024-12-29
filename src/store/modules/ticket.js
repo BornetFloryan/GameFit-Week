@@ -1,11 +1,11 @@
-import TicketingService from "@/services/ticketing.service";
+import TicketService from "@/services/ticket.service";
 
 const state = () => ({
     // state = les données centralisées
     tickets: localStorage.getItem('tickets') ? localStorage.getItem('tickets') : [],
     ticketsAnimationCategories: [],
     ticketsAgeCategories: [],
-    ticketPrice: "",
+    ticketPrices: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -20,21 +20,28 @@ const mutations = {
     updateticketsAgeCategories(state, ageCategories) {
         state.ticketsAgeCategories = ageCategories;
     },
-    updateticketPrice(state, price) {
-        state.ticketPrice = price;
+    updateticketPrices(state, price) {
+        state.ticketPrices = price;
     },
     addTickets(state, tickets) {
         for (let ticket of tickets)
             state.tickets.push(ticket);
         localStorage.setItem('tickets', state.tickets);
     },
+    deleteTicket(state, ticket_id) {
+        let index = state.tickets.findIndex(e => e._id === ticket_id);
+        if (index !== -1) {
+            state.tickets.splice(index, 1);
+        }
+        localStorage.setItem('tickets', state.tickets);
+    },
 };
 
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
 const actions = {
-    async getTickets({ commit }) {
+    async getTickets({commit}) {
         try {
-            let response = await TicketingService.getTickets();
+            let response = await TicketService.getTickets();
             if (response.error === 0) {
                 commit('updatetickets', response.data);
             } else {
@@ -44,9 +51,10 @@ const actions = {
             console.error('Erreur lors de la récupération des tickets:', error);
         }
     },
-    async getTicketsAnimationCategories({ commit }) {
+    async getTicketsAnimationCategories({commit}) {
+        if (this.state.ticket.ticketsAnimationCategories.length > 0) return;
         try {
-            let response = await TicketingService.getTicketsAnimationCategories();
+            let response = await TicketService.getTicketsAnimationCategories();
             if (response.error === 0) {
                 commit('updateticketsAnimationCategories', response.data);
             } else {
@@ -56,9 +64,9 @@ const actions = {
             console.error('Erreur lors de la récupération des catégories d\'animation:', error);
         }
     },
-    async getTicketsAgeCategories({ commit }, ticket) {
+    async getTicketsAgeCategories({commit},) {
         try {
-            let response = await TicketingService.getTicketsAgeCategories(ticket);
+            let response = await TicketService.getTicketsAgeCategories();
             if (response.error === 0) {
                 commit('updateticketsAgeCategories', response.data);
             } else {
@@ -68,11 +76,11 @@ const actions = {
             console.error('Erreur lors de la récupération des catégories d\'âge:', error);
         }
     },
-    async getTicketPrice({ commit }, ticket) {
+    async getTicketPrices({commit},) {
         try {
-            let response = await TicketingService.getTicketPrice(ticket);
+            let response = await TicketService.getTicketPrices();
             if (response.error === 0) {
-                commit('updateticketPrice', response.data);
+                commit('updateticketPrices', response.data);
             } else {
                 console.error(response.data);
             }
@@ -80,16 +88,28 @@ const actions = {
             console.error('Erreur lors de la récupération du prix du ticket:', error);
         }
     },
-    async addTickets({ commit }, formData) {
+    async addTickets({commit}, formData) {
         try {
-            let response = await TicketingService.addTickets(formData);
+            let response = await TicketService.addTickets(formData);
             if (response.error === 0) {
                 commit('addTickets', response.data);
             }
             return response;
         } catch (error) {
             console.error('Erreur lors de l\'ajout du ticket:', error);
-            return { error: 1, data: 'Erreur lors de l\'ajout du ticket' };
+            return {error: 1, data: 'Erreur lors de l\'ajout du ticket'};
+        }
+    },
+    async deleteTicket({commit}, ticket_id) {
+        try {
+            let response = await TicketService.deleteTicket(ticket_id);
+            if (response.error === 0) {
+                commit('deleteTicket', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la suppression du ticket:', error);
+            return {error: 1, data: 'Erreur lors de la suppression du ticket'};
         }
     },
 };

@@ -245,7 +245,7 @@ let customersAccounts = [
         "privilege": "1",
         "session": ""
     }
-]
+];
 
 let sportsCategories = [
     {
@@ -302,7 +302,7 @@ let sportsCategories = [
         "description": "Les esports sont des compétitions de jeux vidéo opposant des joueurs ou des équipes de joueurs. " +
             "Le but est de remporter la partie en réalisant les meilleures performances.",
     },
-]
+];
 
 let ticketsAnimationCategories = [
     {
@@ -320,86 +320,53 @@ let ticketsAnimationCategories = [
         "name": "Sport et Jeux Vidéo",
         "description": "Les plus grands sportifs et les plus grands joueurs de jeux vidéo de tous les temps",
     },
-]
+];
+
 
 let ticketsAgeCategories = [
     {
         "_id": "0",
         "name": "Enfant",
-        "price": "5",
         "description": "Pour les enfants de 0 à 12 ans",
-        "_idTicketAnimationCategories": "0",
     },
     {
         "_id": "1",
         "name": "Etudiant",
-        "price": "8",
         "description": "Pour les étudiants de 13 à 25 ans",
-        "_idTicketAnimationCategories": "0",
     },
     {
         "_id": "2",
         "name": "Adulte",
-        "price": "10",
         "description": "Pour les adultes à partir 26 ans",
-        "_idTicketAnimationCategories": "0",
     },
+];
 
-    {
-        "_id": "3",
-        "name": "Enfant",
-        "price": "5",
-        "description": "Pour les enfants de 0 à 12 ans",
-        "_idTicketAnimationCategories": "1",
-    },
-    {
-        "_id": "4",
-        "name": "Etudiant",
-        "price": "8",
-        "description": "Pour les étudiants de 13 à 25 ans",
-        "_idTicketAnimationCategories": "1",
-    },
-    {
-        "_id": "5",
-        "name": "Adulte",
-        "price": "10",
-        "description": "Pour les adultes à partir 26 ans",
-        "_idTicketAnimationCategories": "1",
-    },
+let ticketPrices = [
+    // Animation: Sport
+    { "_id": "0", "age_category_id": "0", "animation_category_id": "0", "price": "5" },
+    { "_id": "1", "age_category_id": "1", "animation_category_id": "0", "price": "8" },
+    { "_id": "2", "age_category_id": "2", "animation_category_id": "0", "price": "10" },
 
-    {
-        "_id": "6",
-        "name": "Enfant",
-        "price": "8",
-        "description": "Pour les enfants de 0 à 12 ans",
-        "_idTicketAnimationCategories": "2",
-    },
-    {
-        "_id": "7",
-        "name": "Etudiant",
-        "price": "14",
-        "description": "Pour les étudiants de 13 à 25 ans",
-        "_idTicketAnimationCategories": "2",
-    },
-    {
-        "_id": "8",
-        "name": "Adulte",
-        "price": "18",
-        "description": "Pour les adultes à partir 26 ans",
-        "_idTicketAnimationCategories": "2",
-    },
-]
+    // Animation: Jeux Vidéo
+    { "_id": "3", "age_category_id": "0", "animation_category_id": "1", "price": "5" },
+    { "_id": "4", "age_category_id": "1", "animation_category_id": "1", "price": "8" },
+    { "_id": "5", "age_category_id": "2", "animation_category_id": "1", "price": "10" },
+
+    // Animation: Sport et Jeux Vidéo
+    { "_id": "6", "age_category_id": "0", "animation_category_id": "2", "price": "8" },
+    { "_id": "7", "age_category_id": "1", "animation_category_id": "2", "price": "14" },
+    { "_id": "8", "age_category_id": "2", "animation_category_id": "2", "price": "18" },
+];
 
 let tickets = [
     {
         "_id": "0",
-        "$date": "2024-10-30T00:00:00.000Z",
+        "$date": "2024/10/30",
         "time": "07:00",
         "_idCustomer": "0",
-        "_idTicketAnimationCategories": "0",
-        "_idTicketAgeCategories": "0"
+        "price_id": "0",
     },
-]
+];
 
 let availabledates = [
     // Lionel Messi
@@ -793,7 +760,7 @@ let dedicationreservations = [
         "_idCustomer": "0",
         "anim_id": "17",
     },
-]
+];
 
 let pavillons = [
     {
@@ -812,7 +779,7 @@ let pavillons = [
         "_id": "3",
         "name": "Palais des Sports",
     },
-]
+];
 
 let stands = [
     {
@@ -1079,7 +1046,7 @@ let stands = [
         "prestataire_id": "",
         "pavillon_id": "2",
     }
-]
+];
 
 module.exports = {
     customersAccounts,
@@ -1087,6 +1054,7 @@ module.exports = {
     tickets,
     ticketsAnimationCategories,
     ticketsAgeCategories,
+    ticketPrices,
     availabledates,
     dedicationreservations,
     pavillons,
