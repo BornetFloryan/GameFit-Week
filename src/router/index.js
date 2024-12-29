@@ -3,10 +3,6 @@ import VueRouter from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
 import TicketingView from "@/views/client/TicketingView.vue";
 import PrestataireInfoView from '@/views/client/PrestataireInfoView.vue';
-import HotelsView from '@/views/client/Hotels.vue';
-
-
-
 
 
 import AccountRoutes from './account.router';
@@ -21,11 +17,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: AccueilView
-  },
-  {
-    path: '/services/hotel',
-    name: 'hotel',
-    component: HotelsView,
   },
   {
     path: '/ticketing',
