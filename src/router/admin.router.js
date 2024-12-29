@@ -7,13 +7,11 @@ export default [
         path: '/admindashboard',
         name: 'admindashboard',
         component: AdminDashBoardView,
-        meta: { requiresAuth: true, requiredPrivilege: '2' },
         children: [
             {
                 path: 'admindedication',
                 name: 'admindedication',
                 component: AdminDedication,
-                meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
         ],
     },
