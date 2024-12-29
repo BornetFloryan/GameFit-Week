@@ -16,6 +16,8 @@
               <li><router-link :to="{ path: '/services/dedication' }" class="link">Dedication</router-link></li>
               <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
               <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
+              <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
+
           </ul>
         </li>
         <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
