@@ -105,8 +105,7 @@ import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'TicketingFormView',
-  components: {
-  },
+  components: {},
   data() {
     return {
       formData: {
@@ -121,32 +120,31 @@ export default {
         paymentMethod: 'creditCard',
       },
       submissionSuccess: false,
-          };
+    };
   },
   computed: {
     ...mapState('account', ['currentUser']),
-    ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrice", "tickets"]),
+    ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrices", "tickets"]),
   },
   watch: {
     'formData._idTicketAnimationCategories': function () {
-      if(this.submissionSuccess === false){
+      if (this.submissionSuccess === false) {
         this.formData.price = '';
-        this.getTicketsAgeCategories(this.formData);
       }
     },
     'formData._idTicketAgeCategories': function () {
-      if(this.submissionSuccess === false){
-        this.updateTicketPrice();
+      if (this.submissionSuccess === false) {
+        this.updateTicketPrice(this.formData._idTicketAnimationCategories, this.formData._idTicketAgeCategories);
       }
     },
     'formData.ticketCount': function () {
-      if(this.submissionSuccess === false){
-        this.updateTicketPrice();
+      if (this.submissionSuccess === false) {
+        this.updateTicketPrice(this.formData._idTicketAnimationCategories, this.formData._idTicketAgeCategories);
       }
     },
   },
   methods: {
-    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrice', "addTickets"]),
+    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrices', "addTickets"]),
     submitForm() {
       this.formData.$date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
@@ -166,18 +164,18 @@ export default {
         paymentMethod: 'creditCard',
       };
     },
-    updateTicketPrice() {
-      this.getTicketPrice(this.formData).then(() => {
-        this.formData.price = this.ticketPrice * this.formData.ticketCount;
-      });
+    updateTicketPrice(_idTicketsAnimationCategories, _idTicketsAgeCategories) {
+      this.formData.price = this.ticketPrices.find(price => price.age_category_id === _idTicketsAgeCategories && price.animation_category_id === _idTicketsAnimationCategories).price * this.formData.ticketCount;
     },
   },
   mounted() {
-    if(this.currentUser){
+    if (this.currentUser) {
       this.formData.name = this.currentUser.name;
       this.formData.email = this.currentUser.email;
     }
     this.getTicketsAnimationCategories();
+    this.getTicketsAgeCategories();
+    this.getTicketPrices()
     this.getTickets();
   },
 };

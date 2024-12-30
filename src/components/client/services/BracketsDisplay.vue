@@ -8,13 +8,12 @@
           id="teamCount"
           v-model.number="teamCount"
           min="2"
-          step="2"
           placeholder="Enter number of teams"
       />
       <button @click="setupTournament" class="start-tournament-button">Start Tournament</button>
     </div>
 
-    <div v-else class="brackets">
+    <div v-else>
       <div class="bracket" v-for="(round, roundIndex) in rounds" :key="roundIndex">
         <h2>Round {{ roundIndex + 1 }}</h2>
         <div class="match" v-for="(match, matchIndex) in round" :key="matchIndex">
@@ -22,7 +21,7 @@
             <input
                 type="text"
                 v-model="team.name"
-                placeholder="team name"
+                placeholder="Enter team name"
                 class="team-input"
             />
             <input
@@ -30,88 +29,72 @@
                 v-model="team.score"
                 placeholder="Score"
                 class="score-input"
-                min="0"
-                max="10"
-                @input="validateAndCorrectScore(team)"
             />
           </div>
-          <!-- Affichage conditionnel du bouton -->
-          <button
-              v-if="!match.buttonClicked && !isLastMatch(roundIndex, matchIndex)"
-              @click="advanceWinner(roundIndex, matchIndex)"
-              class="advance-button">
+          <button @click="advanceWinner(roundIndex, matchIndex)" class="advance-button">
             Advance Winner
           </button>
         </div>
       </div>
     </div>
-    <div>
-<!--      <p v-for="(name) in proteams"></p>-->
-    </div>
   </div>
-
-
 </template>
+
 
 <script>
 export default {
   data() {
     return {
-      teamCount: 2, // Number of teams entered by the user
+      teamCount: 0, // Number of teams entered by the user
       tournamentStarted: false,
       rounds: [] // The tournament rounds
     };
   },
   methods: {
     setupTournament() {
+      // Validate team count
       if (this.teamCount < 2) {
         alert("Please enter at least 2 teams to start a tournament.");
         return;
       }
 
+      // Clear any existing rounds
       this.rounds = [];
+      console.log(`Setting up tournament with ${this.teamCount} teams.`);
+
+      // Create the first round based on the number of teams
       const firstRoundMatches = [];
       for (let i = 0; i < this.teamCount; i += 2) {
         firstRoundMatches.push({
           teams: [
             { name: '', score: 0 },
             { name: '', score: 0 }
-          ],
-          buttonClicked: false // Initialiser cette propriété pour chaque match
+          ]
         });
       }
 
+      // Initialize the first round
       this.rounds.push(firstRoundMatches);
+      console.log("First round matches created:", firstRoundMatches);
+
+      // Set the tournament as started
       this.tournamentStarted = true;
     },
-
-    // Vérifie si c'est le dernier match
-    isLastMatch(roundIndex, matchIndex) {
-      const lastRound = this.rounds[this.rounds.length - 1];
-      return lastRound && lastRound.length === 1 && matchIndex === 0;
-    },
-
-    // Méthode pour marquer le bouton comme cliqué
     advanceWinner(roundIndex, matchIndex) {
       const match = this.rounds[roundIndex][matchIndex];
-
-      if (match && match.teams.length === 2) {
-        const [team1, team2] = match.teams;
-        if (team1.score === team2.score) {
-          alert("Les scores des deux équipes ne peuvent pas être identiques. Veuillez corriger !");
-          return;
-        }
-      }
-
       const winner = match.teams.reduce((prev, current) => (prev.score > current.score ? prev : current));
 
+      // Create the next round if it doesn't exist
       if (roundIndex >= this.rounds.length - 1) {
         this.rounds.push([]);
       }
 
       const nextRound = this.rounds[roundIndex + 1];
+
+      // Calculate the next match index
       const nextMatchIndex = Math.floor(matchIndex / 2);
 
+      // Create a new match if it doesn't exist
       if (!nextRound[nextMatchIndex]) {
         nextRound[nextMatchIndex] = {
           teams: [
@@ -122,53 +105,26 @@ export default {
       }
 
       const nextMatch = nextRound[nextMatchIndex];
+
+      // Place the winner in the correct slot (0 or 1)
       const slotIndex = matchIndex % 2;
       nextMatch.teams[slotIndex] = { ...winner };
 
-      const lastRoundIndex = this.rounds.length - 1;
-      const isLastRound = this.rounds[lastRoundIndex].length === 1;
-
-      if (isLastRound) {
-        const finalMatch = this.rounds[lastRoundIndex][0];
-        const isFinalMatchComplete = finalMatch.teams[0].score !== 0 && finalMatch.teams[1].score !== 0;
-
-        if (isFinalMatchComplete) {
-          setTimeout(() => {
-            alert("Le tournoi est terminé ! Félicitations au gagnant !");
-          }, 100);
-        }
-      }
-
-      // Marquer le bouton comme cliqué pour ce match spécifique
-      this.$set(this.rounds[roundIndex][matchIndex], 'buttonClicked', true);
+      // Update the reactive state
+      console.log(`Winner advanced to Round ${roundIndex + 2}, Match ${nextMatchIndex + 1}`);
       this.$forceUpdate();
-    },
-
-    validateAndCorrectScore(team) {
-      const maxScore = 3;
-      if (team.score < 0 || team.score > maxScore) {
-        team.score = Math.max(0, Math.min(team.score, maxScore));
-      }
-      if (team.score === '') {
-        team.score = Math.max(0, Math.min(team.score, maxScore));
-      }
     }
   }
 };
+
 </script>
-
-
-
-
 <style>
 .bracket-container {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
   padding: 20px;
   font-family: Arial, sans-serif;
-  max-width: 1000px;
-  margin: auto;
 }
 
 .setup-container {
@@ -179,119 +135,62 @@ export default {
 }
 
 .setup-container input {
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 250px;
-  font-size: 16px;
+  border-radius: 3px;
+  width: 200px;
 }
 
 .start-tournament-button {
-  padding: 12px 20px;
+  padding: 10px;
   background-color: #28a745;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
 }
 
 .start-tournament-button:hover {
   background-color: #218838;
 }
 
-.brackets {
-  display: flex;
-}
-
 .bracket {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  align-items: center;
-  justify-content: center;
-}
-
-
-
-.round {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 50px;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .match {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  background: #f9f9f9;
-  padding: 15px;
-
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.match span {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  gap: 10px;
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .team {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  max-width: fit-content;
+  gap: 5px;
 }
 
 .team-input, .score-input {
-  padding: 4px;
+  padding: 5px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 80%;
-  font-size: 14px;
-  text-align: center;
-}
-
-.team-input:focus, .score-input:focus {
-  border-color: #007BFF;
-  outline: none;
+  border-radius: 3px;
 }
 
 .advance-button {
-  padding: 10px 18px;
+  padding: 10px;
   background-color: #007BFF;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
-  width: 120px;
-  text-align: center;
 }
 
 .advance-button:hover {
   background-color: #0056b3;
 }
-
-h2 {
-  font-size: 20px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.match-line {
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  width: 30px;
-  height: 2px;
-  background-color: #333;
-}
-
 </style>

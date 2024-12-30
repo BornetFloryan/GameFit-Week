@@ -245,7 +245,7 @@ let customersAccounts = [
         "privilege": "1",
         "session": ""
     }
-]
+];
 
 let sportsCategories = [
     {
@@ -302,7 +302,7 @@ let sportsCategories = [
         "description": "Les esports sont des compétitions de jeux vidéo opposant des joueurs ou des équipes de joueurs. " +
             "Le but est de remporter la partie en réalisant les meilleures performances.",
     },
-]
+];
 
 let ticketsAnimationCategories = [
     {
@@ -320,86 +320,53 @@ let ticketsAnimationCategories = [
         "name": "Sport et Jeux Vidéo",
         "description": "Les plus grands sportifs et les plus grands joueurs de jeux vidéo de tous les temps",
     },
-]
+];
+
 
 let ticketsAgeCategories = [
     {
         "_id": "0",
         "name": "Enfant",
-        "price": "5",
         "description": "Pour les enfants de 0 à 12 ans",
-        "_idTicketAnimationCategories": "0",
     },
     {
         "_id": "1",
         "name": "Etudiant",
-        "price": "8",
         "description": "Pour les étudiants de 13 à 25 ans",
-        "_idTicketAnimationCategories": "0",
     },
     {
         "_id": "2",
         "name": "Adulte",
-        "price": "10",
         "description": "Pour les adultes à partir 26 ans",
-        "_idTicketAnimationCategories": "0",
     },
+];
 
-    {
-        "_id": "3",
-        "name": "Enfant",
-        "price": "5",
-        "description": "Pour les enfants de 0 à 12 ans",
-        "_idTicketAnimationCategories": "1",
-    },
-    {
-        "_id": "4",
-        "name": "Etudiant",
-        "price": "8",
-        "description": "Pour les étudiants de 13 à 25 ans",
-        "_idTicketAnimationCategories": "1",
-    },
-    {
-        "_id": "5",
-        "name": "Adulte",
-        "price": "10",
-        "description": "Pour les adultes à partir 26 ans",
-        "_idTicketAnimationCategories": "1",
-    },
+let ticketPrices = [
+    // Animation: Sport
+    { "_id": "0", "age_category_id": "0", "animation_category_id": "0", "price": "5" },
+    { "_id": "1", "age_category_id": "1", "animation_category_id": "0", "price": "8" },
+    { "_id": "2", "age_category_id": "2", "animation_category_id": "0", "price": "10" },
 
-    {
-        "_id": "6",
-        "name": "Enfant",
-        "price": "8",
-        "description": "Pour les enfants de 0 à 12 ans",
-        "_idTicketAnimationCategories": "2",
-    },
-    {
-        "_id": "7",
-        "name": "Etudiant",
-        "price": "14",
-        "description": "Pour les étudiants de 13 à 25 ans",
-        "_idTicketAnimationCategories": "2",
-    },
-    {
-        "_id": "8",
-        "name": "Adulte",
-        "price": "18",
-        "description": "Pour les adultes à partir 26 ans",
-        "_idTicketAnimationCategories": "2",
-    },
-]
+    // Animation: Jeux Vidéo
+    { "_id": "3", "age_category_id": "0", "animation_category_id": "1", "price": "5" },
+    { "_id": "4", "age_category_id": "1", "animation_category_id": "1", "price": "8" },
+    { "_id": "5", "age_category_id": "2", "animation_category_id": "1", "price": "10" },
+
+    // Animation: Sport et Jeux Vidéo
+    { "_id": "6", "age_category_id": "0", "animation_category_id": "2", "price": "8" },
+    { "_id": "7", "age_category_id": "1", "animation_category_id": "2", "price": "14" },
+    { "_id": "8", "age_category_id": "2", "animation_category_id": "2", "price": "18" },
+];
 
 let tickets = [
     {
         "_id": "0",
-        "$date": "2024-10-30T00:00:00.000Z",
+        "$date": "2024/10/30",
         "time": "07:00",
         "_idCustomer": "0",
-        "_idTicketAnimationCategories": "0",
-        "_idTicketAgeCategories": "0"
+        "price_id": "0",
     },
-]
+];
 
 let availabledates = [
     // Lionel Messi
@@ -793,7 +760,7 @@ let dedicationreservations = [
         "_idCustomer": "0",
         "anim_id": "17",
     },
-]
+];
 
 let pavillons = [
     {
@@ -812,7 +779,7 @@ let pavillons = [
         "_id": "3",
         "name": "Palais des Sports",
     },
-]
+];
 
 let stands = [
     {
@@ -1079,66 +1046,17 @@ let stands = [
         "prestataire_id": "",
         "pavillon_id": "2",
     }
-]
-let proteams = [
-    {
-        "id": "1",
-        "name": "Team Liquid",
-        "img": require("../assets/img/TL_Logo.jpg"),
-        "description": "Team Liquid est l’une des organisations les plus emblématiques de l’e-sport mondial, reconnue pour son incroyable polyvalence et ses résultats constants dans de multiples disciplines telles que Dota 2, League of Legends, CS:GO et bien d’autres. Fondée en 2000, cette équipe a su évoluer avec les tendances de l’industrie, recrutant des talents de classe mondiale et développant des stratégies innovantes. Leur capacité à s’adapter à différents styles de jeu et à maintenir un haut niveau de performance les a souvent placés parmi les favoris dans les compétitions majeures. Au-delà de leurs performances en tournoi, Team Liquid est également reconnue pour son engagement envers la communauté e-sportive et son influence dans la culture gaming.",
-    },
-    {
-        "id": "2",
-        "name": "Fnatic",
-        "img": require("../assets/img/FNATIC_Logo.jpg"),
-        "description": "Fnatic est une légende vivante de l’e-sport, avec un palmarès impressionnant couvrant plus d’une décennie. Cette équipe basée au Royaume-Uni est particulièrement célèbre pour son succès dans League of Legends et CS:GO, où elle a remporté de nombreux titres prestigieux. Fnatic est connue pour son approche innovante du jeu, testant constamment de nouvelles stratégies et surprenant ses adversaires avec des mouvements imprévisibles. Leur équipe est composée de joueurs talentueux qui excellent individuellement tout en montrant une synergie d’équipe remarquable. En plus de leur succès compétitif, Fnatic est un pionnier dans la promotion de l’e-sport en tant que phénomène global, grâce à des partenariats innovants et une forte présence sur les réseaux sociaux.",
-    },
-    {
-        "id": "3",
-        "name": "G2 Esports",
-        "img": require("../assets/img/G2_Logo.jpg"),
-        "description": "G2 Esports, souvent surnommée 'les Samouraïs', est une organisation qui combine talent brut, flair et charisme. Basée en Europe, cette équipe s’est imposée comme l’une des plus dominantes dans des jeux comme League of Legends, CS:GO et Valorant. G2 est connue pour son style de jeu agressif et audacieux, qui leur permet de dicter le rythme des parties et de maintenir leurs adversaires sous pression constante. En dehors du terrain, G2 Esports est célèbre pour son humour et son approche décontractée, attirant une base de fans passionnés. Malgré cette légèreté apparente, leur engagement envers l’excellence compétitive est indéniable, et ils continuent de figurer parmi les meilleures équipes dans presque toutes les disciplines qu’ils touchent.",
-    },
-    {
-        "id": "4",
-        "name": "T1",
-        "img": require("../assets/img/T1_Logo.jpg"),
-        "description": "T1 est une institution en Corée du Sud et un nom incontournable dans l’histoire de l’e-sport mondial, notamment grâce à ses incroyables succès dans League of Legends. Avec Faker, considéré comme le plus grand joueur de l’histoire de LoL, T1 a remporté trois championnats du monde et continue de figurer parmi les équipes les plus redoutées du circuit. Leur jeu repose sur une discipline tactique rigoureuse, une exécution mécanique parfaite et une préparation stratégique qui les distingue des autres équipes. En plus de leur domination dans LoL, T1 s’est également aventurée dans d’autres titres comme Valorant, où ils cherchent à étendre leur héritage légendaire. Leur influence dépasse les frontières du jeu, faisant d’eux des ambassadeurs de la culture e-sportive coréenne dans le monde entier.",
-    },
-    {
-        "id": "5",
-        "name": "Cloud9",
-        "img": require("../assets/img/Cloud9_Logo.jpg"),
-        "description": "Cloud9 est une organisation nord-américaine qui représente l’innovation et l’adaptabilité dans l’e-sport. Active dans des jeux comme CS:GO, League of Legends, et Valorant, cette équipe est connue pour ses stratégies créatives et son style de jeu rapide qui met constamment ses adversaires sur la défensive. Fondée en 2013, Cloud9 a rapidement gravi les échelons pour devenir l’une des équipes les plus respectées sur la scène internationale. Ce qui les distingue, c’est leur capacité à exceller dans des situations de forte pression, où ils transforment souvent des désavantages apparents en victoires spectaculaires. Cloud9 est également adorée pour sa culture d’équipe positive et son approche inclusive, ce qui en fait un favori des fans.",
-    },
-    {
-        "id": "6",
-        "name": "Natus Vincere (NAVI)",
-        "img": require("../assets/img/NAVI_Logo.jpg"),
-        "description": "Natus Vincere, ou NAVI, est une organisation ukrainienne de renom qui domine depuis des années la scène compétitive dans des jeux comme CS:GO et Dota 2. NAVI a marqué l’histoire en devenant la première équipe à remporter un Grand Chelem en CS:GO, en décrochant tous les titres majeurs de la saison 2021. Leur style de jeu repose sur une combinaison de tactiques méticuleuses, de coordination d’équipe impeccable et de performances individuelles exceptionnelles. Les joueurs de NAVI, comme s1mple, sont souvent considérés parmi les meilleurs au monde dans leurs disciplines respectives. Au-delà de leurs succès compétitifs, NAVI incarne la résilience et la passion, représentant fièrement leur région sur la scène mondiale.",
-    },
-    {
-        "id": "7",
-        "name": "Evil Geniuses",
-        "img": require("../assets/img/EG_Logo.jpg"),
-        "description": "Evil Geniuses, fondée en 1999, est l’une des organisations les plus anciennes et les plus respectées de l’e-sport. Connue pour ses succès dans des titres comme Dota 2, CS:GO et Valorant, EG est une équipe qui allie expérience, innovation et détermination. Leur victoire emblématique à The International 2015 reste un moment légendaire dans l’histoire de Dota 2. Ce qui distingue Evil Geniuses, c’est leur capacité à analyser le jeu de leurs adversaires et à s’adapter rapidement, leur permettant de prendre l’avantage même dans des situations difficiles. En dehors des compétitions, EG est reconnue pour son engagement envers le développement des talents et son rôle de pionnier dans l’e-sport.",
-    },
-    {
-        "id": "8",
-        "name": "100 Thieves",
-        "img": require("../assets/img/100T_Logo.jpg"),
-        "description": "100 Thieves est une organisation jeune et dynamique qui a rapidement gagné en popularité grâce à son approche novatrice de l’e-sport. Fondée par l’ancien joueur professionnel Matthew 'Nadeshot' Haag, 100 Thieves a su se démarquer à la fois sur le terrain, dans des jeux comme Valorant et League of Legends, et en dehors grâce à son identité de marque unique. Ils combinent une stratégie de jeu efficace avec une communication de marque axée sur le lifestyle, attirant une audience qui dépasse le simple cadre des compétitions. En compétition, 100 Thieves est reconnue pour ses stratégies bien pensées, ses joueurs talentueux et son esprit d’équipe inébranlable, qui leur permettent de s’imposer comme un sérieux concurrent dans les tournois internationaux.",
-    }
-]
+];
+
 module.exports = {
     customersAccounts,
     sportsCategories,
     tickets,
     ticketsAnimationCategories,
     ticketsAgeCategories,
+    ticketPrices,
     availabledates,
     dedicationreservations,
     pavillons,
     stands,
-    proteams
 }
