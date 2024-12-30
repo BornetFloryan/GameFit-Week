@@ -91,10 +91,11 @@ const actions = {
     async addTickets({commit}, formData) {
         try {
             let response = await TicketService.addTickets(formData);
+
             if (response.error === 0) {
                 commit('addTickets', response.data);
             }
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout du ticket:', error);
             return {error: 1, data: 'Erreur lors de l\'ajout du ticket'};

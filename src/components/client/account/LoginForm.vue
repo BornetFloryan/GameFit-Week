@@ -50,20 +50,17 @@ export default {
     };
   },
   computed: {
-    ...mapState('account', ['currentUser']),
-    ...mapState('account', ['customersAccounts']),
+    ...mapState('account', ['currentUser', 'customersAccounts']),
   },
   watch: {
   },
   methods: {
     ...mapActions('account', ['loginUser']),
-    ...mapActions('account', ['getCustomersAccounts']),
     async loggedUser() {
       try {
         let response = await this.loginUser(this.user);
         if (response.error === 0) {
-          let user = this.customersAccounts.find((customer) => customer.login === this.user.login);
-          if (user.privilege !== "0")
+          if (this.currentUser.privilege !== "0")
             await this.$router.push({name: 'admindashboard'});
           else
             await this.$router.push({name: 'home'});
@@ -77,7 +74,6 @@ export default {
     }
   },
   mounted() {
-    this.getCustomersAccounts();
   },
 };
 </script>

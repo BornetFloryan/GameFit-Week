@@ -5,7 +5,6 @@
       <tr>
         <th>Numéro</th>
         <th>Date</th>
-        <th>Nom complet</th>
         <th>Adresse e-mail</th>
         <th>Catégorie d'animation</th>
         <th>Catégorie d'âge</th>
@@ -17,7 +16,6 @@
       <tr v-for="customerTicket in customerTickets" :key="customerTicket._id">
         <td>{{ customerTicket._id }}</td>
         <td>{{ customerTicket.$date }}</td>
-        <td>{{ currentUser.name }}</td>
         <td>{{ currentUser.email }}</td>
         <td>{{ ticketAnimationCategory(customerTicket)?.name }}</td>
         <td>{{ ticketAgeCategory(customerTicket)?.name }}</td>

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AccueilView from '../views/AccueilView.vue'
-import TicketingView from "@/views/client/TicketingView.vue";
-import PrestataireInfoView from '@/views/client/PrestataireInfoView.vue';
+import TicketingView from "@/views/TicketingView.vue";
+import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
 
 
 import AccountRoutes from './account.router';

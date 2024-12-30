@@ -1,5 +1,7 @@
-import ServicesView from "../views/client/ServicesView.vue";
-import DedicationView from "@/components/client/services/Dedication.vue";
+import ServicesView from "../views/ServicesView.vue";
+import DedicationView from "@/views/DedicationView.vue";
+import DedicationHomeView from "@/components/client/services/DedicationHome.vue";
+import DedicationFormView from "@/components/client/services/DedicationForm.vue";
 import StreamView from "@/components/client/services/StreamView.vue";
 import BracketsDisplay from "@/components/client/services/BracketsDisplay.vue";
 import HotelsView from '@/components/client/services/Hotels.vue';
@@ -14,7 +16,19 @@ export default [
                 path: 'dedication',
                 name: 'dedication',
                 component: DedicationView,
-                props: route => ({ selectedAnimator: route.params.selectedAnimator })
+                children: [
+                    {
+                        path: 'dedication-home',
+                        name: 'dedication-home',
+                        component: DedicationHomeView,
+                    },
+                    {
+                        path: 'dedication-form',
+                        name: 'dedication-form',
+                        component: DedicationFormView,
+
+                    }
+                ]
             },
             {
                 path: 'stream',

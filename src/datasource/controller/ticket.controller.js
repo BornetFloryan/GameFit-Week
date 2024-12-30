@@ -27,7 +27,7 @@ function addTickets(formData) {
         let _idCustomer = customersAccounts.length ? parseInt(customersAccounts[customersAccounts.length - 1]._id) + 1 : 0;
         customer = {
             _id: _idCustomer,
-            name: formData.name,
+            name: null,
             login: null,
             password: null,
             email: formData.email,
@@ -45,7 +45,7 @@ function addTickets(formData) {
             + formData._idTicketAgeCategories.toString() + (_idTicket + i).toString();
 
         let ticket = {
-            _id: parseInt(_id),
+            _id: _id,
             $date: formData.$date,
             time: formData.time,
             _idCustomer: customer._id,

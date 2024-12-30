@@ -158,7 +158,7 @@ const insertData = async () => {
 
     // Insérer les données dans la table dedicationreservations
     for (const reservation of dedicationreservations) {
-        const {_id, date, time, _idCustomer, anim_id} = reservation;
+        const {_id, date, time, ticket_id, anim_id} = reservation;
 
         const res = await pool.query(
             'SELECT _id FROM dedicationreservations WHERE _id = $1',
@@ -167,8 +167,8 @@ const insertData = async () => {
 
         if (res.rows.length === 0) {
             await pool.query(
-                'INSERT INTO dedicationreservations (_id, date, time, _idcustomer, anim_id) VALUES ($1, $2, $3, $4, $5)',
-                [_id, date, time, _idCustomer || 0, anim_id || 0]
+                'INSERT INTO dedicationreservations (_id, date, time, ticket_id, anim_id) VALUES ($1, $2, $3, $4, $5)',
+                [_id, date, time, ticket_id || 0, anim_id || 0]
             );
         }
     }

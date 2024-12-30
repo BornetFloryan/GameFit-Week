@@ -121,14 +121,13 @@ function addDedicationReservation(dedicationReservation) {
     }
 
     let _idReservation = dedicationreservations.length ? parseInt(dedicationreservations[dedicationreservations.length - 1]._id.toString().slice(-1)) + 1 : 0;
-    let _id = (parseInt(Date.now() / 1000)).toString() + dedicationReservation.customer._id.toString()
-        + dedicationReservation.anim_id.toString() + (_idReservation + 1).toString();
+    let _id = (parseInt(Date.now() / 1000)).toString() + dedicationReservation.anim_id.toString() + (_idReservation + 1).toString();
 
     let reservation = {
-        _id: parseInt(_id),
+        _id: _id,
         $date: dedicationReservation.$date,
         time: dedicationReservation.time,
-        _idCustomer: dedicationReservation.customer._id,
+        ticket_id: dedicationReservation.ticket_id,
         anim_id: dedicationReservation.anim_id,
     };
 

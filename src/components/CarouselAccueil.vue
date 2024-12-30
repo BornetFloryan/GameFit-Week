@@ -9,8 +9,8 @@
     <div class="carousel-items" v-if="slides.length > 0">
       <h2>{{ slides[currentIndex].title }}</h2>
       <p v-html="formattedText"></p>
-      <router-link :to="{ name: 'services' }" >
-        <p @click="setSelectService(String(slides[currentIndex].link))" class="router-link">Voir plus</p>
+      <router-link :to="{ path: slides[currentIndex].link }">
+        <p class="router-link">Voir plus</p>
       </router-link>
     </div>
 
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapState} from "vuex";
 
 export default {
   name: 'CarouselAccueil',
@@ -32,7 +32,6 @@ export default {
     routes: [],
   }),
   methods: {
-    ...mapActions('service', ['setSelectService']),
     nextSlide() {
       this.currentIndex = (this.currentIndex + 1) % this.slides.length;
     },
@@ -47,21 +46,21 @@ export default {
         title: 'Réservation de Dédicaces',
         text: 'Rencontrez vos idoles de l’esport et du sport en personne ! ' +
             '\nRéservez une séance de dédicaces privée et repartez avec un souvenir personnalisé.',
-        link: 'dedication',
+        link: '/services/dedication/dedication-home',
       },
       {
         imageSrc: require('@/assets/img/slide2.jpg'),
         title: 'Diffusion en direct',
         text: 'Suivez GameFit Week en temps réel avec nos streams en haute définition. ' +
             '\nNe manquez aucune compétition, interview ou moment clé, où que vous soyez.',
-        link: 'stream',
+        link: '/services/stream',
       },
       {
         imageSrc: require('@/assets/img/slide3.jpg'),
         title: 'Les Tournois',
         text: "Assistez aux matchs palpitants entre équipes sportives ou esportives lors de GameFit Week. " +
             "\nSuivez l'intensité de la compétition et soutenez vos équipes favorites dans des affrontements spectaculaires.",
-        link: 'tournois',
+        link: '/services/brackets',
       }
     ];
     setInterval(() => {

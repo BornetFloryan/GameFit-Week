@@ -50,26 +50,6 @@ const actions = {
             console.error('Erreur lors de la récupération des comptes:', error);
         }
     },
-    async loginUser({ commit }, data) {
-        try {
-            if (data === null) {
-                commit('updateCurrentUser', null);
-                return { error: 0, data: 'Déconnexion réussie' };
-            }
-
-            let response = await AccountService.loginUser(data);
-            if (response.error === 0) {
-                commit('updateCurrentUser', response.data);
-            }
-            return response;
-        } catch (error) {
-            console.error('Erreur lors de la connexion:', error);
-            return { error: 1, data: 'Erreur lors de la connexion' };
-        }
-    },
-    async logoutUser({ commit }) {
-        commit('updateCurrentUser', null);
-    },
     async addCustomerAccount({ commit }, customer) {
         try {
             let response = await AccountService.addCustomerAccount(customer);
@@ -93,7 +73,22 @@ const actions = {
             console.error('Erreur lors de la modification de l\'utilisateur:', error);
             return { error: 1, data: 'Erreur lors de la modification de l\'utilisateur' };
         }
-    }
+    },
+    async loginUser({ commit }, data) {
+        try {
+            let response = await AccountService.loginUser(data);
+            if (response.error === 0) {
+                commit('updateCurrentUser', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la connexion:', error);
+            return { error: 1, data: 'Erreur lors de la connexion' };
+        }
+    },
+    async logoutUser({ commit }) {
+        commit('updateCurrentUser', null);
+    },
 };
 
 export default {

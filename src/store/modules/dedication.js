@@ -166,7 +166,7 @@ const actions = {
             if (response.error === 0) {
                 commit('addDedicationReservation', response.data);
             }
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout de la réservation:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout de la réservation' };

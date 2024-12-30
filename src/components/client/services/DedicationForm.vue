@@ -1,6 +1,7 @@
 <template>
   <div class="form-container">
-    <h1>Réservation de créneau de dédicaces</h1>
+    <h1 v-if="!submitted">Réservation de créneau de dédicaces</h1>
+    <h1 v-if="submitted">Réservation effectuée !</h1>
     <form>
       <div v-if="!submitted" class="animator-selection">
         <h2 v-if="!selectedAnimator">Sélectionnez votre animateur</h2>
@@ -55,11 +56,13 @@
       <div class="time-slot-selection" v-if="selectedAnimator && !submitted">
         <h2 v-if="!submitted">Sélectionnez votre créneau horaire</h2>
         <date-picker
+            ref="datePicker"
             v-if="!submitted"
             v-model="selectedDate"
             format="DD/MM/YYYY"
             :lang="fr"
             :disabled-date="disabledDates"
+            :default-value="new Date(2025, 6, 7)"
         />
         <div class="form-group" v-if="selectedDate">
           <label for="time">Heure :</label>
@@ -93,8 +96,13 @@
           </button>
         </div>
       </div>
-      <div v-if="submitted && logged">
-        <h3>Réservation confirmée !</h3>
+      <div v-if="submitted">
+
+        <h3>Un mail de confirmation vous a été envoyé</h3>
+        <p v-if="!currentUser">Vous pouvez retrouver votre réservation de dédicace via le compte associé à l'adresse mail du ticket
+          ou en créant un compte avec cette adresse mail.</p>
+        <br>
+        <p>Votre réservation numéro {{reservation._id}}</p>
         <p>
           Vous avez réservé un créneau de dédicace avec
           <b>{{ selectedAnimator.name }} !</b>
@@ -107,19 +115,13 @@
           </button>
         </router-link>
         <br />
-        <router-link :to="{ name: 'reservation' }">
+        <router-link v-if="currentUser" :to="{ name: 'reservation' }">
           <button
               type="button"
               class="home-btn"
           >
             Voir vos réservations
           </button>
-        </router-link>
-      </div>
-      <div v-if="submitted && !logged">
-        <h3>Vous devez être connecté pour réserver un créneau de dédicace</h3>
-        <router-link :to="{ name: 'login' }">
-          <button type="button" class="home-btn">Se connecter</button>
         </router-link>
       </div>
     </form>
@@ -133,12 +135,14 @@ import { mapState, mapActions } from "vuex";
 import fr from "vue2-datepicker/locale/fr";
 
 export default {
-  name: "DedicationView",
+  name: "DedicationFormView",
   components: {
     DatePicker,
   },
   data() {
     return {
+      reservation: null,
+      ticketNumber: this.$route.query.ticket || null,
       searchQuery: "",
       selectedDate: null,
       selectedTime: "",
@@ -146,7 +150,6 @@ export default {
       submitted: false,
       fr: fr,
       cards: [],
-      logged: false,
       selectedCategory: "",
     };
   },
@@ -209,16 +212,22 @@ export default {
     },
 
     async submitForm() {
-      if (!this.selectedDate && !this.selectedTime) {
+      if (!this.selectedDate || !this.selectedTime) {
         alert("Veuillez sélectionner une date et une heure");
+        return;
       }
-      await this.addDedicationReservation({
-        $date: this.selectedDate,
-        time: this.selectedTime,
-        customer: this.currentUser,
-        anim_id: this.selectedAnimator._id,
-      });
-      this.submitted = true;
+      try {
+        this.reservation = await this.addDedicationReservation({
+          $date: this.selectedDate,
+          time: this.selectedTime,
+          ticket_id: this.ticketNumber,
+          anim_id: this.selectedAnimator._id,
+        });
+        this.submitted = true;
+      } catch (error) {
+        alert("Erreur réseau, impossible d'ajouter la réservation");
+        console.error(error);
+      }
     },
 
     resetForm() {
@@ -251,7 +260,6 @@ export default {
       }
     });
 
-    if (this.currentUser) this.logged = true;
 
     this.getDedicationReservations();
     this.getSportsCategories();

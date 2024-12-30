@@ -2,17 +2,6 @@
   <div class="ticketing-container">
     <form v-if="!submissionSuccess" @submit.prevent="submitForm">
       <h2>Achat de Billet</h2>
-      <div class="form-group">
-        <label for="name">Nom complet:</label>
-        <input
-            type="text"
-            id="name"
-            v-model="formData.name"
-            required
-            placeholder="Entrez votre nom"
-            value="name"
-        />
-      </div>
 
       <div class="form-group">
         <label for="email">Adresse e-mail:</label>
@@ -88,8 +77,11 @@
     <div v-if="submissionSuccess">
       <h2>Merci pour votre réservation !</h2>
       <p>Un e-mail de confirmation a été envoyé.</p>
+      <br>
+      <p>Votre billet numéro {{ticket[0]._id}}</p>
+      <br>
       <div class="home-button-container">
-        <router-link :to="{ name: 'ticket' }">
+        <router-link v-if="currentUser" :to="{ name: 'ticket' }">
           <button type="button" class="ticket-button">Voir les tickets</button>
         </router-link>
         <router-link :to="{ name: 'home' }">
@@ -108,8 +100,8 @@ export default {
   components: {},
   data() {
     return {
+      ticket: null,
       formData: {
-        name: '',
         price: '',
         $date: '',
         time: '',
@@ -145,15 +137,14 @@ export default {
   },
   methods: {
     ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrices', "addTickets"]),
-    submitForm() {
+    async submitForm() {
       this.formData.$date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
 
-      this.addTickets(this.formData);
+      this.ticket = await this.addTickets(this.formData);
       this.submissionSuccess = true;
 
       this.formData = {
-        name: '',
         price: '',
         $date: '',
         time: '',

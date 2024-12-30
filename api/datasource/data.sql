@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS dedicationreservations
     _id         SERIAL PRIMARY KEY,
     date        DATE,
     time        TIME,
-    _idCustomer INT REFERENCES customersaccounts (_id),
+    ticket_id INT REFERENCES tickets (_id),
     anim_id     INT REFERENCES customersaccounts (_id)
 );
 

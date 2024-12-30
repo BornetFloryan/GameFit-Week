@@ -31,7 +31,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import PrestataireInfo from "@/components/client/PrestataireInfo.vue";
+import PrestataireInfo from "@/components/PrestataireInfo.vue";
 
 export default {
   name: "InteractiveMap",
@@ -183,7 +183,7 @@ export default {
   },
   computed: {
     ...mapState('stands', ['stands']),
-    ...mapState('customer', ['customersAccounts']),
+    ...mapState('account', ['customersAccounts']),
   },
   mounted() {
     this.fetchSvgContent();

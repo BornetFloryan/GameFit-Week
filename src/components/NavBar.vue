@@ -13,7 +13,7 @@
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
           <router-link to="" class="link">Services</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
-              <li><router-link :to="{ path: '/services/dedication' }" class="link">Dedication</router-link></li>
+              <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
               <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
               <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
               <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
