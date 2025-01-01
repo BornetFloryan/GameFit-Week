@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <form @submit.prevent="loggedUser()">
+    <form @submit.prevent="loggedUser">
       <h2>Connexion</h2>
 
       <div class="form-group">
@@ -24,10 +24,14 @@
             placeholder="Entrez votre mot de passe"
         />
       </div>
+
       <div class="form-button">
-          <button type="submit" class="login-button">Se connecter</button>
+        <button type="submit" class="login-button">Se connecter</button>
         <router-link :to="{ name: 'register' }">
           <button type="button" class="register-button">Créer un compte</button>
+        </router-link>
+        <router-link :to="{ name: 'registerProvider' }">
+          <button type="button" class="provider-button">Devenir Prestataire</button>
         </router-link>
       </div>
     </form>
@@ -35,50 +39,51 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'LoginFormView',
-  components: {
-  },
+  name: "LoginFormView",
   data() {
     return {
       user: {
-        login: '',
-        password:'',
-      }
+        login: "",
+        password: "",
+      },
     };
   },
-  computed: {
-    ...mapState('account', ['currentUser', 'customersAccounts']),
-  },
-  watch: {
-  },
   methods: {
-    ...mapActions('account', ['loginUser']),
+    ...mapActions("account", ["loginUser"]),
+
     async loggedUser() {
       try {
-        let response = await this.loginUser(this.user);
+        const response = await this.loginUser(this.user);
+
         if (response.error === 0) {
-          if (this.currentUser.privilege !== "0")
-            await this.$router.push({name: 'admindashboard'});
-          else
-            await this.$router.push({name: 'home'});
+          const loggedUser = response.data;
+          switch (loggedUser.privilege) {
+            case "1":
+              await this.$router.push({ name: "admindashboard" });
+              break;
+            case "3":
+              await this.$router.push({ name: "providerDashboard" });
+              break;
+            default:
+              await this.$router.push({ name: "home" });
+          }
         } else {
-          alert('Login or password is incorrect');
+          alert("Nom d'utilisateur ou mot de passe incorrect.");
         }
       } catch (error) {
-        console.error('Erreur lors de la connexion:', error);
-        alert('Erreur lors de la connexion');
+        console.error("Erreur lors de la connexion:", error);
+        alert("Une erreur est survenue lors de la connexion.");
       }
-    }
-  },
-  mounted() {
+    },
   },
 };
 </script>
 
 <style scoped>
+/* Styles inchangés pour le formulaire de connexion */
 .login-container {
   display: flex;
   justify-content: center;
@@ -166,5 +171,20 @@ input[type="password"]:focus {
 
 .register-button:hover {
   background-color: #218838;
+}
+
+.provider-button {
+  background-color: #ff9800;
+  color: white;
+  padding: 0.75em;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.provider-button:hover {
+  background-color: #e68900;
 }
 </style>
