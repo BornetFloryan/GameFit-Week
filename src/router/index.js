@@ -23,6 +23,22 @@ const routes = [
     name: 'ticketing',
     component: TicketingView
   },
+    {
+    path: '/register-provider',
+    name: 'registerProvider',
+    component: () => import('@/views/prestataire/RegisterProvider.vue'),
+  },
+  {
+    path: '/provider-dashboard',
+    name: 'providerDashboard',
+    component: () => import('@/views/prestataire/ProviderDashboard.vue'), // Chemin corrigé
+  },
+   {
+    path: '/admindashboard/adminrequests',
+    name: 'adminrequests',
+    component: () => import('@/components/admin/adminrequests.vue'), // Chemin corrigé
+  },
+
   {
     path: '/prestataire/:id',
     name: 'PrestataireInfo',
