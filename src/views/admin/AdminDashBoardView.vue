@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div class="admin-dashboard-container">
     <AdminSideBar />
     <div class="main-content">
       <router-view></router-view>
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style scoped>
-.dashboard-container {
+.admin-dashboard-container {
   display: flex;
   height: 100vh;
 }

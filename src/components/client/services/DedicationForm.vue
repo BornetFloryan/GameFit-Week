@@ -69,7 +69,7 @@
           <select v-model="selectedTime" required>
             <option value="" disabled>Sélectionnez une heure</option>
             <option
-                v-for="time in availableTimes"
+                v-for="time in dedicationTimes"
                 :key="time"
                 :value="time"
             >
@@ -155,8 +155,8 @@ export default {
   },
   computed: {
     ...mapState("dedication", [
-      "animatorAvailableDates",
-      "availableTimes",
+      "animatorDedicationDates",
+      "dedicationTimes",
       "animators",
       "dedicationReservations",
       "sportsCategories",
@@ -182,21 +182,21 @@ export default {
   watch: {
     selectedDate(newDate) {
       if (newDate) {
-        this.getAvailableTimes(newDate);
+        this.getDedicationTimes(newDate);
       }
     },
     selectedAnimator(newAnimator) {
       if (newAnimator) {
         this.selectedDate = null;
         this.selectedTime = "";
-        this.getAnimatorAvailableDates(newAnimator);
+        this.getAnimatorDedicationDates(newAnimator);
       }
     },
   },
   methods: {
     ...mapActions("dedication", [
-      "getAnimatorAvailableDates",
-      "getAvailableTimes",
+      "getAnimatorDedicationDates",
+      "getDedicationTimes",
       "getAnimators",
       "addDedicationReservation",
       "getDedicationReservations",
@@ -218,7 +218,7 @@ export default {
       }
       try {
         this.reservation = await this.addDedicationReservation({
-          $date: this.selectedDate,
+          date: this.selectedDate,
           time: this.selectedTime,
           ticket_id: this.ticketNumber,
           anim_id: this.selectedAnimator._id,

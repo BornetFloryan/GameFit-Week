@@ -15,7 +15,7 @@
       <tbody>
       <tr v-for="customerTicket in customerTickets" :key="customerTicket._id">
         <td>{{ customerTicket._id }}</td>
-        <td>{{ customerTicket.$date }}</td>
+        <td>{{ customerTicket.date }}</td>
         <td>{{ currentUser.email }}</td>
         <td>{{ ticketAnimationCategory(customerTicket)?.name }}</td>
         <td>{{ ticketAgeCategory(customerTicket)?.name }}</td>

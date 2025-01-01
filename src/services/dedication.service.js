@@ -4,23 +4,23 @@ async function getAnimatorsFromLocalSource(){
     return LocalSource.getAnimators()
 }
 
-async function getAvailableDatesFromLocalSource(){
-    return LocalSource.getAvailableDates()
+async function getDedicationDatesFromLocalSource(){
+    return LocalSource.getDedicationDates()
 }
 
-async function addAvailableDateFromLocalSource(data){
-    return LocalSource.addAvailableDate(data)
+async function addDedicationDatesFromLocalSource(data){
+    return LocalSource.addDedicationDates(data)
 }
-async function deleteAvailableDateFromLocalSource(data){
-    return LocalSource.deleteAvailableDate(data)
-}
-
-async function getAnimatorAvailableDatesFromLocalSource(animator){
-    return LocalSource.getAnimatorAvailableDates(animator)
+async function deleteDedicationDatesFromLocalSource(data){
+    return LocalSource.deleteDedicationDates(data)
 }
 
-async function getAvailableTimesFromLocalSource(date){
-    return LocalSource.getAvailableTimes(date)
+async function getAnimatorDedicationDatesFromLocalSource(animator){
+    return LocalSource.getAnimatorDedicationDates(animator)
+}
+
+async function getDedicationTimesFromLocalSource(date){
+    return LocalSource.getDedicationTimes(date)
 }
 
 async function getDedicationReservationsFromLocalSource(){
@@ -31,8 +31,8 @@ async function addDedicationReservationFromLocalSource(dedicationReservation){
     return LocalSource.addDedicationReservation(dedicationReservation)
 }
 
-async function modifyAvailableDateFromLocalSource(data){
-    return LocalSource.modifyAvailableDate(data)
+async function modifyDedicationDatesFromLocalSource(data){
+    return LocalSource.modifyDedicationDates(data)
 }
 
 async function getCustomerDedicationReservationsFromLocalSource(customer){
@@ -56,11 +56,11 @@ async function getAnimators(){
     return response
 }
 
-async function getAvailableDates(){
+async function getDedicationDates(){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getAvailableDatesFromLocalSource()
+        response = await getDedicationDatesFromLocalSource()
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -69,11 +69,11 @@ async function getAvailableDates(){
     return response
 }
 
-async function addAvailableDate(data){
+async function addDedicationDates(data){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await addAvailableDateFromLocalSource(data)
+        response = await addDedicationDatesFromLocalSource(data)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -82,11 +82,11 @@ async function addAvailableDate(data){
     return response
 }
 
-async function modifyAvailableDate(data){
+async function modifyDedicationDates(data){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await modifyAvailableDateFromLocalSource(data)
+        response = await modifyDedicationDatesFromLocalSource(data)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -95,11 +95,11 @@ async function modifyAvailableDate(data){
     return response
 }
 
-async function deleteAvailableDate(data){
+async function deleteDedicationDates(data){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await deleteAvailableDateFromLocalSource(data)
+        response = await deleteDedicationDatesFromLocalSource(data)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -108,11 +108,11 @@ async function deleteAvailableDate(data){
     return response
 }
 
-async function getAnimatorAvailableDates(_id){
+async function getAnimatorDedicationDates(_id){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getAnimatorAvailableDatesFromLocalSource(_id)
+        response = await getAnimatorDedicationDatesFromLocalSource(_id)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -121,11 +121,11 @@ async function getAnimatorAvailableDates(_id){
     return response
 }
 
-async function getAvailableTimes(date){
+async function getDedicationTimes(date){
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getAvailableTimesFromLocalSource(date)
+        response = await getDedicationTimesFromLocalSource(date)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -190,12 +190,12 @@ async function getSportsCategories(){
 
 export default {
     getAnimators,
-    getAvailableDates,
-    addAvailableDate,
-    modifyAvailableDate,
-    deleteAvailableDate,
-    getAnimatorAvailableDates,
-    getAvailableTimes,
+    getDedicationDates,
+    addDedicationDates,
+    modifyDedicationDates,
+    deleteDedicationDates,
+    getAnimatorDedicationDates,
+    getDedicationTimes,
     getDedicationReservations,
     addDedicationReservation,
     getCustomerDedicationReservations,

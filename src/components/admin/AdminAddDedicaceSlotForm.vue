@@ -1,12 +1,12 @@
 <template>
-  <div class="add-dedicace-slot-form">
+  <div class="admin-add-dedicace-slot-form">
     <form @submit.prevent="addDedicaceSlot">
       <div class="form-group">
         <label for="date">Date</label>
         <input
             type="date"
             id="date"
-            v-model="$data.$date"
+            v-model="$data.date"
             required
         />
       </div>
@@ -54,18 +54,18 @@
 import {mapActions, mapState} from 'vuex';
 
 export default {
-  name: 'AddDedicaceSlotForm',
+  name: 'AdminAddDedicaceSlotForm',
   data() {
     return {
-      $date: '',
+      date: '',
       times: [''],
     };
   },
   computed: {
-    ...mapState('dedication', ['dedicationReservations', 'availableDates', 'animators']),
+    ...mapState('dedication', ['dedicationReservations', 'dedicationDates', 'animators']),
   },
   methods: {
-    ...mapActions('dedication', ['addAvailableDate', 'getDedicationReservations', 'getAvailableDates', 'getAnimators']),
+    ...mapActions('dedication', ['addDedicationDates', 'getDedicationReservations', 'getDedicationDates', 'getAnimators']),
     addTime() {
       this.times.push('');
     },
@@ -82,13 +82,13 @@ export default {
       const anim_id = document.getElementById('anim_id').value;
       this.$emit('addDedicaceSlot', {
         _id: _id,
-        $date: this.$data.$date,
+        date: this.$data.date,
         times: this.times,
         anim_id});
     },
   },
   mounted() {
-    this.getAvailableDates();
+    this.getDedicationDates();
     this.getDedicationReservations();
     this.getAnimators();
   },
@@ -96,7 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.add-dedicace-slot-form {
+.admin-add-dedicace-slot-form {
   display: flex;
   justify-content: center;
   align-items: center;

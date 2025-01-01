@@ -3,9 +3,9 @@ import DedicationService from '../../services/dedication.service';
 const state = () => ({
     // state = les données centralisées
     animators: [],
-    availableDates: localStorage.getItem('availableDates') ? localStorage.getItem('availableDates') : [],
-    animatorAvailableDates: [],
-    availableTimes: [],
+    dedicationDates: localStorage.getItem('availableDates') ? localStorage.getItem('availableDates') : [],
+    animatorDedicationDates: [],
+    dedicationTimes: [],
     dedicationReservations: localStorage.getItem('dedicationReservations') ? localStorage.getItem('dedicationReservations') : [],
     customerDedicationReservations: localStorage.getItem('customerDedicationReservations') ? localStorage.getItem('customerDedicationReservations') : [],
     sportsCategories: [],
@@ -16,33 +16,33 @@ const mutations = {
     updateAnimators(state, animators) {
         state.animators = animators;
     },
-    updateAvailableDates(state, dates) {
-        state.availableDates = dates;
+    updateDedicationDates(state, dates) {
+        state.dedicationDates = dates;
         localStorage.setItem('availableDates', dates);
     },
-    addAvailableDate(state, data) {
-        state.availableDates.push(data);
-        localStorage.setItem('availableDates', state.availableDates);
+    addDedicationDates(state, data) {
+        state.dedicationDates.push(data);
+        localStorage.setItem('availableDates', state.dedicationDates);
     },
-    modifyAvailableDate(state, data) {
-        let index = state.availableDates.findIndex(e => e._id === data._id);
+    modifyDedicationDates(state, data) {
+        let index = state.dedicationDates.findIndex(e => e._id === data._id);
         if (index !== -1) {
-            state.availableDates[index] = data;
+            state.dedicationDates[index] = data;
         }
-        localStorage.setItem('availableDates', state.availableDates);
+        localStorage.setItem('availableDates', state.dedicationDates);
     },
-    deleteAvailableDate(state, data) {
-        let index = state.availableDates.findIndex(e => e._id === data._id);
+    deleteDedicationDates(state, data) {
+        let index = state.dedicationDates.findIndex(e => e._id === data._id);
         if (index !== -1) {
-            state.availableDates.splice(index, 1);
+            state.dedicationDates.splice(index, 1);
         }
-        localStorage.setItem('availableDates', state.availableDates);
+        localStorage.setItem('availableDates', state.dedicationDates);
     },
-    updateAnimatorAvailableDates(state, date) {
-        state.animatorAvailableDates = date;
+    updateAnimatorDedicationDates(state, date) {
+        state.animatorDedicationDates = date;
     },
-    updateAvailableTimes(state, times) {
-        state.availableTimes = times;
+    updateDedicationTimes(state, times) {
+        state.dedicationTimes = times;
     },
     updateDedicationReservations(state, dedicationReservations) {
         state.dedicationReservations = dedicationReservations;
@@ -75,11 +75,11 @@ const actions = {
             console.error('Erreur lors de la récupération des animateurs:', error);
         }
     },
-    async getAvailableDates({ commit }) {
+    async getDedicationDates({ commit }) {
         try {
-            let response = await DedicationService.getAvailableDates();
+            let response = await DedicationService.getDedicationDates();
             if (response.error === 0) {
-                commit('updateAvailableDates', response.data);
+                commit('updateDedicationDates', response.data);
             } else {
                 console.error(response.data);
             }
@@ -87,12 +87,12 @@ const actions = {
             console.error('Erreur lors de la récupération des dates:', error);
         }
     },
-    async addAvailableDate({ commit }, data) {
+    async addDedicationDates({ commit }, data) {
         try {
-            let response = await DedicationService.addAvailableDate(data);
+            let response = await DedicationService.addDedicationDates(data);
             if (response.error === 0) {
                 if(response.data)
-                    commit('addAvailableDate', response.data);
+                    commit('addDedicationDates', response.data);
             }
             return response;
         } catch (error) {
@@ -100,11 +100,11 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de la date' };
         }
     },
-    async modifyAvailableDate({ commit }, data) {
+    async modifyDedicationDates({ commit }, data) {
         try {
-            let response = await DedicationService.modifyAvailableDate(data);
+            let response = await DedicationService.modifyDedicationDates(data);
             if (response.error === 0) {
-                commit('modifyAvailableDate', response.data);
+                commit('modifyDedicationDates', response.data);
             }
             return response;
         } catch (error) {
@@ -112,11 +112,11 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la modification de la date' };
         }
     },
-    async deleteAvailableDate({ commit }, data) {
+    async deleteDedicationDates({ commit }, data) {
         try {
-            let response = await DedicationService.deleteAvailableDate(data);
+            let response = await DedicationService.deleteDedicationDates(data);
             if (response.error === 0) {
-                commit('deleteAvailableDate', data);
+                commit('deleteDedicationDates', data);
             }
             return response;
         } catch (error) {
@@ -124,11 +124,11 @@ const actions = {
             return {error: 1, data: 'Erreur lors de la suppression de la date'};
         }
     },
-    async getAnimatorAvailableDates({ commit }, animator) {
+    async getAnimatorDedicationDates({ commit }, animator) {
         try {
-            let response = await DedicationService.getAnimatorAvailableDates(animator);
+            let response = await DedicationService.getAnimatorDedicationDates(animator);
             if (response.error === 0) {
-                commit('updateAnimatorAvailableDates', response.data);
+                commit('updateAnimatorDedicationDates', response.data);
             } else {
                 console.error(response.data);
             }
@@ -136,11 +136,11 @@ const actions = {
             console.error('Erreur lors de la récupération des dates:', error);
         }
     },
-    async getAvailableTimes({ commit }, date) {
+    async getDedicationTimes({ commit }, date) {
         try {
-            let response = await DedicationService.getAvailableTimes(date);
+            let response = await DedicationService.getDedicationTimes(date);
             if (response.error === 0) {
-                commit('updateAvailableTimes', response.data);
+                commit('updateDedicationTimes', response.data);
             } else {
                 console.error(response.data);
             }

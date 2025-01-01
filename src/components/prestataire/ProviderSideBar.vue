@@ -11,11 +11,8 @@
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link to="/admin-dashboard/admin-dedication/admin-dedication-management" class="button">
+      <router-link :to="{ path: '/provider-dashboard/provider-dedication/provider-dedication-management' }" class="button">
         <span class="material-icons">Dédicaces</span>
-      </router-link>
-      <router-link to="/admin-dashboard/admin-requests" class="button">
-        <span class="material-icons">Demande Prestataires</span>
       </router-link>
     </div>
   </aside>

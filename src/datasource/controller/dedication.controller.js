@@ -1,32 +1,25 @@
-import {availabledates, customersAccounts, dedicationreservations, sportsCategories} from '../data'
-
-/* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
-
-  Dans certains cas, ces fonctions vont avoir des paramètres afin de filtrer les données qui se trouvent dans data.js
-  Ces paramètres sont généralement les mêmes qu'ils faudrait envoyer à l'API, mais pas forcément.
-
-  Exemple 1 : se loguer auprès de la boutique
- */
+import {dedication_dates, customer_accounts, dedication_reservations, sports_categories} from '../data'
+import store from '@/store';
 
 //Dedication
 function getAnimators() {
-    let animators = customersAccounts.filter(e => e.privilege === "1");
+    let animators = customer_accounts.filter(e => e.privilege === "1");
     return {error: 0, data: animators}
 }
 
-function getAvailableDates() {
-    return { error: 0, data: availabledates };
+function getDedicationDates() {
+    return { error: 0, data: dedication_dates };
 }
-function addAvailableDate(data) {
-    if (data.$date) {
-        data.$date = new Date(data.$date).toISOString().split('T')[0] + 'T00:00:00.000Z';
+function addDedicationDates(data) {
+    if (data.date) {
+        data.date = new Date(data.date).toISOString().split('T')[0] + 'T00:00:00.000Z';
     }
 
-    if (!data.$date || !data.times || !data.anim_id) {
+    if (!data.date || !data.times || !data.anim_id) {
         return {error: 1, data: 'Missing parameters'};
     }
 
-    let existingEntry = availabledates.find(e => e.$date === data.$date && e.anim_id === data.anim_id);
+    let existingEntry = dedication_dates.find(e => e.date === data.date && e.anim_id === data.anim_id);
     if (existingEntry) {
         const newTimes = data.times.filter(time => !existingEntry.times.includes(time));
         if (newTimes.length > 0) {
@@ -40,23 +33,23 @@ function addAvailableDate(data) {
 
     let availableDate = {
         _id: data._id,
-        $date: data.$date,
+        date: data.date,
         times: data.times,
         anim_id: data.anim_id,
     };
     return {error: 0, data: availableDate};
 }
 
-function modifyAvailableDate(data) {
-    if (data.$date) {
-        data.$date = new Date(data.$date).toISOString().split('T')[0] + 'T00:00:00.000Z';
+function modifyDedicationDates(data) {
+    if (data.date) {
+        data.date = new Date(data.date).toISOString().split('T')[0] + 'T00:00:00.000Z';
     }
 
-    if (!data.$date || !data.times || !data.anim_id) {
+    if (!data.date || !data.times || !data.anim_id) {
         return {error: 1, data: 'Missing parameters'};
     }
 
-    let existingEntry = availabledates.find(e => e.$date === data.$date && e.anim_id === data.anim_id);
+    let existingEntry = dedication_dates.find(e => e.date === data.date && e.anim_id === data.anim_id);
     if (!existingEntry) {
 
         return {error: 1, data: 'No entry found'};
@@ -66,31 +59,39 @@ function modifyAvailableDate(data) {
     return {error: 0, data: existingEntry };
 }
 
-function deleteAvailableDate(data) {
+function deleteDedicationDates(data) {
     return {error: 0, data: data._id};
 }
 
-function getAnimatorAvailableDates(animator){
-    let dates = availabledates.filter(e => e.anim_id === animator._id)
+function getAnimatorDedicationDates(animator){
+    let dates = dedication_dates.filter(e => e.anim_id === animator._id)
 
     return {
         error: 0,
         status: 200,
-        data: dates.map(dateObj => new Date(dateObj.$date))
+        data: dates.map(dateObj => new Date(dateObj.date))
     };
 }
 
-function getAvailableTimes(date) {
+function getDedicationTimes(date) {
     const selectedDateUTC = new Date(Date.UTC(
         date.getFullYear(),
         date.getMonth(),
         date.getDate()
     )).toISOString().split('T')[0];
 
-    for (const element of availabledates) {
-        if (new Date(element.$date).toISOString().split('T')[0] === selectedDateUTC) {
-            const reservedTimes = dedicationreservations
-                .filter(reservation => reservation.$date === element.$date)
+    const dedicationDates = store.state.dedication.dedicationDates;
+    const dedicationReservations = store.state.dedication.dedicationReservations;
+
+    console.log(dedicationDates)
+
+    console.log(dedicationReservations)
+
+    for (const element of dedicationDates) {
+        console.log(element)
+        if (new Date(element.date).toISOString().split('T')[0] === selectedDateUTC) {
+            const reservedTimes = dedicationReservations
+                .filter(reservation => reservation.date === element.date)
                 .map(reservation => reservation.time);
 
             const availableTimes = element.times.filter(time => !reservedTimes.includes(time));
@@ -106,11 +107,11 @@ function getAvailableTimes(date) {
 }
 
 function getDedicationReservations(){
-    return {error: 0, data: dedicationreservations}
+    return {error: 0, data: dedication_reservations}
 }
 
 function addDedicationReservation(dedicationReservation) {
-    let existingReservation = dedicationreservations.find(reservation =>
+    let existingReservation = dedication_reservations.find(reservation =>
         reservation.date === dedicationReservation.date &&
         reservation.time === dedicationReservation.time &&
         reservation.anim_id === dedicationReservation.anim_id
@@ -120,12 +121,12 @@ function addDedicationReservation(dedicationReservation) {
         return { error: 1, data: 'Time slot already reserved' };
     }
 
-    let _idReservation = dedicationreservations.length ? parseInt(dedicationreservations[dedicationreservations.length - 1]._id.toString().slice(-1)) + 1 : 0;
+    let _idReservation = dedication_reservations.length ? parseInt(dedication_reservations[dedication_reservations.length - 1]._id.toString().slice(-1)) + 1 : 0;
     let _id = (parseInt(Date.now() / 1000)).toString() + dedicationReservation.anim_id.toString() + (_idReservation + 1).toString();
 
     let reservation = {
         _id: _id,
-        $date: dedicationReservation.$date,
+        date: dedicationReservation.date,
         time: dedicationReservation.time,
         ticket_id: dedicationReservation.ticket_id,
         anim_id: dedicationReservation.anim_id,
@@ -135,23 +136,23 @@ function addDedicationReservation(dedicationReservation) {
 }
 
 function getCustomerDedicationReservations(customer) {
-    let reservations = dedicationreservations.filter(e => e._idCustomer === customer._id);
+    let reservations = dedication_reservations.filter(e => e._idCustomer === customer._id);
 
     return {error: 0, data: reservations}
 }
 
 function getSportsCategories(){
-    return {error: 0, data: sportsCategories}
+    return {error: 0, data: sports_categories}
 }
 
 export default{
     getAnimators,
-    getAvailableDates,
-    addAvailableDate,
-    deleteAvailableDate,
-    modifyAvailableDate,
-    getAnimatorAvailableDates,
-    getAvailableTimes,
+    getDedicationDates,
+    addDedicationDates,
+    deleteDedicationDates,
+    modifyDedicationDates,
+    getAnimatorDedicationDates,
+    getDedicationTimes,
     getDedicationReservations,
     addDedicationReservation,
     getCustomerDedicationReservations,

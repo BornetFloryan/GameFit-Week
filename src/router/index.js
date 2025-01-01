@@ -4,10 +4,10 @@ import AccueilView from '../views/AccueilView.vue'
 import TicketingView from "@/views/TicketingView.vue";
 import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
 
-
 import AccountRoutes from './account.router';
 import ServiceRoutes from './service.router';
 import AdminRoutes from './admin.router';
+import PrestataireRoutes from './provider.router';
 import store from '@/store';
 
 Vue.use(VueRouter)
@@ -23,22 +23,6 @@ const routes = [
     name: 'ticketing',
     component: TicketingView
   },
-    {
-    path: '/register-provider',
-    name: 'registerProvider',
-    component: () => import('@/views/prestataire/RegisterProvider.vue'),
-  },
-  {
-    path: '/provider-dashboard',
-    name: 'providerDashboard',
-    component: () => import('@/views/prestataire/ProviderDashboard.vue'), // Chemin corrigé
-  },
-   {
-    path: '/admindashboard/adminrequests',
-    name: 'adminrequests',
-    component: () => import('@/components/admin/adminrequests.vue'), // Chemin corrigé
-  },
-
   {
     path: '/prestataire/:id',
     name: 'PrestataireInfo',
@@ -47,6 +31,7 @@ const routes = [
     ...AccountRoutes,
     ...ServiceRoutes,
     ...AdminRoutes,
+    ...PrestataireRoutes,
 ]
 
 const router = new VueRouter({

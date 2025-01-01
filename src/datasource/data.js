@@ -1,10 +1,10 @@
-let customersAccounts = [
+let customer_accounts = [
     {
         "_id": "0",
-        "name": "test",
-        "login": "test",
-        "password": "test",
-        "email": "test@test.com",
+        "name": "client",
+        "login": "client",
+        "password": "client",
+        "email": "client@client.com",
         "picture": "",
         "description": "",
         "privilege": "0",
@@ -23,231 +23,293 @@ let customersAccounts = [
     },
     {
         "_id": "2",
-        "name": "Lionel Messi",
-        "login": "lionel.messi",
-        "password": "lionel.messi",
-        "email": "lionel.messi@prestataire.com",
-        "picture": "Lionel Messi.jpg",
-        "description": "Lionel Messi, de son nom complet Lionel Andrés Messi Cuccittini, né le 24 juin 1987 à Rosario, " +
-            "est un footballeur international argentin évoluant au poste d'attaquant au Paris Saint-Germain. " +
-            "Surnommé La Pulga, il est considéré comme l'un des plus grands footballeurs de l'histoire.",
-        "sportsCategories_id": "0",
+        "name": "prestataire",
+        "login": "prestataire",
+        "password": "prestataire",
+        "email": "prestataire@prestataire.com",
+        "picture": "",
+        "description": "",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "3",
-        "name": "LeBron James",
-        "login": "lebron.james",
-        "password": "lebron.james",
-        "email": "lebron.james@prestataire.com",
-        "picture": "LeBron James.jpg",
-        "description": "LeBron Raymone James, né le 30 décembre 1984 à Akron, est un joueur professionnel américain de basket-ball. " +
-            "Surnommé King James, il évolue au poste d'ailier fort ou d'ailier pour les Lakers de Los Angeles en NBA. " +
-            "Considéré comme l'un des meilleurs joueurs de l'histoire de la NBA, il est comparé à Michael Jordan.",
-        "sportsCategories_id": "1",
+        "name": "Lionel Messi",
+        "login": "lionel.messi",
+        "password": "lionel.messi",
+        "email": "lionel.messi@prestataire.com",
+        "picture": "Lionel Messi.jpg",
+        "description": "Lionel Messi, de son nom complet Lionel Andrés Messi Cuccittini, né le 24 juin 1987 à Rosario, est un footballeur international argentin évoluant au poste d'attaquant au Paris Saint-Germain. Surnommé La Pulga, il est considéré comme l'un des plus grands footballeurs de l'histoire.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "4",
-        "name": "Serena Williams",
-        "login": "serena.williams",
-        "password": "serena.williams",
-        "email": "serena.williams@prestataire.com",
-        "picture": "Serena Williams.jpg",
-        "description": "Serena Jameka Williams, née le 26 septembre 1981 à Saginaw, est une joueuse de tennis américaine. " +
-            "Professionnelle depuis 1995, elle a remporté 23 titres en simple en Grand Chelem, ce qui constitue un record de l'ère " +
-            "Open, et 14 titres en double dames avec sa sœur Venus Williams. Elle a été numéro un mondiale à sept reprises entre 2002 et 2017.",
-        "sportsCategories_id": "2",
+        "name": "LeBron James",
+        "login": "lebron.james",
+        "password": "lebron.james",
+        "email": "lebron.james@prestataire.com",
+        "picture": "LeBron James.jpg",
+        "description": "LeBron Raymone James, né le 30 décembre 1984 à Akron, est un joueur professionnel américain de basket-ball. Surnommé King James, il évolue au poste d'ailier fort ou d'ailier pour les Lakers de Los Angeles en NBA. Considéré comme l'un des meilleurs joueurs de l'histoire de la NBA, il est comparé à Michael Jordan.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "5",
-        "name": "Cristiano Ronaldo",
-        "login": "cristiano.ronaldo",
-        "password": "cristiano.ronaldo",
-        "email": "cristiano.ronaldo@prestataire.com",
-        "picture": "Cristiano Ronaldo.jpg",
-        "description": "Cristiano Ronaldo dos Santos Aveiro, né le 5 février 1985 à Funchal sur l'île de Madère, est un footballeur " +
-            "international portugais qui évolue au poste d'attaquant à Manchester United. " +
-            "Considéré comme l'un des meilleurs joueurs de l'histoire de ce sport, il est le premier footballeur à avoir remporté " +
-            "le Ballon d'or avec deux clubs différents.",
-        "sportsCategories_id": "0",
+        "name": "Serena Williams",
+        "login": "serena.williams",
+        "password": "serena.williams",
+        "email": "serena.williams@prestataire.com",
+        "picture": "Serena Williams.jpg",
+        "description": "Serena Jameka Williams, née le 26 septembre 1981 à Saginaw, est une joueuse de tennis américaine. Professionnelle depuis 1995, elle a remporté 23 titres en simple en Grand Chelem, ce qui constitue un record de l'ère Open, et 14 titres en double dames avec sa sœur Venus Williams. Elle a été numéro un mondiale à sept reprises entre 2002 et 2017.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "6",
-        "name": "Tom Brady",
-        "login": "tom.brady",
-        "password": "tom.brady",
-        "email": "tom.brady@prestataire.com",
-        "picture": "Tom Brady.jpg",
-        "description": "Thomas Edward Patrick Brady Jr., né le 3 août 1977 à San Mateo, est un joueur américain de football américain " +
-            "évoluant au poste de quarterback pour les Buccaneers de Tampa Bay en NFL. " +
-            "Considéré comme l'un des meilleurs joueurs de l'histoire de la NFL, il a remporté sept Super Bowl, un record.",
-        "sportsCategories_id": "6",
+        "name": "Cristiano Ronaldo",
+        "login": "cristiano.ronaldo",
+        "password": "cristiano.ronaldo",
+        "email": "cristiano.ronaldo@prestataire.com",
+        "picture": "Cristiano Ronaldo.jpg",
+        "description": "Cristiano Ronaldo dos Santos Aveiro, né le 5 février 1985 à Funchal sur l'île de Madère, est un footballeur international portugais qui évolue au poste d'attaquant à Manchester United. Considéré comme l'un des meilleurs joueurs de l'histoire de ce sport, il est le premier footballeur à avoir remporté le Ballon d'or avec deux clubs différents.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "7",
-        "name": "Roger Federer",
-        "login": "roger.federer",
-        "password": "roger.federer",
-        "email": "roger.federer@prestaire.com",
-        "picture": "Roger Federer.jpg",
-        "description": "Roger Federer, né le 8 août 1981 à Bâle, est un joueur de tennis suisse. " +
-            "Professionnel depuis 1998, il a remporté 20 titres en simple en Grand Chelem, un record, et a été numéro un mondial à " +
-            "plusieurs reprises entre 2004 et 2018. Il est considéré comme l'un des plus grands joueurs de l'histoire du tennis.",
-        "sportsCategories_id": "2",
+        "name": "Tom Brady",
+        "login": "tom.brady",
+        "password": "tom.brady",
+        "email": "tom.brady@prestataire.com",
+        "picture": "Tom Brady.jpg",
+        "description": "Thomas Edward Patrick Brady Jr., né le 3 août 1977 à San Mateo, est un joueur américain de football américain évoluant au poste de quarterback pour les Buccaneers de Tampa Bay en NFL. Considéré comme l'un des meilleurs joueurs de l'histoire de la NFL, il a remporté sept Super Bowl, un record.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "8",
-        "name": "Stephen Curry",
-        "login": "stephen.curry",
-        "password": "stephen.curry",
-       "email": "stephen.curry@prestaire.com",
-        "picture": "Stephen Curry.jpg",
-        "description": "Wardell Stephen Curry II, né le 14 mars 1988 à Akron, est un joueur américain de basket-ball évoluant au poste " +
-            "de meneur pour les Warriors de Golden State en NBA. " +
-            "Considéré comme l'un des meilleurs shooteurs de l'histoire de la NBA, il a révolutionné le jeu par son adresse à trois points.",
-        "sportsCategories_id": "1",
+        "name": "Roger Federer",
+        "login": "roger.federer",
+        "password": "roger.federer",
+        "email": "roger.federer@prestaire.com",
+        "picture": "Roger Federer.jpg",
+        "description": "Roger Federer, né le 8 août 1981 à Bâle, est un joueur de tennis suisse. Professionnel depuis 1998, il a remporté 20 titres en simple en Grand Chelem, un record, et a été numéro un mondial à plusieurs reprises entre 2004 et 2018. Il est considéré comme l'un des plus grands joueurs de l'histoire du tennis.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "9",
-        "name": "Usain Bolt",
-        "login": "usain.bolt",
-        "password": "usain.bolt",
-       "email": "usain.bolt@prestaire.com",
-        "picture": "Usain Bolt.jpg",
-        "description": "Usain Bolt, né le 21 août 1986 à Sherwood Content, est un athlète jamaïcain spécialiste des épreuves de sprint. " +
-            "Surnommé Lightning Bolt, il est l'athlète le plus titré de l'histoire des Jeux olympiques, avec huit médailles d'or.",
-        "sportsCategories_id": "3",
+        "name": "Stephen Curry",
+        "login": "stephen.curry",
+        "password": "stephen.curry",
+        "email": "stephen.curry@prestaire.com",
+        "picture": "Stephen Curry.jpg",
+        "description": "Wardell Stephen Curry II, né le 14 mars 1988 à Akron, est un joueur américain de basket-ball évoluant au poste de meneur pour les Warriors de Golden State en NBA. Considéré comme l'un des meilleurs shooteurs de l'histoire de la NBA, il a révolutionné le jeu par son adresse à trois points.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "10",
-        "name": "Neymar Jr.",
-        "login": "neymar.jr",
-        "password": "neymar.jr",
-       "email": "neymar.jr@prestaire.com",
-        "picture": "Neymar Jr..jpg",
-        "description": "Neymar da Silva Santos Júnior, dit Neymar Jr., né le 5 février 1992 à Mogi das Cruzes, est un footballeur " +
-            "international brésilien évoluant au poste d'attaquant au Paris Saint-Germain. " +
-            "Considéré comme l'un des meilleurs joueurs de sa génération, il est comparé à Pelé.",
-        "sportsCategories_id": "0",
+        "name": "Usain Bolt",
+        "login": "usain.bolt",
+        "password": "usain.bolt",
+        "email": "usain.bolt@prestaire.com",
+        "picture": "Usain Bolt.jpg",
+        "description": "Usain Bolt, né le 21 août 1986 à Sherwood Content, est un athlète jamaïcain spécialiste des épreuves de sprint. Surnommé Lightning Bolt, il est l'athlète le plus titré de l'histoire des Jeux olympiques, avec huit médailles d'or.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "11",
-        "name": "Michael Jordan",
-        "login": "michael.jordan",
-        "password": "michael.jordan",
-       "email": "michael.jordan@prestaire.com",
-        "picture": "Michael Jordan.jpg",
-        "description": "Michael Jeffrey Jordan, né le 17 février 1963 à Brooklyn, est un joueur de basket-ball américain. " +
-            "Considéré comme le plus grand joueur de l'histoire de la NBA et l'un des plus grands sportifs de tous les temps, " +
-            "il a remporté six titres de champion NBA avec les Bulls de Chicago.",
-        "sportsCategories_id": "1",
+        "name": "Neymar Jr.",
+        "login": "neymar.jr",
+        "password": "neymar.jr",
+        "email": "neymar.jr@prestaire.com",
+        "picture": "Neymar Jr..jpg",
+        "description": "Neymar da Silva Santos Júnior, dit Neymar Jr., né le 5 février 1992 à Mogi das Cruzes, est un footballeur international brésilien évoluant au poste d'attaquant au Paris Saint-Germain. Considéré comme l'un des meilleurs joueurs de sa génération, il est comparé à Pelé.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "12",
-        "name": "Khabib Nurmagomedov",
-        "login": "khabib.nurmagomedov",
-        "password": "khabib.nurmagomedov",
-       "email": "khabib.nurmagomedov@prestaire.com",
-        "picture": "Khabib Nurmagomedov.jpg",
-        "description": "Khabib Abdulmanapovich Nurmagomedov, né le 20 septembre 1988 à Sildi, est un pratiquant russe d'arts martiaux " +
-            "mixtes (MMA) d'origine avar. Il a été champion du monde de sambo et champion du monde de combat sambo. " +
-            "Il a été champion de l'UFC dans la catégorie des poids légers.",
-        "sportsCategories_id": "7",
+        "name": "Michael Jordan",
+        "login": "michael.jordan",
+        "password": "michael.jordan",
+        "email": "michael.jordan@prestaire.com",
+        "picture": "Michael Jordan.jpg",
+        "description": "Michael Jeffrey Jordan, né le 17 février 1963 à Brooklyn, est un joueur de basket-ball américain. Considéré comme le plus grand joueur de l'histoire de la NBA et l'un des plus grands sportifs de tous les temps, il a remporté six titres de champion NBA avec les Bulls de Chicago.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "13",
-        "name": "Pele",
-        "login": "pele",
-        "password": "pele",
-       "email": "pele@prestaire.com",
-        "picture": "Pele.jpg",
-        "description": "Pelé, de son vrai nom Edson Arantes do Nascimento, né le 23 octobre 1940 à Três Corações, est un footballeur " +
-            "international brésilien. Il est considéré comme l'un des plus grands joueurs de l'histoire du football. " +
-            "Il a remporté trois Coupes du monde avec la sélection brésilienne en 1958, 1962 et 1970.",
-        "sportsCategories_id": "0",
+        "name": "Khabib Nurmagomedov",
+        "login": "khabib.nurmagomedov",
+        "password": "khabib.nurmagomedov",
+        "email": "khabib.nurmagomedov@prestaire.com",
+        "picture": "Khabib Nurmagomedov.jpg",
+        "description": "Khabib Abdulmanapovich Nurmagomedov, né le 20 septembre 1988 à Sildi, est un pratiquant russe d'arts martiaux mixtes (MMA) d'origine avar. Il a été champion du monde de sambo et champion du monde de combat sambo. Il a été champion de l'UFC dans la catégorie des poids légers.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "14",
-        "name": "Virat Kohli",
-        "login": "virat.kohli",
-        "password": "virat.kohli",
-       "email": "virat.kohli@prestaire.com",
-        "picture": "Virat Kohli.jpg",
-        "description": "Virat Kohli, né le 5 novembre 1988 à Delhi, est un joueur de cricket international indien. " +
-            "Il est capitaine de l'équipe d'Inde de cricket dans les formats ODI et Test. " +
-            "Il est considéré comme l'un des meilleurs batteurs de cricket de tous les temps.",
-        "sportsCategories_id": "4",
+        "name": "Pele",
+        "login": "pele",
+        "password": "pele",
+        "email": "pele@prestaire.com",
+        "picture": "Pele.jpg",
+        "description": "Pelé, de son vrai nom Edson Arantes do Nascimento, né le 23 octobre 1940 à Três Corações, est un footballeur international brésilien. Il est considéré comme l'un des plus grands joueurs de l'histoire du football. Il a remporté trois Coupes du monde avec la sélection brésilienne en 1958, 1962 et 1970.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "15",
-        "name": "Misty May-Treanor",
-        "login": "misty.may-treanor",
-        "password": "misty.may-treanor",
-       "email": "misty.maytreanor@prestaire.com",
-        "picture": "Misty May-Treanor.jpg",
-        "description": "Misty May-Treanor, née le 30 juillet 1977 à Los Angeles, est une joueuse de beach-volley américaine. " +
-            "Avec sa partenaire Kerri Walsh, elle a remporté trois médailles d'or olympiques en 2004, 2008 et 2012. " +
-            "Elle est considérée comme l'une des meilleures joueuses de beach-volley de l'histoire.",
-        "sportsCategories_id": "5",
+        "name": "Virat Kohli",
+        "login": "virat.kohli",
+        "password": "virat.kohli",
+        "email": "virat.kohli@prestaire.com",
+        "picture": "Virat Kohli.jpg",
+        "description": "Virat Kohli, né le 5 novembre 1988 à Delhi, est un joueur de cricket international indien. Il est capitaine de l'équipe d'Inde de cricket dans les formats ODI et Test. Il est considéré comme l'un des meilleurs batteurs de cricket de tous les temps.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "16",
-        "name": "Bugha",
-        "login": "bugha",
-        "password": "bugha",
-       "email": "bugha@prestaire.com",
-        "picture": "Bugha.jpg",
-        "description": "Kyle Giersdorf, dit Bugha, né le 30 décembre 2002 à Pottsgrove, est un joueur professionnel américain de jeux vidéo. " +
-            "Il est spécialisé dans le jeu Fortnite et a remporté la Fortnite World Cup en 2019. " +
-            "Il est considéré comme l'un des meilleurs joueurs de Fortnite de tous les temps.",
-        "sportsCategories_id": "8",
+        "name": "Misty May-Treanor",
+        "login": "misty.may-treanor",
+        "password": "misty.may-treanor",
+        "email": "misty.maytreanor@prestaire.com",
+        "picture": "Misty May-Treanor.jpg",
+        "description": "Misty May-Treanor, née le 30 juillet 1977 à Los Angeles, est une joueuse de beach-volley américaine. Avec sa partenaire Kerri Walsh, elle a remporté trois médailles d'or olympiques en 2004, 2008 et 2012. Elle est considérée comme l'une des meilleures joueuses de beach-volley de l'histoire.",
         "privilege": "1",
         "session": ""
     },
     {
         "_id": "17",
+        "name": "Bugha",
+        "login": "bugha",
+        "password": "bugha",
+        "email": "bugha@prestaire.com",
+        "picture": "Bugha.jpg",
+        "description": "Kyle Giersdorf, dit Bugha, né le 30 décembre 2002 à Pottsgrove, est un joueur professionnel américain de jeux vidéo. Il est spécialisé dans le jeu Fortnite et a remporté la Fortnite World Cup en 2019. Il est considéré comme l'un des meilleurs joueurs de Fortnite de tous les temps.",
+        "privilege": "1",
+        "session": ""
+    },
+    {
+        "_id": "18",
         "name": "Ninja",
         "login": "ninja",
-       "password": "ninja",
-       "email": "ninja@prestaire.com",
+        "password": "ninja",
+        "email": "ninja@prestaire.com",
         "picture": "Ninja.jpg",
-        "description": "Richard Tyler Blevins, dit Ninja, né le 5 juin 1991 à Detroit, est un joueur professionnel américain de jeux vidéo. " +
-            "Il est spécialisé dans les jeux Fortnite et Halo. " +
-            "Il est considéré comme l'un des meilleurs joueurs de jeux vidéo de tous les temps.",
-        "sportsCategories_id": "8",
+        "description": "Richard Tyler Blevins, dit Ninja, né le 5 juin 1991 à Detroit, est un joueur professionnel américain de jeux vidéo. Il est spécialisé dans les jeux Fortnite et Halo. Il est considéré comme l'un des meilleurs joueurs de jeux vidéo de tous les temps.",
         "privilege": "1",
         "session": ""
     }
 ];
 
-let sportsCategories = [
+let service_categories = [
+    {
+        "_id": "0",
+        "name": "Dédicace"
+    },
+    {
+        "_id": "1",
+        "name": "Goodies"
+    },
+    {
+        "_id": "2",
+        "name": "Produits alimentaires"
+    }
+]
+
+let provider_service_categories = [
+    {
+        "_id": "0",
+        "provider_id": "3", // Lionel Messi
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "1",
+        "provider_id": "4", // LeBron James
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "2",
+        "provider_id": "5", // Serena Williams
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "3",
+        "provider_id": "6", // Cristiano Ronaldo
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "4",
+        "provider_id": "7", // Tom Brady
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "5",
+        "provider_id": "8", // Roger Federer
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "6",
+        "provider_id": "9", // Stephen Curry
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "7",
+        "provider_id": "10", // Usain Bolt
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "8",
+        "provider_id": "11", // Neymar Jr.
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "9",
+        "provider_id": "12", // Michael Jordan
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "10",
+        "provider_id": "13", // Khabib Nurmagomedov
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "11",
+        "provider_id": "14", // Pelé
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "12",
+        "provider_id": "15", // Virat Kohli
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "13",
+        "provider_id": "16", // Misty May-Treanor
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "14",
+        "provider_id": "17", // Bugha
+        "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "15",
+        "provider_id": "18", // Ninja
+        "service_category_id": "0" // Dédicace
+    }
+];
+
+
+let sports_categories = [
     {
         "_id": "0",
         "name": "Football",
@@ -304,7 +366,90 @@ let sportsCategories = [
     },
 ];
 
-let ticketsAnimationCategories = [
+let provider_sport_categories = [
+    {
+        "_id": "0",
+        "provider_id": "3",
+        "sportsCategories_id": "0"
+    },
+    {
+        "_id": "1",
+        "provider_id": "4",
+        "sportsCategories_id": "1"
+    },
+    {
+        "_id": "2",
+        "provider_id": "5",
+        "sportsCategories_id": "2"
+    },
+    {
+        "_id": "3",
+        "provider_id": "6",
+        "sportsCategories_id": "0"
+    },
+    {
+        "_id": "4",
+        "provider_id": "7",
+        "sportsCategories_id": "6"
+    },
+    {
+        "_id": "5",
+        "provider_id": "8",
+        "sportsCategories_id": "2"
+    },
+    {
+        "_id": "6",
+        "provider_id": "9",
+        "sportsCategories_id": "1"
+    },
+    {
+        "_id": "7",
+        "provider_id": "10",
+        "sportsCategories_id": "3"
+    },
+    {
+        "_id": "8",
+        "provider_id": "11",
+        "sportsCategories_id": "0"
+    },
+    {
+        "_id": "9",
+        "provider_id": "12",
+        "sportsCategories_id": "1"
+    },
+    {
+        "_id": "10",
+        "provider_id": "13",
+        "sportsCategories_id": "7"
+    },
+    {
+        "_id": "11",
+        "provider_id": "14",
+        "sportsCategories_id": "0"
+    },
+    {
+        "_id": "12",
+        "provider_id": "15",
+        "sportsCategories_id": "4"
+    },
+    {
+        "_id": "13",
+        "provider_id": "16",
+        "sportsCategories_id": "5"
+    },
+    {
+        "_id": "14",
+        "provider_id": "17",
+        "sportsCategories_id": "8"
+    },
+    {
+        "_id": "15",
+        "provider_id": "18",
+        "sportsCategories_id": "8"
+    }
+];
+
+let ticket_animation_categories = [
     {
         "_id": "0",
         "name": "Sport",
@@ -323,7 +468,7 @@ let ticketsAnimationCategories = [
 ];
 
 
-let ticketsAgeCategories = [
+let ticket_age_categories = [
     {
         "_id": "0",
         "name": "Enfant",
@@ -341,7 +486,7 @@ let ticketsAgeCategories = [
     },
 ];
 
-let ticketPrices = [
+let ticket_prices = [
     // Animation: Sport
     { "_id": "0", "age_category_id": "0", "animation_category_id": "0", "price": "5" },
     { "_id": "1", "age_category_id": "1", "animation_category_id": "0", "price": "8" },
@@ -361,401 +506,307 @@ let ticketPrices = [
 let tickets = [
     {
         "_id": "0",
-        "$date": "2024/10/30",
+        "date": "2024/10/30",
         "time": "07:00",
         "_idCustomer": "0",
         "price_id": "0",
     },
 ];
 
-let availabledates = [
+let dedication_dates = [
     // Lionel Messi
     {
         "_id": "0",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "07:00",
-            "10:00",
-            "11:00",
-            "12:00",
-            "14:00",
-            "15:00",
-            "16:00"
+            "09:00",
         ],
-        "anim_id": "2",
+        "anim_id": "3",
     },
     {
         "_id": "1",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "08:00",
             "10:00",
-            "11:00",
-            "12:00",
-            "14:00",
-            "15:00",
-            "16:00"
         ],
-        "anim_id": "2",
+        "anim_id": "3",
     },
 
     // LeBron James
     {
         "_id": "2",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
             "11:00",
-            "12:00",
-            "14:00",
-            "15:00",
-            "16:00"
         ],
-        "anim_id": "3",
+        "anim_id": "4",
     },
     {
         "_id": "3",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00",
-            "15:00"
+            "13;00",
         ],
-        "anim_id": "3",
+        "anim_id": "4",
     },
 
     // Serena Williams
     {
         "_id": "4",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "10:00",
-            "12:00",
             "14:00",
-            "16:00"
         ],
-        "anim_id": "4",
+        "anim_id": "5",
     },
     {
         "_id": "5",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "14:00",
-            "16:00"
+            "15:00",
         ],
-        "anim_id": "4",
+        "anim_id": "5",
     },
 
     // Cristiano Ronaldo
     {
         "_id": "6",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00",
-            "15:00"
+            "16:00",
         ],
-        "anim_id": "5",
+        "anim_id": "6",
     },
     {
         "_id": "7",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "17:00",
         ],
-        "anim_id": "5",
+        "anim_id": "6",
     },
 
     // Tom Brady
     {
         "_id": "8",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "10:00",
-            "12:00",
-            "13:00",
-            "15:00"
+            "09:00",
         ],
-        "anim_id": "6",
+        "anim_id": "7",
     },
     {
         "_id": "9",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "07:00",
-            "09:00",
-            "11:00",
-            "13:00",
-            "15:00"
+            "10:00",
         ],
-        "anim_id": "6",
+        "anim_id": "7",
     },
 
     // Roger Federer
     {
         "_id": "10",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "11:00",
         ],
-        "anim_id": "7",
+        "anim_id": "8",
     },
     {
         "_id": "11",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
             "13:00",
-            "15:00"
         ],
-        "anim_id": "7",
+        "anim_id": "8",
     },
 
     // Stephen Curry
     {
         "_id": "12",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "14:00",
         ],
-        "anim_id": "8",
+        "anim_id": "9",
     },
     {
         "_id": "13",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00",
-            "15:00"
+            "15:00",
         ],
-        "anim_id": "8",
+        "anim_id": "9",
     },
 
     // Usain Bolt
     {
         "_id": "14",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "16:00",
         ],
-        "anim_id": "9",
+        "anim_id": "10",
     },
     {
         "_id": "15",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-08-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00",
-            "15:00"
+            "17:00",
         ],
-        "anim_id": "9",
+        "anim_id": "10",
     },
 
     // Neymar Jr.
     {
         "_id": "16",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "09:00",
         ],
-        "anim_id": "10",
+        "anim_id": "11",
     },
     {
         "_id": "17",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "07:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "10:00"
         ],
-        "anim_id": "10",
+        "anim_id": "11",
     },
 
     // Michael Jordan
     {
         "_id": "18",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "11:00",
-            "13:00",
-            "15:00"
+            "11:00"
         ],
-        "anim_id": "11",
+        "anim_id": "12",
     },
     {
         "_id": "19",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "12:00",
-            "14:00"
+            "13:00"
         ],
-        "anim_id": "11",
+        "anim_id": "12",
     },
 
     // Khabib Nurmagomedov
     {
         "_id": "20",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "10:00",
-            "12:00",
-            "14:00"
+            "14:00",
         ],
-        "anim_id": "12",
+        "anim_id": "13",
     },
     {
         "_id": "21",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00"
+            "15:00",
         ],
-        "anim_id": "12",
+        "anim_id": "13",
     },
 
     // Pele
     {
         "_id": "22",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "12:00",
-            "14:00"
+            "16:00",
         ],
-        "anim_id": "13",
+        "anim_id": "14",
     },
     {
         "_id": "23",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-09-07T00:00:00.000Z",
         "times": [
-            "10:00",
-            "12:00",
-            "14:00"
+            "17:00",
         ],
-        "anim_id": "13",
+        "anim_id": "14",
     },
 
     // Virat Kohli
     {
         "_id": "24",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
             "09:00",
-            "11:00",
-            "13:00"
         ],
-        "anim_id": "14",
+        "anim_id": "15",
     },
     {
         "_id": "25",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "08:00",
             "10:00",
-            "14:00"
         ],
-        "anim_id": "14",
+        "anim_id": "15",
     },
 
     // Misty May-Treanor
     {
         "_id": "26",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "12:00",
-            "14:00"
+            "11:00",
         ],
-        "anim_id": "15",
+        "anim_id": "16",
     },
     {
         "_id": "27",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "10:00",
-            "12:00",
-            "14:00"
+            "13:00",
         ],
-        "anim_id": "15",
+        "anim_id": "16",
     },
 
     // Bugha
     {
         "_id": "28",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00"
+            "14:00",
         ],
-        "anim_id": "16",
+        "anim_id": "17",
     },
     {
         "_id": "29",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "10:00",
-            "12:00",
-            "14:00"
+            "15:00",
         ],
-        "anim_id": "16",
+        "anim_id": "17",
     },
 
     // Ninja
     {
         "_id": "30",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "09:00",
-            "11:00",
-            "13:00"
+            "16:00",
         ],
-        "anim_id": "17",
+        "anim_id": "18",
     },
     {
         "_id": "31",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-10-07T00:00:00.000Z",
         "times": [
-            "08:00",
-            "10:00",
-            "14:00"
+            "17:00",
         ],
-        "anim_id": "17",
+        "anim_id": "18",
     }
 ];
 
-let dedicationreservations = [
+let dedication_reservations = [
     {
         "_id": "0",
-        "$date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07T00:00:00.000Z",
         "time": "08:00",
         "ticket_id": "0",
         "anim_id": "17",
@@ -819,7 +870,7 @@ let stands = [
         "name": "Stand 5",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "2",
+        "prestataire_id": "3",
         "pavillon_id": "1",
     },
     {
@@ -827,7 +878,7 @@ let stands = [
         "name": "Stand 6",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "3",
+        "prestataire_id": "4",
         "pavillon_id": "1",
     },
     {
@@ -835,7 +886,7 @@ let stands = [
         "name": "Stand 7",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "4",
+        "prestataire_id": "5",
         "pavillon_id": "1",
     },
     {
@@ -843,7 +894,7 @@ let stands = [
         "name": "Stand 8",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "5",
+        "prestataire_id": "6",
         "pavillon_id": "1",
     },
     {
@@ -851,7 +902,7 @@ let stands = [
         "name": "Stand 9",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "6",
+        "prestataire_id": "7",
         "pavillon_id": "1",
     },
     {
@@ -859,7 +910,7 @@ let stands = [
         "name": "Stand 10",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "7",
+        "prestataire_id": "8",
         "pavillon_id": "1",
     },
     {
@@ -867,7 +918,7 @@ let stands = [
         "name": "Stand 11",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "8",
+        "prestataire_id": "9",
         "pavillon_id": "1",
     },
     {
@@ -875,7 +926,7 @@ let stands = [
         "name": "Stand 12",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "9",
+        "prestataire_id": "10",
         "pavillon_id": "1",
     },
     {
@@ -883,7 +934,7 @@ let stands = [
         "name": "Stand 13",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "10",
+        "prestataire_id": "11",
         "pavillon_id": "1",
     },
     {
@@ -891,7 +942,7 @@ let stands = [
         "name": "Stand 14",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "11",
+        "prestataire_id": "12",
         "pavillon_id": "1",
     },
     {
@@ -899,7 +950,7 @@ let stands = [
         "name": "Stand 15",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "12",
+        "prestataire_id": "13",
         "pavillon_id": "1",
     },
     {
@@ -907,7 +958,7 @@ let stands = [
         "name": "Stand 16",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "13",
+        "prestataire_id": "14",
         "pavillon_id": "1",
     },
     {
@@ -915,7 +966,7 @@ let stands = [
         "name": "Stand 17",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "14",
+        "prestataire_id": "15",
         "pavillon_id": "1",
     },
     {
@@ -923,7 +974,7 @@ let stands = [
         "name": "Stand 18",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "15",
+        "prestataire_id": "16",
         "pavillon_id": "1",
     },
     {
@@ -931,7 +982,7 @@ let stands = [
         "name": "Stand 19",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "16",
+        "prestataire_id": "17",
         "pavillon_id": "1",
     },
     {
@@ -939,7 +990,7 @@ let stands = [
         "name": "Stand 20",
         "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "17",
+        "prestataire_id": "18",
         "pavillon_id": "1",
     },
     {
@@ -1049,14 +1100,17 @@ let stands = [
 ];
 
 module.exports = {
-    customersAccounts,
-    sportsCategories,
+    customer_accounts,
+    service_categories,
+    provider_service_categories,
+    sports_categories,
+    provider_sport_categories,
+    ticket_animation_categories,
+    ticket_age_categories,
+    ticket_prices,
     tickets,
-    ticketsAnimationCategories,
-    ticketsAgeCategories,
-    ticketPrices,
-    availabledates,
-    dedicationreservations,
+    dedication_dates,
+    dedication_reservations,
     pavillons,
     stands,
 }

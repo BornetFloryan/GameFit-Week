@@ -1,12 +1,12 @@
 <template>
-  <div class="modify-dedicace-slot-form">
-    <form @submit.prevent="modifyDedicaceSlot">
+  <div class="admin-add-dedicace-slot-form">
+    <form @submit.prevent="addDedicaceSlot">
       <div class="form-group">
         <label for="date">Date</label>
         <input
             type="date"
             id="date"
-            v-model="formattedDate"
+            v-model="$data.date"
             required
         />
       </div>
@@ -31,20 +31,9 @@
       <br/>
       <br/>
 
-      <div class="form-group">
-        <label for="anim_id">Animateur</label>
-        <select id="anim_id" v-model="anim_id" required>
-          <option value="" disabled selected>Choisissez un animateur</option>
-          <option v-for="animator in animators"
-                  :key="animator._id"
-                  :value="animator._id">{{ animator.name }}
-          </option>
-        </select>
-      </div>
-
       <div class="form-button">
-        <button type="submit" class="add-button">Modifier</button>
-        <button type="button" @click="resetForm" class="cancel-button">Annuler</button>
+        <button type="submit" class="add-button">Ajouter</button>
+        <button type="reset" class="cancel-button">Annuler</button>
       </div>
     </form>
   </div>
@@ -54,68 +43,49 @@
 import {mapActions, mapState} from 'vuex';
 
 export default {
-  name: 'ModifyDedicaceSlotForm',
-  props: {
-    availableDate: {
-      type: Object,
-      required: true,
-    },
-  },
+  name: 'ProviderAddDedicaceSlotForm',
   data() {
     return {
-      date: this.availableDate.date,
-      times: [...this.availableDate.times],
-      anim_id: this.availableDate.anim_id,
+      date: '',
+      times: [''],
     };
   },
   computed: {
-    ...mapState('dedication', ['dedicationReservations', 'dedicationDates', 'animators']),
-    formattedDate() {
-      if (this.availableDate && this.availableDate.date) {
-        return this.availableDate.date.split('T')[0];
-      }
-      return '';
-    },
+    ...mapState('dedication', ['dedicationReservations', 'dedicationDates']),
+    ...mapState('account', ['currentUser']),
   },
   methods: {
-    ...mapActions('dedication', ['modifyDedicationDates', 'getDedicationReservations', 'getDedicationDates', 'getAnimators']),
+    ...mapActions('dedication', ['addDedicationDates', 'getDedicationReservations', 'getDedicationDates']),
     addTime() {
       this.times.push('');
     },
     delTime() {
       this.times.pop();
     },
-    async modifyDedicaceSlot() {
+    addDedicaceSlot() {
       const uniqueTimes = new Set(this.times);
       if (uniqueTimes.size !== this.times.length) {
         alert('Les plages horaires en double ne sont pas autorisées.');
         return;
       }
-      this.$emit('modifyDedicaceSlot', {
-        availableDate: {
-          _id: this.availableDate._id,
-          date: this.availableDate.date,
-          times: this.times,
-          anim_id: this.anim_id,
-        },
+      const _id = this.availableDates.length ? parseInt(this.availableDates[this.availableDates.length - 1]._id) + 1 : 0;
+      this.$emit('addDedicaceSlot', {
+        _id: _id,
+        date: this.$data.date,
+        times: this.times,
+        anim_id : this.currentUser._id,
       });
-    },
-    resetForm() {
-      this.date = this.availableDate.date;
-      this.times = [...this.availableDate.times];
-      this.anim_id = this.availableDate.anim_id;
     },
   },
   mounted() {
     this.getDedicationDates();
     this.getDedicationReservations();
-    this.getAnimators();
   },
 };
 </script>
 
 <style scoped>
-.modify-dedicace-slot-form {
+.admin-add-dedicace-slot-form {
   display: flex;
   justify-content: center;
   align-items: center;

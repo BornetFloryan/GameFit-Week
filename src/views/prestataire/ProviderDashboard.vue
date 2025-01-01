@@ -1,19 +1,29 @@
 <template>
-  <div class="provider-dashboard">
-    <h1>Bienvenue dans votre Dashboard Prestataire</h1>
-    <!-- Ici, vous pouvez ajouter des informations et actions spécifiques aux prestataires -->
+  <div class="provider-dashboard-container">
+    <ProviderSideBar />
+    <div class="main-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+import ProviderSideBar from "@/components/prestataire/ProviderSideBar.vue";
+
 export default {
   name: 'ProviderDashboard',
+  components: {ProviderSideBar},
 };
 </script>
 
 <style scoped>
-.provider-dashboard {
-  text-align: center;
+.provider-dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
   padding: 20px;
 }
 </style>

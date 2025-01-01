@@ -29,7 +29,7 @@ async function getTicketsAnimationCategories() {
 async function getTicketsAgeCategories() {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM ticketsagecategories');
+        const res = await client.query('SELECT * FROM ticket_age_categories');
         return res.rows;
     } catch (error) {
         console.error(error);
@@ -42,7 +42,7 @@ async function getTicketsAgeCategories() {
 async function getTicketPrices() {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM ticketprices');
+        const res = await client.query('SELECT * FROM ticket_prices');
         return res.rows;
     } catch (error) {
         console.error(error);
@@ -74,7 +74,7 @@ async function addTickets(formData) {
         }
         let addedTickets = [];
         for (let i = 0; i < formData.ticketCount; i++) {
-            let price_id = await client.query('SELECT _id FROM ticketprices WHERE animation_category_id = $1 AND age_category_id = $2'
+            let price_id = await client.query('SELECT _id FROM ticket_prices WHERE animation_category_id = $1 AND age_category_id = $2'
                 , [formData.animation_category_id, formData.age_category_id]);
             price_id = price_id.rows[0]._id;
             const ticket = {

@@ -61,11 +61,11 @@ export default {
         if (response.error === 0) {
           const loggedUser = response.data;
           switch (loggedUser.privilege) {
-            case "1":
-              await this.$router.push({ name: "admindashboard" });
+            case "2":
+              await this.$router.push({ path: "/admin-dashboard" });
               break;
-            case "3":
-              await this.$router.push({ name: "providerDashboard" });
+            case "1":
+              await this.$router.push({ path: "/provider-dashboard" });
               break;
             default:
               await this.$router.push({ name: "home" });
@@ -83,7 +83,6 @@ export default {
 </script>
 
 <style scoped>
-/* Styles inchangés pour le formulaire de connexion */
 .login-container {
   display: flex;
   justify-content: center;

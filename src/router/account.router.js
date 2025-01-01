@@ -4,6 +4,7 @@ import ReservationView from "@/components/client/account/ReservationView.vue";
 import TicketView from "@/components/client/account/TicketView.vue";
 import LoginFormView from "@/components/client/account/LoginForm.vue";
 import RegisterForm from "@/components/client/account/RegisterForm.vue";
+import RegisterProvider from "@/views/prestataire/RegisterProvider.vue";
 
 
 export default [
@@ -22,6 +23,11 @@ export default [
               path: 'register',
               name: 'register',
               component: RegisterForm,
+            },
+            {
+                path: 'register-provider',
+                name: 'registerProvider',
+                component: RegisterProvider,
             },
             {
                 path: 'profil',

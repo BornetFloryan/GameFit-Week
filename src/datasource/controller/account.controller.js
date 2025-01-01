@@ -1,4 +1,4 @@
-import { customersAccounts } from '../data'
+import { customer_accounts } from '../data'
 import {v4 as uuidv4} from 'uuid'
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -10,14 +10,14 @@ import {v4 as uuidv4} from 'uuid'
 
 function getCustomersAccounts() {
 
-    return {error: 0, data: customersAccounts}
+    return {error: 0, data: customer_accounts}
 }
 
 function addCustomerAccount(customer) {
-    if (customersAccounts.find(e => e.email === customer.email && e.login))
+    if (customer_accounts.find(e => e.email === customer.email && e.login))
         return {error: 1, status: 404, data: 'Adresse email déjà utilisée'}
 
-    let _id = customersAccounts.length ? parseInt(customersAccounts[customersAccounts.length - 1]._id) + 1 : 0;
+    let _id = customer_accounts.length ? parseInt(customer_accounts[customer_accounts.length - 1]._id) + 1 : 0;
 
     // retourne uniquement les champs nécessaires
     let u = {
@@ -35,7 +35,7 @@ function addCustomerAccount(customer) {
 function loginUser(data) {
     if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
     // pour simplifier : test uniquement le login
-    let user = customersAccounts.find(e => e.login === data.login)
+    let user = customer_accounts.find(e => e.login === data.login)
     if (!user) return {error: 1, status: 404, data: 'login/pass incorrect'}
     // générer un uuid de session pour l'utilisateur si non existant
     if (!user.session) {
@@ -55,7 +55,7 @@ function loginUser(data) {
 }
 
 function modifyCustomerAccount(customer) {
-    let user = customersAccounts.find(e => e._id === customer._id)
+    let user = customer_accounts.find(e => e._id === customer._id)
     if (!user) return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
 
     user.name = customer.name

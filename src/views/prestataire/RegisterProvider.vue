@@ -106,7 +106,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("account", ["submitProviderRequest"]), // Mappage avec l'action Vuex
+    ...mapActions("account", ["submitProviderRequest"]),
 
     async submitRegistration() {
       // Vérification si les mots de passe correspondent
