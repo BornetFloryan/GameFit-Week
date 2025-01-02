@@ -114,12 +114,12 @@ const insertData = async () => {
             );
         }
 
-        for (const date of dedication_dates) {
-            const { _id, date: availableDate, times, anim_id } = date;
+        for (const dedication_date of dedication_dates) {
+            const { _id, date, time, anim_id } = dedication_date;
             await insertIfNotExists(
                 'SELECT _id FROM dedication_dates WHERE _id = $1',
-                'INSERT INTO dedication_dates (_id, date, times, anim_id) VALUES ($1, $2, $3, $4)',
-                [_id, availableDate, JSON.stringify(times), anim_id || 0]
+                'INSERT INTO dedication_dates (_id, date, time, anim_id) VALUES ($1, $2, $3, $4)',
+                [_id, date, time, anim_id || 0]
             );
         }
 
@@ -142,11 +142,11 @@ const insertData = async () => {
         }
 
         for (const stand of stands) {
-            const { _id, name, description, price, prestataire_id, pavillon_id } = stand;
+            const { _id, name, price, pavillon_id } = stand;
             await insertIfNotExists(
                 'SELECT _id FROM stands WHERE _id = $1',
-                'INSERT INTO stands (_id, name, description, price, prestataire_id, pavillon_id) VALUES ($1, $2, $3, $4, $5, $6)',
-                [_id, name, description, price, prestataire_id || 0, pavillon_id || 0]
+                'INSERT INTO stands (_id, name, price, pavillon_id) VALUES ($1, $2, $3, $4)',
+                [_id, name, price || 0, pavillon_id]
             );
         }
 

@@ -6,22 +6,26 @@
         <input
             type="date"
             id="date"
-            v-model="$data.date"
+            v-model="date"
             required
+            :min="minDate"
+            :max="maxDate"
+            @change="updateAvailableTimes"
         />
       </div>
 
-      <div class="form-group">
+      <div v-if="date" class="form-group">
         <label>Horaires</label>
         <div :class="{'times-grid': times.length > 1, 'times-list': times.length <= 1}">
           <div v-for="(time, index) in times" :key="index" class="time-slot">
             <label :for="'time' + index">Horaire {{ index + 1 }}</label>
-            <input
-                type="time"
+            <select
                 :id="'time' + index"
                 v-model="times[index]"
                 required
-            />
+            >
+              <option v-for="option in availableTimeOptions(index)" :key="option" :value="option">{{ option }}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -48,6 +52,10 @@ export default {
     return {
       date: '',
       times: [''],
+      timeOptions: this.generateTimeOptions(),
+      usedTimes: [],
+      minDate: '2025-07-07',
+      maxDate: '2025-07-12',
     };
   },
   computed: {
@@ -68,13 +76,51 @@ export default {
         alert('Les plages horaires en double ne sont pas autorisées.');
         return;
       }
-      const _id = this.availableDates.length ? parseInt(this.availableDates[this.availableDates.length - 1]._id) + 1 : 0;
       this.$emit('addDedicaceSlot', {
-        _id: _id,
-        date: this.$data.date,
+        date: this.date,
         times: this.times,
-        anim_id : this.currentUser._id,
+        anim_id: this.currentUser._id,
       });
+    },
+    generateTimeOptions() {
+      const options = [];
+      for (let hour = 9; hour <= 17; hour++) {
+        if (hour === 12) continue;
+        const hourString = hour.toString().padStart(2, '0');
+        options.push(`${hourString}:00`);
+      }
+      return options;
+    },
+    availableTimeOptions(index) {
+      return this.timeOptions.filter(option => !this.times.includes(option) || this.times[index] === option).filter(option => !this.usedTimes.includes(option));
+    },
+    updateAvailableTimes() {
+      if (this.date) {
+        const selectedDate = new Date(this.date).toISOString().split('T')[0];
+        this.usedTimes = this.dedicationDates
+            .filter(dedication => dedication.date.split('T')[0] === selectedDate)
+            .map(dedication => dedication.time);
+        this.checkDateAvailability();
+      } else {
+        this.usedTimes = [];
+      }
+    },
+    checkDateAvailability() {
+      const availableDates = this.dedicationDates
+          .map(dedication => dedication.date.split('T')[0])
+          .filter(date => {
+            const usedTimes = this.dedicationDates
+                .filter(dedication => dedication.date.split('T')[0] === date)
+                .map(dedication => dedication.time);
+            return this.timeOptions.some(option => !usedTimes.includes(option));
+          });
+
+      if (!availableDates.includes(this.date)) {
+        this.date = '';
+      }
+
+      this.minDate = availableDates.length > 0 ? availableDates[0] : '';
+      this.maxDate = availableDates.length > 0 ? availableDates[availableDates.length - 1] : '';
     },
   },
   mounted() {
@@ -122,7 +168,6 @@ label {
 }
 
 input[type="date"],
-input[type="time"],
 select {
   width: 100%;
   padding: 0.75em;
@@ -134,7 +179,6 @@ select {
 }
 
 input[type="date"]:focus,
-input[type="time"]:focus,
 select:focus {
   border-color: #007bff;
 }

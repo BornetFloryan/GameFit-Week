@@ -156,7 +156,6 @@ export default {
   computed: {
     ...mapState("dedication", [
       "animatorDedicationDates",
-      "dedicationTimes",
       "animators",
       "dedicationReservations",
       "sportsCategories",
@@ -171,20 +170,49 @@ export default {
       });
     },
     disabledDates() {
-      const availableDatesSet = new Set(
-          this.animatorAvailableDates.map((date) =>
-              new Date(date).toDateString()
-          )
-      );
-      return (date) => !availableDatesSet.has(date.toDateString());
+      const reservedDatesMap = new Map();
+
+      this.animatorDedicationDates.forEach((dateObj) => {
+        const dateStr = new Date(dateObj.date).toDateString();
+        if (!reservedDatesMap.has(dateStr)) {
+          reservedDatesMap.set(dateStr, new Set());
+        }
+        if (this.dedicationReservations.some(reservation =>
+            new Date(dateObj.date).toDateString() === new Date(reservation.date).toDateString()
+            && dateObj.time === reservation.time
+        )) {
+          reservedDatesMap.get(dateStr).add(dateObj.time);
+        }
+      });
+
+      return (date) => {
+        const dateStr = date.toDateString();
+        const timesForDate = this.animatorDedicationDates
+            .filter(dateObj => new Date(dateObj.date).toDateString() === dateStr)
+            .map(dateObj => dateObj.time);
+
+        return !this.animatorDedicationDates.some(dateObj => new Date(dateObj.date).toDateString() === dateStr) ||
+            (reservedDatesMap.has(dateStr) && reservedDatesMap.get(dateStr).size === timesForDate.length);
+      };
+    },
+    dedicationTimes() {
+      if(Array.isArray(this.dedicationReservations)){
+        const selectedDateStr = new Date(this.selectedDate).toDateString();
+
+        const availableTimes = this.animatorDedicationDates
+            .filter(date => new Date(date.date).toDateString() === selectedDateStr)
+            .map(date => date.time);
+
+        const reservedTimes = this.dedicationReservations
+            .filter(reservation => new Date(reservation.date).toDateString() === selectedDateStr)
+            .map(reservation => reservation.time);
+
+        return availableTimes.filter(time => !reservedTimes.includes(time));
+      }
+      return [];
     },
   },
   watch: {
-    selectedDate(newDate) {
-      if (newDate) {
-        this.getDedicationTimes(newDate);
-      }
-    },
     selectedAnimator(newAnimator) {
       if (newAnimator) {
         this.selectedDate = null;
@@ -196,7 +224,6 @@ export default {
   methods: {
     ...mapActions("dedication", [
       "getAnimatorDedicationDates",
-      "getDedicationTimes",
       "getAnimators",
       "addDedicationReservation",
       "getDedicationReservations",

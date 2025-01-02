@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS stands CASCADE;
-DROP TABLE IF EXISTS pavillons CASCADE;
+DROP TABLE IF EXISTS stands_reservations CASCADE;
 DROP TABLE IF EXISTS tickets CASCADE;
 DROP TABLE IF EXISTS ticket_age_categories CASCADE;
 DROP TABLE IF EXISTS ticket_animation_categories CASCADE;
@@ -10,6 +9,8 @@ DROP TABLE IF EXISTS provider_sport_categories CASCADE;
 DROP TABLE IF EXISTS service_categories CASCADE;
 DROP TABLE IF EXISTS provider_service_categories CASCADE;
 DROP TABLE IF EXISTS customer_accounts CASCADE;
+DROP TABLE IF EXISTS stands CASCADE;
+DROP TABLE IF EXISTS pavillons CASCADE;
 
 CREATE TABLE IF NOT EXISTS customer_accounts
 (
@@ -86,8 +87,8 @@ CREATE TABLE IF NOT EXISTS tickets
 CREATE TABLE IF NOT EXISTS dedication_dates
 (
     _id     SERIAL PRIMARY KEY,
-    date    DATE,
-    times   JSON,
+    date    DATE NOT NULL,
+    time    TIME NOT NULL,
     anim_id INT REFERENCES customer_accounts (_id)
 );
 
@@ -110,8 +111,19 @@ CREATE TABLE IF NOT EXISTS stands
 (
     _id            SERIAL PRIMARY KEY,
     name           VARCHAR(255),
-    description    TEXT,
     price          NUMERIC(10, 2),
     prestataire_id INT REFERENCES customer_accounts (_id),
     pavillon_id    INT REFERENCES pavillons (_id)
+);
+
+CREATE TABLE IF NOT EXISTS stands_reservations
+(
+    _id         SERIAL PRIMARY KEY,
+    date        DATE,
+    start_time  TIME,
+    end_time    TIME,
+    description    TEXT,
+    prestataire_id   INT REFERENCES customer_accounts (_id),
+    service_id  INT REFERENCES service_categories(_id),
+    stand_id    INT REFERENCES stands (_id)
 );

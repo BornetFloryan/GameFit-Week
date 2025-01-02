@@ -13,13 +13,13 @@
 
       <div class="form-group">
         <label>Horaires</label>
-        <div :class="{'times-grid': times.length > 1, 'times-list': times.length <= 1}">
-          <div v-for="(time, index) in times" :key="index" class="time-slot">
+        <div :class="{'times-grid': time.length > 1, 'times-list': time.length <= 1}">
+          <div v-for="(time, index) in time" :key="index" class="time-slot">
             <label :for="'time' + index">Horaire {{ index + 1 }}</label>
             <input
                 type="time"
                 :id="'time' + index"
-                v-model="times[index]"
+                v-model="time[index]"
                 required
             />
           </div>
@@ -27,7 +27,7 @@
       </div>
 
       <button type="button" @click="addTime" class="addTime-button">Ajouter un horaire</button>
-      <button v-if="times.length > 1" type="button" @click="delTime" class="delTime-button">Supprimer un horaire</button>
+      <button v-if="time.length > 1" type="button" @click="delTime" class="delTime-button">Supprimer un horaire</button>
       <br/>
       <br/>
 
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       date: '',
-      times: [''],
+      time: [''],
     };
   },
   computed: {
@@ -67,23 +67,21 @@ export default {
   methods: {
     ...mapActions('dedication', ['addDedicationDates', 'getDedicationReservations', 'getDedicationDates', 'getAnimators']),
     addTime() {
-      this.times.push('');
+      this.time.push('');
     },
     delTime() {
-      this.times.pop();
+      this.time.pop();
     },
     addDedicaceSlot() {
-      const uniqueTimes = new Set(this.times);
-      if (uniqueTimes.size !== this.times.length) {
+      const uniqueTimes = new Set(this.time);
+      if (uniqueTimes.size !== this.time.length) {
         alert('Les plages horaires en double ne sont pas autorisées.');
         return;
       }
-      const _id = this.availableDates.length ? parseInt(this.availableDates[this.availableDates.length - 1]._id) + 1 : 0;
       const anim_id = document.getElementById('anim_id').value;
       this.$emit('addDedicaceSlot', {
-        _id: _id,
-        date: this.$data.date,
-        times: this.times,
+        date: this.data.date,
+        time: this.time,
         anim_id});
     },
   },

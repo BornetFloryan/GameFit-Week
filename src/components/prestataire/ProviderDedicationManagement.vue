@@ -1,11 +1,11 @@
 <template>
   <div class="provider-dedication-home">
     <h1>Gestion des Dédicaces</h1>
-    <button v-if="isShowDedicationAvailableDatesTableVisible === false" @click="showDedicationAvailableDatesTable">Voir vos créneaux de dédicaces</button>
+    <button v-if="isShowDedicationDatesTableVisible === false" @click="showDedicationDatesTable">Voir vos créneaux de dédicaces</button>
     <button v-if="isShowCustomersDedicationTableVisible === false" @click="showCustomersDedicationTable">Voir les réservations clientes</button>
     <button v-if="isAddFormVisible === false" @click="showAddForm">Ajouter un créneaux de dédicace</button>
     <ProviderAddDedicaceSlotForm v-if="isAddFormVisible" @addDedicaceSlot="addDedicaceSlot"></ProviderAddDedicaceSlotForm>
-    <table v-if="isShowDedicationAvailableDatesTableVisible">
+    <table v-if="isShowDedicationDatesTableVisible">
       <thead>
       <tr>
         <th>Numéro</th>
@@ -15,16 +15,17 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="availableDate in providerAvailableDates" :key="availableDate._id">
-        <td>{{ availableDate._id }}</td>
-        <td>{{ formatDate(availableDate.date) }}</td>
-        <td>{{ availableDate.times }}</td>
+      <tr v-for="providerDedicationDate in providerDedicationDates" :key="providerDedicationDate._id">
+        <td>{{ providerDedicationDate._id }}</td>
+        <td>{{ formatDate(providerDedicationDate.date) }}</td>
+        <td>{{ providerDedicationDate.time }}</td>
         <td>
-          <button @click="deleteDedicaceSlot(availableDate)">Supprimer</button>
+          <button @click="deleteDedicaceSlot(providerDedicationDate)">Supprimer</button>
         </td>
       </tr>
       </tbody>
     </table>
+    {{providerDedicationDates}}
 
     <table v-if="isShowCustomersDedicationTableVisible">
       <thead>
@@ -32,19 +33,18 @@
         <th>Numéro</th>
         <th>Date</th>
         <th>Horaire</th>
-        <th>Client</th>
+        <th>Ticket</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="dedicationReservation in providerAvailableDates" :key="dedicationReservation._id">
+      <tr v-for="dedicationReservation in providerDedicationReservations" :key="dedicationReservation._id">
         <td>{{ dedicationReservation._id }}</td>
         <td>{{ formatDate(dedicationReservation.date) }}</td>
         <td>{{ dedicationReservation.time }}</td>
-        <td>{{ dedicationReservation._idCustomer }}</td>
+        <td>{{ dedicationReservation.ticket_id }}</td>
       </tr>
       </tbody>
     </table>
-    {{providerAvailableDates}}
   </div>
 </template>
 
@@ -57,12 +57,12 @@ export default {
   components: {ProviderAddDedicaceSlotForm},
   data() {
     return {
-      providerAvailableDates: [],
+      providerDedicationDates: [],
       providerDedicationReservations: [],
-      isShowDedicationAvailableDatesTableVisible: true,
+      isShowDedicationDatesTableVisible: true,
       isShowCustomersDedicationTableVisible: false,
       isAddFormVisible: false,
-      selectedAvailableDate: null,
+      selectedDedicationDate: null,
     };
   },
   computed: {
@@ -71,18 +71,18 @@ export default {
   },
   methods: {
     ...mapActions('dedication', ['addDedicationDates', 'deleteDedicationDates', 'getDedicationReservations', 'getDedicationDates']),
-    showDedicationAvailableDatesTable() {
-      this.isShowDedicationAvailableDatesTableVisible = true;
+    showDedicationDatesTable() {
+      this.isShowDedicationDatesTableVisible = true;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = false;
     },
     showCustomersDedicationTable() {
-      this.isShowDedicationAvailableDatesTableVisible = false;
+      this.isShowDedicationDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = true;
       this.isAddFormVisible = false;
     },
     showAddForm() {
-      this.isShowDedicationAvailableDatesTableVisible = false;
+      this.isShowDedicationDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = true;
       this.isModifyFormVisible = false;
@@ -91,19 +91,18 @@ export default {
       try {
         await this.addDedicationDates(data);
         await this.getDedicationDates();
-        this.providerAvailableDates = this.availableDates.filter(e => e.anim_id === this.currentUser._id);
-        this.showDedicationAvailableDatesTable();
+        this.providerDedicationDates = this.dedicationDates.filter(e => e.anim_id === this.currentUser._id);
+        this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de l\'ajout du créneau de dédicace:', error);
         alert('Erreur lors de l\'ajout du créneau de dédicace');
       }
     },
-    async deleteDedicaceSlot(availableDate) {
+    async deleteDedicaceSlot(dedicationDate) {
       try {
-        await this.deleteDedicationDates(availableDate);
-        await this.getDedicationDates();
-        this.providerAvailableDates = this.availableDates.filter(e => e.anim_id === this.currentUser._id);
-        this.showDedicationAvailableDatesTable();
+        await this.deleteDedicationDates(dedicationDate);
+        this.providerDedicationDates = this.dedicationDates.filter(e => e.anim_id === this.currentUser._id);
+        this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de la suppression du créneau de dédicace:', error);
         alert('Erreur lors de la suppression du créneau de dédicace');
@@ -117,7 +116,7 @@ export default {
   async mounted() {
     await this.getDedicationReservations();
     await this.getDedicationDates();
-    this.providerAvailableDates = this.availableDates.filter(e => e.anim_id === this.currentUser._id);
+    this.providerDedicationDates = this.dedicationDates.filter(e => e.anim_id === this.currentUser._id);
     this.providerDedicationReservations = this.dedicationReservations.filter(e => e.anim_id === this.currentUser._id);
   },
 };

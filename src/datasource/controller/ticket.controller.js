@@ -40,12 +40,9 @@ function addTickets(formData) {
     for (let i = 0; i < formData.ticketCount; i++) {
 
         let price_id = ticket_prices.find(price => price.animation_category_id === formData._idTicketAnimationCategories && price.age_category_id === formData._idTicketAgeCategories)._id;
-        let _idTicket = tickets.length ? parseInt((tickets[tickets.length - 1]._id) % 10) + 1 : 0;
-        let _id = (parseInt(Date.now() / 1000)).toString() + customer._id.toString() + formData._idTicketAnimationCategories.toString()
-            + formData._idTicketAgeCategories.toString() + (_idTicket + i).toString();
 
         let ticket = {
-            _id: _id,
+            _id: uuidv4(),
             date: formData.date,
             time: formData.time,
             _idCustomer: customer._id,

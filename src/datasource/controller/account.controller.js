@@ -34,8 +34,7 @@ function addCustomerAccount(customer) {
 
 function loginUser(data) {
     if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
-    // pour simplifier : test uniquement le login
-    let user = customer_accounts.find(e => e.login === data.login)
+    let user = customer_accounts.find(e => e.login === data.login && e.password === data.password)
     if (!user) return {error: 1, status: 404, data: 'login/pass incorrect'}
     // générer un uuid de session pour l'utilisateur si non existant
     if (!user.session) {

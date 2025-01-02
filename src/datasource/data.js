@@ -518,17 +518,13 @@ let dedication_dates = [
     {
         "_id": "0",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "09:00",
-        ],
+        "time": "09:00",
         "anim_id": "3",
     },
     {
         "_id": "1",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "10:00",
-        ],
+        "time": "10:00",
         "anim_id": "3",
     },
 
@@ -536,17 +532,13 @@ let dedication_dates = [
     {
         "_id": "2",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "11:00",
-        ],
+        "time": "11:00",
         "anim_id": "4",
     },
     {
         "_id": "3",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "13;00",
-        ],
+        "time": "13:00",
         "anim_id": "4",
     },
 
@@ -554,17 +546,13 @@ let dedication_dates = [
     {
         "_id": "4",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "14:00",
-        ],
+        "time": "14:00",
         "anim_id": "5",
     },
     {
         "_id": "5",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "15:00",
-        ],
+        "time": "15:00",
         "anim_id": "5",
     },
 
@@ -572,233 +560,181 @@ let dedication_dates = [
     {
         "_id": "6",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "16:00",
-        ],
+        "time": "16:00",
         "anim_id": "6",
     },
     {
         "_id": "7",
         "date": "2025-07-07T00:00:00.000Z",
-        "times": [
-            "17:00",
-        ],
+        "time": "17:00",
         "anim_id": "6",
     },
 
     // Tom Brady
     {
         "_id": "8",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "09:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "09:00",
         "anim_id": "7",
     },
     {
         "_id": "9",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "10:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "10:00",
         "anim_id": "7",
     },
 
     // Roger Federer
     {
         "_id": "10",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "11:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "11:00",
         "anim_id": "8",
     },
     {
         "_id": "11",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "13:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "13:00",
         "anim_id": "8",
     },
 
     // Stephen Curry
     {
         "_id": "12",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "14:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "14:00",
         "anim_id": "9",
     },
     {
         "_id": "13",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "15:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "15:00",
         "anim_id": "9",
     },
 
     // Usain Bolt
     {
         "_id": "14",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "16:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "16:00",
         "anim_id": "10",
     },
     {
         "_id": "15",
-        "date": "2025-08-07T00:00:00.000Z",
-        "times": [
-            "17:00",
-        ],
+        "date": "2025-07-08T00:00:00.000Z",
+        "time": "17:00",
         "anim_id": "10",
     },
 
     // Neymar Jr.
     {
         "_id": "16",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "09:00",
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "09:00",
         "anim_id": "11",
     },
     {
         "_id": "17",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "10:00"
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "10:00",
         "anim_id": "11",
     },
 
     // Michael Jordan
     {
         "_id": "18",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "11:00"
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "11:00",
         "anim_id": "12",
     },
     {
         "_id": "19",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "13:00"
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "13:00",
         "anim_id": "12",
     },
 
     // Khabib Nurmagomedov
     {
         "_id": "20",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "14:00",
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "14:00",
         "anim_id": "13",
     },
     {
         "_id": "21",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "15:00",
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "15:00",
         "anim_id": "13",
     },
 
     // Pele
     {
         "_id": "22",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "16:00",
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "16:00",
         "anim_id": "14",
     },
     {
         "_id": "23",
-        "date": "2025-09-07T00:00:00.000Z",
-        "times": [
-            "17:00",
-        ],
+        "date": "2025-07-09T00:00:00.000Z",
+        "time": "17:00",
         "anim_id": "14",
     },
 
     // Virat Kohli
     {
         "_id": "24",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "09:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "09:00",
         "anim_id": "15",
     },
     {
         "_id": "25",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "10:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "10:00",
         "anim_id": "15",
     },
 
     // Misty May-Treanor
     {
         "_id": "26",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "11:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "11:00",
         "anim_id": "16",
     },
     {
         "_id": "27",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "13:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "13:00",
         "anim_id": "16",
     },
 
     // Bugha
     {
         "_id": "28",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "14:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "14:00",
         "anim_id": "17",
     },
     {
         "_id": "29",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "15:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "15:00",
         "anim_id": "17",
     },
 
     // Ninja
     {
         "_id": "30",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "16:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "16:00",
         "anim_id": "18",
     },
     {
         "_id": "31",
-        "date": "2025-10-07T00:00:00.000Z",
-        "times": [
-            "17:00",
-        ],
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "17:00",
         "anim_id": "18",
     }
 ];
@@ -806,10 +742,10 @@ let dedication_dates = [
 let dedication_reservations = [
     {
         "_id": "0",
-        "date": "2025-07-07T00:00:00.000Z",
-        "time": "08:00",
+        "date": "2025-07-10T00:00:00.000Z",
+        "time": "17:00",
         "ticket_id": "0",
-        "anim_id": "17",
+        "anim_id": "18",
     },
 ];
 
@@ -836,267 +772,384 @@ let stands = [
     {
         "_id": "0",
         "name": "Stand 1",
-        "description": "Stand 1",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "0",
     },
     {
         "_id": "1",
         "name": "Stand 2",
-        "description": "Stand 2",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "0",
     },
     {
         "_id": "2",
         "name": "Stand 3",
-        "description": "Stand 3",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "0",
     },
     {
         "_id": "3",
         "name": "Stand 4",
-        "description": "Stand 4",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "0",
     },
     {
         "_id": "4",
         "name": "Stand 5",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "3",
         "pavillon_id": "1",
     },
     {
         "_id": "5",
         "name": "Stand 6",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "4",
         "pavillon_id": "1",
     },
     {
         "_id": "6",
         "name": "Stand 7",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "5",
         "pavillon_id": "1",
     },
     {
         "_id": "7",
         "name": "Stand 8",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "6",
         "pavillon_id": "1",
     },
     {
         "_id": "8",
         "name": "Stand 9",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "7",
         "pavillon_id": "1",
     },
     {
         "_id": "9",
         "name": "Stand 10",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "8",
         "pavillon_id": "1",
     },
     {
         "_id": "10",
         "name": "Stand 11",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "9",
         "pavillon_id": "1",
     },
     {
         "_id": "11",
         "name": "Stand 12",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "10",
         "pavillon_id": "1",
     },
     {
         "_id": "12",
         "name": "Stand 13",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "11",
         "pavillon_id": "1",
     },
     {
         "_id": "13",
         "name": "Stand 14",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "12",
         "pavillon_id": "1",
     },
     {
         "_id": "14",
         "name": "Stand 15",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "13",
         "pavillon_id": "1",
     },
     {
         "_id": "15",
         "name": "Stand 16",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "14",
         "pavillon_id": "1",
     },
     {
         "_id": "16",
         "name": "Stand 17",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "15",
         "pavillon_id": "1",
     },
     {
         "_id": "17",
         "name": "Stand 18",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "16",
         "pavillon_id": "1",
     },
     {
         "_id": "18",
         "name": "Stand 19",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "17",
         "pavillon_id": "1",
     },
     {
         "_id": "19",
         "name": "Stand 20",
-        "description": "Venez rencontrer ",
         "price": "100",
-        "prestataire_id": "18",
         "pavillon_id": "1",
     },
     {
         "_id": "20",
         "name": "Stand 21",
-        "description": "Stand 21",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "21",
         "name": "Stand 22",
-        "description": "Stand 22",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "22",
         "name": "Stand 23",
-        "description": "Stand 23",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "23",
         "name": "Stand 24",
-        "description": "Stand 24",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "24",
         "name": "Stand 25",
-        "description": "Stand 25",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "25",
         "name": "Stand 26",
-        "description": "Stand 26",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "26",
         "name": "Stand 27",
-        "description": "Stand 27",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "27",
         "name": "Stand 28",
-        "description": "Stand 28",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "28",
         "name": "Stand 29",
-        "description": "Stand 29",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "29",
         "name": "Stand 30",
-        "description": "Stand 30",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "30",
         "name": "Stand 31",
-        "description": "Stand 31",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "31",
         "name": "Stand 32",
-        "description": "Stand 32",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
     },
     {
         "_id": "32",
         "name": "Stand 33",
-        "description": "Stand 33",
         "price": "100",
-        "prestataire_id": "",
         "pavillon_id": "2",
-    }
+    },
+    {
+        "_id": "33",
+        "name": "Terrain de Football",
+        "price": "10000",
+        "pavillon_id": "0",
+    },
+    {
+        "_id": "34",
+        "name": "Scène 1",
+        "price": "10000",
+        "pavillon_id": "1",
+    },
+    {
+        "_id": "35",
+        "name": "Scène 2",
+        "price": "10000",
+        "pavillon_id": "2",
+    },
+];
+
+let stands_reservations = [
+    {
+        "_id": "0",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "09:00",
+        "end_time": "10:00",
+        "description": "Venez rencontrer Lionel Messi !",
+        "prestataire_id": "3",
+        "service_id":"0",
+        "stand_id": "4",
+    },
+    {
+        "_id": "1",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "10:00",
+        "end_time": "11:00",
+        "description": "Venez rencontrer LeBron James !",
+        "prestataire_id": "4",
+        "service_id":"0",
+        "stand_id": "4",
+    },
+    {
+        "_id": "2",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "11:00",
+        "end_time": "12:00",
+        "description": "Venez rencontrer Serena Williams !",
+        "prestataire_id": "5",
+        "service_id":"0",
+        "stand_id": "6",
+    },
+    {
+        "_id": "3",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "13:00",
+        "end_time": "14:00",
+        "description": "Venez rencontrer Cristiano Ronaldo !",
+        "prestataire_id": "6",
+        "service_id":"0",
+        "stand_id": "7",
+    },
+    {
+        "_id": "4",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "14:00",
+        "end_time": "15:00",
+        "description": "Venez rencontrer Tom Brady !",
+        "prestataire_id": "7",
+        "service_id":"0",
+        "stand_id": "8",
+    },
+    {
+        "_id": "5",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "15:00",
+        "end_time": "16:00",
+        "description": "Venez rencontrer Roger Federer !",
+        "prestataire_id": "8",
+        "service_id":"0",
+        "stand_id": "9",
+    },
+    {
+        "_id": "6",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "16:00",
+        "end_time": "17:00",
+        "description": "Venez rencontrer Stephen Curry !",
+        "prestataire_id": "9",
+        "service_id":"0",
+        "stand_id": "10",
+    },
+    {
+        "_id": "7",
+        "date": "2025-07-07T00:00:00.000Z",
+        "start_time": "17:00",
+        "end_time": "18:00",
+        "description": "Venez rencontrer Usain Bolt !",
+        "prestataire_id": "10",
+        "service_id":"0",
+        "stand_id": "11",
+    },
+    {
+        "_id": "8",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "09:00",
+        "end_time": "10:00",
+        "description": "Venez rencontrer Neymar Jr. !",
+        "prestataire_id": "11",
+        "service_id":"0",
+        "stand_id": "12",
+    },
+    {
+        "_id": "9",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "10:00",
+        "end_time": "11:00",
+        "description": "Venez rencontrer Michael Jordan !",
+        "prestataire_id": "12",
+        "service_id":"0",
+        "stand_id": "13",
+    },
+    {
+        "_id": "10",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "11:00",
+        "end_time": "12:00",
+        "name": "Stand 15",
+        "description": "Venez rencontrer Khabib Nurmagomedov !",
+        "price": "100",
+        "prestataire_id": "13",
+        "service_id":"0",
+        "stand_id": "14",
+    },
+    {
+        "_id": "11",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "13:00",
+        "end_time": "14:00",
+        "description": "Venez rencontrer Pelé !",
+        "prestataire_id": "14",
+        "service_id":"0",
+        "stand_id": "15",
+    },
+    {
+        "_id": "12",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "14:00",
+        "end_time": "15:00",
+        "description": "Venez rencontrer Virat Kohli !",
+        "prestataire_id": "15",
+        "service_id":"0",
+        "stand_id": "16",
+    },
+    {
+        "_id": "13",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "15:00",
+        "end_time": "16:00",
+        "description": "Venez rencontrer Misty May-Treanor !",
+        "prestataire_id": "16",
+        "service_id":"0",
+        "stand_id": "17",
+    },
+    {
+        "_id": "14",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "16:00",
+        "end_time": "17:00",
+        "description": "Venez rencontrer Bugha !",
+        "prestataire_id": "17",
+        "service_id":"0",
+        "stand_id": "18",
+    },
+    {
+        "_id": "15",
+        "date": "2025-07-08T00:00:00.000Z",
+        "start_time": "17:00",
+        "end_time": "18:00",
+        "description": "Venez rencontrer Ninja !",
+        "prestataire_id": "18",
+        "service_id":"0",
+        "stand_id": "19",
+    },
 ];
 
 module.exports = {
@@ -1113,4 +1166,5 @@ module.exports = {
     dedication_reservations,
     pavillons,
     stands,
+    stands_reservations,
 }

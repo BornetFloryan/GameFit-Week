@@ -71,7 +71,7 @@ export default {
               await this.$router.push({ name: "home" });
           }
         } else {
-          alert("Nom d'utilisateur ou mot de passe incorrect.");
+          alert(response.data);
         }
       } catch (error) {
         console.error("Erreur lors de la connexion:", error);

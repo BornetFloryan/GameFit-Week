@@ -1,5 +1,5 @@
 import {dedication_dates, customer_accounts, dedication_reservations, sports_categories} from '../data'
-import store from '@/store';
+import {v4 as uuidv4} from 'uuid'
 
 //Dedication
 function getAnimators() {
@@ -10,6 +10,7 @@ function getAnimators() {
 function getDedicationDates() {
     return { error: 0, data: dedication_dates };
 }
+
 function addDedicationDates(data) {
     if (data.date) {
         data.date = new Date(data.date).toISOString().split('T')[0] + 'T00:00:00.000Z';
@@ -19,25 +20,21 @@ function addDedicationDates(data) {
         return {error: 1, data: 'Missing parameters'};
     }
 
-    let existingEntry = dedication_dates.find(e => e.date === data.date && e.anim_id === data.anim_id);
-    if (existingEntry) {
-        const newTimes = data.times.filter(time => !existingEntry.times.includes(time));
-        if (newTimes.length > 0) {
-            existingEntry.times.push(...newTimes);
-            return {error: 0, data: null };
-        } else {
-            alert(`A cette date, l'animateur à déjà ouvert un créneau à cet/ces horaires : ${data.times.join(', ')} !`);
-            return {error: 1, data: `This date and times (${data.times.join(', ')}) are already available`};
+    let new_dedication_dates = [];
+    for(let time of data.times) {
+        let existingEntry = dedication_dates.find(date => date.date === data.date && date.time === time);
+        if (existingEntry) {
+            return {error: 1, data: `Cette date et ces horaires (${time.join(', ')}) sont déjà utilisés`};
         }
-    }
 
-    let availableDate = {
-        _id: data._id,
-        date: data.date,
-        times: data.times,
-        anim_id: data.anim_id,
-    };
-    return {error: 0, data: availableDate};
+        new_dedication_dates.push({
+            _id: uuidv4(),
+            date: data.date,
+            time: time,
+            anim_id: data.anim_id
+        });
+    }
+    return {error: 0, data: new_dedication_dates};
 }
 
 function modifyDedicationDates(data) {
@@ -45,7 +42,7 @@ function modifyDedicationDates(data) {
         data.date = new Date(data.date).toISOString().split('T')[0] + 'T00:00:00.000Z';
     }
 
-    if (!data.date || !data.times || !data.anim_id) {
+    if (!data.date || !data.time || !data.anim_id) {
         return {error: 1, data: 'Missing parameters'};
     }
 
@@ -55,7 +52,7 @@ function modifyDedicationDates(data) {
         return {error: 1, data: 'No entry found'};
 
     }
-    existingEntry.times = data.times;
+    existingEntry.time = data.time;
     return {error: 0, data: existingEntry };
 }
 
@@ -69,41 +66,8 @@ function getAnimatorDedicationDates(animator){
     return {
         error: 0,
         status: 200,
-        data: dates.map(dateObj => new Date(dateObj.date))
+        data: dates,
     };
-}
-
-function getDedicationTimes(date) {
-    const selectedDateUTC = new Date(Date.UTC(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate()
-    )).toISOString().split('T')[0];
-
-    const dedicationDates = store.state.dedication.dedicationDates;
-    const dedicationReservations = store.state.dedication.dedicationReservations;
-
-    console.log(dedicationDates)
-
-    console.log(dedicationReservations)
-
-    for (const element of dedicationDates) {
-        console.log(element)
-        if (new Date(element.date).toISOString().split('T')[0] === selectedDateUTC) {
-            const reservedTimes = dedicationReservations
-                .filter(reservation => reservation.date === element.date)
-                .map(reservation => reservation.time);
-
-            const availableTimes = element.times.filter(time => !reservedTimes.includes(time));
-
-            return {
-                error: 0,
-                status: 200,
-                data: availableTimes
-            };
-        }
-    }
-    return { error: 1, status: 404, data: 'No available times found' };
 }
 
 function getDedicationReservations(){
@@ -121,11 +85,8 @@ function addDedicationReservation(dedicationReservation) {
         return { error: 1, data: 'Time slot already reserved' };
     }
 
-    let _idReservation = dedication_reservations.length ? parseInt(dedication_reservations[dedication_reservations.length - 1]._id.toString().slice(-1)) + 1 : 0;
-    let _id = (parseInt(Date.now() / 1000)).toString() + dedicationReservation.anim_id.toString() + (_idReservation + 1).toString();
-
     let reservation = {
-        _id: _id,
+        _id: uuidv4(),
         date: dedicationReservation.date,
         time: dedicationReservation.time,
         ticket_id: dedicationReservation.ticket_id,
@@ -152,7 +113,6 @@ export default{
     deleteDedicationDates,
     modifyDedicationDates,
     getAnimatorDedicationDates,
-    getDedicationTimes,
     getDedicationReservations,
     addDedicationReservation,
     getCustomerDedicationReservations,

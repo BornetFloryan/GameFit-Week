@@ -1,12 +1,12 @@
 <template>
   <div class="provider-dedication-home">
     <h1>Gestion des Dédicaces</h1>
-    <button v-if="isShowDedicationAvailableDatesTableVisible === false" @click="showDedicationAvailableDatesTable">Voir les créneaux des animateurs</button>
+    <button v-if="isShowDedicationDatesTableVisible === false" @click="showDedicationDatesTable">Voir les créneaux des animateurs</button>
     <button v-if="isShowCustomersDedicationTableVisible === false" @click="showCustomersDedicationTable">Voir les réservations clientes</button>
     <button v-if="isAddFormVisible === false" @click="showAddForm">Ajouter un créneaux de dédicace</button>
     <AdminAddDedicaceSlotForm v-if="isAddFormVisible" @addDedicaceSlot="addDedicaceSlot"></AdminAddDedicaceSlotForm>
-    <AdminModifyDedicaceSlotForm v-if="isModifyFormVisible" :availableDate="selectedAvailableDate" @modifyDedicaceSlot="modifyDedicaceSlot"></AdminModifyDedicaceSlotForm>
-    <table v-if="isShowDedicationAvailableDatesTableVisible">
+    <AdminModifyDedicaceSlotForm v-if="isModifyFormVisible" :dedicationDate="selectedDedicationDate" @modifyDedicaceSlot="modifyDedicaceSlot"></AdminModifyDedicaceSlotForm>
+    <table v-if="isShowDedicationDatesTableVisible">
       <thead>
       <tr>
         <th>Numéro</th>
@@ -17,14 +17,14 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="availableDate in dedicationDates" :key="availableDate._id">
-        <td>{{ availableDate._id }}</td>
-        <td>{{ availableDate.date }}</td>
-        <td>{{ availableDate.times }}</td>
-        <td>{{ animators.find(e => e._id === availableDate.anim_id)?.name }}</td>
+      <tr v-for="dedicationDate in dedicationDates" :key="dedicationDate._id">
+        <td>{{ dedicationDate._id }}</td>
+        <td>{{ dedicationDate.date }}</td>
+        <td>{{ dedicationDate.time }}</td>
+        <td>{{ animators.find(e => e._id === dedicationDate.anim_id)?.name }}</td>
         <td>
-          <button @click="showModifyForm(availableDate)">Modifier</button>
-          <button @click="deleteDedicaceSlot(availableDate)">Supprimer</button>
+          <button @click="showModifyForm(dedicationDate)">Modifier</button>
+          <button @click="deleteDedicaceSlot(dedicationDate)">Supprimer</button>
         </td>
       </tr>
       </tbody>
@@ -62,11 +62,11 @@ export default {
   components: {AdminAddDedicaceSlotForm, AdminModifyDedicaceSlotForm},
   data() {
     return {
-      isShowDedicationAvailableDatesTableVisible: true,
+      isShowDedicationDatesTableVisible: true,
       isShowCustomersDedicationTableVisible: false,
       isAddFormVisible: false,
       isModifyFormVisible: false,
-      selectedAvailableDate: null,
+      selectedDedicationDate: null,
     };
   },
   computed: {
@@ -74,27 +74,27 @@ export default {
   },
   methods: {
     ...mapActions('dedication', ['addDedicationDates', 'deleteDedicationDates', 'modifyDedicationDates', 'getDedicationReservations', 'getDedicationDates', 'getAnimators']),
-    showDedicationAvailableDatesTable() {
-      this.isShowDedicationAvailableDatesTableVisible = true;
+    showDedicationDatesTable() {
+      this.isShowDedicationDatesTableVisible = true;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = false;
       this.isModifyFormVisible = false;
     },
     showCustomersDedicationTable() {
-      this.isShowDedicationAvailableDatesTableVisible = false;
+      this.isShowDedicationDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = true;
       this.isAddFormVisible = false;
       this.isModifyFormVisible = false;
     },
     showAddForm() {
-      this.isShowDedicationAvailableDatesTableVisible = false;
+      this.isShowDedicationDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = true;
       this.isModifyFormVisible = false;
     },
-    showModifyForm(availableDate) {
-      this.selectedAvailableDate = availableDate;
-      this.isShowDedicationAvailableDatesTableVisible = false;
+    showModifyForm(dedicationDate) {
+      this.selectedDedicationDate = dedicationDate;
+      this.isShowDedicationDatesTableVisible = false;
       this.isShowCustomersDedicationTableVisible = false;
       this.isAddFormVisible = false;
       this.isModifyFormVisible = true;
@@ -102,7 +102,7 @@ export default {
     async addDedicaceSlot(data) {
       try {
         await this.addDedicationDates(data);
-        this.showDedicationAvailableDatesTable();
+        this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de l\'ajout du créneau de dédicace:', error);
         alert('Erreur lors de l\'ajout du créneau de dédicace');
@@ -110,17 +110,17 @@ export default {
     },
     async modifyDedicaceSlot(data) {
       try {
-        await this.modifyDedicationDates(data.availableDate);
-        this.showDedicationAvailableDatesTable();
+        await this.modifyDedicationDates(data.dedicationDate);
+        this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de la modification du créneau de dédicace:', error);
         alert('Erreur lors de la modification du créneau de dédicace');
       }
     },
-    async deleteDedicaceSlot(availableDate) {
+    async deleteDedicaceSlot(dedicationDate) {
       try {
-        await this.deleteDedicationDates(availableDate);
-        this.showDedicationAvailableDatesTable();
+        await this.deleteDedicationDates(dedicationDate);
+        this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de la suppression du créneau de dédicace:', error);
         alert('Erreur lors de la suppression du créneau de dédicace');

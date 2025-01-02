@@ -2,7 +2,10 @@ import AdminDashBoardView from "@/views/admin/AdminDashBoardView.vue";
 import AdminDedicationView from "@/views/admin/AdminDedicationView.vue";
 import AdminRequests from "@/components/admin/AdminRequests.vue";
 import AdminDedicationManagement from "@/components/admin/AdminDedicationManagement.vue";
-
+import AdminStandManagement from "@/components/admin/AdminStandManagement.vue";
+import AdminModifyStandForm from "@/components/admin/AdminModifyStandForm.vue";
+import AdminStandReservation from "@/components/admin/AdminStandReservation.vue";
+import AdminModifyStandReservationForm from "@/components/admin/AdminModifyStandReservationForm.vue";
 
 export default [
     {
@@ -31,6 +34,30 @@ export default [
                 component: AdminRequests,
                 meta: { requiresAuth: true, requiredPrivilege: '2'},
             },
+            {
+                path: 'admin-stand-management',
+                name: 'admin-stand-management',
+                component: AdminStandManagement,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-stand-management/:item_id',
+                name: 'admin-stand-management-edit',
+                component: AdminModifyStandForm,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-stand-reservations',
+                name: 'admin-stand-reservations',
+                component: AdminStandReservation,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-stand-reservations/:item_id',
+                name: 'admin-stand-reservations-edit',
+                component: AdminModifyStandReservationForm,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            }
         ],
     },
 ];

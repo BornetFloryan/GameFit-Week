@@ -1,6 +1,6 @@
 <template>
-  <div class="provider-info">
-    <div class="provider-card">
+  <div class="stand-info">
+    <div class="stand-card">
       <div class="image-container">
         <img :src="require('@/assets/img/' + prestataire.picture)" alt="Prestataire" class="provider-image" v-if="prestataire.picture" />
       </div>
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped>
-.provider-info {
+.stand-info {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +39,7 @@ export default {
   overflow: hidden;
 }
 
-.provider-card {
+.stand-card {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -56,7 +56,7 @@ export default {
   height: auto;
 }
 
-.provider-card:hover {
+.stand-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
@@ -97,7 +97,7 @@ export default {
   word-wrap: break-word;
 }
 
-.provider-card::after {
+.stand-card::after {
   content: '';
   display: block;
   height: 4px;
@@ -107,7 +107,7 @@ export default {
 }
 
 @media (max-width: 800px) {
-  .provider-card {
+  .stand-card {
     padding: 20px;
   }
 
@@ -125,7 +125,7 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .provider-card {
+  .stand-card {
     padding: 15px;
   }
 

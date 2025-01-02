@@ -2,13 +2,27 @@ import StandsService from '@/services/stands.service';
 
 const state = () => ({
     // state = les données centralisées
-    stands: localStorage.getItem('stands') || '',
+    stands: localStorage.getItem('stands') || [],
+    pavillons: localStorage.getItem('pavillons') || [],
+    standsReservations: [],
 });
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
     updateStands(state, stands) {
         state.stands = stands;
         localStorage.setItem('stands', stands);
+    },
+    updatePavillons(state, pavillons) {
+        state.pavillons = pavillons;
+        localStorage.setItem('pavillons', pavillons);
+    },
+    updateStandsReservations(state, standsReservations) {
+        state.standsReservations = standsReservations;
+    },
+    modifyStand(state, stand) {
+        let index = state.stands.findIndex((s) => s.id === stand.id);
+        state.stands[index] = stand;
+        localStorage.setItem('stands', state.stands);
     },
 };
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -22,7 +36,43 @@ const actions = {
                 console.error(response.data);
             }
         } catch (error) {
-            console.error('Erreur lors de la récupération des comptes:', error);
+            console.error('Erreur lors de la récupération des stands:', error);
+        }
+    },
+    async getPavillons({ commit }) {
+        try {
+            let response = await StandsService.getPavillons();
+            if (response.error === 0) {
+                commit('updatePavillons', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des pavillons:', error);
+        }
+    },
+    async getStandsReservations({ commit }) {
+        try {
+            let response = await StandsService.getStandsReservations();
+            if (response.error === 0) {
+                commit('updateStandsReservations', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des réservations des stands:', error);
+        }
+    },
+    async modifyStand({ commit }, stand) {
+        try {
+            let response = await StandsService.modifyStand(stand);
+            if (response.error === 0) {
+                commit('modifyStand', stand);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la modification des stands:', error);
         }
     },
 };

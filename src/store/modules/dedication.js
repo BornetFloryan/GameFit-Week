@@ -3,9 +3,8 @@ import DedicationService from '../../services/dedication.service';
 const state = () => ({
     // state = les données centralisées
     animators: [],
-    dedicationDates: localStorage.getItem('availableDates') ? localStorage.getItem('availableDates') : [],
+    dedicationDates: localStorage.getItem('dedicationDates') ? localStorage.getItem('dedicationDates') : [],
     animatorDedicationDates: [],
-    dedicationTimes: [],
     dedicationReservations: localStorage.getItem('dedicationReservations') ? localStorage.getItem('dedicationReservations') : [],
     customerDedicationReservations: localStorage.getItem('customerDedicationReservations') ? localStorage.getItem('customerDedicationReservations') : [],
     sportsCategories: [],
@@ -18,31 +17,30 @@ const mutations = {
     },
     updateDedicationDates(state, dates) {
         state.dedicationDates = dates;
-        localStorage.setItem('availableDates', dates);
+        localStorage.setItem('dedicationDates', dates);
     },
     addDedicationDates(state, data) {
-        state.dedicationDates.push(data);
-        localStorage.setItem('availableDates', state.dedicationDates);
+        for(let dedicationDate of data) {
+            state.dedicationDates.push(dedicationDate);
+        }
+        localStorage.setItem('dedicationDates', state.dedicationDates);
     },
     modifyDedicationDates(state, data) {
         let index = state.dedicationDates.findIndex(e => e._id === data._id);
         if (index !== -1) {
             state.dedicationDates[index] = data;
         }
-        localStorage.setItem('availableDates', state.dedicationDates);
+        localStorage.setItem('dedicationDates', state.dedicationDates);
     },
     deleteDedicationDates(state, data) {
         let index = state.dedicationDates.findIndex(e => e._id === data._id);
         if (index !== -1) {
             state.dedicationDates.splice(index, 1);
         }
-        localStorage.setItem('availableDates', state.dedicationDates);
+        localStorage.setItem('dedicationDates', state.dedicationDates);
     },
     updateAnimatorDedicationDates(state, date) {
         state.animatorDedicationDates = date;
-    },
-    updateDedicationTimes(state, times) {
-        state.dedicationTimes = times;
     },
     updateDedicationReservations(state, dedicationReservations) {
         state.dedicationReservations = dedicationReservations;
@@ -134,18 +132,6 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des dates:', error);
-        }
-    },
-    async getDedicationTimes({ commit }, date) {
-        try {
-            let response = await DedicationService.getDedicationTimes(date);
-            if (response.error === 0) {
-                commit('updateDedicationTimes', response.data);
-            } else {
-                console.error(response.data);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération des horaires:', error);
         }
     },
     async getDedicationReservations({ commit }) {

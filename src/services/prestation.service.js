@@ -1,0 +1,40 @@
+import LocalSource from "@/datasource/controller/prestation.controller";
+
+async function getServiceCategoriesFromLocalSource() {
+    return LocalSource.getServiceCategories();
+}
+
+async function getProviderServiceCategoriesFromLocalSource() {
+    return LocalSource.getProviderServiceCategories();
+}
+
+async function getServiceCategories() {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getServiceCategoriesFromLocalSource();
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des stands ' }
+    }
+    return response
+}
+
+async function getProviderServiceCategories() {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getProviderServiceCategoriesFromLocalSource();
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des stands ' }
+    }
+    return response
+}
+
+export default {
+    getServiceCategories,
+    getProviderServiceCategories,
+}
