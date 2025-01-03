@@ -27,6 +27,12 @@ const mutations = {
     modifyStandsReservations(state, standReservation) {
         let index = state.standsReservations.findIndex((s) => s.id === standReservation.id);
         state.standsReservations[index] = standReservation;
+    },
+    addStandReservation(state, standReservation) {
+        state.standsReservations.push(standReservation);
+    },
+    deleteStandReservation(state, index) {
+        state.standsReservations.splice(index, 1);
     }
 };
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -89,6 +95,30 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la modification des réservations des stands:', error);
+        }
+    },
+    async addStandReservation({ commit }, standReservation) {
+        try {
+            let response = await StandsService.addStandReservation(standReservation);
+            if (response.error === 0) {
+                commit('addStandReservation', standReservation);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout de la réservation des stands:', error);
+        }
+    },
+    async deleteStandReservation({ commit }, standReservation) {
+        try {
+            let response = await StandsService.deleteStandReservation(standReservation);
+            if (response.error === 0) {
+                commit('deleteStandReservation', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la réservation des stands:', error);
         }
     }
 };

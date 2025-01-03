@@ -1,18 +1,26 @@
 <template>
   <div>
-    <router-link to="/admin-dashboard/admin-stand-management">
+    <router-link :to="{ name: 'admin-stand-management' }">
       <button class="btn-action">Retour à la gestion des stands</button>
     </router-link>
     <router-link v-if="this.$route.query.stand_id" :to="{ name: 'admin-stand-reservations'}">
       <button class="btn-action">Voir toutes les réservations</button>
     </router-link>
+    <router-link to="/admin-dashboard/admin-add-stand-reservation">
+      <button class="btn-action">Ajouter une réservation</button>
+    </router-link>
     <AdminStandTable
-        title="Tableau des réservations"
+        :title="title"
         :headers="headers"
         :fields="fields"
         :modifyName="modifyName"
-        :enableRes="enableRes"
-        :enableDelete="enableDelete"
+        :showModifyButton="true"
+        :modifyButtonText="'Modifier'"
+        :showReservationsButton="enableRes"
+        :reservationsButtonText="'Voir les réservations'"
+        :showDeleteButton="enableDelete"
+        :deleteButtonText="'Supprimer'"
+        @delete="handleDeleteButton"
         :dataSource="dataSource"
     />
   </div>
@@ -40,7 +48,13 @@ export default {
     ...mapState('stands', ['standsReservations']),
   },
   methods: {
-    ...mapActions('stands', ['getStandsReservations']),
+    ...mapActions('stands', ['getStandsReservations', 'deleteStandReservation']),
+    async handleDeleteButton(id) {
+      if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
+        await this.deleteStandReservation(id);
+        await this.getStandsReservations();
+      }
+    },
   },
   watch: {
     '$route.query.stand_id': {

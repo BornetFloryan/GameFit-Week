@@ -30,12 +30,12 @@
         <td>
           <div class="actions-container">
             <router-link :to="{ name: modifyName, params: { item_id: item._id } }">
-              <button class="btn-action">Modifier</button>
+              <button v-if="showModifyButton" class="btn-action">{{ modifyButtonText }}</button>
             </router-link>
             <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: item._id } }">
-              <button v-if="enableRes" class="btn-action">Voir les réservations</button>
+              <button v-if="showReservationsButton" class="btn-action">{{ reservationsButtonText }}</button>
             </router-link>
-            <button v-if="enableDelete" class="btn-action">Supprimer</button>
+            <button v-if="showDeleteButton"  @click="handleDeleteButton(item._id)" class="btn-action">{{ deleteButtonText }}</button>
           </div>
         </td>
       </tr>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'AdminStandTable',
@@ -62,16 +62,34 @@ export default {
     modifyName: {
       type: String,
     },
-    enableRes: {
+    showModifyButton: {
       type: Boolean,
+      default: true,
     },
-    enableDelete: {
+    modifyButtonText: {
+      type: String,
+      default: 'Modifier',
+    },
+    showReservationsButton: {
       type: Boolean,
+      default: true,
+    },
+    reservationsButtonText: {
+      type: String,
+      default: 'Voir les réservations',
+    },
+    showDeleteButton: {
+      type: Boolean,
+      default: true,
+    },
+    deleteButtonText: {
+      type: String,
+      default: 'Supprimer',
     },
     dataSource: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapState('stands', ['stands', 'pavillons']),
@@ -82,6 +100,10 @@ export default {
     ...mapActions('stands', ['getStands', 'getPavillons']),
     ...mapActions('account', ['getCustomersAccounts']),
     ...mapActions('prestation', ['getServiceCategories']),
+
+    handleDeleteButton(_id) {
+      this.$emit('delete', _id);
+    },
   },
   async mounted() {
     await this.getPavillons();

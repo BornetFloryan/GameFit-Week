@@ -4,7 +4,7 @@
       <button @click="goBack" class="form-back-button">{{ backButtonText }}</button>
       <h2>{{ title }}</h2>
       <form @submit.prevent="handleSubmit">
-        <div v-for="field in formFields" :key="field._id" class="form-group">
+        <div v-for="field in visibleFormFields" :key="field._id" class="form-group">
           <label :for="field._id">{{ field.label }}</label>
 
           <div v-if="field.type === 'select'">
@@ -12,6 +12,7 @@
                 v-model="formData[field.model]"
                 :id="field._id"
                 v-bind="field.props"
+                @change="handleFieldChange(field)"
             >
               <option
                   v-for="option in field.options"
@@ -28,6 +29,7 @@
                 v-model="formData[field.model]"
                 :id="field._id"
                 v-bind="field.props"
+                @change="handleFieldChange(field)"
             ></textarea>
           </div>
 
@@ -37,6 +39,7 @@
                 v-model="formData[field.model]"
                 :id="field._id"
                 v-bind="field.props"
+                @change="handleFieldChange(field)"
             />
           </div>
         </div>
@@ -84,6 +87,11 @@ export default {
       formData: { ...this.initialFormData },
     };
   },
+  computed: {
+    visibleFormFields() {
+      return this.formFields.filter(field => field.visible !== false);
+    },
+  },
   watch: {
     initialFormData: {
       deep: true,
@@ -101,6 +109,19 @@ export default {
     },
     goBack() {
       this.$emit("back");
+    },
+    handleFieldChange(field) {
+      if (field.id === "prestataire_id") {
+        this.$emit("prestataireSelected", this.formData.prestataire_id);
+      } else if (field.id === "service_id") {
+        this.$emit("serviceSelected", this.formData.service_id);
+      } else if (field.id === "stand_id") {
+        this.$emit("standSelected", this.formData.stand_id);
+      } else if (field.id === "date") {
+        this.$emit("dateSelected", this.formData.date);
+      } else if (field.id === "start_time") {
+        this.$emit("startTimeSelected", this.formData.start_time);
+      }
     },
   },
 };
@@ -226,5 +247,15 @@ textarea {
 
 .form-cancel-button:hover {
   background-color: #5a6268;
+}
+
+select:disabled,
+textarea:disabled,
+input[type="text"]:disabled,
+input[type="date"]:disabled,
+input[type="time"]:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
 }
 </style>

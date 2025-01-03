@@ -26,7 +26,7 @@ export default [
             },
             {
                 path: 'register-provider',
-                name: 'registerProvider',
+                name: 'register-provider',
                 component: RegisterProvider,
             },
             {

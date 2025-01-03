@@ -6,6 +6,7 @@ import AdminStandManagement from "@/components/admin/AdminStandManagement.vue";
 import AdminModifyStand from "@/components/admin/AdminModifyStand.vue";
 import AdminStandReservation from "@/components/admin/AdminStandReservation.vue";
 import AdminModifyStandReservation from "@/components/admin/AdminModifyStandReservation.vue";
+import AdminAddStandReservation from "@/components/admin/AdminAddStandReservation.vue";
 
 export default [
     {
@@ -56,6 +57,18 @@ export default [
                 path: 'admin-stand-reservations/:item_id',
                 name: 'admin-stand-reservations-edit',
                 component: AdminModifyStandReservation,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-add-stand-reservation',
+                name: 'admin-add-stand-reservation',
+                component: AdminAddStandReservation,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-add-stand-reservation/:stand_id',
+                name: 'admin-add-stand-reservation-stand-id',
+                component: AdminAddStandReservation,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             }
         ],

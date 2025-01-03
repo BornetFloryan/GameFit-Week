@@ -24,12 +24,16 @@
       <p>Prix : {{ stand.price }}</p>
       <p>Pavillon : {{ stand.pavillon_id }}</p>
       <div class="actions-container">
-        <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: stand._id } }">
-          <button class="btn-action">Voir les réservations</button>
-        </router-link>
         <router-link :to="'/admin-dashboard/admin-stand-management/' + stand._id">
           <button class="btn-action">Modifier</button>
         </router-link>
+        <router-link :to="'/admin-dashboard/admin-add-stand-reservation/' + stand._id">
+          <button class="btn-action">Faire une réservation</button>
+        </router-link>
+        <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: stand._id } }">
+          <button class="btn-action">Voir les réservations</button>
+        </router-link>
+
       </div>
     </div>
     <div class="button-container">

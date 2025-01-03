@@ -30,7 +30,7 @@
         <router-link :to="{ name: 'register' }">
           <button type="button" class="register-button">Créer un compte</button>
         </router-link>
-        <router-link :to="{ name: 'registerProvider' }">
+        <router-link :to="{ name: 'register-provider' }">
           <button type="button" class="provider-button">Devenir Prestataire</button>
         </router-link>
       </div>
