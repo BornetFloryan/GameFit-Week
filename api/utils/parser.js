@@ -55,7 +55,7 @@ const insertData = async () => {
             const { _id, service_id, provider_id } = entry;
             await insertIfNotExists(
                 'SELECT _id FROM provider_service_categories WHERE _id = $1',
-                'INSERT INTO provider_service_categories (_id, service_id, provider_id) VALUES ($1, $2, $3)',
+                'INSERT INTO provider_service_categories (_id, service_id, prestataire_id) VALUES ($1, $2, $3)',
                 [_id, service_id, provider_id]
             );
         }
@@ -73,7 +73,7 @@ const insertData = async () => {
             const { _id, sport_id, provider_id } = entry;
             await insertIfNotExists(
                 'SELECT _id FROM provider_sport_categories WHERE _id = $1',
-                'INSERT INTO provider_sport_categories (_id, sport_id, provider_id) VALUES ($1, $2, $3)',
+                'INSERT INTO provider_sport_categories (_id, sport_id, prestataire_id) VALUES ($1, $2, $3)',
                 [_id, sport_id, provider_id]
             );
         }

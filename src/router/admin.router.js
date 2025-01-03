@@ -3,9 +3,9 @@ import AdminDedicationView from "@/views/admin/AdminDedicationView.vue";
 import AdminRequests from "@/components/admin/AdminRequests.vue";
 import AdminDedicationManagement from "@/components/admin/AdminDedicationManagement.vue";
 import AdminStandManagement from "@/components/admin/AdminStandManagement.vue";
-import AdminModifyStandForm from "@/components/admin/AdminModifyStandForm.vue";
+import AdminModifyStand from "@/components/admin/AdminModifyStand.vue";
 import AdminStandReservation from "@/components/admin/AdminStandReservation.vue";
-import AdminModifyStandReservationForm from "@/components/admin/AdminModifyStandReservationForm.vue";
+import AdminModifyStandReservation from "@/components/admin/AdminModifyStandReservation.vue";
 
 export default [
     {
@@ -43,7 +43,7 @@ export default [
             {
                 path: 'admin-stand-management/:item_id',
                 name: 'admin-stand-management-edit',
-                component: AdminModifyStandForm,
+                component: AdminModifyStand,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
             {
@@ -55,7 +55,7 @@ export default [
             {
                 path: 'admin-stand-reservations/:item_id',
                 name: 'admin-stand-reservations-edit',
-                component: AdminModifyStandReservationForm,
+                component: AdminModifyStandReservation,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             }
         ],

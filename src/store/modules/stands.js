@@ -24,6 +24,10 @@ const mutations = {
         state.stands[index] = stand;
         localStorage.setItem('stands', state.stands);
     },
+    modifyStandsReservations(state, standReservation) {
+        let index = state.standsReservations.findIndex((s) => s.id === standReservation.id);
+        state.standsReservations[index] = standReservation;
+    }
 };
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
 const actions = {
@@ -75,6 +79,18 @@ const actions = {
             console.error('Erreur lors de la modification des stands:', error);
         }
     },
+    async modifyStandsReservations({ commit }, standReservation) {
+        try {
+            let response = await StandsService.modifyStandsReservations(standReservation);
+            if (response.error === 0) {
+                commit('modifyStandsReservations', standReservation);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la modification des réservations des stands:', error);
+        }
+    }
 };
 
 export default {

@@ -22,9 +22,20 @@ function modifyStand(stand) {
     }
 }
 
+function modifyStandsReservations(standReservation) {
+    let index = stands_reservations.findIndex(sr => sr.id === standReservation.id)
+    if (index !== -1) {
+        stands_reservations[index] = standReservation
+        return {error: 0, data: standReservation}
+    } else {
+        return {error: 1, data: 'Réservation de stand introuvable'}
+    }
+}
+
 export default{
     getStands,
     getPavillons,
     getStandsReservations,
     modifyStand,
+    modifyStandsReservations,
 }

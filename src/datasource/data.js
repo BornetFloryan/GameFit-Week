@@ -228,82 +228,82 @@ let service_categories = [
 let provider_service_categories = [
     {
         "_id": "0",
-        "provider_id": "3", // Lionel Messi
+        "prestataire_id": "3", // Lionel Messi
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "1",
-        "provider_id": "4", // LeBron James
-        "service_category_id": "0" // Dédicace
+        "prestataire_id": "3", // LeBron James
+        "service_category_id": "1" // Dédicace
     },
     {
         "_id": "2",
-        "provider_id": "5", // Serena Williams
+        "prestataire_id": "5", // Serena Williams
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "3",
-        "provider_id": "6", // Cristiano Ronaldo
+        "prestataire_id": "6", // Cristiano Ronaldo
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "4",
-        "provider_id": "7", // Tom Brady
+        "prestataire_id": "7", // Tom Brady
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "5",
-        "provider_id": "8", // Roger Federer
+        "prestataire_id": "8", // Roger Federer
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "6",
-        "provider_id": "9", // Stephen Curry
+        "prestataire_id": "9", // Stephen Curry
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "7",
-        "provider_id": "10", // Usain Bolt
+        "prestataire_id": "10", // Usain Bolt
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "8",
-        "provider_id": "11", // Neymar Jr.
+        "prestataire_id": "11", // Neymar Jr.
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "9",
-        "provider_id": "12", // Michael Jordan
+        "prestataire_id": "12", // Michael Jordan
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "10",
-        "provider_id": "13", // Khabib Nurmagomedov
+        "prestataire_id": "13", // Khabib Nurmagomedov
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "11",
-        "provider_id": "14", // Pelé
+        "prestataire_id": "14", // Pelé
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "12",
-        "provider_id": "15", // Virat Kohli
+        "prestataire_id": "15", // Virat Kohli
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "13",
-        "provider_id": "16", // Misty May-Treanor
+        "prestataire_id": "16", // Misty May-Treanor
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "14",
-        "provider_id": "17", // Bugha
+        "prestataire_id": "17", // Bugha
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "15",
-        "provider_id": "18", // Ninja
+        "prestataire_id": "18", // Ninja
         "service_category_id": "0" // Dédicace
     }
 ];
@@ -369,82 +369,82 @@ let sports_categories = [
 let provider_sport_categories = [
     {
         "_id": "0",
-        "provider_id": "3",
+        "prestataire_id": "3",
         "sportsCategories_id": "0"
     },
     {
         "_id": "1",
-        "provider_id": "4",
+        "prestataire_id": "4",
         "sportsCategories_id": "1"
     },
     {
         "_id": "2",
-        "provider_id": "5",
+        "prestataire_id": "5",
         "sportsCategories_id": "2"
     },
     {
         "_id": "3",
-        "provider_id": "6",
+        "prestataire_id": "6",
         "sportsCategories_id": "0"
     },
     {
         "_id": "4",
-        "provider_id": "7",
+        "prestataire_id": "7",
         "sportsCategories_id": "6"
     },
     {
         "_id": "5",
-        "provider_id": "8",
+        "prestataire_id": "8",
         "sportsCategories_id": "2"
     },
     {
         "_id": "6",
-        "provider_id": "9",
+        "prestataire_id": "9",
         "sportsCategories_id": "1"
     },
     {
         "_id": "7",
-        "provider_id": "10",
+        "prestataire_id": "10",
         "sportsCategories_id": "3"
     },
     {
         "_id": "8",
-        "provider_id": "11",
+        "prestataire_id": "11",
         "sportsCategories_id": "0"
     },
     {
         "_id": "9",
-        "provider_id": "12",
+        "prestataire_id": "12",
         "sportsCategories_id": "1"
     },
     {
         "_id": "10",
-        "provider_id": "13",
+        "prestataire_id": "13",
         "sportsCategories_id": "7"
     },
     {
         "_id": "11",
-        "provider_id": "14",
+        "prestataire_id": "14",
         "sportsCategories_id": "0"
     },
     {
         "_id": "12",
-        "provider_id": "15",
+        "prestataire_id": "15",
         "sportsCategories_id": "4"
     },
     {
         "_id": "13",
-        "provider_id": "16",
+        "prestataire_id": "16",
         "sportsCategories_id": "5"
     },
     {
         "_id": "14",
-        "provider_id": "17",
+        "prestataire_id": "17",
         "sportsCategories_id": "8"
     },
     {
         "_id": "15",
-        "provider_id": "18",
+        "prestataire_id": "18",
         "sportsCategories_id": "8"
     }
 ];
@@ -517,13 +517,13 @@ let dedication_dates = [
     // Lionel Messi
     {
         "_id": "0",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "09:00",
         "anim_id": "3",
     },
     {
         "_id": "1",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "10:00",
         "anim_id": "3",
     },
@@ -531,13 +531,13 @@ let dedication_dates = [
     // LeBron James
     {
         "_id": "2",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "11:00",
         "anim_id": "4",
     },
     {
         "_id": "3",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "13:00",
         "anim_id": "4",
     },
@@ -545,13 +545,13 @@ let dedication_dates = [
     // Serena Williams
     {
         "_id": "4",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "14:00",
         "anim_id": "5",
     },
     {
         "_id": "5",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "15:00",
         "anim_id": "5",
     },
@@ -559,13 +559,13 @@ let dedication_dates = [
     // Cristiano Ronaldo
     {
         "_id": "6",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "16:00",
         "anim_id": "6",
     },
     {
         "_id": "7",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "time": "17:00",
         "anim_id": "6",
     },
@@ -573,13 +573,13 @@ let dedication_dates = [
     // Tom Brady
     {
         "_id": "8",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "09:00",
         "anim_id": "7",
     },
     {
         "_id": "9",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "10:00",
         "anim_id": "7",
     },
@@ -587,13 +587,13 @@ let dedication_dates = [
     // Roger Federer
     {
         "_id": "10",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "11:00",
         "anim_id": "8",
     },
     {
         "_id": "11",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "13:00",
         "anim_id": "8",
     },
@@ -601,13 +601,13 @@ let dedication_dates = [
     // Stephen Curry
     {
         "_id": "12",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "14:00",
         "anim_id": "9",
     },
     {
         "_id": "13",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "15:00",
         "anim_id": "9",
     },
@@ -615,13 +615,13 @@ let dedication_dates = [
     // Usain Bolt
     {
         "_id": "14",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "16:00",
         "anim_id": "10",
     },
     {
         "_id": "15",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "time": "17:00",
         "anim_id": "10",
     },
@@ -629,13 +629,13 @@ let dedication_dates = [
     // Neymar Jr.
     {
         "_id": "16",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "09:00",
         "anim_id": "11",
     },
     {
         "_id": "17",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "10:00",
         "anim_id": "11",
     },
@@ -643,13 +643,13 @@ let dedication_dates = [
     // Michael Jordan
     {
         "_id": "18",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "11:00",
         "anim_id": "12",
     },
     {
         "_id": "19",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "13:00",
         "anim_id": "12",
     },
@@ -657,13 +657,13 @@ let dedication_dates = [
     // Khabib Nurmagomedov
     {
         "_id": "20",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "14:00",
         "anim_id": "13",
     },
     {
         "_id": "21",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "15:00",
         "anim_id": "13",
     },
@@ -671,13 +671,13 @@ let dedication_dates = [
     // Pele
     {
         "_id": "22",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "16:00",
         "anim_id": "14",
     },
     {
         "_id": "23",
-        "date": "2025-07-09T00:00:00.000Z",
+        "date": "2025-07-09",
         "time": "17:00",
         "anim_id": "14",
     },
@@ -685,13 +685,13 @@ let dedication_dates = [
     // Virat Kohli
     {
         "_id": "24",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "09:00",
         "anim_id": "15",
     },
     {
         "_id": "25",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "10:00",
         "anim_id": "15",
     },
@@ -699,13 +699,13 @@ let dedication_dates = [
     // Misty May-Treanor
     {
         "_id": "26",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "11:00",
         "anim_id": "16",
     },
     {
         "_id": "27",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "13:00",
         "anim_id": "16",
     },
@@ -713,13 +713,13 @@ let dedication_dates = [
     // Bugha
     {
         "_id": "28",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "14:00",
         "anim_id": "17",
     },
     {
         "_id": "29",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "15:00",
         "anim_id": "17",
     },
@@ -727,13 +727,13 @@ let dedication_dates = [
     // Ninja
     {
         "_id": "30",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "16:00",
         "anim_id": "18",
     },
     {
         "_id": "31",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "17:00",
         "anim_id": "18",
     }
@@ -742,7 +742,7 @@ let dedication_dates = [
 let dedication_reservations = [
     {
         "_id": "0",
-        "date": "2025-07-10T00:00:00.000Z",
+        "date": "2025-07-10",
         "time": "17:00",
         "ticket_id": "0",
         "anim_id": "18",
@@ -990,7 +990,7 @@ let stands = [
 let stands_reservations = [
     {
         "_id": "0",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "09:00",
         "end_time": "10:00",
         "description": "Venez rencontrer Lionel Messi !",
@@ -1000,7 +1000,7 @@ let stands_reservations = [
     },
     {
         "_id": "1",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "10:00",
         "end_time": "11:00",
         "description": "Venez rencontrer LeBron James !",
@@ -1010,7 +1010,7 @@ let stands_reservations = [
     },
     {
         "_id": "2",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "11:00",
         "end_time": "12:00",
         "description": "Venez rencontrer Serena Williams !",
@@ -1020,7 +1020,7 @@ let stands_reservations = [
     },
     {
         "_id": "3",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "13:00",
         "end_time": "14:00",
         "description": "Venez rencontrer Cristiano Ronaldo !",
@@ -1030,7 +1030,7 @@ let stands_reservations = [
     },
     {
         "_id": "4",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "14:00",
         "end_time": "15:00",
         "description": "Venez rencontrer Tom Brady !",
@@ -1040,7 +1040,7 @@ let stands_reservations = [
     },
     {
         "_id": "5",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "15:00",
         "end_time": "16:00",
         "description": "Venez rencontrer Roger Federer !",
@@ -1050,7 +1050,7 @@ let stands_reservations = [
     },
     {
         "_id": "6",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "16:00",
         "end_time": "17:00",
         "description": "Venez rencontrer Stephen Curry !",
@@ -1060,7 +1060,7 @@ let stands_reservations = [
     },
     {
         "_id": "7",
-        "date": "2025-07-07T00:00:00.000Z",
+        "date": "2025-07-07",
         "start_time": "17:00",
         "end_time": "18:00",
         "description": "Venez rencontrer Usain Bolt !",
@@ -1070,7 +1070,7 @@ let stands_reservations = [
     },
     {
         "_id": "8",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "09:00",
         "end_time": "10:00",
         "description": "Venez rencontrer Neymar Jr. !",
@@ -1080,7 +1080,7 @@ let stands_reservations = [
     },
     {
         "_id": "9",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "10:00",
         "end_time": "11:00",
         "description": "Venez rencontrer Michael Jordan !",
@@ -1090,7 +1090,7 @@ let stands_reservations = [
     },
     {
         "_id": "10",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "11:00",
         "end_time": "12:00",
         "name": "Stand 15",
@@ -1102,7 +1102,7 @@ let stands_reservations = [
     },
     {
         "_id": "11",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "13:00",
         "end_time": "14:00",
         "description": "Venez rencontrer Pelé !",
@@ -1112,7 +1112,7 @@ let stands_reservations = [
     },
     {
         "_id": "12",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "14:00",
         "end_time": "15:00",
         "description": "Venez rencontrer Virat Kohli !",
@@ -1122,7 +1122,7 @@ let stands_reservations = [
     },
     {
         "_id": "13",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "15:00",
         "end_time": "16:00",
         "description": "Venez rencontrer Misty May-Treanor !",
@@ -1132,7 +1132,7 @@ let stands_reservations = [
     },
     {
         "_id": "14",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "16:00",
         "end_time": "17:00",
         "description": "Venez rencontrer Bugha !",
@@ -1142,7 +1142,7 @@ let stands_reservations = [
     },
     {
         "_id": "15",
-        "date": "2025-07-08T00:00:00.000Z",
+        "date": "2025-07-08",
         "start_time": "17:00",
         "end_time": "18:00",
         "description": "Venez rencontrer Ninja !",
