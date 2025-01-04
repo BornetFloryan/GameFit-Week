@@ -73,7 +73,7 @@ export default {
   mounted() {
     this.getTickets()
         .then(() => {
-          this.customerTickets = this.tickets.filter(ticket => ticket._idCustomer === this.currentUser?._id);
+          this.customerTickets = this.tickets.filter(ticket => ticket.customer_id === this.currentUser?._id);
         })
     this.getTicketsAnimationCategories();
     this.getTicketsAgeCategories();

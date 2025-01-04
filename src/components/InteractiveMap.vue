@@ -43,9 +43,7 @@ export default {
         let svg = await response.text();
 
         svg = svg.replace(/<rect id="(Stand[^"]*)"/g, '<rect id="$1" class="interactive-zone"');
-
         svg = svg.replace(/<rect id="Terrain de football"/g, '<rect id="Terrain de Football" class="interactive-zone"');
-
         svg = svg.replace(/<circle id="Palais des Sports_2"/g, '<circle id="Palais des Sports" class="interactive-zone"');
 
         this.svgContent = svg;
@@ -69,6 +67,8 @@ export default {
           zone.addEventListener("mouseleave", this.handleZoneLeave);
           zone.addEventListener("click", this.handleZoneClick);
         });
+      } else {
+        console.warn("SVG element not found");
       }
     },
 

@@ -79,7 +79,7 @@ export default {
       this.$emit('addDedicaceSlot', {
         date: this.date,
         times: this.times,
-        anim_id: this.currentUser._id,
+        customer_id: this.currentUser._id,
       });
     },
     generateTimeOptions() {

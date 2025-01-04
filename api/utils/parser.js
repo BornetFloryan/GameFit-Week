@@ -55,7 +55,7 @@ const insertData = async () => {
             const { _id, service_id, provider_id } = entry;
             await insertIfNotExists(
                 'SELECT _id FROM provider_service_categories WHERE _id = $1',
-                'INSERT INTO provider_service_categories (_id, service_id, prestataire_id) VALUES ($1, $2, $3)',
+                'INSERT INTO provider_service_categories (_id, customer_id, customer_id) VALUES ($1, $2, $3)',
                 [_id, service_id, provider_id]
             );
         }
@@ -73,7 +73,7 @@ const insertData = async () => {
             const { _id, sport_id, provider_id } = entry;
             await insertIfNotExists(
                 'SELECT _id FROM provider_sport_categories WHERE _id = $1',
-                'INSERT INTO provider_sport_categories (_id, sport_id, prestataire_id) VALUES ($1, $2, $3)',
+                'INSERT INTO provider_sport_categories (_id, sport_id, customer_id) VALUES ($1, $2, $3)',
                 [_id, sport_id, provider_id]
             );
         }
@@ -118,7 +118,7 @@ const insertData = async () => {
             const { _id, date, time, anim_id } = dedication_date;
             await insertIfNotExists(
                 'SELECT _id FROM dedication_dates WHERE _id = $1',
-                'INSERT INTO dedication_dates (_id, date, time, anim_id) VALUES ($1, $2, $3, $4)',
+                'INSERT INTO dedication_dates (_id, date, time, customer_id) VALUES ($1, $2, $3, $4)',
                 [_id, date, time, anim_id || 0]
             );
         }
@@ -127,7 +127,7 @@ const insertData = async () => {
             const { _id, date, time, ticket_id, anim_id } = reservation;
             await insertIfNotExists(
                 'SELECT _id FROM dedication_reservations WHERE _id = $1',
-                'INSERT INTO dedication_reservations (_id, date, time, ticket_id, anim_id) VALUES ($1, $2, $3, $4, $5)',
+                'INSERT INTO dedication_reservations (_id, date, time, ticket_id, customer_id) VALUES ($1, $2, $3, $4, $5)',
                 [_id, date, time, ticket_id || 0, anim_id || 0]
             );
         }

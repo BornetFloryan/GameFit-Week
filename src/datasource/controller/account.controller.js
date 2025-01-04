@@ -1,4 +1,4 @@
-import { customer_accounts } from '../data'
+import {customer_accounts, provider_requests} from '../data'
 import {v4 as uuidv4} from 'uuid'
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -65,9 +65,66 @@ function modifyCustomerAccount(customer) {
     return {error: 0, status: 200, data: user}
 }
 
+function getProviderRequests() {
+    return {error: 0, data: provider_requests}
+}
+
+function addProviderRequest(user) {
+    if(!user){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if(!user.email || !user.name || !user.prestationServices || ! !user.login || !user.password){
+        return {error: 1, status: 404, data: 'Champs manquants'}
+    }
+
+    let existingUser = customer_accounts.find(e => e.email === user.email)
+    if(!existingUser){
+        user = addCustomerAccount(user)
+    } else {
+        if(existingUser.password !== user.password){
+            return {error: 1, status: 404, data: 'Mot de passe incorrect'}
+        }
+        user = existingUser;
+        if(provider_requests.find(e => e.customer_id === user._id))
+            return {error: 1, status: 404, data: 'Demande déjà existante'}
+    }
+
+
+    let request = {
+        _id: uuidv4(),
+        date: new Date(),
+        customer_id: user._id,
+        status: "0"
+    };
+    return {error: 0, status: 200, data: request};
+}
+
+function modifyProviderRequest(request) {
+    let r = provider_requests.find(e => e._id === request._id)
+    if (!r) return {error: 1, status: 404, data: 'Demande non trouvée'}
+
+    r.customer_id = request.customer_id
+    r.request = request.request
+    r.status = request.status
+
+    return {error: 0, status: 200, data: r}
+}
+
+function deleteProviderRequest(request) {
+    let index = provider_requests.findIndex(e => e._id === request._id);
+    if (index !== -1) {
+        return {error: 0, status: 200, data: index}
+    }
+    return {error: 1, status: 404, data: 'Demande non trouvée'}
+}
+
 export default{
     getCustomersAccounts,
     addCustomerAccount,
     loginUser,
     modifyCustomerAccount,
+    getProviderRequests,
+    addProviderRequest,
+    modifyProviderRequest,
+    deleteProviderRequest,
 }

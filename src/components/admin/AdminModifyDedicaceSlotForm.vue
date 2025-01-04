@@ -65,7 +65,7 @@ export default {
     return {
       date: this.dedicationDate.date,
       time: [...this.dedicationDate.time],
-      anim_id: this.dedicationDate.anim_id,
+      customer_id: this.dedicationDate.customer_id,
     };
   },
   computed: {
@@ -96,14 +96,14 @@ export default {
           _id: this.dedicationDate._id,
           date: this.dedicationDate.date,
           time: this.time,
-          anim_id: this.anim_id,
+          customer_id: this.customer_id,
         },
       });
     },
     resetForm() {
       this.date = this.dedicationDate.date;
       this.time = [...this.dedicationDate.time];
-      this.anim_id = this.dedicationDate.anim_id;
+      this.anim_id = this.dedicationDate.customer_id;
     },
   },
   mounted() {

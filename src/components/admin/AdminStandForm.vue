@@ -46,7 +46,6 @@
 
         <div class="form-buttons-container">
           <button type="submit" class="form-submit-button">{{ submitButtonText }}</button>
-          <button type="button" @click="resetForm" class="form-cancel-button">{{ cancelButtonText }}</button>
         </div>
       </form>
     </div>
@@ -104,15 +103,12 @@ export default {
     handleSubmit() {
       this.$emit("submit", this.formData);
     },
-    resetForm() {
-      this.formData = { ...this.initialFormData };
-    },
     goBack() {
       this.$emit("back");
     },
     handleFieldChange(field) {
-      if (field.id === "prestataire_id") {
-        this.$emit("prestataireSelected", this.formData.prestataire_id);
+      if (field.id === "customer_id") {
+        this.$emit("prestataireSelected", this.formData.customer_id);
       } else if (field.id === "service_id") {
         this.$emit("serviceSelected", this.formData.service_id);
       } else if (field.id === "stand_id") {
@@ -215,7 +211,7 @@ textarea {
 
 .form-buttons-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
 }
 
@@ -232,21 +228,6 @@ textarea {
 
 .form-submit-button:hover {
   background-color: #0056b3;
-}
-
-.form-cancel-button {
-  background-color: #6c757d;
-  color: white;
-  padding: 0.5em 1em;
-  border: none;
-  border-radius: 5px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.form-cancel-button:hover {
-  background-color: #5a6268;
 }
 
 select:disabled,

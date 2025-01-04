@@ -16,7 +16,7 @@ function addDedicationDates(data) {
         data.date = new Date(data.date).toISOString().split('T')[0] + 'T00:00:00.000Z';
     }
 
-    if (!data.date || !data.times || !data.anim_id) {
+    if (!data.date || !data.times || !data.customer_id) {
         return {error: 1, data: 'Missing parameters'};
     }
 
@@ -31,7 +31,7 @@ function addDedicationDates(data) {
             _id: uuidv4(),
             date: data.date,
             time: time,
-            anim_id: data.anim_id
+            customer_id: data.customer_id
         });
     }
     return {error: 0, data: new_dedication_dates};
@@ -42,11 +42,11 @@ function modifyDedicationDates(data) {
         data.date = new Date(data.date).toISOString().split('T')[0] + 'T00:00:00.000Z';
     }
 
-    if (!data.date || !data.time || !data.anim_id) {
+    if (!data.date || !data.time || !data.customer_id) {
         return {error: 1, data: 'Missing parameters'};
     }
 
-    let existingEntry = dedication_dates.find(e => e.date === data.date && e.anim_id === data.anim_id);
+    let existingEntry = dedication_dates.find(e => e.date === data.date && e.customer_id === data.customer_id);
     if (!existingEntry) {
 
         return {error: 1, data: 'No entry found'};
@@ -61,7 +61,7 @@ function deleteDedicationDates(data) {
 }
 
 function getAnimatorDedicationDates(animator){
-    let dates = dedication_dates.filter(e => e.anim_id === animator._id)
+    let dates = dedication_dates.filter(e => e.customer_id === animator._id)
 
     return {
         error: 0,
@@ -78,7 +78,7 @@ function addDedicationReservation(dedicationReservation) {
     let existingReservation = dedication_reservations.find(reservation =>
         reservation.date === dedicationReservation.date &&
         reservation.time === dedicationReservation.time &&
-        reservation.anim_id === dedicationReservation.anim_id
+        reservation.customer_id === dedicationReservation.customer_id
     );
 
     if (existingReservation) {
@@ -90,14 +90,14 @@ function addDedicationReservation(dedicationReservation) {
         date: dedicationReservation.date,
         time: dedicationReservation.time,
         ticket_id: dedicationReservation.ticket_id,
-        anim_id: dedicationReservation.anim_id,
+        customer_id: dedicationReservation.customer_id,
     };
 
     return { error: 0, data: reservation };
 }
 
 function getCustomerDedicationReservations(customer) {
-    let reservations = dedication_reservations.filter(e => e._idCustomer === customer._id);
+    let reservations = dedication_reservations.filter(e => e.customer_id === customer._id);
 
     return {error: 0, data: reservations}
 }

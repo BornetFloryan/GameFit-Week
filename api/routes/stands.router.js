@@ -33,7 +33,7 @@ router.get("/", standsController.getStands);
  *                     type: number
  *                     format: float
  *                     example: 100.0
- *                   prestataire_id:
+ *                   customer_id:
  *                     type: integer
  *                     example: 1
  *                   pavillon_id:

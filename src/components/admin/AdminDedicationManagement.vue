@@ -21,7 +21,7 @@
         <td>{{ dedicationDate._id }}</td>
         <td>{{ dedicationDate.date }}</td>
         <td>{{ dedicationDate.time }}</td>
-        <td>{{ animators.find(e => e._id === dedicationDate.anim_id)?.name }}</td>
+        <td>{{ animators.find(e => e._id === dedicationDate.customer_id)?.name }}</td>
         <td>
           <button @click="showModifyForm(dedicationDate)">Modifier</button>
           <button @click="deleteDedicaceSlot(dedicationDate)">Supprimer</button>
@@ -45,8 +45,8 @@
         <td>{{ dedicationReservation._id }}</td>
         <td>{{ dedicationReservation.date }}</td>
         <td>{{ dedicationReservation.time }}</td>
-        <td>{{ dedicationReservation._idCustomer }}</td>
-        <td>{{ animators.find(e => e._id === dedicationReservation.anim_id)?.name }}</td>
+        <td>{{ dedicationReservation.customer_id }}</td>
+        <td>{{ animators.find(e => e._id === dedicationReservation.customer_id)?.name }}</td>
       </tr>
       </tbody>
     </table>

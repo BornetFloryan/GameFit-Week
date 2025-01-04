@@ -9,19 +9,19 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="item in dataSource" :key="item.id">
+      <tr v-for="item in dataSource" :key="item._id">
         <td v-for="field in fields" :key="field">
-          <p v-if="Array.isArray(pavillons) && field === 'pavillon_id'">
-            {{ pavillons.find(pavillon => pavillon._id === item[field])?.name || 'Unknown' }}
+          <p v-if="field === 'pavillon_id'">
+            {{ getPavillonById(item[field])?.name || 'Unknown' }}
           </p>
-          <p v-else-if="Array.isArray(customersAccounts) && field === 'prestataire_id'">
-            {{ customersAccounts.find(account => account._id === item[field])?.name || 'Unknown' }}
+          <p v-else-if="field === 'customer_id'">
+            {{ getCustomerById(item[field])?.name || 'Unknown' }}
           </p>
-          <p v-else-if="Array.isArray(serviceCategories) && field === 'service_id'">
-            {{ serviceCategories.find(service => service._id === item[field])?.name || 'Unknown' }}
+          <p v-else-if="field === 'service_id'">
+            {{ getServiceCategoryById(item[field])?.name || 'Unknown' }}
           </p>
-          <p v-else-if="Array.isArray(stands) && field === 'stand_id'">
-            {{ stands.find(stand => stand._id === item[field])?.name || 'Unknown' }}
+          <p v-else-if="field === 'stand_id'">
+            {{ getStandById(item[field])?.name || 'Unknown' }}
           </p>
           <p v-else>
             {{ item[field] }}
@@ -35,7 +35,7 @@
             <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: item._id } }">
               <button v-if="showReservationsButton" class="btn-action">{{ reservationsButtonText }}</button>
             </router-link>
-            <button v-if="showDeleteButton"  @click="handleDeleteButton(item._id)" class="btn-action">{{ deleteButtonText }}</button>
+            <button v-if="showDeleteButton" @click="handleDeleteButton(item._id)" class="btn-action">{{ deleteButtonText }}</button>
           </div>
         </td>
       </tr>
@@ -45,23 +45,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'AdminStandTable',
   props: {
-    title: {
-      type: String,
-    },
-    headers: {
-      type: Array,
-    },
-    fields: {
-      type: Array,
-    },
-    modifyName: {
-      type: String,
-    },
+    title: String,
+    headers: Array,
+    fields: Array,
+    modifyName: String,
     showModifyButton: {
       type: Boolean,
       default: true,
@@ -92,23 +84,15 @@ export default {
     },
   },
   computed: {
-    ...mapState('stands', ['stands', 'pavillons']),
-    ...mapState('account', ['customersAccounts']),
-    ...mapState('prestation', ['serviceCategories']),
+    ...mapGetters('stands', ['getPavillonById', 'getStandById']),
+    ...mapGetters('prestation', ['getServiceCategoryById']),
+    ...mapGetters('account', ['getCustomerById']),
   },
   methods: {
-    ...mapActions('stands', ['getStands', 'getPavillons']),
-    ...mapActions('account', ['getCustomersAccounts']),
-    ...mapActions('prestation', ['getServiceCategories']),
 
     handleDeleteButton(_id) {
       this.$emit('delete', _id);
     },
-  },
-  async mounted() {
-    await this.getPavillons();
-    await this.getCustomersAccounts();
-    await this.getServiceCategories();
   },
 };
 </script>

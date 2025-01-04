@@ -45,7 +45,7 @@ function addTickets(formData) {
             _id: uuidv4(),
             date: formData.date,
             time: formData.time,
-            _idCustomer: customer._id,
+            customer_id: customer._id,
             price_id: price_id,
         };
         addedTickets.push(ticket);

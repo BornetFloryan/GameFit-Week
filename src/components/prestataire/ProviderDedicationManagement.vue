@@ -91,7 +91,7 @@ export default {
       try {
         await this.addDedicationDates(data);
         await this.getDedicationDates();
-        this.providerDedicationDates = this.dedicationDates.filter(e => e.anim_id === this.currentUser._id);
+        this.providerDedicationDates = this.dedicationDates.filter(e => e.customer_id === this.currentUser._id);
         this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de l\'ajout du créneau de dédicace:', error);
@@ -101,7 +101,7 @@ export default {
     async deleteDedicaceSlot(dedicationDate) {
       try {
         await this.deleteDedicationDates(dedicationDate);
-        this.providerDedicationDates = this.dedicationDates.filter(e => e.anim_id === this.currentUser._id);
+        this.providerDedicationDates = this.dedicationDates.filter(e => e.customer_id === this.currentUser._id);
         this.showDedicationDatesTable();
       } catch (error) {
         console.error('Erreur lors de la suppression du créneau de dédicace:', error);
@@ -116,8 +116,8 @@ export default {
   async mounted() {
     await this.getDedicationReservations();
     await this.getDedicationDates();
-    this.providerDedicationDates = this.dedicationDates.filter(e => e.anim_id === this.currentUser._id);
-    this.providerDedicationReservations = this.dedicationReservations.filter(e => e.anim_id === this.currentUser._id);
+    this.providerDedicationDates = this.dedicationDates.filter(e => e.customer_id === this.currentUser._id);
+    this.providerDedicationReservations = this.dedicationReservations.filter(e => e.customer_id === this.currentUser._id);
   },
 };
 </script>

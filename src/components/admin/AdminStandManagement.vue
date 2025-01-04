@@ -33,7 +33,6 @@
         <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: stand._id } }">
           <button class="btn-action">Voir les réservations</button>
         </router-link>
-
       </div>
     </div>
     <div class="button-container">
@@ -49,13 +48,14 @@
         :enableRes="enableRes"
         :enableDelete="enableDelete"
         :dataSource="dataSource"
+        @delete="handleDeleteStand"
     />
   </div>
 </template>
 
 <script>
 import InteractiveMap from "@/components/InteractiveMap.vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import AdminStandTable from "@/components/admin/AdminStandTable.vue";
 
 export default {
@@ -73,7 +73,6 @@ export default {
       stand: null,
       cardX: 0,
       cardY: 0,
-      isCardHovered: false,
       headers: ['Id', 'Nom', 'Prix', 'Pavillon'],
       fields: ['_id', 'name', 'price', 'pavillon_id'],
       modifyName: 'admin-stand-management-edit',
@@ -83,17 +82,14 @@ export default {
     };
   },
   computed: {
-    ...mapState('stands', ['stands']),
-    ...mapState('account', ['customersAccounts']),
+    ...mapState('stands', ['stands', 'standsReservations']),
+    ...mapGetters('stands', ['getStandReservationsByStandId']),
   },
   methods: {
-    ...mapActions('stands', ['getStands', 'modifyStand']),
-    ...mapActions('account', ['getCustomersAccounts']),
-
+    ...mapActions('stands', ['getStands', 'getStandsReservations', 'deleteStand', 'getPavillons']),
 
     handleZoneHover(event) {
       const target = event.target;
-
       if (target && target.classList.contains("interactive-zone") && target.id !== "Fond") {
         this.tooltipVisible = true;
         this.tooltipText = target.id || "Zone sans ID";
@@ -103,7 +99,6 @@ export default {
 
     handleZoneLeave(event) {
       const target = event.target;
-
       if (target && target.classList.contains("interactive-zone")) {
         this.tooltipVisible = false;
         target.style.fill = "";
@@ -112,7 +107,6 @@ export default {
 
     handleZoneClick(event) {
       const zoneId = event.target.id;
-
       if (!zoneId || zoneId === "Fond") return;
 
       const standNumberMatch = zoneId.match(/Stand\s*(\d+)/);
@@ -160,12 +154,22 @@ export default {
       }
     },
 
-    modifyStand(stand) {
-      this.modifyStand(stand);
+    async handleDeleteStand(_id) {
+      const reservations = this.getStandReservationsByStandId(_id);
+      if (reservations.length > 0) {
+        alert(`Impossible de supprimer le stand ${parseInt(_id) + 1}. Il y a des réservations avec les identifiants suivants : ${reservations.map(res => res._id).join(', ')}`);
+        return;
+      }
+      if (confirm(`Êtes-vous sûr de vouloir supprimer le stand ${parseInt(_id) + 1} ?`)) {
+        await this.deleteStand(_id);
+        await this.getStands();
+      }
     }
   },
   async mounted() {
     await this.getStands();
+    await this.getPavillons();
+    await this.getStandsReservations();
     this.dataSource = this.stands;
   },
 };

@@ -28,6 +28,12 @@
               <li><router-link :to="{ path: '/account/profil' }" class="link">Profil</router-link></li>
               <li><router-link :to="{ path: '/account/reservation' }" class="link">Réservations</router-link></li>
               <li><router-link :to="{ path: '/account/ticket' }" class="link">Billets</router-link></li>
+              <li v-if="getProviderRequestsByCustomerId(currentUser._id)">
+                <router-link :to="{ path: '/account/request' }" class="link">Demande</router-link>
+              </li>
+              <li v-if="dashboardPath">
+                <router-link :to="{ path: dashboardPath }" class="link">Tableau de bord</router-link>
+              </li>
               <li @click="disconnected" class="link disconnect">Déconnexion</li>
           </ul>
         </li>
@@ -51,7 +57,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'NavView',
@@ -67,6 +73,15 @@ export default {
   },
   computed: {
     ...mapState('account', ['currentUser']),
+    ...mapGetters('account', ['getProviderRequestsByCustomerId']),
+    dashboardPath() {
+      if (this.currentUser.privilege === '2') {
+        return '/admin-dashboard';
+      } else if (this.currentUser.privilege === '1') {
+        return '/provider-dashboard';
+      }
+      return null;
+    },
   },
   created() {
     window.addEventListener('resize', this.checkScreen);
@@ -75,9 +90,10 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.updateScroll);
+    this.getProviderRequests();
   },
   methods: {
-    ...mapActions('account', ['logoutUser']),
+    ...mapActions('account', ['logoutUser', 'getProviderRequests']),
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },

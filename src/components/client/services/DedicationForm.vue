@@ -248,7 +248,7 @@ export default {
           date: this.selectedDate,
           time: this.selectedTime,
           ticket_id: this.ticketNumber,
-          anim_id: this.selectedAnimator._id,
+          customer_id: this.selectedAnimator._id,
         });
         this.submitted = true;
       } catch (error) {

@@ -24,8 +24,12 @@ async function addStandReservationFromLocalSource(standReservation) {
     return LocalSource.addStandReservation(standReservation);
 }
 
-async function deleteStandReservationFromLocalSource(standReservation) {
-    return LocalSource.deleteStandReservation(standReservation);
+async function deleteStandReservationFromLocalSource(_id) {
+    return LocalSource.deleteStandReservation(_id);
+}
+
+async function deleteStandFromLocalSource(_id) {
+    return LocalSource.deleteStand(_id);
 }
 
 async function getStands() {
@@ -106,15 +110,28 @@ async function addStandReservation(standReservation) {
     return response
 }
 
-async function deleteStandReservation(standReservation) {
+async function deleteStandReservation(_id) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await deleteStandReservationFromLocalSource(standReservation);
+        response = await deleteStandReservationFromLocalSource(_id);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de supprimer une réservation de stands ' }
+    }
+    return response
+}
+
+async function deleteStand(_id) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await deleteStandFromLocalSource(_id);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de supprimer un stand ' }
     }
     return response
 }
@@ -126,5 +143,6 @@ export default {
     modifyStand,
     modifyStandsReservations,
     addStandReservation,
-    deleteStandReservation
+    deleteStandReservation,
+    deleteStand,
 }

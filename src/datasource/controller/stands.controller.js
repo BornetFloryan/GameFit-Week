@@ -24,9 +24,8 @@ function modifyStand(stand) {
 }
 
 function modifyStandsReservations(standReservation) {
-    let index = stands_reservations.findIndex(sr => sr.id === standReservation.id)
+    let index = stands_reservations.findIndex(sr => sr._id === standReservation._id)
     if (index !== -1) {
-        stands_reservations[index] = standReservation
         return {error: 0, data: standReservation}
     } else {
         return {error: 1, data: 'Réservation de stand introuvable'}
@@ -38,12 +37,22 @@ function addStandReservation(standReservation) {
     return {error: 0, data: standReservation}
 }
 
-function deleteStandReservation(standReservation) {
-    let index = stands_reservations.findIndex(sr => sr.id === standReservation.id)
+function deleteStandReservation(_id) {
+    let index = stands_reservations.findIndex(sr => sr._id === _id)
     if (index !== -1) {
         return {error: 0, data: index}
     } else {
         return {error: 1, data: 'Réservation de stand introuvable'}
+    }
+}
+
+function deleteStand(_id) {
+
+    let index = stands.findIndex(s => s._id === _id)
+    if (index !== -1) {
+        return {error: 0, data: index}
+    } else {
+        return {error: 1, data: 'Stand introuvable'}
     }
 }
 
@@ -55,4 +64,5 @@ export default{
     modifyStandsReservations,
     addStandReservation,
     deleteStandReservation,
+    deleteStand,
 }

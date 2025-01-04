@@ -10,10 +10,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
+    stands,
     dedication,
     account,
     ticket,
-    stands,
     prestation,
   },
 });

@@ -2,19 +2,17 @@ import StandsService from '@/services/stands.service';
 
 const state = () => ({
     // state = les données centralisées
-    stands: localStorage.getItem('stands') || [],
-    pavillons: localStorage.getItem('pavillons') || [],
+    stands: [],
+    pavillons: [],
     standsReservations: [],
 });
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
 const mutations = {
     updateStands(state, stands) {
         state.stands = stands;
-        localStorage.setItem('stands', stands);
     },
     updatePavillons(state, pavillons) {
         state.pavillons = pavillons;
-        localStorage.setItem('pavillons', pavillons);
     },
     updateStandsReservations(state, standsReservations) {
         state.standsReservations = standsReservations;
@@ -22,10 +20,12 @@ const mutations = {
     modifyStand(state, stand) {
         let index = state.stands.findIndex((s) => s.id === stand.id);
         state.stands[index] = stand;
-        localStorage.setItem('stands', state.stands);
+    },
+    deleteStand(state, index) {
+        state.stands.splice(index, 1);
     },
     modifyStandsReservations(state, standReservation) {
-        let index = state.standsReservations.findIndex((s) => s.id === standReservation.id);
+        let index = state.standsReservations.findIndex((s) => s._id === standReservation._id);
         state.standsReservations[index] = standReservation;
     },
     addStandReservation(state, standReservation) {
@@ -73,6 +73,18 @@ const actions = {
             console.error('Erreur lors de la récupération des réservations des stands:', error);
         }
     },
+    async addStandReservation({ commit }, standReservation) {
+        try {
+            let response = await StandsService.addStandReservation(standReservation);
+            if (response.error === 0) {
+                commit('addStandReservation', standReservation);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout de la réservation des stands:', error);
+        }
+    },
     async modifyStand({ commit }, stand) {
         try {
             let response = await StandsService.modifyStand(stand);
@@ -97,21 +109,21 @@ const actions = {
             console.error('Erreur lors de la modification des réservations des stands:', error);
         }
     },
-    async addStandReservation({ commit }, standReservation) {
+    async deleteStand({ commit }, stand) {
         try {
-            let response = await StandsService.addStandReservation(standReservation);
+            let response = await StandsService.deleteStand(stand);
             if (response.error === 0) {
-                commit('addStandReservation', standReservation);
+                commit('deleteStand', response.data);
             } else {
                 console.error(response.data);
             }
         } catch (error) {
-            console.error('Erreur lors de l\'ajout de la réservation des stands:', error);
+            console.error('Erreur lors de la suppression des stands:', error);
         }
     },
-    async deleteStandReservation({ commit }, standReservation) {
+    async deleteStandReservation({ commit }, _id) {
         try {
-            let response = await StandsService.deleteStandReservation(standReservation);
+            let response = await StandsService.deleteStandReservation(_id);
             if (response.error === 0) {
                 commit('deleteStandReservation', response.data);
             } else {
@@ -120,7 +132,34 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de la suppression de la réservation des stands:', error);
         }
-    }
+    },
+};
+
+const getters = {
+    getStandById: (state) => (_id) => {
+        return state.stands.find((stand) => stand._id === _id);
+    },
+    getStandsByPavillonId: (state) => (pavillon_id) => {
+        return state.stands.filter((stand) => stand.pavillon_id === pavillon_id);
+    },
+    getStandReservationById: (state) => (_id) => {
+        return state.standsReservations.find((reservation) => reservation._id === _id);
+    },
+    getStandReservationsByStandId: (state) => (stand_id) => {
+        return state.standsReservations.filter(reservation => reservation.stand_id === stand_id);
+    },
+    getStandsReservationsByStandIdAndDate: (state) => (stand_id, date) => {
+        return state.standsReservations.filter((reservation) => reservation.stand_id === stand_id && reservation.date === date);
+    },
+    getStandsReservationsByProviderRequestsId: (state) => (provider_requests_id) => {
+        return state.standsReservations.filter((reservation) => reservation.customer_id === provider_requests_id);
+    },
+    getStandReservationsByStandIdAndProviderRequestsId: (state) => (stand_id, provider_requests_id) => {
+        return state.standsReservations.find((reservation) => reservation.stand_id === stand_id && reservation.customer_id === provider_requests_id);
+    },
+    getPavillonById: (state) => (_id) => {
+        return state.pavillons.find((pavillon) => pavillon._id === _id);
+    },
 };
 
 export default {
@@ -128,4 +167,5 @@ export default {
     state,
     mutations,
     actions,
+    getters,
 };

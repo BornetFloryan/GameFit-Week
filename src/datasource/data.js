@@ -92,7 +92,7 @@ let customer_accounts = [
         "name": "Roger Federer",
         "login": "roger.federer",
         "password": "roger.federer",
-        "email": "roger.federer@prestaire.com",
+        "email": "roger.federer@prestataire.com",
         "picture": "Roger Federer.jpg",
         "description": "Roger Federer, né le 8 août 1981 à Bâle, est un joueur de tennis suisse. Professionnel depuis 1998, il a remporté 20 titres en simple en Grand Chelem, un record, et a été numéro un mondial à plusieurs reprises entre 2004 et 2018. Il est considéré comme l'un des plus grands joueurs de l'histoire du tennis.",
         "privilege": "1",
@@ -103,7 +103,7 @@ let customer_accounts = [
         "name": "Stephen Curry",
         "login": "stephen.curry",
         "password": "stephen.curry",
-        "email": "stephen.curry@prestaire.com",
+        "email": "stephen.curry@prestataire.com",
         "picture": "Stephen Curry.jpg",
         "description": "Wardell Stephen Curry II, né le 14 mars 1988 à Akron, est un joueur américain de basket-ball évoluant au poste de meneur pour les Warriors de Golden State en NBA. Considéré comme l'un des meilleurs shooteurs de l'histoire de la NBA, il a révolutionné le jeu par son adresse à trois points.",
         "privilege": "1",
@@ -114,7 +114,7 @@ let customer_accounts = [
         "name": "Usain Bolt",
         "login": "usain.bolt",
         "password": "usain.bolt",
-        "email": "usain.bolt@prestaire.com",
+        "email": "usain.bolt@prestataire.com",
         "picture": "Usain Bolt.jpg",
         "description": "Usain Bolt, né le 21 août 1986 à Sherwood Content, est un athlète jamaïcain spécialiste des épreuves de sprint. Surnommé Lightning Bolt, il est l'athlète le plus titré de l'histoire des Jeux olympiques, avec huit médailles d'or.",
         "privilege": "1",
@@ -125,7 +125,7 @@ let customer_accounts = [
         "name": "Neymar Jr.",
         "login": "neymar.jr",
         "password": "neymar.jr",
-        "email": "neymar.jr@prestaire.com",
+        "email": "neymar.jr@prestataire.com",
         "picture": "Neymar Jr..jpg",
         "description": "Neymar da Silva Santos Júnior, dit Neymar Jr., né le 5 février 1992 à Mogi das Cruzes, est un footballeur international brésilien évoluant au poste d'attaquant au Paris Saint-Germain. Considéré comme l'un des meilleurs joueurs de sa génération, il est comparé à Pelé.",
         "privilege": "1",
@@ -136,7 +136,7 @@ let customer_accounts = [
         "name": "Michael Jordan",
         "login": "michael.jordan",
         "password": "michael.jordan",
-        "email": "michael.jordan@prestaire.com",
+        "email": "michael.jordan@prestataire.com",
         "picture": "Michael Jordan.jpg",
         "description": "Michael Jeffrey Jordan, né le 17 février 1963 à Brooklyn, est un joueur de basket-ball américain. Considéré comme le plus grand joueur de l'histoire de la NBA et l'un des plus grands sportifs de tous les temps, il a remporté six titres de champion NBA avec les Bulls de Chicago.",
         "privilege": "1",
@@ -147,7 +147,7 @@ let customer_accounts = [
         "name": "Khabib Nurmagomedov",
         "login": "khabib.nurmagomedov",
         "password": "khabib.nurmagomedov",
-        "email": "khabib.nurmagomedov@prestaire.com",
+        "email": "khabib.nurmagomedov@prestataire.com",
         "picture": "Khabib Nurmagomedov.jpg",
         "description": "Khabib Abdulmanapovich Nurmagomedov, né le 20 septembre 1988 à Sildi, est un pratiquant russe d'arts martiaux mixtes (MMA) d'origine avar. Il a été champion du monde de sambo et champion du monde de combat sambo. Il a été champion de l'UFC dans la catégorie des poids légers.",
         "privilege": "1",
@@ -158,7 +158,7 @@ let customer_accounts = [
         "name": "Pele",
         "login": "pele",
         "password": "pele",
-        "email": "pele@prestaire.com",
+        "email": "pele@prestataire.com",
         "picture": "Pele.jpg",
         "description": "Pelé, de son vrai nom Edson Arantes do Nascimento, né le 23 octobre 1940 à Três Corações, est un footballeur international brésilien. Il est considéré comme l'un des plus grands joueurs de l'histoire du football. Il a remporté trois Coupes du monde avec la sélection brésilienne en 1958, 1962 et 1970.",
         "privilege": "1",
@@ -169,7 +169,7 @@ let customer_accounts = [
         "name": "Virat Kohli",
         "login": "virat.kohli",
         "password": "virat.kohli",
-        "email": "virat.kohli@prestaire.com",
+        "email": "virat.kohli@prestataire.com",
         "picture": "Virat Kohli.jpg",
         "description": "Virat Kohli, né le 5 novembre 1988 à Delhi, est un joueur de cricket international indien. Il est capitaine de l'équipe d'Inde de cricket dans les formats ODI et Test. Il est considéré comme l'un des meilleurs batteurs de cricket de tous les temps.",
         "privilege": "1",
@@ -180,7 +180,7 @@ let customer_accounts = [
         "name": "Misty May-Treanor",
         "login": "misty.may-treanor",
         "password": "misty.may-treanor",
-        "email": "misty.maytreanor@prestaire.com",
+        "email": "misty.maytreanor@prestataire.com",
         "picture": "Misty May-Treanor.jpg",
         "description": "Misty May-Treanor, née le 30 juillet 1977 à Los Angeles, est une joueuse de beach-volley américaine. Avec sa partenaire Kerri Walsh, elle a remporté trois médailles d'or olympiques en 2004, 2008 et 2012. Elle est considérée comme l'une des meilleures joueuses de beach-volley de l'histoire.",
         "privilege": "1",
@@ -191,7 +191,7 @@ let customer_accounts = [
         "name": "Bugha",
         "login": "bugha",
         "password": "bugha",
-        "email": "bugha@prestaire.com",
+        "email": "bugha@prestataire.com",
         "picture": "Bugha.jpg",
         "description": "Kyle Giersdorf, dit Bugha, né le 30 décembre 2002 à Pottsgrove, est un joueur professionnel américain de jeux vidéo. Il est spécialisé dans le jeu Fortnite et a remporté la Fortnite World Cup en 2019. Il est considéré comme l'un des meilleurs joueurs de Fortnite de tous les temps.",
         "privilege": "1",
@@ -202,12 +202,111 @@ let customer_accounts = [
         "name": "Ninja",
         "login": "ninja",
         "password": "ninja",
-        "email": "ninja@prestaire.com",
+        "email": "ninja@prestataire.com",
         "picture": "Ninja.jpg",
         "description": "Richard Tyler Blevins, dit Ninja, né le 5 juin 1991 à Detroit, est un joueur professionnel américain de jeux vidéo. Il est spécialisé dans les jeux Fortnite et Halo. Il est considéré comme l'un des meilleurs joueurs de jeux vidéo de tous les temps.",
         "privilege": "1",
         "session": ""
     }
+];
+
+let provider_requests = [
+    {
+        "_id": "0",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "3",
+    },
+    {
+        "_id": "1",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "4",
+    },
+    {
+        "_id": "2",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "5",
+    },
+    {
+        "_id": "3",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "6",
+    },
+    {
+        "_id": "4",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "7",
+    },
+    {
+        "_id": "5",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "8",
+    },
+    {
+        "_id": "6",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "9",
+    },
+    {
+        "_id": "7",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "10",
+    },
+    {
+        "_id": "8",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "11",
+    },
+    {
+        "_id": "9",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "12",
+    },
+    {
+        "_id": "10",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "13",
+    },
+    {
+        "_id": "11",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "14",
+    },
+    {
+        "_id": "12",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "15",
+    },
+    {
+        "_id": "13",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "16",
+    },
+    {
+        "_id": "14",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "17",
+    },
+    {
+        "_id": "15",
+        "date": "2025-10-30",
+        "status": "1",
+        "customer_id": "18",
+    },
 ];
 
 let service_categories = [
@@ -228,82 +327,98 @@ let service_categories = [
 let provider_service_categories = [
     {
         "_id": "0",
-        "prestataire_id": "3", // Lionel Messi
+        "status": "1",
+        "customer_id": "3", // Lionel Messi
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "1",
-        "prestataire_id": "3", // LeBron James
+        "status": "1",
+        "customer_id": "3", // LeBron James
         "service_category_id": "1" // Dédicace
     },
     {
         "_id": "2",
-        "prestataire_id": "5", // Serena Williams
+        "status": "1",
+        "customer_id": "5", // Serena Williams
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "3",
-        "prestataire_id": "6", // Cristiano Ronaldo
+        "status": "1",
+        "customer_id": "6", // Cristiano Ronaldo
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "4",
-        "prestataire_id": "7", // Tom Brady
+        "status": "1",
+        "customer_id": "7", // Tom Brady
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "5",
-        "prestataire_id": "8", // Roger Federer
+        "status": "1",
+        "customer_id": "8", // Roger Federer
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "6",
-        "prestataire_id": "9", // Stephen Curry
+        "status": "1",
+        "customer_id": "9", // Stephen Curry
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "7",
-        "prestataire_id": "10", // Usain Bolt
+        "status": "1",
+        "customer_id": "10", // Usain Bolt
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "8",
-        "prestataire_id": "11", // Neymar Jr.
+        "status": "1",
+        "customer_id": "11", // Neymar Jr.
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "9",
-        "prestataire_id": "12", // Michael Jordan
+        "status": "1",
+        "customer_id": "12", // Michael Jordan
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "10",
-        "prestataire_id": "13", // Khabib Nurmagomedov
+        "status": "1",
+        "customer_id": "13", // Khabib Nurmagomedov
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "11",
-        "prestataire_id": "14", // Pelé
+        "status": "1",
+        "customer_id": "14", // Pelé
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "12",
-        "prestataire_id": "15", // Virat Kohli
+        "status": "1",
+        "customer_id": "15", // Virat Kohli
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "13",
-        "prestataire_id": "16", // Misty May-Treanor
+        "status": "1",
+        "customer_id": "16", // Misty May-Treanor
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "14",
-        "prestataire_id": "17", // Bugha
+        "status": "1",
+        "customer_id": "17", // Bugha
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "15",
-        "prestataire_id": "18", // Ninja
+        "status": "1",
+        "customer_id": "18", // Ninja
         "service_category_id": "0" // Dédicace
     }
 ];
@@ -369,82 +484,82 @@ let sports_categories = [
 let provider_sport_categories = [
     {
         "_id": "0",
-        "prestataire_id": "3",
+        "customer_id": "3",
         "sportsCategories_id": "0"
     },
     {
         "_id": "1",
-        "prestataire_id": "4",
+        "customer_id": "4",
         "sportsCategories_id": "1"
     },
     {
         "_id": "2",
-        "prestataire_id": "5",
+        "customer_id": "5",
         "sportsCategories_id": "2"
     },
     {
         "_id": "3",
-        "prestataire_id": "6",
+        "customer_id": "6",
         "sportsCategories_id": "0"
     },
     {
         "_id": "4",
-        "prestataire_id": "7",
+        "customer_id": "7",
         "sportsCategories_id": "6"
     },
     {
         "_id": "5",
-        "prestataire_id": "8",
+        "customer_id": "8",
         "sportsCategories_id": "2"
     },
     {
         "_id": "6",
-        "prestataire_id": "9",
+        "customer_id": "9",
         "sportsCategories_id": "1"
     },
     {
         "_id": "7",
-        "prestataire_id": "10",
+        "customer_id": "10",
         "sportsCategories_id": "3"
     },
     {
         "_id": "8",
-        "prestataire_id": "11",
+        "customer_id": "11",
         "sportsCategories_id": "0"
     },
     {
         "_id": "9",
-        "prestataire_id": "12",
+        "customer_id": "12",
         "sportsCategories_id": "1"
     },
     {
         "_id": "10",
-        "prestataire_id": "13",
+        "customer_id": "13",
         "sportsCategories_id": "7"
     },
     {
         "_id": "11",
-        "prestataire_id": "14",
+        "customer_id": "14",
         "sportsCategories_id": "0"
     },
     {
         "_id": "12",
-        "prestataire_id": "15",
+        "customer_id": "15",
         "sportsCategories_id": "4"
     },
     {
         "_id": "13",
-        "prestataire_id": "16",
+        "customer_id": "16",
         "sportsCategories_id": "5"
     },
     {
         "_id": "14",
-        "prestataire_id": "17",
+        "customer_id": "17",
         "sportsCategories_id": "8"
     },
     {
         "_id": "15",
-        "prestataire_id": "18",
+        "customer_id": "18",
         "sportsCategories_id": "8"
     }
 ];
@@ -508,7 +623,7 @@ let tickets = [
         "_id": "0",
         "date": "2024/10/30",
         "time": "07:00",
-        "_idCustomer": "0",
+        "customer_id": "0",
         "price_id": "0",
     },
 ];
@@ -519,13 +634,13 @@ let dedication_dates = [
         "_id": "0",
         "date": "2025-07-07",
         "time": "09:00",
-        "anim_id": "3",
+        "customer_id": "3",
     },
     {
         "_id": "1",
         "date": "2025-07-07",
         "time": "10:00",
-        "anim_id": "3",
+        "customer_id": "3",
     },
 
     // LeBron James
@@ -533,13 +648,13 @@ let dedication_dates = [
         "_id": "2",
         "date": "2025-07-07",
         "time": "11:00",
-        "anim_id": "4",
+        "customer_id": "4",
     },
     {
         "_id": "3",
         "date": "2025-07-07",
         "time": "13:00",
-        "anim_id": "4",
+        "customer_id": "4",
     },
 
     // Serena Williams
@@ -547,13 +662,13 @@ let dedication_dates = [
         "_id": "4",
         "date": "2025-07-07",
         "time": "14:00",
-        "anim_id": "5",
+        "customer_id": "5",
     },
     {
         "_id": "5",
         "date": "2025-07-07",
         "time": "15:00",
-        "anim_id": "5",
+        "customer_id": "5",
     },
 
     // Cristiano Ronaldo
@@ -561,13 +676,13 @@ let dedication_dates = [
         "_id": "6",
         "date": "2025-07-07",
         "time": "16:00",
-        "anim_id": "6",
+        "customer_id": "6",
     },
     {
         "_id": "7",
         "date": "2025-07-07",
         "time": "17:00",
-        "anim_id": "6",
+        "customer_id": "6",
     },
 
     // Tom Brady
@@ -575,13 +690,13 @@ let dedication_dates = [
         "_id": "8",
         "date": "2025-07-08",
         "time": "09:00",
-        "anim_id": "7",
+        "customer_id": "7",
     },
     {
         "_id": "9",
         "date": "2025-07-08",
         "time": "10:00",
-        "anim_id": "7",
+        "customer_id": "7",
     },
 
     // Roger Federer
@@ -589,13 +704,13 @@ let dedication_dates = [
         "_id": "10",
         "date": "2025-07-08",
         "time": "11:00",
-        "anim_id": "8",
+        "customer_id": "8",
     },
     {
         "_id": "11",
         "date": "2025-07-08",
         "time": "13:00",
-        "anim_id": "8",
+        "customer_id": "8",
     },
 
     // Stephen Curry
@@ -603,13 +718,13 @@ let dedication_dates = [
         "_id": "12",
         "date": "2025-07-08",
         "time": "14:00",
-        "anim_id": "9",
+        "customer_id": "9",
     },
     {
         "_id": "13",
         "date": "2025-07-08",
         "time": "15:00",
-        "anim_id": "9",
+        "customer_id": "9",
     },
 
     // Usain Bolt
@@ -617,13 +732,13 @@ let dedication_dates = [
         "_id": "14",
         "date": "2025-07-08",
         "time": "16:00",
-        "anim_id": "10",
+        "customer_id": "10",
     },
     {
         "_id": "15",
         "date": "2025-07-08",
         "time": "17:00",
-        "anim_id": "10",
+        "customer_id": "10",
     },
 
     // Neymar Jr.
@@ -631,13 +746,13 @@ let dedication_dates = [
         "_id": "16",
         "date": "2025-07-09",
         "time": "09:00",
-        "anim_id": "11",
+        "customer_id": "11",
     },
     {
         "_id": "17",
         "date": "2025-07-09",
         "time": "10:00",
-        "anim_id": "11",
+        "customer_id": "11",
     },
 
     // Michael Jordan
@@ -645,13 +760,13 @@ let dedication_dates = [
         "_id": "18",
         "date": "2025-07-09",
         "time": "11:00",
-        "anim_id": "12",
+        "customer_id": "12",
     },
     {
         "_id": "19",
         "date": "2025-07-09",
         "time": "13:00",
-        "anim_id": "12",
+        "customer_id": "12",
     },
 
     // Khabib Nurmagomedov
@@ -659,13 +774,13 @@ let dedication_dates = [
         "_id": "20",
         "date": "2025-07-09",
         "time": "14:00",
-        "anim_id": "13",
+        "customer_id": "13",
     },
     {
         "_id": "21",
         "date": "2025-07-09",
         "time": "15:00",
-        "anim_id": "13",
+        "customer_id": "13",
     },
 
     // Pele
@@ -673,13 +788,13 @@ let dedication_dates = [
         "_id": "22",
         "date": "2025-07-09",
         "time": "16:00",
-        "anim_id": "14",
+        "customer_id": "14",
     },
     {
         "_id": "23",
         "date": "2025-07-09",
         "time": "17:00",
-        "anim_id": "14",
+        "customer_id": "14",
     },
 
     // Virat Kohli
@@ -687,13 +802,13 @@ let dedication_dates = [
         "_id": "24",
         "date": "2025-07-10",
         "time": "09:00",
-        "anim_id": "15",
+        "customer_id": "15",
     },
     {
         "_id": "25",
         "date": "2025-07-10",
         "time": "10:00",
-        "anim_id": "15",
+        "customer_id": "15",
     },
 
     // Misty May-Treanor
@@ -701,13 +816,13 @@ let dedication_dates = [
         "_id": "26",
         "date": "2025-07-10",
         "time": "11:00",
-        "anim_id": "16",
+        "customer_id": "16",
     },
     {
         "_id": "27",
         "date": "2025-07-10",
         "time": "13:00",
-        "anim_id": "16",
+        "customer_id": "16",
     },
 
     // Bugha
@@ -715,13 +830,13 @@ let dedication_dates = [
         "_id": "28",
         "date": "2025-07-10",
         "time": "14:00",
-        "anim_id": "17",
+        "customer_id": "17",
     },
     {
         "_id": "29",
         "date": "2025-07-10",
         "time": "15:00",
-        "anim_id": "17",
+        "customer_id": "17",
     },
 
     // Ninja
@@ -729,13 +844,13 @@ let dedication_dates = [
         "_id": "30",
         "date": "2025-07-10",
         "time": "16:00",
-        "anim_id": "18",
+        "customer_id": "18",
     },
     {
         "_id": "31",
         "date": "2025-07-10",
         "time": "17:00",
-        "anim_id": "18",
+        "customer_id": "18",
     }
 ];
 
@@ -745,7 +860,7 @@ let dedication_reservations = [
         "date": "2025-07-10",
         "time": "17:00",
         "ticket_id": "0",
-        "anim_id": "18",
+        "customer_id": "18",
     },
 ];
 
@@ -994,7 +1109,7 @@ let stands_reservations = [
         "start_time": "09:00",
         "end_time": "10:00",
         "description": "Venez rencontrer Lionel Messi !",
-        "prestataire_id": "3",
+        "customer_id": "3",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1004,7 +1119,7 @@ let stands_reservations = [
         "start_time": "10:00",
         "end_time": "11:00",
         "description": "Venez rencontrer LeBron James !",
-        "prestataire_id": "4",
+        "customer_id": "4",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1014,7 +1129,7 @@ let stands_reservations = [
         "start_time": "11:00",
         "end_time": "12:00",
         "description": "Venez rencontrer Serena Williams !",
-        "prestataire_id": "5",
+        "customer_id": "5",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1024,7 +1139,7 @@ let stands_reservations = [
         "start_time": "13:00",
         "end_time": "14:00",
         "description": "Venez rencontrer Cristiano Ronaldo !",
-        "prestataire_id": "6",
+        "customer_id": "6",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1034,7 +1149,7 @@ let stands_reservations = [
         "start_time": "14:00",
         "end_time": "15:00",
         "description": "Venez rencontrer Tom Brady !",
-        "prestataire_id": "7",
+        "customer_id": "7",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1044,7 +1159,7 @@ let stands_reservations = [
         "start_time": "15:00",
         "end_time": "16:00",
         "description": "Venez rencontrer Roger Federer !",
-        "prestataire_id": "8",
+        "customer_id": "8",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1054,7 +1169,7 @@ let stands_reservations = [
         "start_time": "16:00",
         "end_time": "17:00",
         "description": "Venez rencontrer Stephen Curry !",
-        "prestataire_id": "9",
+        "customer_id": "9",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1064,7 +1179,7 @@ let stands_reservations = [
         "start_time": "17:00",
         "end_time": "18:00",
         "description": "Venez rencontrer Usain Bolt !",
-        "prestataire_id": "10",
+        "customer_id": "10",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1074,7 +1189,7 @@ let stands_reservations = [
         "start_time": "12:00",
         "end_time": "13:00",
         "description": "Venez rencontrer Neymar Jr. !",
-        "prestataire_id": "11",
+        "customer_id": "11",
         "service_id":"0",
         "stand_id": "4",
     },
@@ -1084,7 +1199,7 @@ let stands_reservations = [
         "start_time": "10:00",
         "end_time": "11:00",
         "description": "Venez rencontrer Michael Jordan !",
-        "prestataire_id": "12",
+        "customer_id": "12",
         "service_id":"0",
         "stand_id": "13",
     },
@@ -1096,7 +1211,7 @@ let stands_reservations = [
         "name": "Stand 15",
         "description": "Venez rencontrer Khabib Nurmagomedov !",
         "price": "100",
-        "prestataire_id": "13",
+        "customer_id":"13",
         "service_id":"0",
         "stand_id": "14",
     },
@@ -1106,7 +1221,7 @@ let stands_reservations = [
         "start_time": "13:00",
         "end_time": "14:00",
         "description": "Venez rencontrer Pelé !",
-        "prestataire_id": "14",
+        "customer_id":"14",
         "service_id":"0",
         "stand_id": "15",
     },
@@ -1116,7 +1231,7 @@ let stands_reservations = [
         "start_time": "14:00",
         "end_time": "15:00",
         "description": "Venez rencontrer Virat Kohli !",
-        "prestataire_id": "15",
+        "customer_id":"15",
         "service_id":"0",
         "stand_id": "16",
     },
@@ -1126,7 +1241,7 @@ let stands_reservations = [
         "start_time": "15:00",
         "end_time": "16:00",
         "description": "Venez rencontrer Misty May-Treanor !",
-        "prestataire_id": "16",
+        "customer_id":"16",
         "service_id":"0",
         "stand_id": "17",
     },
@@ -1136,7 +1251,7 @@ let stands_reservations = [
         "start_time": "16:00",
         "end_time": "17:00",
         "description": "Venez rencontrer Bugha !",
-        "prestataire_id": "17",
+        "customer_id":"17",
         "service_id":"0",
         "stand_id": "18",
     },
@@ -1146,7 +1261,7 @@ let stands_reservations = [
         "start_time": "17:00",
         "end_time": "18:00",
         "description": "Venez rencontrer Ninja !",
-        "prestataire_id": "18",
+        "customer_id": "18",
         "service_id":"0",
         "stand_id": "19",
     },
@@ -1154,6 +1269,7 @@ let stands_reservations = [
 
 module.exports = {
     customer_accounts,
+    provider_requests,
     service_categories,
     provider_service_categories,
     sports_categories,

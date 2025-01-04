@@ -78,11 +78,11 @@ export default {
         alert('Les plages horaires en double ne sont pas autorisées.');
         return;
       }
-      const anim_id = document.getElementById('anim_id').value;
+      const customer_id = document.getElementById('customer_id').value;
       this.$emit('addDedicaceSlot', {
         date: this.data.date,
         time: this.time,
-        anim_id});
+        anim_id: customer_id});
     },
   },
   mounted() {

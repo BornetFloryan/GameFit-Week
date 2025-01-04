@@ -14,7 +14,7 @@
         <td>{{ dedicationReservation._id }}</td>
         <td>{{ dedicationReservation.date }}</td>
         <td>{{ dedicationReservation.time }}</td>
-        <td>{{ animators.find(e => e._id === dedicationReservation.anim_id)?.name }}</td>
+        <td>{{ animators.find(e => e._id === dedicationReservation.customer_id)?.name }}</td>
       </tr>
       </tbody>
     </table>

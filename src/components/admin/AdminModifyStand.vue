@@ -25,7 +25,7 @@
 
 <script>
 import AdminStandForm from './AdminStandForm.vue';
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'AdminModifyStand',
@@ -37,6 +37,7 @@ export default {
   },
   computed: {
     ...mapState('stands', ['stands']),
+    ...mapGetters('stands', ['getStandById']),
   },
   methods: {
     ...mapActions('stands', ['modifyStand']),
@@ -54,7 +55,7 @@ export default {
     },
   },
   mounted() {
-    this.stand = this.stands.find((stand) => stand._id === this.$route.params.item_id);
+    this.stand = this.getStandById(this.$route.params.item_id);
   },
 };
 </script>

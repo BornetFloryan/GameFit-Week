@@ -3,21 +3,20 @@
     <div class="stand-card">
       <h3>Planning du stand : {{stand._id}}</h3>
       <ul class="stand-schedule">
-        <li v-for="reservation in standReservations" :key="reservation._id" class="schedule-item">
+        <li v-for="reservation in sortedStandReservations" :key="reservation._id" class="schedule-item">
           <span class="schedule-time">{{ reservation.start_time }}h - {{ reservation.end_time }}h</span>
           <p>
             Prestation :
             <router-link :to="{path: 'services/dedication/dedication-home'}" class="schedule-service">
-             {{ serviceCategories.find(cat => cat._id === reservation.service_id)?.name || 'Unknown' }}
+              {{ getServiceCategoryById(reservation.service_id)?.name || 'Unknown' }}
             </router-link>
           </p>
           <p>
             Prestataire :
             <router-link :to="{path: '/prestataire/'}" class="schedule-prestataire">
-              {{ customersAccounts.find(account => account._id === reservation.prestataire_id)?.name || 'Unknown' }}
-          </router-link>
+              {{ getCustomerById(reservation.customer_id)?.name || 'Unknown' }}
+            </router-link>
           </p>
-
         </li>
       </ul>
     </div>
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "StandInfo",
@@ -37,24 +36,37 @@ export default {
   },
   data() {
     return {
-      standReservations: null,
+      standReservations: [],
     };
   },
   computed: {
     ...mapState("stands", ["standsReservations"]),
     ...mapState("prestation", ["serviceCategories"]),
     ...mapState("account", ["customersAccounts"]),
+    ...mapGetters('account', ['getCustomerById']),
+    ...mapGetters('prestation', ['getServiceCategoryById']),
+    ...mapGetters('stands', ['getStandReservationsByStandId']),
+
+    sortedStandReservations() {
+      return this.getSortedStandReservations();
+    },
   },
   methods: {
     ...mapActions("stands", ["getStandsReservations"]),
     ...mapActions("prestation", ["getServiceCategories"]),
     ...mapActions("account", ["getCustomersAccounts"]),
+
+    getSortedStandReservations() {
+      return this.standReservations.slice().sort((a, b) => {
+        const dateA = new Date(`${a.date}T${a.start_time}:00`);
+        const dateB = new Date(`${b.date}T${b.start_time}:00`);
+        return dateA - dateB;
+      });
+    },
   },
   async mounted() {
     await this.getStandsReservations();
-    this.standReservations = this.standsReservations.filter(
-        (reservation) => reservation.stand_id === this.stand._id
-    );
+    this.standReservations = this.getStandReservationsByStandId(this.stand._id);
     await this.getCustomersAccounts();
     await this.getServiceCategories();
   },

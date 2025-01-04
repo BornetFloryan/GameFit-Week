@@ -28,7 +28,7 @@
 
 <script>
 import AdminStandTable from "@/components/admin/AdminStandTable.vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: 'AdminStandReservation',
@@ -37,7 +37,7 @@ export default {
     return {
       title: "Gestion des réservation des stands",
       headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
-      fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'prestataire_id', 'service_id', 'stand_id'],
+      fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
       modifyName: 'admin-stand-reservations-edit',
       enableRes: false,
       enableDelete: true,
@@ -46,43 +46,33 @@ export default {
   },
   computed: {
     ...mapState('stands', ['standsReservations']),
+    ...mapGetters('stands', ['getStandReservationsByStandId']),
   },
   methods: {
     ...mapActions('stands', ['getStandsReservations', 'deleteStandReservation']),
+    ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
+    ...mapActions('prestation', ['getServiceCategories']),
+
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
         await this.deleteStandReservation(id);
         await this.getStandsReservations();
       }
     },
-  },
-  watch: {
-    '$route.query.stand_id': {
-      handler() {
-        if (Array.isArray(this.standsReservations)) {
-          if (this.$route.query.stand_id) {
-            this.dataSource = this.standsReservations.filter(stand => stand._id === this.$route.query.stand_id);
-          } else {
-            this.dataSource = this.standsReservations;
-          }
-        } else {
-          console.error('standsReservations is not an array');
-        }
-      },
-      immediate: true
-    }
-  },
-  async mounted() {
-    await this.getStandsReservations();
-    if (Array.isArray(this.standsReservations)) {
+    filterReservations() {
       if (this.$route.query.stand_id) {
-        this.dataSource = this.standsReservations.filter(stand => stand._id === this.$route.query.stand_id);
+        this.dataSource = this.getStandReservationsByStandId(this.$route.query.stand_id);
       } else {
         this.dataSource = this.standsReservations;
       }
-    } else {
-      console.error('standsReservations is not an array');
     }
+  },
+  async mounted() {
+    await this.getCustomersAccounts();
+    await this.getStandsReservations();
+    await this.getProviderRequests();
+    await this.getServiceCategories();
+    this.filterReservations();
   },
 };
 </script>

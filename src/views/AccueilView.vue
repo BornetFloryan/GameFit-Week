@@ -33,17 +33,18 @@
   </div>
 </template>
 
+// src/views/AccueilView.vue
 <script>
 import NavView from "@/components/NavBar.vue";
 import CarouselAccueil from "@/components/CarouselAccueil.vue";
 import ContentHome from "@/components/ContentHome.vue";
 import InteractiveMap from "@/components/InteractiveMap.vue";
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import StandInfo from "@/components/StandInfo.vue";
 
 export default {
   name: 'GameFitIntro',
-  components: {StandInfo, InteractiveMap, ContentHome, CarouselAccueil, NavView},
+  components: { StandInfo, InteractiveMap, ContentHome, CarouselAccueil, NavView },
   data() {
     return {
       title: "Carte Interactive",
@@ -66,10 +67,12 @@ export default {
   computed: {
     ...mapState('stands', ['stands', 'standsReservations']),
     ...mapState('account', ['customersAccounts']),
+    ...mapGetters('stands', ['getStandById', 'getStandsReservationsByStandIdAndDate']),
+    ...mapGetters('account', ['getCustomerById', 'getProviderRequestById']),
   },
   methods: {
     ...mapActions('stands', ['getStands', 'getStandsReservations']),
-    ...mapActions('account', ['getCustomersAccounts']),
+    ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
 
     handleZoneHover(event) {
       const zoneId = event.target.id;
@@ -84,15 +87,15 @@ export default {
         return;
       }
 
-      this.stand = this.stands.find(stand => stand._id === standNumber);
+      this.stand = this.getStandById(standNumber);
 
       let standReservations = [];
       let prestataire = null;
       if (this.stand) {
-        const selectedDateISO = new Date(this.selectedDate).toISOString().split('T')[0];
-        standReservations = this.standsReservations.filter(reservation => reservation.stand_id === this.stand._id && reservation.date.split('T')[0] === selectedDateISO);
-        if (standReservations.length > 0 && standReservations[0].prestataire_id) {
-          prestataire = this.customersAccounts.find(e => e._id === standReservations[0].prestataire_id);
+        standReservations = this.getStandsReservationsByStandIdAndDate(this.stand._id, this.selectedDate);
+        if (standReservations.length > 0 && standReservations[0].customer_id) {
+          let provider_requests = this.getProviderRequestById(standReservations[0].customer_id);
+          prestataire = this.getCustomerById(provider_requests.customer_id);
         }
       }
 
@@ -147,35 +150,18 @@ export default {
       this.selectedDate = selectedDate;
     }
   },
-  mounted() {
-    this.getStands();
-    this.getCustomersAccounts();
-    this.getStandsReservations();
+  async mounted() {
+    await this.getStands();
+    await this.getProviderRequests();
+    await this.getCustomersAccounts();
+    await this.getStandsReservations();
 
     this.selectedDate = this.minDate;
-    console.log(this.stand);
   },
 };
 </script>
 
 <style scoped>
-.interactive-zone {
-  cursor: pointer;
-  transition: fill 0.3s ease;
-}
-
-.tooltip {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  pointer-events: none;
-  white-space: nowrap;
-  z-index: 10;
-}
-
 .info-card {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
