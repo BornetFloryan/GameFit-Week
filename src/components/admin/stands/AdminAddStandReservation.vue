@@ -24,7 +24,7 @@ import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "AdminAddStandReservation",
-  components: { AdminForm: AdminForm },
+  components: {AdminForm},
   data() {
     return {
       formData: {
@@ -77,7 +77,7 @@ export default {
           .flatMap((res) => {
             const start = parseInt(res.start_time.split(':')[0], 10);
             const end = parseInt(res.end_time.split(':')[0], 10);
-            return Array.from({ length: end - start }, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
+            return Array.from({length: end - start}, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
           });
       const availableTimes = this.availableTimes.filter(
           (time) => !usedTimes.includes(time) && time !== "18:00"

@@ -9,6 +9,7 @@ import AdminModifyStandReservation from "@/components/admin/stands/AdminModifySt
 import AdminAddStandReservation from "@/components/admin/stands/AdminAddStandReservation.vue";
 import AdminAccountsManagement from "@/components/admin/accounts/AdminAccountsManagement.vue";
 import AdminModifyAccount from "@/components/admin/accounts/AdminModifyAccount.vue";
+import AdminBracket from "@/components/admin/AdminBracket.vue";
 
 export default [
     {
@@ -85,7 +86,12 @@ export default [
                     },
                 ],
             },
-
+            {
+                path: 'admin-bracket',
+                name: 'admin-bracket',
+                component: AdminBracket,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
         ],
     },
 ];

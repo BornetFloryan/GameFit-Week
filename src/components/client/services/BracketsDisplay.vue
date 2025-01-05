@@ -20,53 +20,11 @@
         <div class="match" v-for="(match, matchIndex) in round" :key="matchIndex">
           <div class="teams-match">
             <div class="team" v-for="(team, teamIndex) in match.teams" :key="teamIndex">
-              <img
-                  :src="team.img || require('@/assets/img/noteam.jpg')"
-                  alt="team logo"
-                  class="team-logo"
-                  @click="toggleTooltip(roundIndex, matchIndex, teamIndex)"
-              />
-              <p>{{ team.name }}</p>
-              <input
-                  type="number"
-                  v-model="team.score"
-                  placeholder="Score"
-                  class="score-input"
-                  min="0"
-                  max="10"
-                  @input="validateAndCorrectScore(team)"
-              />
-
-              <!-- Tooltip -->
-              <div
-                  v-if="isActiveTooltip(roundIndex, matchIndex, teamIndex)"
-                  class="tooltip"
-              >
-                <p><strong>{{ team.name }}</strong></p>
-                <p>Score: {{ team.score }}</p>
-                <p class="descr">{{ team.description }}</p>
-                <input class="edit-team" type="button" value="Edit">
-              </div>
+              <img :src="team.img || require('@/assets/img/noteam.jpg')" alt="team logo" class="team-logo"/>
+              <p class="name-team">{{ team.name }}</p>
+              <b class="score-team">{{ team.score }}</b>
             </div>
           </div>
-
-          <!-- Boutons pour avancer ou valider le résultat -->
-          <button
-              v-if="!match.buttonClicked && !isLastMatch(roundIndex, matchIndex)"
-              @click="advanceWinner(roundIndex, matchIndex)"
-              class="advance-button"
-          >
-            Advance Winner
-          </button>
-          <button
-              v-if="!match.buttonClicked && isLastMatch(roundIndex, matchIndex) && arePreviousMatchesFinished(roundIndex)"
-              @click="validateFinalResult(roundIndex, matchIndex)"
-              class="advance-button"
-          >
-            Valider Résultat
-          </button>
-
-
         </div>
       </div>
     </div>
@@ -74,178 +32,64 @@
 </template>
 
 <script>
-import { proteams } from "@/datasource/data.js"; // Import des données d'équipes
+import {proteams} from "@/datasource/data.js"; // Import des données d'équipes
 
 export default {
   data() {
     return {
       teams: [],
-      teamCount: 4,
+      teamCount: 8,
       tournamentStarted: false,
       rounds: [],
-      activeTooltip: { round: null, match: null, team: null }, // Stockage de l'état actif
     };
   },
   methods: {
     setupTournament() {
-      if (this.teamCount < 2) {
-        alert("Please enter at least 2 teams to start a tournament.");
+      if (this.teamCount < 4) {
+        alert("Please enter at least 4 teams to start a tournament.");
         return;
       }
 
-      const availableTeams = [...proteams];
-      while (availableTeams.length < this.teamCount) {
-        availableTeams.push({
-          name: `Team ${availableTeams.length + 1}`,
+      this.teams = [...proteams];
+
+      while (this.teams.length < this.teamCount) {
+        this.teams.push({
+          name: `Team ${this.teams.length + 1}`,
           img: '',
           score: 0,
           description: 'No description available'
         });
       }
 
-      this.teams = availableTeams.map(team => ({ ...team, score: 0 }));
-
-      this.rounds = [];
-      const firstRoundMatches = [];
-      for (let i = 0; i < this.teamCount; i += 2) {
-        firstRoundMatches.push({
-          teams: [
-            { ...this.teams[i], score: 0 },
-            { ...this.teams[i + 1], score: 0 }
-          ],
-          buttonClicked: false
-        });
-      }
-
-      this.rounds.push(firstRoundMatches);
+      this.createRounds();
       this.tournamentStarted = true;
     },
 
-    loadTeams() {
-      this.teams = proteams.map((team) => ({
-        ...team,
-        score: 0
-      }));
-    },
-
-    isLastMatch(roundIndex, matchIndex) {
-      // On regarde si on est dans le dernier tour
-      const lastRoundIndex = this.rounds.length - 1;
-      const lastRound = this.rounds[lastRoundIndex];
-
-      // On vérifie si c'est le dernier match du dernier tour
-      return roundIndex === lastRoundIndex && matchIndex === lastRound.length - 1;
-    }
-
-    ,
-    arePreviousMatchesFinished(roundIndex) {
-      if (roundIndex === 0) return true; // Aucun match précédent pour le premier round
-      return this.rounds[roundIndex - 1].every(match => match.buttonClicked);
-    }
-,
-
-    advanceWinner(roundIndex, matchIndex) {
-      const match = this.rounds[roundIndex][matchIndex];
-
-      if (match && match.teams.length === 2) {
-        const [team1, team2] = match.teams;
-        if (team1.score === team2.score) {
-          alert("Les scores des deux équipes ne peuvent pas être identiques. Veuillez corriger !");
-          return;
-        }
-      }
-
-      const winner = match.teams.reduce((prev, current) =>
-          prev.score > current.score ? prev : current
-      );
-
-      if (this.isLastMatch(roundIndex, matchIndex)) {
-        alert(`Le tournoi est terminé ! L'équipe gagnante est : ${winner.name}`);
-        this.tournamentStarted = false;
-        return;
-      }
-
-      if (roundIndex >= this.rounds.length - 1) {
-        this.rounds.push([]);
-      }
-
-      const nextRound = this.rounds[roundIndex + 1];
-      const nextMatchIndex = Math.floor(matchIndex / 2);
-
-      if (!nextRound[nextMatchIndex]) {
-        nextRound[nextMatchIndex] = {
+    createRounds() {
+      this.rounds = [];
+      let roundMatches = [];
+      for (let i = 0; i < this.teamCount; i += 2) {
+        roundMatches.push({
           teams: [
-            { name: '', img: '', score: 0 },
-            { name: '', img: '', score: 0 }
-          ],
-          buttonClicked: false
-        };
+            {...this.teams[i], score: 0},
+            {...this.teams[i + 1], score: 0}
+          ]
+        });
       }
-
-      const nextMatch = nextRound[nextMatchIndex];
-      const slotIndex = matchIndex % 2;
-      nextMatch.teams[slotIndex] = { ...winner };
-
-      this.$set(this.rounds[roundIndex][matchIndex], "buttonClicked", true);
-      this.$forceUpdate();
-    },
-
-    validateFinalResult(roundIndex, matchIndex) {
-      const match = this.rounds[roundIndex][matchIndex];
-
-      if (match && match.teams.length === 2) {
-        const [team1, team2] = match.teams;
-        if (team1.score === team2.score) {
-          alert("Les scores des deux équipes ne peuvent pas être identiques. Veuillez corriger !");
-          return;
-        }
-      }
-
-      const winner = match.teams.reduce((prev, current) =>
-          prev.score > current.score ? prev : current
-      );
-
-      alert(`Le tournoi est terminé ! L'équipe gagnante est : ${winner.name}`);
-      this.tournamentStarted = false;
-
-      this.rounds[roundIndex][matchIndex].buttonClicked = true;
-      this.$forceUpdate();
-    },
-
-    toggleTooltip(roundIndex, matchIndex, teamIndex) {
-      const isActive =
-          this.activeTooltip.round === roundIndex &&
-          this.activeTooltip.match === matchIndex &&
-          this.activeTooltip.team === teamIndex;
-
-      this.activeTooltip = isActive
-          ? { round: null, match: null, team: null }
-          : { round: roundIndex, match: matchIndex, team: teamIndex };
-    },
-
-    isActiveTooltip(roundIndex, matchIndex, teamIndex) {
-      return (
-          this.activeTooltip.round === roundIndex &&
-          this.activeTooltip.match === matchIndex &&
-          this.activeTooltip.team === teamIndex
-      );
+      this.rounds.push(roundMatches);
     },
 
     validateAndCorrectScore(team) {
-      const maxScore = 3;
-      if (team.score < 0 || team.score > maxScore) {
-        team.score = Math.max(0, Math.min(team.score, maxScore));
-      }
+      team.score = Math.max(0, Math.min(10, team.score));
     }
   },
   mounted() {
-    this.loadTeams();
+    this.setupTournament();
   }
 };
 </script>
 
-
-<style>
+<style scoped>
 .team-logo {
   width: 50px;
   height: 50px;
@@ -330,7 +174,8 @@ export default {
   justify-content: space-between;
   background: #f9f9f9;
   padding: 15px;
-  width: 100%;
+  width: fit-content;
+
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -342,15 +187,17 @@ export default {
   margin-bottom: 10px;
 }
 
+
 .team {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .team > * {
-  flex: 1 1 100px;
+  //flex: 1 1 100px;
   text-align: center;
 }
 
@@ -368,54 +215,18 @@ export default {
   outline: none;
 }
 
-.advance-button,.edit-team {
-  padding: 10px 18px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  width: 120px;
-  text-align: center;
-}
-
-.advance-button:hover {
-  background-color: #0056b3;
-}
-
 h2 {
   font-size: 20px;
   color: #333;
   margin-bottom: 20px;
 }
 
-.tooltip {
-  position: absolute;
-  transform: translate(0%, 60%);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  white-space: normal; /* Permet au texte de s'étendre sur plusieurs lignes */
-  max-width: 400px; /* Limite la largeur maximale de la tooltip */
-  word-wrap: break-word; /* Permet de couper les mots longs pour éviter un débordement */
-  word-break: break-word; /* Ajoute une coupure si nécessaire */
+b.score-team {
+  max-width: fit-content;
+  padding: 15px;
 }
 
-.tooltip > p.descr {
-  text-align: justify;
-}
-
-.tooltip::after {
-  content: '';
-
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+p.name-team {
+  max-width: 70px;
 }
 </style>

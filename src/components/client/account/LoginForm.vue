@@ -67,13 +67,13 @@ export default {
           const loggedUser = response.data;
           switch (loggedUser.privilege) {
             case "2":
-              await this.$router.push({ path: "/admin-dashboard" });
+              await this.$router.push({path: "/admin-dashboard"});
               break;
             case "1":
-              await this.$router.push({ path: "/provider-dashboard" });
+              await this.$router.push({path: "/provider-dashboard"});
               break;
             default:
-              await this.$router.push({ name: "home" });
+              await this.$router.push({name: "home"});
           }
         } else {
           alert(response.data);

@@ -114,7 +114,7 @@ export default {
           alert("Vous êtes déjà inscrit en tant que prestataire.");
           this.$router.push({name: "login"});
         } else if (requests) {
-          if(requests.state === "0") {
+          if (requests.state === "0") {
             alert("Vous avez déjà une demande en cours. Connectez-vous et veuillez consulter la section demande de votre compte.");
             this.$router.push({name: "login"});
           }
@@ -130,7 +130,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("account", ['getCustomersAccounts', 'getProviderRequests',"addProviderRequest"]),
+    ...mapActions("account", ['getCustomersAccounts', 'getProviderRequests', "addProviderRequest"]),
     ...mapActions("prestation", ["getServiceCategories", 'getProviderServiceCategories', 'addProviderServiceCategory']),
 
     toggleDropdown() {
@@ -150,7 +150,7 @@ export default {
         let response = await this.addProviderRequest(this.user);
         if (response.error === 0) {
           for (let service of this.user.prestationServices) {
-            try{
+            try {
               await this.addProviderServiceCategory({
                 user: this.user,
                 serviceCategory: service,

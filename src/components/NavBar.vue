@@ -13,10 +13,10 @@
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
           <router-link to="" class="link">Services</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
-              <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
-              <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
-              <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
-              <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
+            <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
+            <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
+            <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
+            <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
 
           </ul>
         </li>
@@ -24,16 +24,16 @@
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
           <ul v-show="showAccountDropdown" class="dropdown">
-              <li><router-link :to="{ path: '/account/profil' }" class="link">Profil</router-link></li>
-              <li><router-link :to="{ path: '/account/reservation' }" class="link">Réservations</router-link></li>
-              <li><router-link :to="{ path: '/account/ticket' }" class="link">Billets</router-link></li>
-              <li v-if="getProviderRequestsByCustomerId(currentUser._id)">
-                <router-link :to="{ path: '/account/request' }" class="link">Demande</router-link>
-              </li>
-              <li v-if="dashboardPath">
-                <router-link :to="{ path: dashboardPath }" class="link">Tableau de bord</router-link>
-              </li>
-              <li @click="disconnected" class="link disconnect">Déconnexion</li>
+            <li><router-link :to="{ path: '/account/profil' }" class="link">Profil</router-link></li>
+            <li><router-link :to="{ path: '/account/reservation' }" class="link">Réservations</router-link></li>
+            <li><router-link :to="{ path: '/account/ticket' }" class="link">Billets</router-link></li>
+            <li v-if="getProviderRequestsByCustomerId(currentUser._id)">
+              <router-link :to="{ path: '/account/request' }" class="link">Demande</router-link>
+            </li>
+            <li v-if="dashboardPath">
+              <router-link :to="{ path: dashboardPath }" class="link">Tableau de bord</router-link>
+            </li>
+            <li @click="disconnected" class="link disconnect">Déconnexion</li>
           </ul>
         </li>
       </ul>
@@ -294,10 +294,10 @@ nav .mobile-nav-enter-to{
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
- .services,
- .account {
-   position: relative;
- }
+.services,
+.account {
+  position: relative;
+}
 
 .services .dropdown,
 .account .dropdown {

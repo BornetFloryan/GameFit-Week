@@ -26,6 +26,9 @@
       <router-link to="/admin-dashboard/admin-dedication/admin-dedication-management" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
+      <router-link to="/admin-dashboard/admin-bracket" class="button">
+        <span class="material-icons">Bracket</span>
+      </router-link>
     </div>
   </aside>
 </template>
