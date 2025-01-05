@@ -7,7 +7,7 @@ import AdminModifyStand from "@/components/admin/AdminModifyStand.vue";
 import AdminStandReservation from "@/components/admin/AdminStandReservation.vue";
 import AdminModifyStandReservation from "@/components/admin/AdminModifyStandReservation.vue";
 import AdminAddStandReservation from "@/components/admin/AdminAddStandReservation.vue";
-
+import AdminBracket from "@/components/admin/AdminBracket.vue";
 export default [
     {
         path: '/admin-dashboard',
@@ -15,6 +15,14 @@ export default [
         component: AdminDashBoardView,
         meta: { requiresAuth: true, requiredPrivilege: '2' },
         children: [
+
+            {
+                path: 'admin-bracket',
+                name: 'admin-bracket',
+                component: AdminBracket,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            }
+            ,
             {
                 path: 'admin-dedication',
                 name: 'admin-dedication',
