@@ -1,5 +1,5 @@
 <template>
-  <aside class="modern-sidebar">
+  <aside class="modern-sidebar" :class="{'is-open': isSidebarOpen}">
     <div class="header">
       <div class="logo">
         <img :src="logoURL" alt="GameFit Week Logo" />
@@ -14,10 +14,24 @@
 
     <h3>Menu</h3>
     <div class="menu">
+      <!-- Lien vers la gestion des dédicaces -->
       <router-link :to="{ path: '/provider-dashboard/provider-dedication/provider-dedication-management' }" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
+      <!-- Lien vers la gestion du restaurant -->
+      <router-link :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
+        <span class="material-icons">restaurant</span>
+      </router-link>
+      <!-- Lien vers la gestion des ventes de goodies -->
+      <router-link :to="{ path: '/provider-dashboard/provider-goodies/add-sale' }" class="button">
+        <span class="material-icons">Vente de Goodies</span>
+      </router-link>
     </div>
+
+    <!-- Bouton pour ouvrir/fermer la sidebar sur mobile -->
+    <button @click="toggleSidebar" class="button toggle-sidebar-button">
+      <span class="material-icons">menu</span> Menu
+    </button>
   </aside>
 </template>
 
@@ -29,6 +43,7 @@ export default {
   data() {
     return {
       logoURL: require('@/assets/img/logo.png'),
+      isSidebarOpen: true, // State pour suivre l'état d'ouverture de la sidebar
     };
   },
   methods: {
@@ -37,6 +52,9 @@ export default {
       this.logoutUser();
       this.$router.push('/');
     },
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen; // Fonction pour basculer la visibilité de la sidebar
+    }
   },
 };
 </script>
@@ -62,6 +80,14 @@ export default {
   padding: 1rem;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
+}
+
+.modern-sidebar.is-open {
+  transform: translateX(0); /* Sidebar visible */
+}
+
+.modern-sidebar:not(.is-open) {
+  transform: translateX(-100%); /* Sidebar cachée */
 }
 
 .header {
@@ -112,11 +138,6 @@ h3 {
   transform: translateX(5px);
 }
 
-.router-link-exact-active .material-icons,
-.router-link-exact-active .text {
-  color: var(--primary-color);
-}
-
 .logout-button {
   background-color: var(--logout-color);
   border: none;
@@ -135,9 +156,19 @@ h3 {
   transform: scale(1.05);
 }
 
-.logout-button .material-icons,
-.logout-button .text {
+.logout-button .material-icons {
   color: var(--text-color);
+}
+
+.toggle-sidebar-button {
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
 }
 
 @media (max-width: 1024px) {
@@ -146,6 +177,13 @@ h3 {
     width: 200px;
     z-index: 10;
     transform: translateX(-100%);
+  }
+
+  .toggle-sidebar-button {
+    display: inline-flex; /* Afficher le bouton menu sur mobile */
+    position: absolute;
+    top: 10px;
+    left: 10px;
   }
 }
 </style>
