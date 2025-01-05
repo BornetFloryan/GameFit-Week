@@ -52,20 +52,20 @@
 
           <!-- Boutons pour avancer ou valider le résultat -->
           <button
-              v-if="!match.buttonClicked && !isLastMatch(roundIndex, matchIndex)"
+              v-if="!match.buttonClicked && !isLastMatchOfFinalRound(roundIndex)"
               @click="advanceWinner(roundIndex, matchIndex)"
               class="advance-button"
           >
             Advance Winner
           </button>
+
           <button
-              v-if="!match.buttonClicked && isLastMatch(roundIndex, matchIndex) && arePreviousMatchesFinished(roundIndex)"
+              v-if="isLastMatchOfFinalRound(roundIndex) && arePreviousMatchesFinished(roundIndex) && match.teams.length === 2"
               @click="validateFinalResult(roundIndex, matchIndex)"
               class="advance-button"
           >
             Valider Résultat
           </button>
-
 
         </div>
       </div>
@@ -88,8 +88,8 @@ export default {
   },
   methods: {
     setupTournament() {
-      if (this.teamCount < 2) {
-        alert("Please enter at least 2 teams to start a tournament.");
+      if (this.teamCount < 4) {
+        alert("Please enter at least 4 teams to start a tournament.");
         return;
       }
 
@@ -128,21 +128,16 @@ export default {
       }));
     },
 
-    isLastMatch(roundIndex, matchIndex) {
-      // On regarde si on est dans le dernier tour
-      const lastRoundIndex = this.rounds.length - 1;
-      const lastRound = this.rounds[lastRoundIndex];
+    isLastMatchOfFinalRound(roundIndex) {
+      const finalRoundIndex = this.rounds.length - 1; // Dernier round
+      const finalRound = this.rounds[finalRoundIndex];
+      return roundIndex === finalRoundIndex && finalRound.length === 1;
+    },
 
-      // On vérifie si c'est le dernier match du dernier tour
-      return roundIndex === lastRoundIndex && matchIndex === lastRound.length - 1;
-    }
-
-    ,
     arePreviousMatchesFinished(roundIndex) {
       if (roundIndex === 0) return true; // Aucun match précédent pour le premier round
       return this.rounds[roundIndex - 1].every(match => match.buttonClicked);
-    }
-,
+    },
 
     advanceWinner(roundIndex, matchIndex) {
       const match = this.rounds[roundIndex][matchIndex];
@@ -159,7 +154,7 @@ export default {
           prev.score > current.score ? prev : current
       );
 
-      if (this.isLastMatch(roundIndex, matchIndex)) {
+      if (this.isLastMatchOfFinalRound(roundIndex)) {
         alert(`Le tournoi est terminé ! L'équipe gagnante est : ${winner.name}`);
         this.tournamentStarted = false;
         return;
@@ -175,8 +170,8 @@ export default {
       if (!nextRound[nextMatchIndex]) {
         nextRound[nextMatchIndex] = {
           teams: [
-            { name: '', img: '', score: 0 },
-            { name: '', img: '', score: 0 }
+            {name: '', img: '', score: 0},
+            {name: '', img: '', score: 0}
           ],
           buttonClicked: false
         };
@@ -184,7 +179,7 @@ export default {
 
       const nextMatch = nextRound[nextMatchIndex];
       const slotIndex = matchIndex % 2;
-      nextMatch.teams[slotIndex] = { ...winner };
+      nextMatch.teams[slotIndex] = {...winner};
 
       this.$set(this.rounds[roundIndex][matchIndex], "buttonClicked", true);
       this.$forceUpdate();
@@ -219,8 +214,8 @@ export default {
           this.activeTooltip.team === teamIndex;
 
       this.activeTooltip = isActive
-          ? { round: null, match: null, team: null }
-          : { round: roundIndex, match: matchIndex, team: teamIndex };
+          ? {round: null, match: null, team: null}
+          : {round: roundIndex, match: matchIndex, team: teamIndex};
     },
 
     isActiveTooltip(roundIndex, matchIndex, teamIndex) {
@@ -232,7 +227,7 @@ export default {
     },
 
     validateAndCorrectScore(team) {
-      const maxScore = 3;
+      const maxScore = 10;
       if (team.score < 0 || team.score > maxScore) {
         team.score = Math.max(0, Math.min(team.score, maxScore));
       }
@@ -246,6 +241,7 @@ export default {
 
 
 <style>
+/* Ajout d'un style basique pour que les boutons et éléments soient plus clairs */
 .team-logo {
   width: 50px;
   height: 50px;
@@ -368,7 +364,7 @@ export default {
   outline: none;
 }
 
-.advance-button,.edit-team {
+.advance-button, .edit-team {
   padding: 10px 18px;
   background-color: #007BFF;
   color: white;
@@ -400,22 +396,17 @@ h2 {
   font-size: 14px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  white-space: normal; /* Permet au texte de s'étendre sur plusieurs lignes */
-  max-width: 400px; /* Limite la largeur maximale de la tooltip */
-  word-wrap: break-word; /* Permet de couper les mots longs pour éviter un débordement */
-  word-break: break-word; /* Ajoute une coupure si nécessaire */
+  white-space: normal;
+  max-width: 400px;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
-.tooltip > p.descr {
-  text-align: justify;
+.tooltip p {
+  margin: 5px 0;
 }
 
-.tooltip::after {
-  content: '';
-
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+.tooltip p strong {
+  font-size: 16px;
 }
 </style>
