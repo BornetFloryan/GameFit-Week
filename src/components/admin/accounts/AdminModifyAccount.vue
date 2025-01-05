@@ -9,18 +9,18 @@
         :initialFormData="formData"
         @submit="handleModifyCustomerAccount"
         @back="goBack"
-        @field-change="handleFieldChange"
+        @update:formData="updateFormData"
     />
   </div>
 </template>
 
 <script>
 import AdminForm from "@/components/admin/AdminForm.vue";
-import { mapActions, mapGetters, mapState } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "AdminModifyAccount",
-  components: { AdminForm: AdminForm },
+  components: {AdminForm: AdminForm},
   data() {
     return {
       id: "",
@@ -36,7 +36,6 @@ export default {
         session: "",
       },
       formFields: [],
-      savedServices: [], // To save services when privilege is not "Prestataire"
     };
   },
   computed: {
@@ -79,11 +78,11 @@ export default {
         value: service._id,
         text: `${service.name}`,
       })) : [];
-    }
+    },
   },
   methods: {
     ...mapActions("account", ["modifyCustomerAccount"]),
-    ...mapActions("prestation", ["getServiceCategories", "getProviderServiceCategories"]),
+    ...mapActions("prestation", ["getServiceCategories", "getProviderServiceCategories", "addProviderServiceCategory", "deleteProviderServiceCategory"]),
 
     async handleModifyCustomerAccount(data) {
       const updatedAccount = {
@@ -95,9 +94,47 @@ export default {
         picture: data.picture,
         description: data.description,
         privilege: data.privilege,
-        services: data.services,
         session: data.session,
       };
+
+      let currentServices = this.getProviderServiceCategoriesByCustomerId(this.id).map(service => service._id);
+
+      let servicesToRemove = currentServices.filter(service => !data.services.includes(service));
+      if (servicesToRemove.length > 0) {
+        let providerServices = this.getProviderServiceCategoriesByCustomerId(this.id);
+        for (const service of servicesToRemove) {
+          let serviceToDelete = providerServices.find(providerService => providerService._id === service);
+          try {
+            let response = await this.deleteProviderServiceCategory(serviceToDelete);
+            if (response.error !== 0) {
+              alert(response.data);
+              return;
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
+      let servicesToAdd = data.services.filter(service => !currentServices.includes(service));
+
+      if (servicesToAdd.length > 0) {
+        for (const service of servicesToAdd) {
+          try {
+            let response = await this.addProviderServiceCategory({
+              user: {email: this.formData.email},
+              serviceCategory: service
+            });
+            if (response.error !== 0) {
+              alert(response.data);
+              return;
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
       await this.modifyCustomerAccount(updatedAccount);
       await this.$router.push("/admin-dashboard/admin-accounts");
     },
@@ -113,19 +150,12 @@ export default {
       if (this.formData.privilege === "1") {
         const userServices = await this.getProviderServiceCategoriesByCustomerId(this.id);
 
-        this.formData.services = userServices.map(service => service._id);
+        this.formData.services = userServices.map(service => service.service_category_id);
       }
     },
 
-    handleFieldChange(field) {
-      if (field.id === "privilege") {
-        if (this.formData.privilege === "1") {
-          this.formData.services = this.savedServices;
-        } else {
-          this.savedServices = this.formData.services;
-          this.formData.services = [];
-        }
-      }
+    updateFormData(newFormData) {
+      this.formData = newFormData;
     },
   },
   async mounted() {
@@ -141,6 +171,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

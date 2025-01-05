@@ -9,6 +9,7 @@ import AdminModifyStandReservation from "@/components/admin/stands/AdminModifySt
 import AdminAddStandReservation from "@/components/admin/stands/AdminAddStandReservation.vue";
 import AdminAccountsManagement from "@/components/admin/accounts/AdminAccountsManagement.vue";
 import AdminModifyAccount from "@/components/admin/accounts/AdminModifyAccount.vue";
+import AdminAddAccount from "@/components/admin/accounts/AdminAddAccount.vue";
 import AdminBracket from "@/components/admin/AdminBracket.vue";
 
 export default [
@@ -28,6 +29,12 @@ export default [
                 path: 'admin-accounts/:item_id',
                 name: 'admin-accounts-edit',
                 component: AdminModifyAccount,
+                meta: { requiresAuth: true, requiredPrivilege: '2'},
+            },
+            {
+                path: 'admin-accounts-add',
+                name: 'admin-accounts-add',
+                component: AdminAddAccount,
                 meta: { requiresAuth: true, requiredPrivilege: '2'},
             },
             {

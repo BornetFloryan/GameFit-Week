@@ -101,6 +101,9 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  color: #fff;
+}
 .interactive-map {
   display: flex;
   flex-direction: column;

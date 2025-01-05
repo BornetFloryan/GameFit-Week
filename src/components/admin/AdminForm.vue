@@ -102,7 +102,12 @@ export default {
   },
   computed: {
     visibleFormFields() {
-      return this.formFields.filter(field => field.visible !== false);
+      return this.formFields.filter(field => {
+        if (field.id === "services" && this.formData.privilege !== "1") {
+          return false;
+        }
+        return field.visible !== false;
+      });
     },
   },
   watch: {
@@ -125,11 +130,26 @@ export default {
         if (this.formData.privilege === "1") {
           this.formData.services = this.savedServices;
         } else {
-          this.savedServices = [...this.formData.services];
+          if (this.formData.services.length > 0) {
+            this.savedServices = [...this.formData.services];
+          }
           this.formData.services = [];
         }
       }
+      if (field.id === "customer_id") {
+
+        this.$emit("prestataireSelected", this.formData.customer_id);
+      } else if (field.id === "service_id") {
+        this.$emit("serviceSelected", this.formData.service_id);
+      } else if (field.id === "stand_id") {
+        this.$emit("standSelected", this.formData.stand_id);
+      } else if (field.id === "date") {
+        this.$emit("dateSelected", this.formData.date);
+      } else if (field.id === "start_time") {
+        this.$emit("startTimeSelected", this.formData.start_time);
+      }
       this.$emit("field-change", field);
+      this.$emit("update:formData", this.formData);
     },
     handleCheckboxChange(model, value) {
       if (!Array.isArray(this.formData[model])) {

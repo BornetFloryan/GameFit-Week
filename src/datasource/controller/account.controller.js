@@ -29,6 +29,9 @@ function addCustomerAccount(customer) {
         privilege: "0",
         session: uuidv4()
     };
+
+    if(customer.privilege)
+        u.privilege = customer.privilege;
     return {error: 0, status: 200, data: u};
 }
 

@@ -24,7 +24,7 @@ import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "AdminAddStandReservation",
-  components: {AdminForm},
+  components: { AdminForm },
   data() {
     return {
       formData: {
@@ -47,10 +47,10 @@ export default {
     ...mapState("account", ["customersAccounts"]),
     ...mapState("prestation", ["providerServiceCategories", "serviceCategories"]),
     ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate"]),
-    ...mapGetters("prestation", ["getProviderServiceCategoriesById", "getServiceCategoryById", "getProviderOfferingServices"]),
+    ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById", "getProviderOfferingServices"]),
 
     servicesPrestatairesCategory() {
-      return this.getProviderServiceCategoriesById(this.formData.customer_id);
+      return this.getProviderServiceCategoriesByCustomerId(this.formData.customer_id);
     },
   },
   methods: {
@@ -163,7 +163,7 @@ export default {
       this.updateVisibility("service_id", prestataire_id);
       const serviceField = this.formFields.find((field) => field.id === "service_id");
       if (serviceField) {
-        serviceField.options = this.getProviderServiceCategoriesById(prestataire_id).map((service) => ({
+        serviceField.options = this.getProviderServiceCategoriesByCustomerId(prestataire_id).map((service) => ({
           value: service.service_category_id,
           text: this.getServiceName(service.service_category_id),
         }));
