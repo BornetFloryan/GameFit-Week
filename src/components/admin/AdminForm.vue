@@ -33,6 +33,19 @@
             ></textarea>
           </div>
 
+          <div v-else-if="field.type === 'checkbox' && formData.privilege === '1'">
+            <div v-for="option in field.options" :key="option.value" class="checkbox-group">
+              <input
+                  type="checkbox"
+                  :id="option.value"
+                  :value="option.value"
+                  :checked="(formData[field.model] || []).includes(option.value)"
+                  @change="handleCheckboxChange(field.model, option.value)"
+              />
+              <label :for="option.value">{{ option.text }}</label>
+            </div>
+          </div>
+
           <div v-else>
             <input
                 :type="field.type"
@@ -54,7 +67,7 @@
 
 <script>
 export default {
-  name: "AdminStandForm",
+  name: "AdminForm",
   props: {
     title: {
       type: String,
@@ -83,7 +96,8 @@ export default {
   },
   data() {
     return {
-      formData: { ...this.initialFormData },
+      formData: {...this.initialFormData},
+      savedServices: [],
     };
   },
   computed: {
@@ -95,7 +109,7 @@ export default {
     initialFormData: {
       deep: true,
       handler(newValue) {
-        this.formData = { ...newValue };
+        this.formData = {...newValue};
       },
     },
   },
@@ -107,16 +121,25 @@ export default {
       this.$emit("back");
     },
     handleFieldChange(field) {
-      if (field.id === "customer_id") {
-        this.$emit("prestataireSelected", this.formData.customer_id);
-      } else if (field.id === "service_id") {
-        this.$emit("serviceSelected", this.formData.service_id);
-      } else if (field.id === "stand_id") {
-        this.$emit("standSelected", this.formData.stand_id);
-      } else if (field.id === "date") {
-        this.$emit("dateSelected", this.formData.date);
-      } else if (field.id === "start_time") {
-        this.$emit("startTimeSelected", this.formData.start_time);
+      if (field.id === "privilege") {
+        if (this.formData.privilege === "1") {
+          this.formData.services = this.savedServices;
+        } else {
+          this.savedServices = [...this.formData.services];
+          this.formData.services = [];
+        }
+      }
+      this.$emit("field-change", field);
+    },
+    handleCheckboxChange(model, value) {
+      if (!Array.isArray(this.formData[model])) {
+        this.$set(this.formData, model, []);
+      }
+      const index = this.formData[model].indexOf(value);
+      if (index > -1) {
+        this.formData[model].splice(index, 1);
+      } else {
+        this.formData[model].push(value);
       }
     },
   },
@@ -129,7 +152,6 @@ export default {
   flex-direction: column;
   align-items: center;
   height: 100vh;
-
   background-color: #f0f2f5;
   padding: 1em;
 }
@@ -142,7 +164,6 @@ export default {
   padding: 2em;
   border-radius: 10px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-
   position: relative;
 }
 
@@ -238,5 +259,15 @@ input[type="time"]:disabled {
   background-color: #e9ecef;
   color: #6c757d;
   cursor: not-allowed;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.checkbox-group input {
+  margin-right: 0.5em;
 }
 </style>

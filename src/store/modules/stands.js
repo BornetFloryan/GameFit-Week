@@ -151,11 +151,11 @@ const getters = {
     getStandsReservationsByStandIdAndDate: (state) => (stand_id, date) => {
         return state.standsReservations.filter((reservation) => reservation.stand_id === stand_id && reservation.date === date);
     },
-    getStandsReservationsByProviderRequestsId: (state) => (provider_requests_id) => {
-        return state.standsReservations.filter((reservation) => reservation.customer_id === provider_requests_id);
+    getStandsReservationsByProviderCustomerId: (state) => (customer_id) => {
+        return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id);
     },
-    getStandReservationsByStandIdAndProviderRequestsId: (state) => (stand_id, provider_requests_id) => {
-        return state.standsReservations.find((reservation) => reservation.stand_id === stand_id && reservation.customer_id === provider_requests_id);
+    getStandReservationsByStandIdAndCustomerId: (state) => (stand_id, customer_id) => {
+        return state.standsReservations.find((reservation) => reservation.stand_id === stand_id && reservation.customer_id === customer_id);
     },
     getPavillonById: (state) => (_id) => {
         return state.pavillons.find((pavillon) => pavillon._id === _id);

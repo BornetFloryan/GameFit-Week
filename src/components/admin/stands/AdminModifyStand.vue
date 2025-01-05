@@ -1,6 +1,6 @@
 <template>
   <div v-if="stand">
-    <AdminStandForm
+    <AdminForm
         :title="'Modifier ' + stand.name"
         backButtonText="Retour"
         submitButtonText="Modifier"
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import AdminStandForm from './AdminStandForm.vue';
+import AdminForm from '../AdminForm.vue';
 import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'AdminModifyStand',
-  components: { AdminStandForm },
+  components: { AdminForm: AdminForm },
   data() {
     return {
       stand: null,

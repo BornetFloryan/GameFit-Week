@@ -23,6 +23,9 @@
           <p v-else-if="field === 'stand_id'">
             {{ getStandById(item[field])?.name || 'Unknown' }}
           </p>
+          <p v-else-if="field === 'privilege'">
+            {{ getPrivilegeLabel(item[field]) || 'Unknown' }}
+          </p>
           <p v-else>
             {{ item[field] }}
           </p>
@@ -48,7 +51,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'AdminStandTable',
+  name: 'AdminTable',
   props: {
     title: String,
     headers: Array,
@@ -89,9 +92,20 @@ export default {
     ...mapGetters('account', ['getCustomerById']),
   },
   methods: {
-
     handleDeleteButton(_id) {
       this.$emit('delete', _id);
+    },
+    getPrivilegeLabel(privilege) {
+      switch (privilege) {
+        case '0':
+          return 'Client';
+        case '1':
+          return 'Prestataire';
+        case '2':
+          return 'Admin';
+        default:
+          return 'Unknown';
+      }
     },
   },
 };

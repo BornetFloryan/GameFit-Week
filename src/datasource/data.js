@@ -29,7 +29,7 @@ let customer_accounts = [
         "email": "prestataire@prestataire.com",
         "picture": "",
         "description": "",
-        "privilege": "1",
+        "privilege": "0",
         "session": ""
     },
     {
@@ -214,98 +214,104 @@ let provider_requests = [
     {
         "_id": "0",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "3",
     },
     {
         "_id": "1",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "4",
     },
     {
         "_id": "2",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "5",
     },
     {
         "_id": "3",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "6",
     },
     {
         "_id": "4",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "7",
     },
     {
         "_id": "5",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "8",
     },
     {
         "_id": "6",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "9",
     },
     {
         "_id": "7",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "10",
     },
     {
         "_id": "8",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "11",
     },
     {
         "_id": "9",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "12",
     },
     {
         "_id": "10",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "13",
     },
     {
         "_id": "11",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "14",
     },
     {
         "_id": "12",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "15",
     },
     {
         "_id": "13",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "16",
     },
     {
         "_id": "14",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "17",
     },
     {
         "_id": "15",
         "date": "2025-10-30",
-        "status": "1",
+        "state": "1",
         "customer_id": "18",
+    },
+    {
+        "_id": "16",
+        "date": "2025-10-30",
+        "state": "0",
+        "customer_id": "2",
     },
 ];
 
@@ -327,99 +333,111 @@ let service_categories = [
 let provider_service_categories = [
     {
         "_id": "0",
-        "status": "1",
+        "state": "1",
         "customer_id": "3", // Lionel Messi
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "1",
-        "status": "1",
-        "customer_id": "3", // LeBron James
-        "service_category_id": "1" // Dédicace
+        "state": "1",
+        "customer_id": "4", // LeBron James
+        "service_category_id": "0" // Dédicace
     },
     {
         "_id": "2",
-        "status": "1",
+        "state": "1",
         "customer_id": "5", // Serena Williams
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "3",
-        "status": "1",
+        "state": "1",
         "customer_id": "6", // Cristiano Ronaldo
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "4",
-        "status": "1",
+        "state": "1",
         "customer_id": "7", // Tom Brady
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "5",
-        "status": "1",
+        "state": "1",
         "customer_id": "8", // Roger Federer
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "6",
-        "status": "1",
+        "state": "1",
         "customer_id": "9", // Stephen Curry
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "7",
-        "status": "1",
+        "state": "1",
         "customer_id": "10", // Usain Bolt
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "8",
-        "status": "1",
+        "state": "1",
         "customer_id": "11", // Neymar Jr.
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "9",
-        "status": "1",
+        "state": "1",
         "customer_id": "12", // Michael Jordan
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "10",
-        "status": "1",
+        "state": "1",
         "customer_id": "13", // Khabib Nurmagomedov
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "11",
-        "status": "1",
+        "state": "1",
         "customer_id": "14", // Pelé
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "12",
-        "status": "1",
+        "state": "1",
         "customer_id": "15", // Virat Kohli
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "13",
-        "status": "1",
+        "state": "1",
         "customer_id": "16", // Misty May-Treanor
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "14",
-        "status": "1",
+        "state": "1",
         "customer_id": "17", // Bugha
         "service_category_id": "0" // Dédicace
     },
     {
         "_id": "15",
-        "status": "1",
+        "state": "1",
         "customer_id": "18", // Ninja
         "service_category_id": "0" // Dédicace
+    },
+    {
+        "_id": "16",
+        "state": "0",
+        "customer_id": "2",
+        "service_category_id": "0"
+    },
+    {
+        "_id": "17",
+        "state": "0",
+        "customer_id": "2",
+        "service_category_id": "1"
     }
 ];
 

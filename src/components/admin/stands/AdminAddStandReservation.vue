@@ -1,13 +1,13 @@
 <template>
-  <div class="modify-stand-form">
-    <AdminStandForm
-        :title="'Modifier Réservation ' + id"
+  <div class="add-stand-form">
+    <AdminForm
+        :title="'Ajouter une réservation'"
         :backButtonText="'Retour'"
-        :submitButtonText="'Modifier'"
+        :submitButtonText="'Ajouter'"
         :cancelButtonText="'Annuler'"
         :formFields="formFields"
         :initialFormData="formData"
-        @submit="handleModifyStandReservation"
+        @submit="handleAddStandReservation"
         @back="goBack"
         @prestataireSelected="updateServicesPrestatairesCategory"
         @serviceSelected="updateStandVisibility"
@@ -19,15 +19,14 @@
 </template>
 
 <script>
-import AdminStandForm from "@/components/admin/AdminStandForm.vue";
-import { mapActions, mapGetters, mapState } from "vuex";
+import AdminForm from "@/components/admin/AdminForm.vue";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
-  name: "AdminModifyStandReservation",
-  components: { AdminStandForm },
+  name: "AdminAddStandReservation",
+  components: { AdminForm: AdminForm },
   data() {
     return {
-      id: "",
       formData: {
         date: "",
         start_time: "",
@@ -55,26 +54,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions("stands", ["getStands", "modifyStandsReservations"]),
+    ...mapActions("stands", ["getStands", "addStandReservation"]),
     ...mapActions("prestation", ["getProviderServiceCategories"]),
 
-    getServiceName(service_id) {
-      const service = this.getServiceCategoryById(service_id);
-      return service ? service.name : "N/A";
-    },
-
-    async handleModifyStandReservation(data) {
-      const updatedReservation = {
-        ...this.formData,
-        date: data.date,
-        start_time: data.start_time,
-        end_time: data.end_time,
-        description: data.description,
-        customer_id: data.customer_id,
-        service_id: data.service_id,
-        stand_id: data.stand_id,
-      };
-      await this.modifyStandsReservations(updatedReservation);
+    async handleAddStandReservation(data) {
+      await this.addStandReservation({...this.formData, ...data});
       await this.$router.push("/admin-dashboard/admin-stand-reservations");
     },
 
@@ -98,13 +82,6 @@ export default {
       const availableTimes = this.availableTimes.filter(
           (time) => !usedTimes.includes(time) && time !== "18:00"
       );
-
-      if (this.formData.start_time && !availableTimes.includes(this.formData.start_time)) {
-        availableTimes.push(this.formData.start_time);
-      }
-      if (this.formData.end_time && !availableTimes.includes(this.formData.end_time)) {
-        availableTimes.push(this.formData.end_time);
-      }
       return availableTimes.length > 0 ? availableTimes : [];
     },
 
@@ -212,11 +189,9 @@ export default {
 
     updateEndTimeOptions(start_time) {
       this.formData.start_time = start_time;
-      this.formData.end_time = "";
       const availableTimes = this.generateAvailableTimes();
       const reservations = this.getStandsReservationsByStandIdAndDate(this.formData.stand_id, this.formData.date);
       const nextReservation = reservations
-          .filter(res => res._id !== this.id)
           .map((res) => res.start_time)
           .sort()
           .find((time) => time > start_time);
@@ -227,18 +202,19 @@ export default {
       this.updateVisibility("end_time", !!start_time);
     },
 
-
     updateAvailableTimes(date) {
       this.formData.date = date;
+      this.formData.start_time = "";
+      this.formData.end_time = "";
       const availableTimes = this.filterAvailableTimes(date, this.formData.stand_id);
-      this.updateFieldOptions("start_time", availableTimes.filter((time) => time !== "18:00" && time !== this.formData.end_time));
+      this.updateFieldOptions("start_time", availableTimes.filter((time) => time !== "18:00"));
+      this.updateFieldOptions("end_time", []);
       this.updateVisibility("start_time", availableTimes.length > 0);
       this.updateVisibility("description", availableTimes.length > 0 && this.formData.customer_id && this.formData.service_id);
       if (availableTimes.length === 0) {
         this.formData.date = "";
       }
     },
-
 
     updateVisibility(fieldId, condition) {
       const field = this.formFields.find((f) => f.id === fieldId);
@@ -247,31 +223,27 @@ export default {
 
     updateFieldOptions(fieldId, options) {
       const field = this.formFields.find((f) => f.id === fieldId);
-      if (field) {
-        field.options = options.map((option) => ({
-          value: option,
-          text: option,
-          disabled: false,
-        }));
-      }
+      if (field) field.options = options.map((time) => ({value: time, text: time}));
+    },
+
+    getServiceName(service_id) {
+      const service = this.getServiceCategoryById(service_id);
+      return service ? service.name : "N/A";
     },
   },
+
+  async created() {
+    if (this.$route.params.stand_id) {
+      this.formData.stand_id = this.$route.params.stand_id;
+    }
+  },
+
   async mounted() {
     await this.getStands();
     await this.getProviderServiceCategories();
-
-    if (this.$route.params.item_id) {
-      const reservation = this.getStandReservationById(this.$route.params.item_id);
-      if (reservation) {
-        this.id = reservation._id;
-        this.formData = {...reservation};
-      }
-    }
-
     this.prestataires = this.getProviderOfferingServices;
     this.servicesPrestataires = this.providerServiceCategories;
     this.initializeFormFields();
-    this.updateAvailableTimes(this.formData.date);
   },
 };
 </script>

@@ -40,7 +40,7 @@
         <button class="btn-action">Voir toutes les réservations</button>
       </router-link>
     </div>
-    <AdminStandTable
+    <AdminTable
         title="Tableau des stands"
         :headers="headers"
         :fields="fields"
@@ -56,11 +56,11 @@
 <script>
 import InteractiveMap from "@/components/InteractiveMap.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
-import AdminStandTable from "@/components/admin/AdminStandTable.vue";
+import AdminTable from "@/components/admin/AdminTable.vue";
 
 export default {
   name: 'AdminStandManagement',
-  components: { AdminStandTable, InteractiveMap },
+  components: { AdminTable, InteractiveMap },
   data() {
     return {
       title: "Gestion des stands",

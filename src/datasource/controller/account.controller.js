@@ -61,8 +61,20 @@ function modifyCustomerAccount(customer) {
     user.login = customer.login
     user.password = customer.password
     user.email = customer.email
+    user.picture = customer.picture
+    user.description = customer.description
+    user.privilege = customer.privilege
+    user.session = customer.session
 
     return {error: 0, status: 200, data: user}
+}
+
+function deleteCustomerAccount(customer) {
+    let index = customer_accounts.findIndex(e => e._id === customer._id)
+    if (index !== -1) {
+        return {error: 0, status: 200, data: index}
+    }
+    return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
 }
 
 function getProviderRequests() {
@@ -94,25 +106,56 @@ function addProviderRequest(user) {
         _id: uuidv4(),
         date: new Date(),
         customer_id: user._id,
-        status: "0"
+        state: "0"
     };
     return {error: 0, status: 200, data: request};
 }
 
 function modifyProviderRequest(request) {
-    let r = provider_requests.find(e => e._id === request._id)
-    if (!r) return {error: 1, status: 404, data: 'Demande non trouvée'}
+    if (!request) {
+        return {error: 1, status: 404, data: 'Aucune donnée'};
+    }
 
-    r.customer_id = request.customer_id
-    r.request = request.request
-    r.status = request.status
+    if (!request._id) {
+        return {error: 1, status: 404, data: 'Champs manquants: _id'};
+    }
+    if (!request.customer_id) {
+        return {error: 1, status: 404, data: 'Champs manquants: customer_id'};
+    }
+    if (!request.date) {
+        return {error: 1, status: 404, data: 'Champs manquants: date'};
+    }
+    if (!request.state) {
+        return {error: 1, status: 404, data: 'Champs manquants: state'};
+    }
 
-    return {error: 0, status: 200, data: r}
+    let r = provider_requests.find(e => e._id === request._id);
+    if (!r) return {error: 1, status: 404, data: 'Demande non trouvée'};
+
+    r.date = request.date;
+    r.state = request.state;
+    r.customer_id = request.customer_id;
+
+    return {error: 0, status: 200, data:'oui'};
 }
 
 function deleteProviderRequest(request) {
+    if(!request){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+
+    if(!request._id){
+        return {error: 1, status: 404, data: 'ID manquant'}
+    }
+
     let index = provider_requests.findIndex(e => e._id === request._id);
     if (index !== -1) {
+        let user = customer_accounts.find(e => e._id === request.customer_id);
+        if(!user){
+            return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
+        }
+
+        user.privilege = "0";
         return {error: 0, status: 200, data: index}
     }
     return {error: 1, status: 404, data: 'Demande non trouvée'}
@@ -123,6 +166,7 @@ export default{
     addCustomerAccount,
     loginUser,
     modifyCustomerAccount,
+    deleteCustomerAccount,
     getProviderRequests,
     addProviderRequest,
     modifyProviderRequest,

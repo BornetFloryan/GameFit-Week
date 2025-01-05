@@ -1,12 +1,14 @@
 import AdminDashBoardView from "@/views/admin/AdminDashBoardView.vue";
 import AdminDedicationView from "@/views/admin/AdminDedicationView.vue";
 import AdminRequests from "@/components/admin/AdminRequests.vue";
-import AdminDedicationManagement from "@/components/admin/AdminDedicationManagement.vue";
-import AdminStandManagement from "@/components/admin/AdminStandManagement.vue";
-import AdminModifyStand from "@/components/admin/AdminModifyStand.vue";
-import AdminStandReservation from "@/components/admin/AdminStandReservation.vue";
-import AdminModifyStandReservation from "@/components/admin/AdminModifyStandReservation.vue";
-import AdminAddStandReservation from "@/components/admin/AdminAddStandReservation.vue";
+import AdminDedicationManagement from "@/components/admin/dedications/AdminDedicationManagement.vue";
+import AdminStandManagement from "@/components/admin/stands/AdminStandManagement.vue";
+import AdminModifyStand from "@/components/admin/stands/AdminModifyStand.vue";
+import AdminStandReservation from "@/components/admin/stands/AdminStandReservation.vue";
+import AdminModifyStandReservation from "@/components/admin/stands/AdminModifyStandReservation.vue";
+import AdminAddStandReservation from "@/components/admin/stands/AdminAddStandReservation.vue";
+import AdminAccountsManagement from "@/components/admin/accounts/AdminAccountsManagement.vue";
+import AdminModifyAccount from "@/components/admin/accounts/AdminModifyAccount.vue";
 
 export default [
     {
@@ -16,18 +18,16 @@ export default [
         meta: { requiresAuth: true, requiredPrivilege: '2' },
         children: [
             {
-                path: 'admin-dedication',
-                name: 'admin-dedication',
-                component: AdminDedicationView,
-                meta: { requiresAuth: true, requiredPrivilege: '2' },
-                children: [
-                    {
-                        path: 'admin-dedication-management',
-                        name: 'admin-dedication-management',
-                        component: AdminDedicationManagement,
-                        meta: { requiresAuth: true, requiredPrivilege: '2' },
-                    },
-                ],
+                path: 'admin-accounts',
+                name: 'admin-accounts',
+                component: AdminAccountsManagement,
+                meta: { requiresAuth: true, requiredPrivilege: '2'},
+            },
+            {
+                path: 'admin-accounts/:item_id',
+                name: 'admin-accounts-edit',
+                component: AdminModifyAccount,
+                meta: { requiresAuth: true, requiredPrivilege: '2'},
             },
             {
                 path: 'admin-requests',
@@ -70,7 +70,22 @@ export default [
                 name: 'admin-add-stand-reservation-stand-id',
                 component: AdminAddStandReservation,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
-            }
+            },
+            {
+                path: 'admin-dedication',
+                name: 'admin-dedication',
+                component: AdminDedicationView,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+                children: [
+                    {
+                        path: 'admin-dedication-management',
+                        name: 'admin-dedication-management',
+                        component: AdminDedicationManagement,
+                        meta: { requiresAuth: true, requiredPrivilege: '2' },
+                    },
+                ],
+            },
+
         ],
     },
 ];

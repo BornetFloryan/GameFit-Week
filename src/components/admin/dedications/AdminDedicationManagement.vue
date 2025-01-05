@@ -54,8 +54,8 @@
 </template>
 <script>
 import {mapActions, mapState} from 'vuex';
-import AdminAddDedicaceSlotForm from "@/components/admin/AdminAddDedicaceSlotForm.vue";
-import AdminModifyDedicaceSlotForm from "@/components/admin/AdminModifyDedicaceSlotForm.vue";
+import AdminAddDedicaceSlotForm from "@/components/admin/dedications/AdminAddDedicaceSlotForm.vue";
+import AdminModifyDedicaceSlotForm from "@/components/admin/dedications/AdminModifyDedicaceSlotForm.vue";
 
 export default {
   name: 'AdminDedicationManagement',

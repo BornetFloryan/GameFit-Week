@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "LoginFormView",
@@ -51,8 +51,13 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState("account", ["providerRequests"]),
+    ...mapState('prestation', ['providerServiceCategories'])
+  },
   methods: {
-    ...mapActions("account", ["loginUser"]),
+    ...mapActions("account", ["loginUser", 'getProviderRequests']),
+    ...mapActions('prestation', ['getProviderServiceCategories']),
 
     async loggedUser() {
       try {
@@ -79,6 +84,8 @@ export default {
       }
     },
   },
+  mounted() {
+  }
 };
 </script>
 

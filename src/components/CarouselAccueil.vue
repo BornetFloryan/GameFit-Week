@@ -117,6 +117,11 @@ export default {
   border-radius: 5px;
   text-align: center;
 }
+
+.carousel-items h1, .carousel-items h2 {
+  color: #f1f1f1;
+}
+
 .carousel-items h1 {
   font-size: 3rem;
   margin-bottom: 20px;

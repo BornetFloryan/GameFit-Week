@@ -16,6 +16,15 @@ const mutations = {
     addProviderServiceCategory(state, providerServiceCategory) {
         state.providerServiceCategories.push(providerServiceCategory);
     },
+    modifyProviderServiceCategorytegory(state, providerServiceCategory) {
+        let index = state.providerServiceCategories.findIndex(e => e._id === providerServiceCategory._id);
+        if (index !== -1) {
+            state.providerServiceCategories[index] = providerServiceCategory;
+        }
+    },
+    deleteProviderServiceCategory(state, index) {
+        state.providerServiceCategories.splice(index, 1);
+    },
 };
 
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -54,6 +63,30 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de l\'ajout d\'un service prestataire:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout d\'un service prestataire' };
+        }
+    },
+    async modifyProviderServiceCategory({ commit }, providerServiceCategory) {
+        try {
+            let response = await PrestationService.modifyProviderServiceCategory(providerServiceCategory);
+            if (response.error === 0) {
+                commit('modifyProviderServiceCategorytegory', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification d\'un service prestataire:', error);
+            return { error: 1, data: 'Erreur lors de la modification d\'un service prestataire' };
+        }
+    },
+    async deleteProviderServiceCategory({ commit }, providerServiceCategory) {
+        try {
+            let response = await PrestationService.deleteProviderServiceCategory(providerServiceCategory);
+            if (response.error === 0) {
+                commit('deleteProviderServiceCategory', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la suppression d\'un service prestataire:', error);
+            return { error: 1, data: 'Erreur lors de la suppression d\'un service prestataire' };
         }
     },
 };

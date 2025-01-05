@@ -99,7 +99,7 @@ export default {
   computed: {
     ...mapState('prestation', ['serviceCategories']),
     ...mapState('account', ['providerRequests']),
-    ...mapGetters('account', ['getCustomerByEmail', 'getPendingRequestByCustomerId']),
+    ...mapGetters('account', ['getCustomerByEmail', 'getProviderRequestsByCustomerId']),
     isEmailValid() {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailPattern.test(this.user.email);
@@ -109,13 +109,15 @@ export default {
     'user.email': async function (newEmail) {
       const customer = this.getCustomerByEmail(newEmail);
       if (customer) {
-        const pendingRequest = this.getPendingRequestByCustomerId(customer._id);
+        const requests = this.getProviderRequestsByCustomerId(customer._id);
         if (customer.privilege === "1") {
           alert("Vous êtes déjà inscrit en tant que prestataire.");
           this.$router.push({name: "login"});
-        } else if (pendingRequest) {
-          alert("Vous avez déjà une demande en cours. Connectez-vous et veuillez consulter la section demande de votre compte.");
-          this.$router.push({name: "login"});
+        } else if (requests) {
+          if(requests.state === "0") {
+            alert("Vous avez déjà une demande en cours. Connectez-vous et veuillez consulter la section demande de votre compte.");
+            this.$router.push({name: "login"});
+          }
         } else {
           this.user.name = customer.name;
           this.isCustomerFound = true;
@@ -129,7 +131,7 @@ export default {
   },
   methods: {
     ...mapActions("account", ['getCustomersAccounts', 'getProviderRequests',"addProviderRequest"]),
-    ...mapActions("prestation", ["getServiceCategories", 'addProviderServiceCategory']),
+    ...mapActions("prestation", ["getServiceCategories", 'getProviderServiceCategories', 'addProviderServiceCategory']),
 
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
@@ -148,10 +150,14 @@ export default {
         let response = await this.addProviderRequest(this.user);
         if (response.error === 0) {
           for (let service of this.user.prestationServices) {
-            response = await this.addProviderServiceCategory({
-              user: this.user,
-              serviceCategory: service,
-            });
+            try{
+              await this.addProviderServiceCategory({
+                user: this.user,
+                serviceCategory: service,
+              });
+            } catch (error) {
+              console.error("Erreur lors de l'ajout de la catégorie de service:", error);
+            }
           }
           alert("Votre demande a été envoyée à l'administrateur. Vous pouvez la consulter en vous connectant puis dans la section demande sur votre compte.");
           this.$router.push({name: "login"});
@@ -167,6 +173,7 @@ export default {
   async created() {
     await this.getCustomersAccounts();
     await this.getServiceCategories();
+    await this.getProviderServiceCategories();
     await this.getProviderRequests();
   },
 };

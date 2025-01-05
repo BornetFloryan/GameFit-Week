@@ -9,7 +9,7 @@
     <router-link to="/admin-dashboard/admin-add-stand-reservation">
       <button class="btn-action">Ajouter une réservation</button>
     </router-link>
-    <AdminStandTable
+    <AdminTable
         :title="title"
         :headers="headers"
         :fields="fields"
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import AdminStandTable from "@/components/admin/AdminStandTable.vue";
+import AdminTable from "@/components/admin/AdminTable.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: 'AdminStandReservation',
-  components: { AdminStandTable },
+  components: { AdminTable },
   data() {
     return {
       title: "Gestion des réservation des stands",

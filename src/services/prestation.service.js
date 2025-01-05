@@ -12,6 +12,13 @@ async function addProviderServiceCategoryFromLocalSource(providerServiceCategory
     return LocalSource.addProviderServiceCategory(providerServiceCategory);
 }
 
+async function modifyProviderServiceCategoryFromLocalSource(providerServiceCategory) {
+    return LocalSource.modifyProviderServiceCategory(providerServiceCategory);
+}
+async function deleteProviderServiceCategoryFromLocalSource(providerServiceCategory) {
+    return LocalSource.deleteProviderServiceCategory(providerServiceCategory);
+}
+
 async function getServiceCategories() {
     let response = null;
     try {
@@ -51,8 +58,36 @@ async function addProviderServiceCategory(providerServiceCategory) {
     return response
 }
 
+async function modifyProviderServiceCategory(providerServiceCategory) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await modifyProviderServiceCategoryFromLocalSource(providerServiceCategory);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de modifier un prestataire à un service' }
+    }
+    return response
+}
+
+async function deleteProviderServiceCategory(providerServiceCategory) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await deleteProviderServiceCategoryFromLocalSource(providerServiceCategory);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de supprimer un prestataire à un service' }
+    }
+    return response
+}
+
 export default {
     getServiceCategories,
     getProviderServiceCategories,
-    addProviderServiceCategory
+    addProviderServiceCategory,
+    modifyProviderServiceCategory,
+    deleteProviderServiceCategory,
 }

@@ -8,9 +8,6 @@
         <span class="material-icons">Déconnexion</span>
       </button>
     </div>
-    <router-link to="/" class="button">
-      <span class="material-icons">Accéder au site</span>
-    </router-link>
 
     <h3>Menu</h3>
     <div class="menu">

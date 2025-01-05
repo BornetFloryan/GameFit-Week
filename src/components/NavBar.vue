@@ -20,7 +20,6 @@
 
           </ul>
         </li>
-        <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
         <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
@@ -47,7 +46,6 @@
       <transition name="mobile-nav">
         <ul v-show="mobileNav" class="dropdown-nav">
           <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
-          <li><router-link :to="{ name: '' }" class="link">À propos</router-link></li>
           <li><router-link :to="{ name: 'services' }" class="link">Services</router-link></li>
           <li><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         </ul>
@@ -133,7 +131,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 header {

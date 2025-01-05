@@ -1,7 +1,7 @@
 <template>
   <div class="provider-request-view">
     <h2>Demande pour devenir prestataire</h2>
-    <table v-if="request">
+    <table v-if="requests.length">
       <thead>
       <tr>
         <th>Numéro</th>
@@ -11,16 +11,17 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
+      <tr v-for="request in requests" :key="request._id">
         <td>{{ request._id }}</td>
         <td>{{ request.date }}</td>
         <td>
           <ul>
-            {{services}}
-            <li v-for="service in services" :key="service._id">{{ getServiceCategoryById(service._id).name }}</li>
+            <li v-for="service in services" :key="service._id">
+              {{ getServiceCategoryById(service.service_category_id)?.name || 'Unknown' }}
+            </li>
           </ul>
         </td>
-        <td>{{ request.status }}</td>
+        <td>{{ getStatusText(request.state) }}</td>
       </tr>
       </tbody>
     </table>
@@ -34,26 +35,54 @@ export default {
   name: 'ProviderRequestView',
   data() {
     return {
-      request: null,
+      requests: [],
       services: [],
     };
   },
   computed: {
     ...mapState('account', ['currentUser']),
+    ...mapState('prestation', ['providerServiceCategories']),
     ...mapGetters('account', ['getProviderRequestsByCustomerId']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getServiceCategoryById']),
   },
   methods: {
     ...mapActions('account', ['getProviderRequests']),
-    ...mapActions('prestation', ['getProviderServiceCategories']),
+    ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories']),
     async fetchData() {
-      this.request = this.getProviderRequestsByCustomerId(this.currentUser._id);
-      this.services = this.getProviderServiceCategoriesByCustomerId(this.currentUser._id);
+      try {
+        const requests = this.getProviderRequestsByCustomerId(this.currentUser._id);
+        const services = this.getProviderServiceCategoriesByCustomerId(this.currentUser._id);
+        if (requests && requests.length) {
+          this.requests = requests;
+        } else {
+          console.error('Aucune demande trouvée pour l\'utilisateur actuel.');
+        }
+        if (services) {
+          this.services = services;
+        } else {
+          console.error('Aucun service trouvé pour l\'utilisateur actuel.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données:', error);
+      }
     },
+    getStatusText(state) {
+      switch (state) {
+        case '0':
+          return 'en attente';
+        case '1':
+          return 'validé';
+        case '2':
+          return 'refusé';
+        default:
+          return 'inconnu';
+      }
+    }
   },
   async created() {
     await this.getProviderRequests();
     await this.getProviderServiceCategories();
+    await this.getServiceCategories();
     this.fetchData();
   },
 };
@@ -77,5 +106,11 @@ th, td {
 th {
   background-color: #f2f2f2;
   text-align: left;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 </style>
