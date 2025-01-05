@@ -8,9 +8,6 @@
         <span class="material-icons">Déconnexion</span>
       </button>
     </div>
-    <router-link to="/" class="button">
-      <span class="material-icons">Accéder au site</span>
-    </router-link>
 
     <h3>Menu</h3>
     <div class="menu">
@@ -22,6 +19,10 @@
       </router-link>
       <router-link to="/admin-dashboard/admin-stand-management" class="button">
         <span class="material-icons">Stands</span>
+      </router-link>
+
+      <router-link to="/admin-dashboard/admin-bracket" class="button">
+        <span class="material-icons">Bracket</span>
       </router-link>
     </div>
   </aside>
