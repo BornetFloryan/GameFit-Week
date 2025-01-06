@@ -20,6 +20,17 @@
 
           </ul>
         </li>
+
+
+        <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
+          <router-link to="" class="link">Prestation</router-link>
+          <ul v-show="showServicesDropdown" class="dropdown">
+            <li><router-link :to="{ path: '/prestation/goodies' }" class="link">Goodies</router-link></li>
+            <li><router-link :to="{ path: '/prestation/restaurant' }" class="link">Restaurant</router-link></li>
+
+          </ul>
+        </li>
+
         <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
