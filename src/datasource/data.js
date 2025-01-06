@@ -1336,6 +1336,40 @@ let proteams = [
     }
 ]
 
+let sale = [
+    { _id: 1, goodie: { _id: 101, name: 'T-shirt GameFitWeek', img: "", price: 19.99 }, quantity: 5, date: '2025-01-01' },
+    { _id: 2, goodie: { _id: 102, name: 'Mug Collector', img: "", price: 9.99 }, quantity: 3, date: '2025-01-02' },
+    { _id: 3, goodie: { _id: 103, name: 'Casquette GameFitWeek', img: "", price: 14.99 }, quantity: 7, date: '2025-01-03' },
+    { _id: 4, goodie: { _id: 104, name: 'Poster GameFitWeek', img: "", price: 5.99 }, quantity: 2, date: '2025-01-04' },
+    { _id: 5, goodie: { _id: 105, name: 'Badge GameFitWeek', img: "", price: 2.99 }, quantity: 8, date: '2025-01-05' },
+    { _id: 6, goodie: { _id: 106, name: 'Sweat à Capuche', img: "", price: 29.99 }, quantity: 4, date: '2025-01-06' },
+    { _id: 7, goodie: { _id: 110, name: 'Figurine', img: "", price: 24.99 }, quantity: 10, date: '2025-01-10' },
+    { _id: 8, goodie: { _id: 111, name: 'Autocollants', img: "", price: 1.99 }, quantity: 15, date: '2025-01-11' },
+    { _id: 9, goodie: { _id: 112, name: 'Stylos GameFitWeek', img: "", price: 3.99 }, quantity: 12, date: '2025-01-12' },
+    { _id: 10, goodie: { _id: 113, name: 'Carnet de Notes', img: "", price: 7.99 }, quantity: 20, date: '2025-01-13' },
+    { _id: 11, goodie: { _id: 114, name: 'Porte-Clés', img: "", price: 4.99 }, quantity: 25, date: '2025-01-14' },
+    { _id: 12, goodie: { _id: 115, name: 'Sac à Dos Édition Limitée', img: "", price: 49.99 }, quantity: 3, date: '2025-01-15' },
+];
+
+
+let foodItems = [
+    { _id: 1, food: { _id: 201, name: 'Pizza GameFit', img: "", price: 10 }, quantity: 20, date: '2025-01-01' },
+    { _id: 2, food: { _id: 202, name: 'Burger Gourmet', img: "", price: 8 }, quantity: 15, date: '2025-01-02' },
+    { _id: 3, food: { _id: 203, name: 'Salade César', img: "", price: 6 }, quantity: 10, date: '2025-01-03' },
+    { _id: 4, food: { _id: 204, name: 'Sushi Set', img: "", price: 12 }, quantity: 5, date: '2025-01-04' },
+    { _id: 5, food: { _id: 205, name: 'Pâtes Carbonara', img: "", price: 9 }, quantity: 25, date: '2025-01-05' },
+    { _id: 6, food: { _id: 206, name: 'Tacos Mexicain', img: "", price: 7 }, quantity: 18, date: '2025-01-06' },
+    { _id: 7, food: { _id: 207, name: 'Curry Indien', img: "", price: 11 }, quantity: 7, date: '2025-01-07' },
+    { _id: 8, food: { _id: 208, name: 'Cheesecake', img: "", price: 5 }, quantity: 30, date: '2025-01-08' },
+    { _id: 9, food: { _id: 209, name: 'Glace Vanille', img: "", price: 4 }, quantity: 50, date: '2025-01-09' },
+    { _id: 10, food: { _id: 210, name: 'Tarte Tatin', img: "", price: 6 }, quantity: 15, date: '2025-01-10' },
+    { _id: 11, food: { _id: 211, name: 'Croissant au Beurre', img: "", price: 2 }, quantity: 40, date: '2025-01-11' },
+    { _id: 12, food: { _id: 212, name: 'Brioche au Chocolat', img: "", price: 3 }, quantity: 35, date: '2025-01-12' },
+];
+
+
+
+
 module.exports = {
     customer_accounts,
     provider_requests,
@@ -1352,5 +1386,5 @@ module.exports = {
     pavillons,
     stands,
     stands_reservations,
-    proteams
+    proteams,sale,foodItems
 }
