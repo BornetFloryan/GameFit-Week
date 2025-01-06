@@ -65,6 +65,7 @@ const actions = {
         try {
             let response = await AccountService.addCustomerAccount(customer);
             if (response.error === 0) {
+
                 commit('addCustomerAccount', response.data);
             }
             return response;

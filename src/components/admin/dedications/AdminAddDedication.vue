@@ -66,7 +66,8 @@ export default {
 
     filterAvailableTimes(date, stand_id) {
       const reservations = this.getStandsReservationsByStandIdAndDate(stand_id, date);
-      const usedTimes = reservations
+      const customerReservations = this.standsReservations.filter(res => res.customer_id === this.formData.customer_id && res.date === date && res.stand_id !== stand_id);
+      const usedTimes = [...reservations, ...customerReservations]
           .filter(res => res._id !== this.id)
           .flatMap((res) => {
             const start = parseInt(res.start_time.split(':')[0], 10);
@@ -213,7 +214,9 @@ export default {
   async mounted() {
     await this.getStands();
     await this.getProviderServiceCategories();
-    this.prestataires = this.getProviderOfferingServices;
+    this.prestataires = this.getProviderOfferingServices.filter((p) =>
+        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_category_id === "0" && psc.state === '1')
+    );
     this.initializeFormFields();
   },
 };

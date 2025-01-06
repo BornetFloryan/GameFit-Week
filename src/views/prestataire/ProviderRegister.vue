@@ -67,7 +67,6 @@
             :disabled="!isEmailValid"
             required
             placeholder="Entrez votre mot de passe"
-            minlength="6"
         />
       </div>
       <div class="form-button">

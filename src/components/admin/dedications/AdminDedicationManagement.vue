@@ -35,7 +35,7 @@ export default {
       title: "Gestion des dédicaces",
       headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
       fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
-      modifyName: 'admin-stand-reservations-edit',
+      modifyName: 'admin-dedication-edit',
       enableRes: false,
       enableDelete: true,
       dataSource: [],
@@ -46,9 +46,9 @@ export default {
     ...mapGetters('stands', ['getStandReservationsByStandId', 'getStandsReservationsByServiceId']),
   },
   methods: {
-    ...mapActions('stands', ['getStandsReservations', 'deleteStandReservation']),
+    ...mapActions('stands', ['getStands', 'getStandsReservations', 'deleteStandReservation']),
     ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
-    ...mapActions('prestation', ['getServiceCategories']),
+    ...mapActions('prestation', ['getServiceCategories', "getProviderServiceCategories"]),
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
@@ -66,9 +66,11 @@ export default {
   },
   async mounted() {
     await this.getCustomersAccounts();
+    await this.getStands();
     await this.getStandsReservations();
     await this.getProviderRequests();
     await this.getServiceCategories();
+    await this.getProviderServiceCategories();
     this.filterReservations();
   },
 };

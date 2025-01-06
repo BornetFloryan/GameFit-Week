@@ -21,6 +21,12 @@ export default [
         meta: { requiresAuth: true, requiredPrivilege: '2' },
         children: [
             {
+                path: 'admin-requests',
+                name: 'admin-requests',
+                component: AdminRequests,
+                meta: { requiresAuth: true, requiredPrivilege: '2'},
+            },
+            {
                 path: 'admin-accounts',
                 name: 'admin-accounts',
                 component: AdminAccountsManagement,
@@ -36,12 +42,6 @@ export default [
                 path: 'admin-accounts-add',
                 name: 'admin-accounts-add',
                 component: AdminAddAccount,
-                meta: { requiresAuth: true, requiredPrivilege: '2'},
-            },
-            {
-                path: 'admin-requests',
-                name: 'admin-requests',
-                component: AdminRequests,
                 meta: { requiresAuth: true, requiredPrivilege: '2'},
             },
             {

@@ -32,10 +32,13 @@ function addCustomerAccount(customer) {
 
     if(customer.privilege)
         u.privilege = customer.privilege;
+
+    console.log('u', u)
     return {error: 0, status: 200, data: u};
 }
 
 function loginUser(data) {
+    console.log('data', data)
     if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
     let user = customer_accounts.find(e => e.login === data.login && e.password === data.password)
     if (!user) return {error: 1, status: 404, data: 'login/pass incorrect'}
@@ -84,26 +87,44 @@ function getProviderRequests() {
     return {error: 0, data: provider_requests}
 }
 
-function addProviderRequest(user) {
-    if(!user){
-        return {error: 1, status: 404, data: 'Aucune donnée'}
+async function addProviderRequest(user) {
+    console.log('user', user)
+    if (!user) {
+        return {error: 1, status: 404, data: 'Aucune donnée'};
     }
-    if(!user.email || !user.name || !user.prestationServices || ! !user.login || !user.password){
-        return {error: 1, status: 404, data: 'Champs manquants'}
+    if (!user.email) {
+        return {error: 1, status: 404, data: 'Email manquant'};
+    }
+    if (!user.name) {
+        return {error: 1, status: 404, data: 'Nom manquant'};
+    }
+    if (!user.prestationServices) {
+        return {error: 1, status: 404, data: 'Services de prestation manquants'};
+    }
+    if (!user.login) {
+        return {error: 1, status: 404, data: 'Login manquant'};
+    }
+    if (!user.password) {
+        return {error: 1, status: 404, data: 'Mot de passe manquant'};
     }
 
-    let existingUser = customer_accounts.find(e => e.email === user.email)
-    if(!existingUser){
-        user = addCustomerAccount(user)
+    let existingUser = customer_accounts.find(e => e.email === user.email);
+    if (!existingUser) {
+        let addUserResponse = addCustomerAccount(user);
+        if (addUserResponse.error) {
+            return addUserResponse;
+        }
+        user = addUserResponse.data;
+        customer_accounts.push(user);
     } else {
-        if(existingUser.password !== user.password){
-            return {error: 1, status: 404, data: 'Mot de passe incorrect'}
+        if (existingUser.password !== user.password) {
+            return {error: 1, status: 404, data: 'Mot de passe incorrect'};
         }
         user = existingUser;
-        if(provider_requests.find(e => e.customer_id === user._id))
-            return {error: 1, status: 404, data: 'Demande déjà existante'}
+        if (provider_requests.find(e => e.customer_id === user._id)) {
+            return {error: 1, status: 404, data: 'Demande déjà existante'};
+        }
     }
-
 
     let request = {
         _id: uuidv4(),

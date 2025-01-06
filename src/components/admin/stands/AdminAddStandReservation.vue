@@ -72,12 +72,13 @@ export default {
 
     filterAvailableTimes(date, stand_id) {
       const reservations = this.getStandsReservationsByStandIdAndDate(stand_id, date);
-      const usedTimes = reservations
+      const customerReservations = this.standsReservations.filter(res => res.customer_id === this.formData.customer_id && res.date === date && res.stand_id !== stand_id);
+      const usedTimes = [...reservations, ...customerReservations]
           .filter(res => res._id !== this.id)
           .flatMap((res) => {
             const start = parseInt(res.start_time.split(':')[0], 10);
             const end = parseInt(res.end_time.split(':')[0], 10);
-            return Array.from({length: end - start}, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
+            return Array.from({ length: end - start }, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
           });
       const availableTimes = this.availableTimes.filter(
           (time) => !usedTimes.includes(time) && time !== "18:00"
