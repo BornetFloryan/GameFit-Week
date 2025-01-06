@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'TicketView',
@@ -42,24 +42,25 @@ export default {
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapState('ticket', ['tickets', 'ticketsAnimationCategories', 'ticketsAgeCategories', 'ticketPrices']),
+    ...mapGetters('ticket', ["getTicketsByCustomerId", 'getTicketPricesPriceById', "getTicketsAnimationCategoryById", "getTicketsAgeCategoriesgoryById"]),
     price() {
       return (ticket) => {
         if (!this.ticketPrices) return null;
-        return this.ticketPrices.find(price => price._id === ticket.price_id);
+        return this.getTicketPricesPriceById(ticket.price_id);
       };
     },
     ticketAnimationCategory() {
       return (ticket) => {
         const price = this.price(ticket);
         if (!price || !this.ticketsAnimationCategories) return null;
-        return this.ticketsAnimationCategories.find(animationCategory => animationCategory._id === price.animation_category_id);
+        return this.getTicketsAnimationCategoryById(price.animation_category_id);
       };
     },
     ticketAgeCategory() {
       return (ticket) => {
         const price = this.price(ticket);
         if (!price || !this.ticketsAgeCategories) return null;
-        return this.ticketsAgeCategories.find(ageCategory => ageCategory._id === price.age_category_id);
+        return this.getTicketsAgeCategoriesgoryById(price.age_category_id);
       };
     }
   },
@@ -73,7 +74,7 @@ export default {
   mounted() {
     this.getTickets()
         .then(() => {
-          this.customerTickets = this.tickets.filter(ticket => ticket.customer_id === this.currentUser?._id);
+          this.customerTickets = this.getTicketsByCustomerId(this.currentUser?._id);
         })
     this.getTicketsAnimationCategories();
     this.getTicketsAgeCategories();

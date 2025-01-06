@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "DedicationHomeView",
@@ -42,12 +42,13 @@ export default {
   },
   computed: {
     ...mapState("ticket", ["tickets"]),
+    ...mapGetters("ticket", ["getTicketById"]),
   },
   methods: {
     ...mapActions("ticket", ["getTickets"]),
     validateTicket() {
       if (this.ticketNumber) {
-        this.isTicketValid = !!this.tickets.find(ticket => ticket._id === this.ticketNumber);
+        this.isTicketValid = !!this.getTicketById(this.ticketNumber);
       } else {
         this.isTicketValid = false;
       }

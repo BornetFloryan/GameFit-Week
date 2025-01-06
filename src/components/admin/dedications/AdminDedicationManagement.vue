@@ -1,136 +1,75 @@
 <template>
   <div class="provider-dedication-home">
-    <h1>Gestion des Dédicaces</h1>
-    <button v-if="isShowDedicationDatesTableVisible === false" @click="showDedicationDatesTable">Voir les créneaux des animateurs</button>
-    <button v-if="isShowCustomersDedicationTableVisible === false" @click="showCustomersDedicationTable">Voir les réservations clientes</button>
-    <button v-if="isAddFormVisible === false" @click="showAddForm">Ajouter un créneaux de dédicace</button>
-    <AdminAddDedicaceSlotForm v-if="isAddFormVisible" @addDedicaceSlot="addDedicaceSlot"></AdminAddDedicaceSlotForm>
-    <AdminModifyDedicaceSlotForm v-if="isModifyFormVisible" :dedicationDate="selectedDedicationDate" @modifyDedicaceSlot="modifyDedicaceSlot"></AdminModifyDedicaceSlotForm>
-    <table v-if="isShowDedicationDatesTableVisible">
-      <thead>
-      <tr>
-        <th>Numéro</th>
-        <th>Date</th>
-        <th>Horaire</th>
-        <th>Animateur</th>
-        <th>Opérations</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="dedicationDate in dedicationDates" :key="dedicationDate._id">
-        <td>{{ dedicationDate._id }}</td>
-        <td>{{ dedicationDate.date }}</td>
-        <td>{{ dedicationDate.time }}</td>
-        <td>{{ animators.find(e => e._id === dedicationDate.customer_id)?.name }}</td>
-        <td>
-          <button @click="showModifyForm(dedicationDate)">Modifier</button>
-          <button @click="deleteDedicaceSlot(dedicationDate)">Supprimer</button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-    <table v-if="isShowCustomersDedicationTableVisible">
-      <thead>
-      <tr>
-        <th>Numéro</th>
-        <th>Date</th>
-        <th>Horaire</th>
-        <th>Client</th>
-        <th>Animateur</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="dedicationReservation in dedicationReservations" :key="dedicationReservation._id">
-        <td>{{ dedicationReservation._id }}</td>
-        <td>{{ dedicationReservation.date }}</td>
-        <td>{{ dedicationReservation.time }}</td>
-        <td>{{ dedicationReservation.customer_id }}</td>
-        <td>{{ animators.find(e => e._id === dedicationReservation.customer_id)?.name }}</td>
-      </tr>
-      </tbody>
-    </table>
+    <router-link v-if="this.$route.query.stand_id" :to="{ name: 'admin-stand-reservations'}">
+      <button class="btn-action">Voir toutes les réservations</button>
+    </router-link>
+    <router-link to="/admin-dashboard/admin-dedication-add">
+      <button class="btn-action">Ajouter un créneau de dédicace</button>
+    </router-link>
+    <AdminTable
+        :title="title"
+        :headers="headers"
+        :fields="fields"
+        :modifyName="modifyName"
+        :showModifyButton="true"
+        :modifyButtonText="'Modifier'"
+        :showReservationsButton="enableRes"
+        :reservationsButtonText="'Voir les réservations'"
+        :showDeleteButton="enableDelete"
+        :deleteButtonText="'Supprimer'"
+        @delete="handleDeleteButton"
+        :dataSource="dataSource"
+    />
   </div>
 </template>
+
 <script>
-import {mapActions, mapState} from 'vuex';
-import AdminAddDedicaceSlotForm from "@/components/admin/dedications/AdminAddDedicaceSlotForm.vue";
-import AdminModifyDedicaceSlotForm from "@/components/admin/dedications/AdminModifyDedicaceSlotForm.vue";
+import { mapActions, mapGetters, mapState } from 'vuex';
+import AdminTable from "@/components/admin/AdminTable.vue";
 
 export default {
   name: 'AdminDedicationManagement',
-  components: {AdminAddDedicaceSlotForm, AdminModifyDedicaceSlotForm},
+  components: { AdminTable },
   data() {
     return {
-      isShowDedicationDatesTableVisible: true,
-      isShowCustomersDedicationTableVisible: false,
-      isAddFormVisible: false,
-      isModifyFormVisible: false,
-      selectedDedicationDate: null,
+      title: "Gestion des dédicaces",
+      headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
+      fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
+      modifyName: 'admin-stand-reservations-edit',
+      enableRes: false,
+      enableDelete: true,
+      dataSource: [],
     };
   },
   computed: {
-    ...mapState('dedication', ['dedicationReservations', 'dedicationDates', 'animators']),
+    ...mapState('stands', ['standsReservations']),
+    ...mapGetters('stands', ['getStandReservationsByStandId', 'getStandsReservationsByServiceId']),
   },
   methods: {
-    ...mapActions('dedication', ['addDedicationDates', 'deleteDedicationDates', 'modifyDedicationDates', 'getDedicationReservations', 'getDedicationDates', 'getAnimators']),
-    showDedicationDatesTable() {
-      this.isShowDedicationDatesTableVisible = true;
-      this.isShowCustomersDedicationTableVisible = false;
-      this.isAddFormVisible = false;
-      this.isModifyFormVisible = false;
-    },
-    showCustomersDedicationTable() {
-      this.isShowDedicationDatesTableVisible = false;
-      this.isShowCustomersDedicationTableVisible = true;
-      this.isAddFormVisible = false;
-      this.isModifyFormVisible = false;
-    },
-    showAddForm() {
-      this.isShowDedicationDatesTableVisible = false;
-      this.isShowCustomersDedicationTableVisible = false;
-      this.isAddFormVisible = true;
-      this.isModifyFormVisible = false;
-    },
-    showModifyForm(dedicationDate) {
-      this.selectedDedicationDate = dedicationDate;
-      this.isShowDedicationDatesTableVisible = false;
-      this.isShowCustomersDedicationTableVisible = false;
-      this.isAddFormVisible = false;
-      this.isModifyFormVisible = true;
-    },
-    async addDedicaceSlot(data) {
-      try {
-        await this.addDedicationDates(data);
-        this.showDedicationDatesTable();
-      } catch (error) {
-        console.error('Erreur lors de l\'ajout du créneau de dédicace:', error);
-        alert('Erreur lors de l\'ajout du créneau de dédicace');
+    ...mapActions('stands', ['getStandsReservations', 'deleteStandReservation']),
+    ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
+    ...mapActions('prestation', ['getServiceCategories']),
+
+    async handleDeleteButton(id) {
+      if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
+        await this.deleteStandReservation(id);
+        this.filterReservations();
       }
     },
-    async modifyDedicaceSlot(data) {
-      try {
-        await this.modifyDedicationDates(data.dedicationDate);
-        this.showDedicationDatesTable();
-      } catch (error) {
-        console.error('Erreur lors de la modification du créneau de dédicace:', error);
-        alert('Erreur lors de la modification du créneau de dédicace');
+    filterReservations() {
+      if (this.$route.query.stand_id) {
+        this.dataSource = this.getStandReservationsByStandId(this.$route.query.stand_id);
+      } else {
+        this.dataSource = this.getStandsReservationsByServiceId('0');
       }
-    },
-    async deleteDedicaceSlot(dedicationDate) {
-      try {
-        await this.deleteDedicationDates(dedicationDate);
-        this.showDedicationDatesTable();
-      } catch (error) {
-        console.error('Erreur lors de la suppression du créneau de dédicace:', error);
-        alert('Erreur lors de la suppression du créneau de dédicace');
-      }
-    },
+    }
   },
-  mounted() {
-    this.getDedicationDates();
-    this.getDedicationReservations();
-    this.getAnimators();
+  async mounted() {
+    await this.getCustomersAccounts();
+    await this.getStandsReservations();
+    await this.getProviderRequests();
+    await this.getServiceCategories();
+    this.filterReservations();
   },
 };
 </script>
@@ -171,5 +110,4 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
 </style>

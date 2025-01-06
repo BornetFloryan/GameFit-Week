@@ -29,7 +29,7 @@ let customer_accounts = [
         "email": "prestataire@prestataire.com",
         "picture": "",
         "description": "",
-        "privilege": "0",
+        "privilege": "1",
         "session": ""
     },
     {
@@ -310,7 +310,7 @@ let provider_requests = [
     {
         "_id": "16",
         "date": "2025-10-30",
-        "state": "0",
+        "state": "1",
         "customer_id": "2",
     },
 ];

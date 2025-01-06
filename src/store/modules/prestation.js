@@ -108,8 +108,18 @@ const getters = {
     },
     getProviderOfferingServices: (state, getters, rootState) => {
         const providerIds = getters.getProviderServiceCategoriesCustomerId;
+        let providerServices = [];
+        for (let i = 0; i < providerIds.length; i++) {
+            const services = getters.getProviderServiceCategoriesByCustomerId(providerIds[i]);
+            if (services.some(service => {
+                return service.state === "1";
+            })) {
+                providerServices.push(...services);
+            }
+        }
+        const uniqueProviderIds = [...new Set(providerServices.map(psc => psc.customer_id))];
         return rootState.account.customersAccounts.filter(customer => {
-            return providerIds.includes(customer._id);
+            return uniqueProviderIds.includes(customer._id);
         });
     },
 };

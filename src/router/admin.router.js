@@ -1,15 +1,16 @@
 import AdminDashBoardView from "@/views/admin/AdminDashBoardView.vue";
-import AdminDedicationView from "@/views/admin/AdminDedicationView.vue";
+import AdminAccountsManagement from "@/components/admin/accounts/AdminAccountsManagement.vue";
+import AdminModifyAccount from "@/components/admin/accounts/AdminModifyAccount.vue";
+import AdminAddAccount from "@/components/admin/accounts/AdminAddAccount.vue";
 import AdminRequests from "@/components/admin/AdminRequests.vue";
-import AdminDedicationManagement from "@/components/admin/dedications/AdminDedicationManagement.vue";
 import AdminStandManagement from "@/components/admin/stands/AdminStandManagement.vue";
 import AdminModifyStand from "@/components/admin/stands/AdminModifyStand.vue";
 import AdminStandReservation from "@/components/admin/stands/AdminStandReservation.vue";
 import AdminModifyStandReservation from "@/components/admin/stands/AdminModifyStandReservation.vue";
 import AdminAddStandReservation from "@/components/admin/stands/AdminAddStandReservation.vue";
-import AdminAccountsManagement from "@/components/admin/accounts/AdminAccountsManagement.vue";
-import AdminModifyAccount from "@/components/admin/accounts/AdminModifyAccount.vue";
-import AdminAddAccount from "@/components/admin/accounts/AdminAddAccount.vue";
+import AdminDedicationManagement from "@/components/admin/dedications/AdminDedicationManagement.vue";
+import AdminModifyDedication from "@/components/admin/dedications/AdminModifyDedication.vue";
+import AdminAddDedication from "@/components/admin/dedications/AdminAddDedication.vue";
 import AdminBracket from "@/components/admin/AdminBracket.vue";
 
 export default [
@@ -82,16 +83,20 @@ export default [
             {
                 path: 'admin-dedication',
                 name: 'admin-dedication',
-                component: AdminDedicationView,
+                component: AdminDedicationManagement,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
-                children: [
-                    {
-                        path: 'admin-dedication-management',
-                        name: 'admin-dedication-management',
-                        component: AdminDedicationManagement,
-                        meta: { requiresAuth: true, requiredPrivilege: '2' },
-                    },
-                ],
+            },
+            {
+                path: 'admin-dedication/:item_id',
+                name: 'admin-dedication-edit',
+                component: AdminModifyDedication,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-dedication-add',
+                name: 'admin-dedication-add',
+                component: AdminAddDedication,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
             {
                 path: 'admin-bracket',

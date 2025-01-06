@@ -115,9 +115,28 @@ const actions = {
     },
 };
 
+const getters = {
+    getTicketById: (state) => (id) => {
+        return state.tickets.find(ticket => ticket._id === id);
+    },
+    getTicketPricesPriceById: (state) => (id) => {
+        return state.ticketPrices.find(price => price._id === id);
+    },
+    getTicketsAnimationCategoryById: (state) => (id) => {
+        return state.ticketsAnimationCategories.find(animationCategory => animationCategory._id === id);
+    },
+    getTicketsAgeCategoriesgoryById: (state) => (id) => {
+        return state.ticketsAgeCategories.find(ageCategory => ageCategory._id === id);
+    },
+    getTicketsByCustomerId: (state) => (id) => {
+        return state.tickets.filter(ticket => ticket.customer_id === id);
+    },
+}
+
 export default {
     namespaced: true,
     state,
     mutations,
     actions,
+    getters,
 };

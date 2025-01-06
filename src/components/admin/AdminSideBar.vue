@@ -14,16 +14,16 @@
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link to="/admin-dashboard/admin-accounts" class="button">
-        <span class="material-icons">Comptes</span>
-      </router-link>
       <router-link to="/admin-dashboard/admin-requests" class="button">
         <span class="material-icons">Demande Prestataires</span>
+      </router-link>
+      <router-link to="/admin-dashboard/admin-accounts" class="button">
+        <span class="material-icons">Comptes</span>
       </router-link>
       <router-link to="/admin-dashboard/admin-stand-management" class="button">
         <span class="material-icons">Stands</span>
       </router-link>
-      <router-link to="/admin-dashboard/admin-dedication/admin-dedication-management" class="button">
+      <router-link to="/admin-dashboard/admin-dedication/" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
       <router-link to="/admin-dashboard/admin-bracket" class="button">

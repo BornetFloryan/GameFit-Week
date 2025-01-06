@@ -15,6 +15,7 @@
         :showDeleteButton="enableDelete"
         :deleteButtonText="'Supprimer'"
         @delete="handleDeleteButton"
+        @toggle-service-state="handleToggleServiceState"
         :dataSource="dataSource"
     />
   </div>
@@ -22,7 +23,7 @@
 
 <script>
 import AdminTable from "@/components/admin/AdminTable.vue";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapState, mapGetters} from "vuex";
 
 export default {
   name: 'AdminAccountsManagement',
@@ -30,19 +31,24 @@ export default {
   data() {
     return {
       title: "Gestion des comptes clients",
-      headers: ['Numéro', 'Nom', 'Login', 'Email', 'Image', 'Description', 'Privilege', 'Session'],
-      fields: ['_id', 'name', 'login', 'email', 'picture', 'description', 'privilege', 'session'],
+      headers: ['Numéro', 'Nom', 'Login', 'Email', 'Image', 'Description', 'Privilege', 'Service', 'Session'],
+      fields: ['_id', 'name', 'login', 'email', 'picture', 'description', 'privilege', 'services', 'session'],
       modifyName: 'admin-accounts-edit',
       enableRes: false,
       enableDelete: true,
       dataSource: [],
+      providers: [],
     };
   },
   computed: {
     ...mapState('account', ['customersAccounts']),
+    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getProviderOfferingServices']),
+    ...mapGetters('stands', ['getStandsReservationsByProviderCustomerIdAndServiceId'])
   },
   methods: {
     ...mapActions('account', ['getCustomersAccounts', 'deleteCustomerAccount']),
+    ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', 'modifyProviderServiceCategory']),
+    ...mapActions('stands', ['getStandsReservations']),
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer ce compte ?')) {
@@ -51,11 +57,22 @@ export default {
       }
     },
     filterAccounts() {
-      this.dataSource = this.customersAccounts;
-    }
+      this.dataSource = this.customersAccounts.map(customer => {
+        return {
+          ...customer,
+          services: this.getProviderServiceCategoriesByCustomerId(customer._id) || [],
+        };
+      });
+    },
+    async handleToggleServiceState({ service }) {
+      await this.modifyProviderServiceCategory({ service });
+    },
   },
   async mounted() {
     await this.getCustomersAccounts();
+    await this.getServiceCategories();
+    await this.getProviderServiceCategories();
+    await this.getStandsReservations();
     this.filterAccounts();
   },
 };

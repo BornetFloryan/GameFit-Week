@@ -26,6 +26,14 @@
           <p v-else-if="field === 'privilege'">
             {{ getPrivilegeLabel(item[field]) || 'Unknown' }}
           </p>
+          <div v-else-if="field === 'services'">
+            <div v-for="service in item[field]" :key="service._id">
+              <label>
+                <input type="checkbox" :checked="service.state === '1'" :disabled="isServiceUsed(service)" @change="emitToggleServiceState(service, $event)">
+                {{ getServiceCategoryById(service.service_category_id).name }}
+              </label>
+            </div>
+          </div>
           <p v-else>
             {{ item[field] }}
           </p>
@@ -48,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'AdminTable',
@@ -87,11 +95,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('stands', ['getPavillonById', 'getStandById']),
+    ...mapGetters('stands', ['getPavillonById', 'getStandById', 'getStandsReservationsByProviderCustomerIdAndServiceId']),
     ...mapGetters('prestation', ['getServiceCategoryById']),
     ...mapGetters('account', ['getCustomerById']),
   },
   methods: {
+    ...mapActions('prestation', ['modifyProviderServiceCategory']),
     handleDeleteButton(_id) {
       this.$emit('delete', _id);
     },
@@ -106,6 +115,14 @@ export default {
         default:
           return 'Unknown';
       }
+    },
+    emitToggleServiceState(service, event) {
+      service.state = event.target.checked ? '1' : '0';
+      this.$emit('toggle-service-state', {service});
+    },
+    isServiceUsed(service) {
+      let providerStandReservations = this.getStandsReservationsByProviderCustomerIdAndServiceId(service.customer_id, service.service_category_id);
+      return providerStandReservations.length > 0;
     },
   },
 };

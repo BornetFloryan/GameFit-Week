@@ -337,6 +337,7 @@ export default {
 .card h2 {
   font-size: 1em;
   margin-bottom: 5px;
+  color: #333333;
 }
 
 .card button {
@@ -372,6 +373,7 @@ h2 {
   margin-top: 5px;
   margin-bottom: 5px;
   font-size: 30px;
+  color: #f8f9fa;
 }
 
 form {
