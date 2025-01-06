@@ -105,6 +105,18 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la suppression d\'un service prestataire' };
         }
     },
+    async updateProviderServiceCategoryState({ commit }, providerServiceCategory) {
+        try {
+            let response = await PrestationService.modifyProviderServiceCategory(providerServiceCategory);
+            if (response.error === 0) {
+                commit('modifyProviderServiceCategorytegory', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification de l\'état d\'un service prestataire:', error);
+            return { error: 1, data: 'Erreur lors de la modification de l\'état d\'un service prestataire' };
+        }
+    },
     async getServiceReservations({ commit }) {
         try {
             let response = await PrestationService.getServiceReservations();
@@ -161,6 +173,10 @@ const getters = {
     },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);
+    },
+    getProviderServiceCategoriesByCustomerIdAndServiceID: (state) => (_id, service_id) => {
+
+        return state.providerServiceCategories.find((psc) => psc.customer_id === _id && psc.service_category_id === service_id);
     },
     getProviderServiceCategoriesCustomerId: (state) => {
         return state.providerServiceCategories

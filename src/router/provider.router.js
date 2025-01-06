@@ -1,8 +1,10 @@
 import ProviderDashboard from "@/views/prestataire/ProviderDashboard.vue";
-import ProviderDedicationView from "@/views/prestataire/ProviderDedicationView.vue";
-import ProviderDedicationManagement from "@/components/prestataire/ProviderDedicationManagement.vue";
-import GoodieSalesList from "@/components/prestataire/GoodieSalesList.vue";
-import ProviderRestaurantManagement from "@/components/prestataire/ProviderRestaurantManagement.vue";
+import ProviderDedicationManagement from "@/components/prestataire/dedications/ProviderDedicationManagement.vue";
+import ProviderAddDedication from "@/components/prestataire/dedications/ProviderAddDedication.vue";
+import ProviderDedicationReservation from "@/components/prestataire/dedications/ProviderDedicationReservation.vue";
+import GoodieSalesList from "@/components/prestataire/goodies/GoodieSalesList.vue";
+import ProviderRestaurantManagement from "@/components/prestataire/foods/ProviderRestaurantManagement.vue";
+
 export default [
     {
         path: '/provider-dashboard',
@@ -13,16 +15,20 @@ export default [
             {
                 path: 'provider-dedication',
                 name: 'provider-dedication',
-                component: ProviderDedicationView,
+                component: ProviderDedicationManagement,
                 meta: { requiresAuth: true, requiredPrivilege: '1' },
-                children: [
-                    {
-                        path: 'provider-dedication-management',
-                        name: 'provider-dedication-management',
-                        component: ProviderDedicationManagement,
-                        meta: { requiresAuth: true, requiredPrivilege: '1' },
-                    },
-                ],
+            },
+            {
+                path: 'provider-dedication-add',
+                name: 'provider-dedication-add',
+                component: ProviderAddDedication,
+                meta: { requiresAuth: true, requiredPrivilege: '1' },
+            },
+            {
+                path: 'provider-dedication-reservation',
+                name: 'provider-dedication-reservation',
+                component: ProviderDedicationReservation,
+                meta: { requiresAuth: true, requiredPrivilege: '1' },
             },
 
             {

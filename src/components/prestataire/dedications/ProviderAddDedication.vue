@@ -22,7 +22,7 @@ import AdminForm from "@/components/admin/AdminForm.vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
-  name: "AdminAddDedication",
+  name: "ProviderAddDedication",
   components: { AdminForm },
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     ...mapState("stands", ["standsReservations", "stands"]),
-    ...mapState("account", ["customersAccounts"]),
+    ...mapState("account", ["customersAccounts", "currentUser"]),
     ...mapState("prestation", ["providerServiceCategories", "serviceCategories"]),
     ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById", "getProviderOfferingServices"]),
@@ -53,7 +53,7 @@ export default {
 
     async handleAddStandReservation(data) {
       await this.addStandReservation({ ...this.formData, ...data });
-      await this.$router.push("/admin-dashboard/admin-dedication");
+      await this.$router.push("/provider-dashboard/provider-dedication");
     },
 
     goBack() {
@@ -105,7 +105,7 @@ export default {
           type: "select",
           model: "customer_id",
           options: this.prestataires.map((p) => ({ value: p._id, text: p.name })),
-          props: { required: true, disabled: false },
+          props: { required: true, disabled: true },
         },
         {
           id: "service_id",
@@ -229,6 +229,7 @@ export default {
     this.prestataires = this.getProviderOfferingServices.filter((p) =>
         this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_category_id === "0" && psc.state === '1')
     );
+    this.formData.customer_id = this.currentUser._id;
     this.initializeFormFields();
   },
 };

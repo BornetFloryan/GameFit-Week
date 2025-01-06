@@ -11,7 +11,7 @@
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link :to="{ path: '/provider-dashboard/provider-dedication/provider-dedication-management' }" class="button">
+      <router-link :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
       <router-link :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
