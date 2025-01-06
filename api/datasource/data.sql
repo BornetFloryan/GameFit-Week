@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS stands_reservations CASCADE;
 DROP TABLE IF EXISTS tickets CASCADE;
 DROP TABLE IF EXISTS ticket_age_categories CASCADE;
 DROP TABLE IF EXISTS ticket_animation_categories CASCADE;
-DROP TABLE IF EXISTS dedication_reservations CASCADE;
+DROP TABLE IF EXISTS service_reservations CASCADE;
 DROP TABLE IF EXISTS dedication_dates CASCADE;
 DROP TABLE IF EXISTS sports_categories CASCADE;
 DROP TABLE IF EXISTS provider_sport_categories CASCADE;
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS dedication_dates
     anim_id INT REFERENCES customer_accounts (_id)
 );
 
-CREATE TABLE IF NOT EXISTS dedication_reservations
+CREATE TABLE IF NOT EXISTS service_reservations
 (
     _id         SERIAL PRIMARY KEY,
     date        DATE,

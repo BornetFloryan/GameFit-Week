@@ -148,14 +148,17 @@ const getters = {
     getStandsReservationsByStandIdAndDate: (state) => (stand_id, date) => {
         return state.standsReservations.filter((reservation) => reservation.stand_id === stand_id && reservation.date === date);
     },
-    getStandsReservationsByProviderCustomerId: (state) => (customer_id) => {
+    getStandsReservationsByCustomerId: (state) => (customer_id) => {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id);
     },
     getStandsReservationsByServiceId: (state) => (service_id) => {
         return state.standsReservations.filter((reservation) => reservation.service_id === service_id);
     },
-    getStandsReservationsByProviderCustomerIdAndServiceId: (state) => (customer_id, service_id) => {
+    getStandsReservationsByCustomerIdAndServiceId: (state) => (customer_id, service_id) => {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id && reservation.service_id === service_id);
+    },
+    getStandsReservationsByCustomerIdAndServiceIdAndDate: (state) => (customer_id, service_id, date) => {
+        return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id && reservation.service_id === service_id && reservation.date === date);
     },
     getPavillonById: (state) => (_id) => {
         return state.pavillons.find((pavillon) => pavillon._id === _id);

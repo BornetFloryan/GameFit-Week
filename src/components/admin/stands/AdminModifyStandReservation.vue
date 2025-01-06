@@ -75,7 +75,7 @@ export default {
         stand_id: data.stand_id,
       };
       await this.modifyStandsReservations(updatedReservation);
-      await this.$router.push("/admin-dashboard/admin-stand-reservations");
+      await this.$router.push("/admin-dashboard/admin-stand-reservation");
     },
 
     goBack() {
@@ -88,7 +88,10 @@ export default {
 
     filterAvailableTimes(date, stand_id) {
       const reservations = this.getStandsReservationsByStandIdAndDate(stand_id, date);
-      const customerReservations = this.standsReservations.filter(res => res.customer_id === this.formData.customer_id && res.date === date && res.stand_id !== stand_id);
+      const customerReservations = this.standsReservations.filter(res =>
+          res.customer_id === this.formData.customer_id
+          && res.date === date
+          && res.stand_id !== stand_id);
       const usedTimes = [...reservations, ...customerReservations]
           .filter(res => res._id !== this.id)
           .flatMap((res) => {

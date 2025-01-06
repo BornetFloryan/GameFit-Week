@@ -43,7 +43,7 @@
             <router-link :to="{ name: modifyName, params: { item_id: item._id } }">
               <button v-if="showModifyButton" class="btn-action">{{ modifyButtonText }}</button>
             </router-link>
-            <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: item._id } }">
+            <router-link :to="{ name: reservationsRouteName, query: reservationsQueryParams(item) }">
               <button v-if="showReservationsButton" class="btn-action">{{ reservationsButtonText }}</button>
             </router-link>
             <button v-if="showDeleteButton" @click="handleDeleteButton(item._id)" class="btn-action">{{ deleteButtonText }}</button>
@@ -81,6 +81,14 @@ export default {
       type: String,
       default: 'Voir les réservations',
     },
+    reservationsRouteName: {
+      type: String,
+      default: 'admin-stand-reservation',
+    },
+    reservationsQueryParams: {
+      type: Function,
+      default: (item) => ({ stand_id: item._id }),
+    },
     showDeleteButton: {
       type: Boolean,
       default: true,
@@ -95,7 +103,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('stands', ['getPavillonById', 'getStandById', 'getStandsReservationsByProviderCustomerIdAndServiceId']),
+    ...mapGetters('stands', ['getPavillonById', 'getStandById', 'getStandsReservationsByCustomerIdAndServiceId']),
     ...mapGetters('prestation', ['getServiceCategoryById']),
     ...mapGetters('account', ['getCustomerById']),
   },
@@ -121,7 +129,7 @@ export default {
       this.$emit('toggle-service-state', {service});
     },
     isServiceUsed(service) {
-      let providerStandReservations = this.getStandsReservationsByProviderCustomerIdAndServiceId(service.customer_id, service.service_category_id);
+      let providerStandReservations = this.getStandsReservationsByCustomerIdAndServiceId(service.customer_id, service.service_category_id);
       return providerStandReservations.length > 0;
     },
   },

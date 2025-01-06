@@ -11,7 +11,6 @@ const {
     ticket_age_categories,
     ticket_prices,
     tickets,
-    dedication_dates,
     dedication_reservations,
     pavillons,
     stands,
@@ -111,15 +110,6 @@ const insertData = async () => {
                 'SELECT _id FROM tickets WHERE _id = $1',
                 'INSERT INTO tickets (_id, date, time, customer_id, price_id) VALUES ($1, $2, $3, $4, $5)',
                 [_id, date, time, customer_id || 0, price_id || 0]
-            );
-        }
-
-        for (const dedication_date of dedication_dates) {
-            const { _id, date, time, anim_id } = dedication_date;
-            await insertIfNotExists(
-                'SELECT _id FROM dedication_dates WHERE _id = $1',
-                'INSERT INTO dedication_dates (_id, date, time, customer_id) VALUES ($1, $2, $3, $4)',
-                [_id, date, time, anim_id || 0]
             );
         }
 

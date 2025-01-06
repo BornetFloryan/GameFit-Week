@@ -137,7 +137,6 @@ export default {
         }
       }
       if (field.id === "customer_id") {
-
         this.$emit("prestataireSelected", this.formData.customer_id);
       } else if (field.id === "service_id") {
         this.$emit("serviceSelected", this.formData.service_id);
@@ -147,6 +146,8 @@ export default {
         this.$emit("dateSelected", this.formData.date);
       } else if (field.id === "start_time") {
         this.$emit("startTimeSelected", this.formData.start_time);
+      } else if (field.id === "ticket_id") {
+        this.$emit("ticketSelected", this.formData.ticket_id);
       }
       this.$emit("field-change", field);
       this.$emit("update:formData", this.formData);

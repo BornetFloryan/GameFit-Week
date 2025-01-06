@@ -14,6 +14,7 @@
         @startTimeSelected="updateEndTimeOptions"
         @dateSelected="updateAvailableTimes"
     />
+    {{availableTimes}}
   </div>
 </template>
 
@@ -32,7 +33,7 @@ export default {
         end_time: "",
         description: "",
         customer_id: "",
-        service_id: "dédicace",
+        service_id: "0",
         stand_id: "",
       },
       formFields: [],
@@ -53,7 +54,7 @@ export default {
 
     async handleAddStandReservation(data) {
       await this.addStandReservation({ ...this.formData, ...data });
-      await this.$router.push("/admin-dashboard/admin-stand-reservations");
+      await this.$router.push("/admin-dashboard/admin-dedication");
     },
 
     goBack() {
@@ -66,7 +67,12 @@ export default {
 
     filterAvailableTimes(date, stand_id) {
       const reservations = this.getStandsReservationsByStandIdAndDate(stand_id, date);
-      const customerReservations = this.standsReservations.filter(res => res.customer_id === this.formData.customer_id && res.date === date && res.stand_id !== stand_id);
+      const customerReservations = this.standsReservations.filter(res =>
+          res.customer_id === this.formData.customer_id
+          && res.date === date
+          && res.stand_id !== stand_id
+      );
+
       const usedTimes = [...reservations, ...customerReservations]
           .filter(res => res._id !== this.id)
           .flatMap((res) => {
@@ -77,6 +83,13 @@ export default {
       const availableTimes = this.availableTimes.filter(
           (time) => !usedTimes.includes(time) && time !== "18:00"
       );
+
+      if (this.formData.start_time && !availableTimes.includes(this.formData.start_time)) {
+        availableTimes.push(this.formData.start_time);
+      }
+      if (this.formData.end_time && !availableTimes.includes(this.formData.end_time)) {
+        availableTimes.push(this.formData.end_time);
+      }
       return availableTimes.length > 0 ? availableTimes : [];
     },
 
@@ -100,7 +113,7 @@ export default {
           label: "Service du prestataire",
           type: "select",
           model: "service_id",
-          options: [{ value: "dédicace", text: "Dédicace" }],
+          options: [{ value: "0", text: "Dédicace" }],
           props: { required: true, disabled: true },
         },
         {

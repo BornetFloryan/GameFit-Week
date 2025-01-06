@@ -59,7 +59,7 @@ export default {
 
     async handleAddStandReservation(data) {
       await this.addStandReservation({...this.formData, ...data});
-      await this.$router.push("/admin-dashboard/admin-stand-reservations");
+      await this.$router.push("/admin-dashboard/admin-stand-reservation");
     },
 
     goBack() {

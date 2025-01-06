@@ -1,4 +1,9 @@
-import {customer_accounts, provider_service_categories, service_categories} from "@/datasource/data";
+import {
+    customer_accounts,
+    provider_service_categories,
+    service_categories,
+    service_reservations
+} from "@/datasource/data";
 import {v4 as uuidv4} from 'uuid'
 
 function getServiceCategories() {
@@ -74,6 +79,69 @@ function deleteProviderServiceCategory(providerServiceCategory) {
     return {error: 1, status: 404, data: 'Service non trouvé'}
 }
 
+function getServiceReservations() {
+    return {error: 0, data: service_reservations}
+}
+
+function addServiceReservation(serviceReservation) {
+    if (!serviceReservation) {
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    console.log('serviceReservation', serviceReservation)
+    if (!serviceReservation.date
+        || !serviceReservation.time
+        || !serviceReservation.ticket_id
+        || !serviceReservation.service_id
+        || !serviceReservation.stands_reservations_id) {
+        return {error: 1, status: 404, data: 'Champs manquants'}
+    }
+
+    let serviceReservationData = {
+        _id: uuidv4(),
+        date: serviceReservation.date,
+        time: serviceReservation.time,
+        ticket_id: serviceReservation.ticket_id,
+        service_id: serviceReservation.service_id,
+        stands_reservations_id: serviceReservation.stands_reservations_id
+    }
+
+    return {error: 0, status: 200, data: serviceReservationData}
+}
+
+function modifyServiceReservation(serviceReservation) {
+    if (!serviceReservation) {
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if (!serviceReservation._id) {
+        return {error: 1, status: 404, data: 'ID manquant'}
+    }
+
+    let existingServiceReservation = service_reservations.find(e => e._id === serviceReservation._id);
+    if (!existingServiceReservation) {
+        return {error: 1, status: 404, data: 'Réservation non trouvée'}
+    }
+
+    existingServiceReservation.state = serviceReservation.state;
+    existingServiceReservation.providerServiceCategory = serviceReservation.providerServiceCategory;
+    existingServiceReservation.date = serviceReservation.date;
+    existingServiceReservation.start = serviceReservation.start;
+    existingServiceReservation.end = serviceReservation.end;
+
+    return {error: 0, status: 200, data: existingServiceReservation}
+}
+
+function deleteServiceReservation(id) {
+    if (!id) {
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+
+    let index = service_reservations.findIndex(e => e._id === id);
+    if (index !== -1) {
+        return {error: 0, status: 200, data: index}
+    }
+    return {error: 1, status: 404, data: 'Réservation non trouvée'}
+}
+
 
 export default {
     getServiceCategories,
@@ -81,5 +149,8 @@ export default {
     addProviderServiceCategory,
     modifyProviderServiceCategory,
     deleteProviderServiceCategory,
-
+    getServiceReservations,
+    addServiceReservation,
+    modifyServiceReservation,
+    deleteServiceReservation,
 }

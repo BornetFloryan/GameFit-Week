@@ -45,7 +45,7 @@ export default {
     ...mapState("account", ["currentUser", "providerRequests"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById"]),
     ...mapGetters("account", ["getCustomerById"]),
-    ...mapGetters('stands', ['getStandsReservationsByProviderCustomerId'])
+    ...mapGetters('stands', ['getStandsReservationsByCustomerId'])
   },
   methods: {
     ...mapActions("account", [
@@ -106,7 +106,7 @@ export default {
     },
 
     async deleteRequest(request) {
-      let standReservations = this.getStandsReservationsByProviderCustomerId(request.customer_id);
+      let standReservations = this.getStandsReservationsByCustomerId(request.customer_id);
       if (standReservations && standReservations.length) {
         let reservationIds = standReservations.map(reservation => reservation._id).join(', ');
         alert(`Impossible de supprimer la demande car le prestataire a des réservations de stand. Numéros de réservation: ${reservationIds}`);

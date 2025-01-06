@@ -23,7 +23,7 @@
       <router-link to="/admin-dashboard/admin-stand-management" class="button">
         <span class="material-icons">Stands</span>
       </router-link>
-      <router-link to="/admin-dashboard/admin-dedication/" class="button">
+      <router-link to="/admin-dashboard/admin-dedication" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
       <router-link to="/admin-dashboard/admin-bracket" class="button">

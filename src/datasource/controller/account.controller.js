@@ -1,4 +1,4 @@
-import {customer_accounts, provider_requests} from '../data'
+import {customer_accounts, provider_requests, sports_categories} from '../data'
 import {v4 as uuidv4} from 'uuid'
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
@@ -33,12 +33,10 @@ function addCustomerAccount(customer) {
     if(customer.privilege)
         u.privilege = customer.privilege;
 
-    console.log('u', u)
     return {error: 0, status: 200, data: u};
 }
 
 function loginUser(data) {
-    console.log('data', data)
     if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
     let user = customer_accounts.find(e => e.login === data.login && e.password === data.password)
     if (!user) return {error: 1, status: 404, data: 'login/pass incorrect'}
@@ -88,7 +86,6 @@ function getProviderRequests() {
 }
 
 async function addProviderRequest(user) {
-    console.log('user', user)
     if (!user) {
         return {error: 1, status: 404, data: 'Aucune donnée'};
     }
@@ -185,6 +182,10 @@ function deleteProviderRequest(request) {
     return {error: 1, status: 404, data: 'Demande non trouvée'}
 }
 
+function getSportsCategories(){
+    return {error: 0, data: sports_categories}
+}
+
 export default{
     getCustomersAccounts,
     addCustomerAccount,
@@ -195,4 +196,5 @@ export default{
     addProviderRequest,
     modifyProviderRequest,
     deleteProviderRequest,
+    getSportsCategories,
 }

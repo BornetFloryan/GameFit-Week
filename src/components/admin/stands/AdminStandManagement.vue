@@ -30,13 +30,13 @@
         <router-link :to="'/admin-dashboard/admin-add-stand-reservation/' + stand._id">
           <button class="btn-action">Faire une réservation</button>
         </router-link>
-        <router-link :to="{ name: 'admin-stand-reservations', query: { stand_id: stand._id } }">
+        <router-link :to="{ name: 'admin-stand-reservation', query: { stand_id: stand._id } }">
           <button class="btn-action">Voir les réservations</button>
         </router-link>
       </div>
     </div>
     <div class="button-container">
-      <router-link :to="{ name: 'admin-stand-reservations'}">
+      <router-link :to="{ name: 'admin-stand-reservation'}">
         <button class="btn-action">Voir toutes les réservations</button>
       </router-link>
     </div>
@@ -46,6 +46,8 @@
         :fields="fields"
         :modifyName="modifyName"
         :enableRes="enableRes"
+        :reservationsRouteName="'admin-stand-reservation'"
+        :reservationsQueryParams="(item) => ({ stand_id: item._id })"
         :enableDelete="enableDelete"
         :dataSource="dataSource"
         @delete="handleDeleteStand"

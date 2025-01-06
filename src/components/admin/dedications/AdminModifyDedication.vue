@@ -34,7 +34,7 @@ export default {
         end_time: "",
         description: "",
         customer_id: "",
-        service_id: "dédicace",
+        service_id: "0",
         stand_id: "",
       },
       formFields: [],
@@ -75,7 +75,7 @@ export default {
         stand_id: data.stand_id,
       };
       await this.modifyStandsReservations(updatedReservation);
-      await this.$router.push("/admin-dashboard/admin-stand-reservations");
+      await this.$router.push("/admin-dashboard/admin-dedication");
     },
 
     goBack() {
@@ -94,8 +94,9 @@ export default {
           .flatMap((res) => {
             const start = parseInt(res.start_time.split(':')[0], 10);
             const end = parseInt(res.end_time.split(':')[0], 10);
-            return Array.from({length: end - start}, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
+            return Array.from({ length: end - start }, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
           });
+
       const availableTimes = this.availableTimes.filter(
           (time) => !usedTimes.includes(time) && time !== "18:00"
       );
@@ -106,6 +107,14 @@ export default {
       if (this.formData.end_time && !availableTimes.includes(this.formData.end_time)) {
         availableTimes.push(this.formData.end_time);
       }
+
+      const endTimes = reservations.map(res => res.end_time);
+      endTimes.forEach(endTime => {
+        if (!availableTimes.includes(endTime)) {
+          availableTimes.push(endTime);
+        }
+      });
+
       return availableTimes.length > 0 ? availableTimes : [];
     },
 
@@ -129,7 +138,7 @@ export default {
           label: "Service du prestataire",
           type: "select",
           model: "service_id",
-          options: [{ value: "dédicace", text: "Dédicace" }],
+          options: [{ value: "0", text: "Dédicace" }],
           props: {required: true, disabled: true},
         },
         {
@@ -221,7 +230,13 @@ export default {
     updateAvailableTimes(date) {
       this.formData.date = date;
       const availableTimes = this.filterAvailableTimes(date, this.formData.stand_id);
-      this.updateFieldOptions("start_time", availableTimes.filter((time) => time !== "18:00" && time !== this.formData.end_time));
+      const startTimeOptions = availableTimes.filter((time) => time !== "18:00" && time !== this.formData.end_time);
+
+      if (this.formData.end_time && !startTimeOptions.includes(this.formData.end_time)) {
+        startTimeOptions.push(this.formData.end_time);
+      }
+
+      this.updateFieldOptions("start_time", startTimeOptions);
       this.updateVisibility("start_time", availableTimes.length > 0);
       this.updateVisibility("description", availableTimes.length > 0 && this.formData.customer_id && this.formData.service_id);
       if (availableTimes.length === 0) {

@@ -11,6 +11,9 @@ import AdminAddStandReservation from "@/components/admin/stands/AdminAddStandRes
 import AdminDedicationManagement from "@/components/admin/dedications/AdminDedicationManagement.vue";
 import AdminModifyDedication from "@/components/admin/dedications/AdminModifyDedication.vue";
 import AdminAddDedication from "@/components/admin/dedications/AdminAddDedication.vue";
+import AdminDedicationReservation from "@/components/admin/dedications/AdminDedicationReservation.vue";
+import AdminModifyDedicationReservation from "@/components/admin/dedications/AdminModifyDedicationReservation.vue";
+import AdminAddDedicationReservation from "@/components/admin/dedications/AdminAddDedicationReservation.vue";
 import AdminBracket from "@/components/admin/AdminBracket.vue";
 
 export default [
@@ -57,14 +60,14 @@ export default [
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
             {
-                path: 'admin-stand-reservations',
-                name: 'admin-stand-reservations',
+                path: 'admin-stand-reservation',
+                name: 'admin-stand-reservation',
                 component: AdminStandReservation,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
             {
-                path: 'admin-stand-reservations/:item_id',
-                name: 'admin-stand-reservations-edit',
+                path: 'admin-stand-reservation/:item_id',
+                name: 'admin-stand-reservation-edit',
                 component: AdminModifyStandReservation,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
@@ -96,6 +99,24 @@ export default [
                 path: 'admin-dedication-add',
                 name: 'admin-dedication-add',
                 component: AdminAddDedication,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-dedication-reservation',
+                name: 'admin-dedication-reservation',
+                component: AdminDedicationReservation,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-dedication-reservation/:item_id',
+                name: 'admin-dedication-reservation-edit',
+                component: AdminModifyDedicationReservation,
+                meta: { requiresAuth: true, requiredPrivilege: '2' },
+            },
+            {
+                path: 'admin-dedication-reservation-add',
+                name: 'admin-dedication-reservation-add',
+                component: AdminAddDedicationReservation,
                 meta: { requiresAuth: true, requiredPrivilege: '2' },
             },
             {

@@ -6,6 +6,7 @@
       <div v-if="!submitted" class="animator-selection">
         <h2 v-if="!selectedAnimator">Sélectionnez votre animateur</h2>
         <h2 v-if="selectedAnimator">Votre animateur</h2>
+
         <div v-if="!selectedAnimator">
           <input
               type="text"
@@ -13,6 +14,7 @@
               placeholder="Rechercher un animateur..."
               class="search-bar"
           />
+
           <select v-model="selectedCategory">
             <option value="">Sélectionnez une catégorie</option>
             <option
@@ -23,6 +25,7 @@
               {{ category.name }}
             </option>
           </select>
+
           <div class="scroll-container">
             <div class="grid">
               <div
@@ -44,6 +47,7 @@
           </div>
         </div>
         <h2 v-if="selectedAnimator">{{ selectedAnimator.name }}</h2>
+
         <button
             type="button"
             v-if="selectedAnimator && !submitted"
@@ -53,17 +57,16 @@
           Changer d'animateur
         </button>
       </div>
+
       <div class="time-slot-selection" v-if="selectedAnimator && !submitted">
-        <h2 v-if="!submitted">Sélectionnez votre créneau horaire</h2>
-        <date-picker
-            ref="datePicker"
-            v-if="!submitted"
-            v-model="selectedDate"
-            format="DD/MM/YYYY"
-            :lang="fr"
-            :disabled-date="disabledDates"
-            :default-value="new Date(2025, 6, 7)"
+        <h2>Sélectionnez votre créneau horaire</h2>
+        <input type="date"
+               v-model="selectedDate"
+               :disabled="!selectedAnimator"
+               min="2025-07-07"
+               max="2025-07-12"
         />
+
         <div class="form-group" v-if="selectedDate">
           <label for="time">Heure :</label>
           <select v-model="selectedTime" required>
@@ -77,6 +80,7 @@
             </option>
           </select>
         </div>
+
         <div class="form-buttons">
           <button
               v-if="selectedTime && !submitted"
@@ -86,6 +90,7 @@
           >
             Réserver
           </button>
+
           <button
               v-if="selectedTime && !submitted"
               type="button"
@@ -96,19 +101,23 @@
           </button>
         </div>
       </div>
-      <div v-if="submitted">
 
+      <div v-if="submitted">
         <h3>Un mail de confirmation vous a été envoyé</h3>
-        <p v-if="!currentUser">Vous pouvez retrouver votre réservation de dédicace via le compte associé à l'adresse mail du ticket
-          ou en créant un compte avec cette adresse mail.</p>
-        <br>
-        <p>Votre réservation numéro {{reservation._id}}</p>
+        <p v-if="!currentUser">
+          Vous pouvez retrouver votre réservation de dédicace via le compte
+          associé à l'adresse mail du ticket ou en créant un compte avec cette
+          adresse mail.
+        </p>
+        <br />
+        <p>Votre réservation numéro {{ reservation._id }}</p>
         <p>
           Vous avez réservé un créneau de dédicace avec
           <b>{{ selectedAnimator.name }} !</b>
         </p>
         <p>Date : {{ formatDate(selectedDate) }}</p>
         <p>Heure : {{ selectedTime }}</p>
+
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-btn">
             Retour à la page principale
@@ -116,10 +125,7 @@
         </router-link>
         <br />
         <router-link v-if="currentUser" :to="{ name: 'reservation' }">
-          <button
-              type="button"
-              class="home-btn"
-          >
+          <button type="button" class="home-btn">
             Voir vos réservations
           </button>
         </router-link>
@@ -129,16 +135,10 @@
 </template>
 
 <script>
-import DatePicker from "vue2-datepicker";
-import "vue2-datepicker/index.css";
-import { mapState, mapActions } from "vuex";
-import fr from "vue2-datepicker/locale/fr";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "DedicationFormView",
-  components: {
-    DatePicker,
-  },
   data() {
     return {
       reservation: null,
@@ -148,66 +148,51 @@ export default {
       selectedTime: "",
       selectedAnimator: "",
       submitted: false,
-      fr: fr,
       cards: [],
       selectedCategory: "",
     };
   },
   computed: {
-    ...mapState("dedication", [
-      "animatorDedicationDates",
-      "animators",
-      "dedicationReservations",
-      "sportsCategories",
+    ...mapState("stands", ["standsReservations"]),
+    ...mapState("prestation", ["serviceReservations"]),
+    ...mapState("account", ["currentUser", "sportsCategories"]),
+    ...mapGetters("stands", [
+      "getStandsReservationsByServiceId",
+      "getStandsReservationsByCustomerIdAndServiceId",
     ]),
-    ...mapState("account", ["currentUser"]),
+    ...mapGetters("account", ["getCustomerById", "getCustomerByName"]),
+
     filteredCards() {
       return this.cards.filter((card) => {
-        const animator = this.animators.find((animator) => animator.name === card.name);
-        const matchesQuery = this.searchQuery === "" || card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesCategory = this.selectedCategory === "" || (animator && animator.sportsCategories_id.includes(this.selectedCategory._id));
+        const animator = this.getCustomerByName(card.name);
+        const matchesQuery =
+            this.searchQuery === "" ||
+            card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesCategory =
+            this.selectedCategory === "" ||
+            (animator &&
+                animator.sportsCategories_id.includes(this.selectedCategory._id));
         return matchesQuery && matchesCategory;
       });
     },
-    disabledDates() {
-      const reservedDatesMap = new Map();
-
-      this.animatorDedicationDates.forEach((dateObj) => {
-        const dateStr = new Date(dateObj.date).toDateString();
-        if (!reservedDatesMap.has(dateStr)) {
-          reservedDatesMap.set(dateStr, new Set());
-        }
-        if (this.dedicationReservations.some(reservation =>
-            new Date(dateObj.date).toDateString() === new Date(reservation.date).toDateString()
-            && dateObj.time === reservation.time
-        )) {
-          reservedDatesMap.get(dateStr).add(dateObj.time);
-        }
-      });
-
-      return (date) => {
-        const dateStr = date.toDateString();
-        const timesForDate = this.animatorDedicationDates
-            .filter(dateObj => new Date(dateObj.date).toDateString() === dateStr)
-            .map(dateObj => dateObj.time);
-
-        return !this.animatorDedicationDates.some(dateObj => new Date(dateObj.date).toDateString() === dateStr) ||
-            (reservedDatesMap.has(dateStr) && reservedDatesMap.get(dateStr).size === timesForDate.length);
-      };
-    },
     dedicationTimes() {
-      if(Array.isArray(this.dedicationReservations)){
+      if (Array.isArray(this.serviceReservations)) {
         const selectedDateStr = new Date(this.selectedDate).toDateString();
 
         const availableTimes = this.animatorDedicationDates
-            .filter(date => new Date(date.date).toDateString() === selectedDateStr)
-            .map(date => date.time);
+            .filter(
+                (date) => new Date(date.date).toDateString() === selectedDateStr
+            )
+            .map((date) => date.time);
 
-        const reservedTimes = this.dedicationReservations
-            .filter(reservation => new Date(reservation.date).toDateString() === selectedDateStr)
-            .map(reservation => reservation.time);
+        const reservedTimes = this.serviceReservations
+            .filter(
+                (reservation) =>
+                    new Date(reservation.date).toDateString() === selectedDateStr
+            )
+            .map((reservation) => reservation.time);
 
-        return availableTimes.filter(time => !reservedTimes.includes(time));
+        return availableTimes.filter((time) => !reservedTimes.includes(time));
       }
       return [];
     },
@@ -217,17 +202,16 @@ export default {
       if (newAnimator) {
         this.selectedDate = null;
         this.selectedTime = "";
-        this.getAnimatorDedicationDates(newAnimator);
+        this.getStandsReservationsByCustomerIdAndServiceId(newAnimator, "0");
       }
     },
   },
   methods: {
-    ...mapActions("dedication", [
-      "getAnimatorDedicationDates",
-      "getAnimators",
-      "addDedicationReservation",
-      "getDedicationReservations",
-      "getSportsCategories",
+    ...mapActions("stands", ["getStands", "getStandsReservations"]),
+    ...mapActions("account", ["getCustomersAccounts", "getSportsCategories"]),
+    ...mapActions("prestation", [
+      "getServiceReservations",
+      "addServiceReservation",
     ]),
 
     selectAnimator(card) {
@@ -244,7 +228,7 @@ export default {
         return;
       }
       try {
-        this.reservation = await this.addDedicationReservation({
+        this.reservation = await this.addServiceReservation({
           date: this.selectedDate,
           time: this.selectedTime,
           ticket_id: this.ticketNumber,
@@ -277,19 +261,24 @@ export default {
   created() {
     this.selectedAnimator = this.$route.params.selectedAnimator;
   },
-  mounted() {
-    this.getAnimators().then(() => {
-      if (this.animators.length > 0) {
-        this.cards = this.animators.map((animator) => ({
-          imageSrc: require(`@/assets/img/${animator.name}.jpg`),
-          name: `${animator.name}`,
-        }));
-      }
-    });
+  async mounted() {
+    await this.getCustomersAccounts();
+    await this.getSportsCategories();
+    await this.getServiceReservations();
+    await this.getStandsReservations();
 
+    this.animatorDedicationDates = this.getStandsReservationsByServiceId("0");
+    console.log("animatorDedicationDates", this.animatorDedicationDates);
 
-    this.getDedicationReservations();
-    this.getSportsCategories();
+    this.animators = this.animatorDedicationDates.map((date) =>
+        this.getCustomerById(date.customer_id)
+    );
+    console.log("animators", this.animators);
+
+    this.cards = this.animators.map((animator) => ({
+      imageSrc: require(`@/assets/img/${animator.name}.jpg`),
+      name: `${animator.name}`,
+    }));
   },
 };
 </script>
@@ -491,5 +480,4 @@ select:focus {
 button, .search-bar, select {
   transition: all 0.3s ease;
 }
-
 </style>

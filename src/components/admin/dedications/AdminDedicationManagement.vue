@@ -1,6 +1,6 @@
 <template>
   <div class="provider-dedication-home">
-    <router-link v-if="this.$route.query.stand_id" :to="{ name: 'admin-stand-reservations'}">
+    <router-link :to="{ name: 'admin-dedication-reservation'}">
       <button class="btn-action">Voir toutes les réservations</button>
     </router-link>
     <router-link to="/admin-dashboard/admin-dedication-add">
@@ -15,6 +15,8 @@
         :modifyButtonText="'Modifier'"
         :showReservationsButton="enableRes"
         :reservationsButtonText="'Voir les réservations'"
+        :reservationsRouteName="'admin-dedication-reservation'"
+        :reservationsQueryParams="(item) => ({ stands_reservations_id: item._id })"
         :showDeleteButton="enableDelete"
         :deleteButtonText="'Supprimer'"
         @delete="handleDeleteButton"
@@ -36,7 +38,7 @@ export default {
       headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
       fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
       modifyName: 'admin-dedication-edit',
-      enableRes: false,
+      enableRes: true,
       enableDelete: true,
       dataSource: [],
     };
@@ -77,10 +79,6 @@ export default {
 </script>
 
 <style scoped>
-.provider-dedication-home {
-  display: flex;
-  flex-direction: column;
-}
 
 table {
   width: 100%;
@@ -97,19 +95,24 @@ th {
   text-align: left;
 }
 
-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+button:hover {
+  background-color: #0056b3;
 }
 
-button:hover {
+.btn-action {
+  padding: 0.5em 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+
+.btn-action:hover {
   background-color: #0056b3;
 }
 </style>

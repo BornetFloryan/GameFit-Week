@@ -646,242 +646,6 @@ let tickets = [
     },
 ];
 
-let dedication_dates = [
-    // Lionel Messi
-    {
-        "_id": "0",
-        "date": "2025-07-07",
-        "time": "09:00",
-        "customer_id": "3",
-    },
-    {
-        "_id": "1",
-        "date": "2025-07-07",
-        "time": "10:00",
-        "customer_id": "3",
-    },
-
-    // LeBron James
-    {
-        "_id": "2",
-        "date": "2025-07-07",
-        "time": "11:00",
-        "customer_id": "4",
-    },
-    {
-        "_id": "3",
-        "date": "2025-07-07",
-        "time": "13:00",
-        "customer_id": "4",
-    },
-
-    // Serena Williams
-    {
-        "_id": "4",
-        "date": "2025-07-07",
-        "time": "14:00",
-        "customer_id": "5",
-    },
-    {
-        "_id": "5",
-        "date": "2025-07-07",
-        "time": "15:00",
-        "customer_id": "5",
-    },
-
-    // Cristiano Ronaldo
-    {
-        "_id": "6",
-        "date": "2025-07-07",
-        "time": "16:00",
-        "customer_id": "6",
-    },
-    {
-        "_id": "7",
-        "date": "2025-07-07",
-        "time": "17:00",
-        "customer_id": "6",
-    },
-
-    // Tom Brady
-    {
-        "_id": "8",
-        "date": "2025-07-08",
-        "time": "09:00",
-        "customer_id": "7",
-    },
-    {
-        "_id": "9",
-        "date": "2025-07-08",
-        "time": "10:00",
-        "customer_id": "7",
-    },
-
-    // Roger Federer
-    {
-        "_id": "10",
-        "date": "2025-07-08",
-        "time": "11:00",
-        "customer_id": "8",
-    },
-    {
-        "_id": "11",
-        "date": "2025-07-08",
-        "time": "13:00",
-        "customer_id": "8",
-    },
-
-    // Stephen Curry
-    {
-        "_id": "12",
-        "date": "2025-07-08",
-        "time": "14:00",
-        "customer_id": "9",
-    },
-    {
-        "_id": "13",
-        "date": "2025-07-08",
-        "time": "15:00",
-        "customer_id": "9",
-    },
-
-    // Usain Bolt
-    {
-        "_id": "14",
-        "date": "2025-07-08",
-        "time": "16:00",
-        "customer_id": "10",
-    },
-    {
-        "_id": "15",
-        "date": "2025-07-08",
-        "time": "17:00",
-        "customer_id": "10",
-    },
-
-    // Neymar Jr.
-    {
-        "_id": "16",
-        "date": "2025-07-09",
-        "time": "09:00",
-        "customer_id": "11",
-    },
-    {
-        "_id": "17",
-        "date": "2025-07-09",
-        "time": "10:00",
-        "customer_id": "11",
-    },
-
-    // Michael Jordan
-    {
-        "_id": "18",
-        "date": "2025-07-09",
-        "time": "11:00",
-        "customer_id": "12",
-    },
-    {
-        "_id": "19",
-        "date": "2025-07-09",
-        "time": "13:00",
-        "customer_id": "12",
-    },
-
-    // Khabib Nurmagomedov
-    {
-        "_id": "20",
-        "date": "2025-07-09",
-        "time": "14:00",
-        "customer_id": "13",
-    },
-    {
-        "_id": "21",
-        "date": "2025-07-09",
-        "time": "15:00",
-        "customer_id": "13",
-    },
-
-    // Pele
-    {
-        "_id": "22",
-        "date": "2025-07-09",
-        "time": "16:00",
-        "customer_id": "14",
-    },
-    {
-        "_id": "23",
-        "date": "2025-07-09",
-        "time": "17:00",
-        "customer_id": "14",
-    },
-
-    // Virat Kohli
-    {
-        "_id": "24",
-        "date": "2025-07-10",
-        "time": "09:00",
-        "customer_id": "15",
-    },
-    {
-        "_id": "25",
-        "date": "2025-07-10",
-        "time": "10:00",
-        "customer_id": "15",
-    },
-
-    // Misty May-Treanor
-    {
-        "_id": "26",
-        "date": "2025-07-10",
-        "time": "11:00",
-        "customer_id": "16",
-    },
-    {
-        "_id": "27",
-        "date": "2025-07-10",
-        "time": "13:00",
-        "customer_id": "16",
-    },
-
-    // Bugha
-    {
-        "_id": "28",
-        "date": "2025-07-10",
-        "time": "14:00",
-        "customer_id": "17",
-    },
-    {
-        "_id": "29",
-        "date": "2025-07-10",
-        "time": "15:00",
-        "customer_id": "17",
-    },
-
-    // Ninja
-    {
-        "_id": "30",
-        "date": "2025-07-10",
-        "time": "16:00",
-        "customer_id": "18",
-    },
-    {
-        "_id": "31",
-        "date": "2025-07-10",
-        "time": "17:00",
-        "customer_id": "18",
-    }
-];
-
-let dedication_reservations = [
-    {
-        "_id": "0",
-        "date": "2025-07-10",
-        "time": "17:00",
-        "ticket_id": "0",
-        "customer_id": "18",
-    },
-];
-
 let pavillons = [
     {
         "_id": "0",
@@ -1336,6 +1100,25 @@ let proteams = [
     }
 ]
 
+
+let service_reservations = [
+    {
+        "_id": "0",
+        "date": "2025-07-07",
+        "time": "09:00",
+        "ticket_id": "0",
+        "service_id": "0",
+        "stands_reservations_id": "0",
+    },{
+        "_id": "1",
+        "date": "2025-07-07",
+        "time": "10:00",
+        "ticket_id": "0",
+        "service_id": "1",
+        "stands_reservations_id": "0",
+    },
+];
+
 module.exports = {
     customer_accounts,
     provider_requests,
@@ -1347,10 +1130,9 @@ module.exports = {
     ticket_age_categories,
     ticket_prices,
     tickets,
-    dedication_dates,
-    dedication_reservations,
     pavillons,
     stands,
     stands_reservations,
-    proteams
+    proteams,
+    service_reservations,
 }

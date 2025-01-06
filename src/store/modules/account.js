@@ -5,6 +5,7 @@ const state = () => ({
     customersAccounts: [],
     currentUser: null,
     providerRequests: [],
+    sportsCategories: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -44,6 +45,9 @@ const mutations = {
     },
     deleteProviderRequest(state, index) {
         state.providerRequests.splice(index, 1);
+    },
+    updateSportsCategories(state, sportsCategories){
+        state.sportsCategories = sportsCategories;
     },
 };
 
@@ -175,6 +179,18 @@ const actions = {
             return { error: 1, data: 'Erreur lors du rejet de la demande' };
         }
     },
+    async getSportsCategories({commit}){
+        try {
+            let response = await AccountService.getSportsCategories();
+            if (response.error === 0) {
+                commit('updateSportsCategories', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des catégories de sports:', error);
+        }
+    },
 };
 
 const getters = {
@@ -186,6 +202,9 @@ const getters = {
     },
     getCustomerByEmail: (state) => (email) => {
         return state.customersAccounts.find(e => e.email === email);
+    },
+    getCustomerByName: (state) => (name) => {
+        return state.customersAccounts.find(e => e.name === name);
     },
     getProviderRequestById: (state) => (_id) => {
         return state.providerRequests.find(e => e._id === _id);

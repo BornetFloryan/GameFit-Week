@@ -3,7 +3,7 @@
     <router-link :to="{ name: 'admin-stand-management' }">
       <button class="btn-action">Retour à la gestion des stands</button>
     </router-link>
-    <router-link v-if="this.$route.query.stand_id" :to="{ name: 'admin-stand-reservations'}">
+    <router-link v-if="this.$route.query.stand_id" :to="{ name: 'admin-stand-reservation'}">
       <button class="btn-action">Voir toutes les réservations</button>
     </router-link>
     <router-link to="/admin-dashboard/admin-add-stand-reservation">
@@ -38,7 +38,7 @@ export default {
       title: "Gestion des réservation des stands",
       headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
       fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
-      modifyName: 'admin-stand-reservations-edit',
+      modifyName: 'admin-stand-reservation-edit',
       enableRes: false,
       enableDelete: true,
       dataSource: [],

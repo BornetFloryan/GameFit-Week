@@ -3,6 +3,7 @@ const state = () => ({
     // state = les données centralisées
     serviceCategories: [],
     providerServiceCategories: [],
+    serviceReservations: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -24,6 +25,21 @@ const mutations = {
     },
     deleteProviderServiceCategory(state, index) {
         state.providerServiceCategories.splice(index, 1);
+    },
+    updateServiceReservations(state, serviceReservations) {
+        state.serviceReservations = serviceReservations;
+    },
+    addServiceReservation(state, serviceReservation) {
+        state.serviceReservations.push(serviceReservation);
+    },
+    modifyServiceReservation(state, serviceReservation) {
+        let index = state.serviceReservations.findIndex(e => e._id === serviceReservation._id);
+        if (index !== -1) {
+            state.serviceReservations[index] = serviceReservation;
+        }
+    },
+    deleteServiceReservation(state, index) {
+        state.serviceReservations.splice(index, 1);
     },
 };
 
@@ -89,14 +105,59 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la suppression d\'un service prestataire' };
         }
     },
+    async getServiceReservations({ commit }) {
+        try {
+            let response = await PrestationService.getServiceReservations();
+            if (response.error === 0) {
+                commit('updateServiceReservations', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des réservations:', error);
+        }
+    },
+    async addServiceReservation({ commit }, serviceReservation) {
+        try {
+            let response = await PrestationService.addServiceReservation(serviceReservation);
+            if (response.error === 0) {
+                commit('addServiceReservation', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout d\'une réservation:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout d\'une réservation' };
+        }
+    },
+    async modifyServiceReservation({ commit }, serviceReservation) {
+        try {
+            let response = await PrestationService.modifyServiceReservation(serviceReservation);
+            if (response.error === 0) {
+                commit('modifyServiceReservation', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification d\'une réservation:', error);
+            return { error: 1, data: 'Erreur lors de la modification d\'une réservation' };
+        }
+    },
+    async deleteServiceReservation({ commit }, id) {
+        try {
+            let response = await PrestationService.deleteServiceReservation(id);
+            if (response.error === 0) {
+                commit('deleteServiceReservation', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la suppression d\'une réservation:', error);
+            return {error: 1, data: 'Erreur lors de la suppression d\'une réservation'};
+        }
+    },
 };
 
 const getters = {
     getServiceCategoryById: (state) => (_id) => {
         return state.serviceCategories.find((sc) => sc._id === _id);
-    },
-    getProviderServiceCategoriesById: (state) => (_id) => {
-        return state.providerServiceCategories.filter((psc) => psc._id === _id);
     },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);
@@ -121,6 +182,23 @@ const getters = {
         return rootState.account.customersAccounts.filter(customer => {
             return uniqueProviderIds.includes(customer._id);
         });
+    },
+    getServiceReservationsById: (state) => (_id) => {
+        return state.serviceReservations.find((sr) => sr._id === _id);
+    },
+    getServiceReservationByServiceId: (state) => (service_id) => {
+        return state.serviceReservations.filter((sr) => sr.service_id === service_id);
+    },
+    getServiceReservationsByStandsReservationsIdAndServiceId: (state) => (standsReservationsId, service_id) => {
+        return state.serviceReservations.filter((sr) =>
+            sr.stands_reservations_id === standsReservationsId
+            && sr.service_id === service_id);
+    },
+    getServiceReservationsByTicketIdAndDate: (state) => (ticket_id, date) => {
+        return state.serviceReservations.filter((sr) => sr.ticket_id === ticket_id && sr.date === date);
+    },
+    getServiceReservationsByDate: (state) => (date) => {
+        return state.serviceReservations.filter((sr) => sr.date === date);
     },
 };
 

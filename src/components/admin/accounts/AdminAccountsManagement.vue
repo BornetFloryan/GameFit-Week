@@ -43,7 +43,7 @@ export default {
   computed: {
     ...mapState('account', ['customersAccounts']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getProviderOfferingServices']),
-    ...mapGetters('stands', ['getStandsReservationsByProviderCustomerIdAndServiceId'])
+    ...mapGetters('stands', ['getStandsReservationsByCustomerIdAndServiceId'])
   },
   methods: {
     ...mapActions('account', ['getCustomersAccounts', 'deleteCustomerAccount']),
