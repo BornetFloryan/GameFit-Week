@@ -15,10 +15,10 @@
         <span class="material-icons">Dédicaces</span>
       </router-link>
       <router-link :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
-        <span class="material-icons">restaurant</span>
+        <span class="material-icons">Restaurant</span>
       </router-link>
-      <router-link :to="{ path: '/provider-dashboard/provider-goodies/add-sale' }" class="button">
-        <span class="material-icons">Vente de Goodies</span>
+      <router-link :to="{ path: '/provider-dashboard/provider-goodies' }" class="button">
+        <span class="material-icons">Goodies</span>
       </router-link>
     </div>
   </aside>
