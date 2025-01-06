@@ -8,6 +8,8 @@ import AccountRoutes from './account.router';
 import ServiceRoutes from './service.router';
 import AdminRoutes from './admin.router';
 import PrestataireRoutes from './provider.router';
+import PrestationRouter from "./prestation.router";
+
 import store from '@/store';
 
 Vue.use(VueRouter)
@@ -32,6 +34,7 @@ const routes = [
     ...ServiceRoutes,
     ...AdminRoutes,
     ...PrestataireRoutes,
+    ...PrestationRouter,
 ]
 
 const router = new VueRouter({
