@@ -122,6 +122,12 @@ const getters = {
     getTicketPricesPriceById: (state) => (id) => {
         return state.ticketPrices.find(price => price._id === id);
     },
+    getTicketPriceByCategories: (state) => (animationCategoryId, ageCategoryId) => {
+        return state.ticketPrices.find(price =>
+            price.age_category_id === ageCategoryId &&
+            price.animation_category_id === animationCategoryId
+        );
+    },
     getTicketsAnimationCategoryById: (state) => (id) => {
         return state.ticketsAnimationCategories.find(animationCategory => animationCategory._id === id);
     },

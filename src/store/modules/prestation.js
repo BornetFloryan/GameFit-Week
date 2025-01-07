@@ -202,6 +202,9 @@ const getters = {
     getServiceReservationsById: (state) => (_id) => {
         return state.serviceReservations.find((sr) => sr._id === _id);
     },
+    getServiceReservationsByTicketId: (state) => (ticket_id) => {
+        return state.serviceReservations.filter((sr) => sr.ticket_id === ticket_id);
+    },
     getServiceReservationByServiceId: (state) => (service_id) => {
         return state.serviceReservations.filter((sr) => sr.service_id === service_id);
     },

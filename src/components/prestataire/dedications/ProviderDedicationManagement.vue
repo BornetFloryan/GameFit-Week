@@ -12,7 +12,7 @@
       <router-link :to="{ name: 'provider-dedication-reservation'}">
         <button class="btn-action">Voir toutes les réservations</button>
       </router-link>
-      <router-link to="/admin-dashboard/provider-dedication-add">
+      <router-link to="/provider-dashboard/provider-dedication-add">
         <button class="btn-action">Ajouter un créneau de dédicace</button>
       </router-link>
       <AdminTable
@@ -32,6 +32,9 @@
           :dataSource="dataSource"
       />
     </div>
+    <div v-else>
+      <p>Le service est désactivé.</p>
+    </div>
   </div>
 </template>
 
@@ -47,7 +50,7 @@ export default {
       title: "Gestion des dédicaces",
       headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
       fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
-      modifyName: 'admin-dedication-edit',
+      modifyName: 'provider-dedication-edit',
       enableRes: true,
       enableDelete: true,
       dataSource: [],

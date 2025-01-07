@@ -1,5 +1,5 @@
 <template>
-  <div class="reservation-view">
+  <div class="ticket-view">
     <table v-if="currentUser">
       <thead>
       <tr>
@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style scoped>
-.reservation-view {
+.ticket-view {
   display: flex;
   justify-content: center;
   align-items: center;

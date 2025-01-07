@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       sales: sale,  // Liste des ventes de goodies disponibles
-      basket: []  // Panier de l'utilisateur
+      basket: [],  // Panier de l'utilisateur
     };
   },
   methods: {
@@ -47,7 +47,10 @@ export default {
     addToBasket(sale) {
       this.basket.push(sale);
       console.log("Panier:", this.basket);
-    }
+    },
+  },
+  async mounted(){
+
   }
 };
 </script>

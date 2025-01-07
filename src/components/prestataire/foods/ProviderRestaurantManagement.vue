@@ -1,5 +1,13 @@
 <template>
   <div class="provider-restaurant-home">
+    <div>
+      <label>
+        <input type="radio" v-model="serviceStatus" value="1" @change="toggleServiceStatus"> Activer le service
+      </label>
+      <label>
+        <input type="radio" v-model="serviceStatus" value="0" @change="toggleServiceStatus"> Désactiver le service
+      </label>
+    </div>
     <h1>Gestion des Réservations de Restaurant</h1>
     <button v-if="isShowReservationDatesTableVisible === false" @click="showReservationDatesTable">Voir vos créneaux de réservation</button>
     <button v-if="isShowCustomersReservationTableVisible === false" @click="showCustomersReservationTable">Voir les réservations clients</button>
@@ -62,6 +70,8 @@ export default {
       isShowCustomersReservationTableVisible: false,
       isAddFormVisible: false,
       selectedReservationDate: null,
+      providerServiceCategory: {},
+      serviceStatus: '1',
     };
   },
   computed: {
@@ -109,13 +119,24 @@ export default {
     formatDate(date) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(date).toLocaleDateString('fr-FR', options);
-    }
+    },
+    async toggleServiceStatus() {
+      try {
+        this.providerServiceCategory.state = this.serviceStatus;
+        await this.updateProviderServiceCategoryState({ customer_id: this.currentUser._id, status: this.serviceStatus });
+        alert(`Service ${this.serviceStatus === '1' ? 'activé' : 'désactivé'} avec succès`);
+      } catch (e) {
+        alert('Erreur lors de la mise à jour du statut du service');
+      }
+    },
   },
   async mounted() {
     await this.getReservations();
     await this.getReservationDates();
     this.providerReservationDates = this.reservationDates.filter(e => e.provider_id === this.currentUser._id);
     this.providerReservations = this.reservations.filter(e => e.provider_id === this.currentUser._id);
+    this.providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '2');
+    this.serviceStatus = this.providerServiceCategory.state;
   },
 };
 </script>

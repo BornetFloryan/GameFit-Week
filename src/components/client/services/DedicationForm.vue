@@ -1,9 +1,9 @@
 <template>
   <div class="form-container">
-    <h1 v-if="!submitted">Réservation de créneau de dédicaces</h1>
-    <h1 v-if="submitted">Réservation effectuée !</h1>
+    <h1 v-if="!reservation">Réservation de créneau de dédicaces</h1>
+    <h1 v-if="reservation">Réservation effectuée !</h1>
     <form>
-      <div v-if="!submitted" class="animator-selection">
+      <div v-if="!reservation" class="animator-selection">
         <h2 v-if="!selectedAnimator">Sélectionnez votre animateur</h2>
         <h2 v-if="selectedAnimator">Votre animateur</h2>
 
@@ -50,7 +50,7 @@
 
         <button
             type="button"
-            v-if="selectedAnimator && !submitted"
+            v-if="selectedAnimator && !reservation"
             class="reset-btn"
             @click.prevent="resetForm"
         >
@@ -58,32 +58,41 @@
         </button>
       </div>
 
-      <div class="time-slot-selection" v-if="selectedAnimator && !submitted">
+      <div class="time-slot-selection" v-if="selectedAnimator && !reservation">
         <h2>Sélectionnez votre créneau horaire</h2>
-        <input type="date"
-               v-model="selectedDate"
-               :disabled="!selectedAnimator"
-               min="2025-07-07"
-               max="2025-07-12"
+        <input
+            required
+            type="date"
+            v-model="date"
+            :id="date"
+            :disabled="!selectedAnimator"
+            min="2025-07-07"
+            max="2025-07-12"
+            @change="updateAvailableTimes(date)"
         />
 
-        <div class="form-group" v-if="selectedDate">
+        <div class="form-group" v-if="date">
           <label for="time">Heure :</label>
-          <select v-model="selectedTime" required>
+          <select
+              required
+              v-model="time"
+              :id="time"
+              :disabled="!selectedAnimator"
+          >
             <option value="" disabled>Sélectionnez une heure</option>
             <option
-                v-for="time in dedicationTimes"
-                :key="time"
-                :value="time"
+                v-for="option in availableTimes"
+                :key="option.value"
+                :value="option.value"
             >
-              {{ time }}
+              {{ option.text }}
             </option>
           </select>
         </div>
 
         <div class="form-buttons">
           <button
-              v-if="selectedTime && !submitted"
+              v-if="time && !reservation"
               type="button"
               class="submit-btn"
               @click.prevent="submitForm"
@@ -92,7 +101,7 @@
           </button>
 
           <button
-              v-if="selectedTime && !submitted"
+              v-if="time && !reservation"
               type="button"
               class="reset-btn"
               @click.prevent="resetForm"
@@ -102,7 +111,7 @@
         </div>
       </div>
 
-      <div v-if="submitted">
+      <div v-if="reservation && reservation">
         <h3>Un mail de confirmation vous a été envoyé</h3>
         <p v-if="!currentUser">
           Vous pouvez retrouver votre réservation de dédicace via le compte
@@ -115,8 +124,8 @@
           Vous avez réservé un créneau de dédicace avec
           <b>{{ selectedAnimator.name }} !</b>
         </p>
-        <p>Date : {{ formatDate(selectedDate) }}</p>
-        <p>Heure : {{ selectedTime }}</p>
+        <p>Date : {{ formatDate(date) }}</p>
+        <p>Heure : {{ time }}</p>
 
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-btn">
@@ -142,14 +151,14 @@ export default {
   data() {
     return {
       reservation: null,
-      ticketNumber: this.$route.query.ticket || null,
+      ticket_id: this.$route.query.ticket || null,
       searchQuery: "",
-      selectedDate: null,
-      selectedTime: "",
       selectedAnimator: "",
-      submitted: false,
       cards: [],
       selectedCategory: "",
+      date: "",
+      availableTimes: [],
+      time: "",
     };
   },
   computed: {
@@ -161,6 +170,12 @@ export default {
       "getStandsReservationsByCustomerIdAndServiceId",
     ]),
     ...mapGetters("account", ["getCustomerById", "getCustomerByName"]),
+    ...mapGetters("prestation", [
+      "getServiceReservationsByTicketIdAndDate",
+      "getServiceReservationsByDate",
+    ]),
+
+    ...mapGetters('stands', ['getStandsReservationsByCustomerIdAndServiceIdAndDate']),
 
     filteredCards() {
       return this.cards.filter((card) => {
@@ -175,33 +190,12 @@ export default {
         return matchesQuery && matchesCategory;
       });
     },
-    dedicationTimes() {
-      if (Array.isArray(this.serviceReservations)) {
-        const selectedDateStr = new Date(this.selectedDate).toDateString();
-
-        const availableTimes = this.animatorDedicationDates
-            .filter(
-                (date) => new Date(date.date).toDateString() === selectedDateStr
-            )
-            .map((date) => date.time);
-
-        const reservedTimes = this.serviceReservations
-            .filter(
-                (reservation) =>
-                    new Date(reservation.date).toDateString() === selectedDateStr
-            )
-            .map((reservation) => reservation.time);
-
-        return availableTimes.filter((time) => !reservedTimes.includes(time));
-      }
-      return [];
-    },
   },
   watch: {
     selectedAnimator(newAnimator) {
       if (newAnimator) {
-        this.selectedDate = null;
-        this.selectedTime = "";
+        this.date = null;
+        this.time = "";
         this.getStandsReservationsByCustomerIdAndServiceId(newAnimator, "0");
       }
     },
@@ -220,46 +214,119 @@ export default {
           this.selectedAnimator = animator;
         }
       }
+      this.date = "";
+      this.time = "";
     },
 
+    updateAvailableTimes(date) {
+      this.date = date;
+      const availableTimes = this.filterAvailableTimes(date, this.selectedAnimator._id);
+      this.availableTimes = availableTimes.filter((time) => time !== "18:00").map((time) => ({value: time, text: time}));
+      if (availableTimes.length === 0) {
+        this.date = "";
+        alert("Aucun créneau disponible pour cette date");
+      }
+    },
+
+    filterAvailableTimes(date, customer_id) {
+      const customerReservations = this.getServiceReservationsByTicketIdAndDate(this.ticket_id, date);
+      const ServiceReservations = this.getServiceReservationsByDate(date);
+      const prestataireAvailableTimes = this.getPrestataireAvailableTimes(customer_id, date);
+
+      const usedTimes = [...customerReservations, ...ServiceReservations].map((reservation) => reservation.time);
+
+      const availableTimes = prestataireAvailableTimes
+          .filter((time) => !usedTimes.includes(time) && time !== "18:00")
+          .sort((a, b) => {
+            const [aHours, aMinutes] = a.split(':').map(Number);
+            const [bHours, bMinutes] = b.split(':').map(Number);
+            return aHours * 60 + aMinutes - (bHours * 60 + bMinutes);
+          });
+
+
+      return availableTimes.length > 0 ? availableTimes : [];
+    },
+
+    getPrestataireAvailableTimes(customer_id, date) {
+      const schedules = this.getStandsReservationsByCustomerIdAndServiceIdAndDate(customer_id, "0", date);
+
+      if (!schedules || schedules.length === 0) {
+        return [];
+      }
+
+      const times = [];
+      schedules.forEach(schedule => {
+        const start = parseInt(schedule.start_time.split(':')[0], 10) * 60 + parseInt(schedule.start_time.split(':')[1], 10);
+        const end = parseInt(schedule.end_time.split(':')[0], 10) * 60 + parseInt(schedule.end_time.split(':')[1], 10);
+
+        for (let minutes = start; minutes < end; minutes += 5) {
+          const hours = Math.floor(minutes / 60);
+          const mins = minutes % 60;
+          const time = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+          times.push(time);
+        }
+      });
+
+      return times;
+    },
+
+
+
     async submitForm() {
-      if (!this.selectedDate || !this.selectedTime) {
+      if (!this.date || !this.time) {
         alert("Veuillez sélectionner une date et une heure");
         return;
       }
+      const standReservations = this.getStandsReservationsByCustomerIdAndServiceIdAndDate(this.selectedAnimator._id, "0", this.date);
+      const selectedTime = this.time;
+
+      const standReservation = standReservations.find(reservation => {
+        const startTime = parseInt(reservation.start_time.split(':')[0], 10) * 60 + parseInt(reservation.start_time.split(':')[1], 10);
+        const endTime = parseInt(reservation.end_time.split(':')[0], 10) * 60 + parseInt(reservation.end_time.split(':')[1], 10);
+        const selectedMinutes = parseInt(selectedTime.split(':')[0], 10) * 60 + parseInt(selectedTime.split(':')[1], 10);
+        return selectedMinutes >= startTime && selectedMinutes < endTime;
+      });
+      
+      let data = {
+        date: this.date,
+        time: this.time,
+        ticket_id: this.ticket_id,
+        customer_id: this.selectedAnimator._id,
+      };
+
+      if (standReservation) {
+        data.stands_reservations_id = standReservation._id;
+      } else {
+        alert("No valid stand reservation found for the selected time.");
+        return;
+      }
+
+      data.service_id = "0";
+
       try {
-        this.reservation = await this.addServiceReservation({
-          date: this.selectedDate,
-          time: this.selectedTime,
-          ticket_id: this.ticketNumber,
-          customer_id: this.selectedAnimator._id,
-        });
-        this.submitted = true;
-      } catch (error) {
-        alert("Erreur réseau, impossible d'ajouter la réservation");
-        console.error(error);
+        let response = await this.addServiceReservation(data);
+        if (response.error === 0) {
+          this.reservation = response.data;
+          return;
+        }
+        alert(response.data);
+      } catch (e) {
+        alert("Une erreur s'est produite lors de l'ajout de la réservation");
       }
     },
 
     resetForm() {
-      this.selectedDate = null;
-      this.selectedTime = "";
+      this.date = null;
+      this.time = "";
       this.selectedAnimator = "";
-      this.submitted = false;
+      this.reservation = "";
     },
 
     formatDate(date) {
       if (!date) return "";
-      return `${date
-          .getDate()
-          .toString()
-          .padStart(2, "0")}/${(date.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}/${date.getFullYear()}`;
+      const dateObj = new Date(date);
+      return `${dateObj.getDate().toString().padStart(2, "0")}/${(dateObj.getMonth() + 1).toString().padStart(2, "0")}/${dateObj.getFullYear()}`;
     },
-  },
-  created() {
-    this.selectedAnimator = this.$route.params.selectedAnimator;
   },
   async mounted() {
     await this.getCustomersAccounts();
@@ -268,12 +335,10 @@ export default {
     await this.getStandsReservations();
 
     this.animatorDedicationDates = this.getStandsReservationsByServiceId("0");
-    console.log("animatorDedicationDates", this.animatorDedicationDates);
 
     this.animators = this.animatorDedicationDates.map((date) =>
         this.getCustomerById(date.customer_id)
     );
-    console.log("animators", this.animators);
 
     this.cards = this.animators.map((animator) => ({
       imageSrc: require(`@/assets/img/${animator.name}.jpg`),

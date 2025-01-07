@@ -88,12 +88,20 @@ function addServiceReservation(serviceReservation) {
         return {error: 1, status: 404, data: 'Aucune donnée'}
     }
     console.log('serviceReservation', serviceReservation)
-    if (!serviceReservation.date
-        || !serviceReservation.time
-        || !serviceReservation.ticket_id
-        || !serviceReservation.service_id
-        || !serviceReservation.stands_reservations_id) {
-        return {error: 1, status: 404, data: 'Champs manquants'}
+    if (!serviceReservation.date) {
+        return {error: 1, status: 404, data: 'Date manquante'};
+    }
+    if (!serviceReservation.time) {
+        return {error: 1, status: 404, data: 'Heure manquante'};
+    }
+    if (!serviceReservation.ticket_id) {
+        return {error: 1, status: 404, data: 'ID de ticket manquant'};
+    }
+    if (!serviceReservation.service_id) {
+        return {error: 1, status: 404, data: 'ID de service manquant'};
+    }
+    if (!serviceReservation.stands_reservations_id) {
+        return {error: 1, status: 404, data: 'ID de réservation de stand manquant'};
     }
 
     let serviceReservationData = {

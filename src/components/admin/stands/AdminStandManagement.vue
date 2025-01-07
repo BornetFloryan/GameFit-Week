@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     ...mapState('stands', ['stands', 'standsReservations']),
-    ...mapGetters('stands', ['getStandReservationsByStandId']),
+    ...mapGetters('stands', ['getStandReservationsByStandId', 'getStandById']),
   },
   methods: {
     ...mapActions('stands', ['getStands', 'getStandsReservations', 'deleteStand', 'getPavillons']),
@@ -119,7 +119,7 @@ export default {
         return;
       }
 
-      this.stand = this.stands.find(stand => stand._id === standNumber);
+      this.stand = this.getStandById(standNumber);
 
       const boundingBox = event.target.getBoundingClientRect();
       this.cardX = boundingBox.left + window.scrollX + 10;

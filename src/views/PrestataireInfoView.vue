@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import NavView from "@/components/NavBar.vue";
 import PrestataireInfo from "@/components/PrestataireInfo.vue";
 
@@ -15,9 +15,10 @@ export default {
   components: {PrestataireInfo, NavView},
   computed: {
     ...mapState('account', ['customersAccounts']),
+    ...mapGetters('account', ['getCustomerById']),
     prestataire() {
       const id = this.$route.params.id;
-      return this.customersAccounts.find(p => p._id === id);
+      return this.getCustomerById(id);
     }
   }
 }

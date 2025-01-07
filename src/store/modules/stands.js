@@ -160,6 +160,13 @@ const getters = {
     getStandsReservationsByCustomerIdAndServiceIdAndDate: (state) => (customer_id, service_id, date) => {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id && reservation.service_id === service_id && reservation.date === date);
     },
+    getStandsReservationsByCustomerIdAndDateAndExcludingStandId: (state) => (customer_id, date, stand_id) => {
+        return state.standsReservations.filter(res =>
+            res.customer_id === this.formData.customer_id
+            && res.date === date
+            && res.stand_id !== stand_id
+        );
+    },
     getPavillonById: (state) => (_id) => {
         return state.pavillons.find((pavillon) => pavillon._id === _id);
     },

@@ -120,25 +120,17 @@ export default {
     updateDateVisibility(customer_id) {
       this.formData.customer_id = customer_id;
       this.formData.date = "";
-      const availableDates = this.getAvailableDates(customer_id);
-      this.updateFieldOptions("date", availableDates.map(date => ({value: date, text: date})));
+      this.formData.time = "";
       this.updateVisibility("date", this.formData.ticket_id && this.formData.customer_id);
-    },
-
-    getAvailableDates(customer_id) {
-      const dates = ["2025-07-07", "2025-07-08", "2025-07-09", "2025-07-10", "2025-07-11", "2025-07-12"];
-      return dates.filter(date => this.filterAvailableTimes(date, customer_id).length > 0);
+      this.updateVisibility("time", false);
     },
 
     filterAvailableTimes(date, customer_id) {
       const customerReservations = this.getServiceReservationsByTicketIdAndDate(this.formData.ticket_id, date);
       const ServiceReservations = this.getServiceReservationsByDate(date);
       const prestataireAvailableTimes = this.getPrestataireAvailableTimes(customer_id, date);
-      console.log('prestataireAvailableTimes', prestataireAvailableTimes);
 
       const usedTimes = [...customerReservations, ...ServiceReservations].map((reservation) => reservation.time);
-
-      console.log('usedTimes', usedTimes);
 
       const availableTimes = prestataireAvailableTimes
           .filter((time) => !usedTimes.includes(time) && time !== "18:00")
@@ -148,7 +140,6 @@ export default {
             return aHours * 60 + aMinutes - (bHours * 60 + bMinutes);
           });
 
-      console.log('availableTimes', availableTimes);
 
       return availableTimes.length > 0 ? availableTimes : [];
     },
@@ -184,6 +175,7 @@ export default {
       this.updateVisibility("description", availableTimes.length > 0 && this.formData.customer_id && this.formData.service_id);
       if (availableTimes.length === 0) {
         this.formData.date = "";
+        alert("Aucun créneau disponible pour cette date");
       }
     },
 

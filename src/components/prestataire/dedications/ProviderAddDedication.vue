@@ -44,7 +44,7 @@ export default {
     ...mapState("stands", ["standsReservations", "stands"]),
     ...mapState("account", ["customersAccounts", "currentUser"]),
     ...mapState("prestation", ["providerServiceCategories", "serviceCategories"]),
-    ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate"]),
+    ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate", "getStandsReservationsByCustomerIdAndDateAndExcludingStandId"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById", "getProviderOfferingServices"]),
   },
   methods: {
@@ -66,10 +66,8 @@ export default {
 
     filterAvailableTimes(date, stand_id) {
       const reservations = this.getStandsReservationsByStandIdAndDate(stand_id, date);
-      const customerReservations = this.standsReservations.filter(res =>
-          res.customer_id === this.formData.customer_id
-          && res.date === date
-          && res.stand_id !== stand_id
+      const customerReservations = this.getStandsReservationsByCustomerIdAndDateAndExcludingStandId(
+          this.formData.customer_id, date, stand_id
       );
 
       const usedTimes = [...reservations, ...customerReservations]

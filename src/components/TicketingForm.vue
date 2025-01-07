@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: 'TicketingFormView',
@@ -117,6 +117,7 @@ export default {
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrices", "tickets"]),
+    ...mapGetters('ticket', ['getTicketPriceByCategories']),
   },
   watch: {
     'formData._idTicketAnimationCategories': function () {
@@ -156,7 +157,12 @@ export default {
       };
     },
     updateTicketPrice(_idTicketsAnimationCategories, _idTicketsAgeCategories) {
-      this.formData.price = this.ticketPrices.find(price => price.age_category_id === _idTicketsAgeCategories && price.animation_category_id === _idTicketsAnimationCategories).price * this.formData.ticketCount;
+      const price = this.getTicketPriceByCategories(_idTicketsAnimationCategories, _idTicketsAgeCategories);
+      if (price) {
+        this.formData.price = price.price * this.formData.ticketCount;
+      } else {
+        this.formData.price = 0;
+      }
     },
   },
   mounted() {

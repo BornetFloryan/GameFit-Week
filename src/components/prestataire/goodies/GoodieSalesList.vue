@@ -1,16 +1,23 @@
 <template>
   <div class="goodie-sales-list">
-    <h2>Liste des ventes de goodies</h2>
+    <div>
+      <label>
+        <input type="radio" v-model="serviceStatus" value="1" @change="toggleServiceStatus"> Activer le service
+      </label>
+      <label>
+        <input type="radio" v-model="serviceStatus" value="0" @change="toggleServiceStatus"> Désactiver le service
+      </label>
+    </div>
+    <h2 v-if="serviceStatus === '1'">Liste des ventes de goodies</h2>
 
-    <button class="add-goodies">Ajouter un Goodies</button>
-    <table>
+    <button class="add-goodies" v-if="serviceStatus === '1'">Ajouter un Goodies</button>
+    <table v-if="serviceStatus === '1'">
       <thead>
       <tr>
         <th scope="col">Numéro</th>
         <th scope="col">Goodie</th>
         <th scope="col">Quantité</th>
         <th scope="col">Date</th>
-
       </tr>
       </thead>
       <tbody>
@@ -22,27 +29,51 @@
       </tr>
       </tbody>
     </table>
+    <p v-else>Le service est désactivé.</p>
   </div>
 </template>
 
 <script>
 import { sale } from "@/datasource/data.js";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "GoodieSalesList",
   data() {
     return {
       sales: sale,
+      providerServiceCategory: {},
+      serviceStatus: '1',
     };
   },
+  computed: {
+    ...mapState('account', ['currentUser']),
+    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerIdAndServiceID']),
+  },
   methods: {
+    ...mapActions('prestation', ['updateProviderServiceCategoryState']),
+
     formatDate(date) {
-      const options = { year: "numeric", month: "long", day: "numeric" };
+      const options = {year: "numeric", month: "long", day: "numeric"};
       return new Date(date).toLocaleDateString("fr-FR", options);
     },
+    async toggleServiceStatus() {
+      try {
+        this.providerServiceCategory.state = this.serviceStatus;
+        await this.updateProviderServiceCategoryState({customer_id: this.currentUser._id, status: this.serviceStatus});
+        alert(`Service ${this.serviceStatus === '1' ? 'activé' : 'désactivé'} avec succès`);
+      } catch (e) {
+        alert('Erreur lors de la mise à jour du statut du service');
+      }
+    },
+  },
+  async mounted() {
+    this.providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '1');
+    this.serviceStatus = this.providerServiceCategory.state;
   },
 };
 </script>
+
 <style scoped>
 .goodie-sales-list {
   max-width: 800px;
