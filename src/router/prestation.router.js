@@ -14,8 +14,8 @@ export default [
                 component: GoodiesView,
             },
             {
-                path: "restaurant",
-                name: "restaurant-view",
+                path: "restaurations",
+                name: "restaurations-view",
                 component: RestaurantView,
             },
         ],

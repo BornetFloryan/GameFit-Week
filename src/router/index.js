@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import AccueilView from '../views/AccueilView.vue';
 import TicketingView from "@/views/TicketingView.vue";
 import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
-import PageWithEditor from "@/components/PageWithEditor.vue"; // Import de la page avec l'éditeur
+import PageWithEditor from "@/components/PageWithEditor.vue";
 
 import AccountRoutes from './account.router';
 import ServiceRoutes from './service.router';
@@ -28,12 +28,12 @@ const routes = [
   },
   {
     path: '/prestataire/:id',
-    name: 'PrestataireInfo',
+    name: 'prestataire-info',
     component: PrestataireInfoView
   },
   {
-    path: '/editor', // Nouvelle route pour l'éditeur
-    name: 'Editor',
+    path: '/editor',
+    name: 'editor',
     component: PageWithEditor
   },
   ...AccountRoutes,

@@ -75,10 +75,9 @@
 
 <script>
 import { VueEditor } from "vue2-editor";
-import axios from "axios";
 
 export default {
-  name: "Editor",
+  name: "EditorView",
   components: {
     VueEditor,
   },
@@ -89,7 +88,6 @@ export default {
     },
     uploadApiUrl: {
       type: String,
-      default: "https://votre-api-upload.com/images",
     },
   },
   data() {
@@ -107,28 +105,18 @@ export default {
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
-      const formData = new FormData();
-      formData.append("image", file);
-
-      axios({
-        url: this.uploadApiUrl,
-        method: "POST",
-        data: formData,
-      })
-          .then((result) => {
-            const url = result.data.url;
-            Editor.insertEmbed(cursorLocation, "image", url);
-            resetUploader();
-          })
-          .catch((err) => {
-            console.error("Erreur lors de l'upload de l'image :", err);
-          });
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const url = e.target.result;
+        Editor.insertEmbed(cursorLocation, "image", url);
+        resetUploader();
+      };
+      reader.readAsDataURL(file);
     },
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
     disconnected() {
-      // Simulating logout action
       console.log('Déconnexion');
     },
   },

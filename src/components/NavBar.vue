@@ -24,12 +24,11 @@
           <router-link to="" class="link">Prestation</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
             <li><router-link :to="{ path: '/prestation/goodies' }" class="link">Goodies</router-link></li>
-            <li><router-link :to="{ path: '/prestation/restaurant' }" class="link">Restaurant</router-link></li>
+            <li><router-link :to="{ path: '/prestation/restaurations' }" class="link">Restaurations</router-link></li>
           </ul>
         </li>
 
-        <!-- Nouveau bouton pour l'éditeur -->
-        <li><a href="http://localhost:8080/editor" class="link">Éditeur</a></li>
+        <li><router-link :to="{ path: '/editor' }" class="link">Éditeur</router-link></li>
 
         <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
