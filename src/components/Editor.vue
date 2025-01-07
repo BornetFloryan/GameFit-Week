@@ -68,14 +68,13 @@
         </div>
       </div>
 
-      <button class="btn-save">Enregistrer</button>
+      <button class="btn-save" @click="saveContent">Enregistrer</button>
     </div>
   </div>
 </template>
 
 <script>
 import { VueEditor } from "vue2-editor";
-import axios from "axios";
 
 export default {
   name: "Editor",
@@ -86,10 +85,6 @@ export default {
     initialContent: {
       type: String,
       default: "<h1>Écrivez votre contenu ici...</h1>",
-    },
-    uploadApiUrl: {
-      type: String,
-      default: "https://votre-api-upload.com/images",
     },
   },
   data() {
@@ -107,29 +102,29 @@ export default {
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
-      const formData = new FormData();
-      formData.append("image", file);
+      // Créer une URL locale de l'image téléchargée sans appel API
+      const reader = new FileReader();
 
-      axios({
-        url: this.uploadApiUrl,
-        method: "POST",
-        data: formData,
-      })
-          .then((result) => {
-            const url = result.data.url;
-            Editor.insertEmbed(cursorLocation, "image", url);
-            resetUploader();
-          })
-          .catch((err) => {
-            console.error("Erreur lors de l'upload de l'image :", err);
-          });
+      reader.onloadend = () => {
+        // Insérer l'image dans l'éditeur via son URL local
+        Editor.insertEmbed(cursorLocation, "image", reader.result);
+        resetUploader(); // Réinitialiser l'uploader
+      };
+
+      if (file) {
+        reader.readAsDataURL(file); // Lire le fichier localement comme une URL Data
+      }
     },
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
     disconnected() {
-      // Simulating logout action
-      console.log('Déconnexion');
+      console.log("Déconnexion");
+    },
+    saveContent() {
+      // Sauvegarde locale des données (pouvez utiliser localStorage si nécessaire)
+      localStorage.setItem("content", this.content);
+      alert("Contenu enregistré localement !");
     },
   },
 };
