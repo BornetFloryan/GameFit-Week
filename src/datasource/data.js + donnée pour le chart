@@ -1149,6 +1149,19 @@ let service_reservations = [
     },
 ];
 
+
+let dailyTickets = [
+    { date: "2025-01-01", tickets: 12 },
+    { date: "2025-01-02", tickets: 18 },
+    { date: "2025-01-03", tickets: 15 },
+    { date: "2025-01-04", tickets: 20 },
+    { date: "2025-01-05", tickets: 22 },
+    { date: "2025-01-06", tickets: 17 },
+    { date: "2025-01-07", tickets: 25 }
+];
+
+
+
 module.exports = {
     customer_accounts,
     provider_requests,
@@ -1166,5 +1179,5 @@ module.exports = {
     proteams,
     sale,
     foodItems,
-    service_reservations,
+    service_reservations,dailyTickets
 }
