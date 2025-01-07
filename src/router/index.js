@@ -1,8 +1,9 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import AccueilView from '../views/AccueilView.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import AccueilView from '../views/AccueilView.vue';
 import TicketingView from "@/views/TicketingView.vue";
 import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
+import PageWithEditor from "@/components/PageWithEditor.vue"; // Import de la page avec l'éditeur
 
 import AccountRoutes from './account.router';
 import ServiceRoutes from './service.router';
@@ -12,7 +13,7 @@ import PrestationRouter from "./prestation.router";
 
 import store from '@/store';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -30,18 +31,23 @@ const routes = [
     name: 'PrestataireInfo',
     component: PrestataireInfoView
   },
-    ...AccountRoutes,
-    ...ServiceRoutes,
-    ...AdminRoutes,
-    ...PrestataireRoutes,
-    ...PrestationRouter,
-]
+  {
+    path: '/editor', // Nouvelle route pour l'éditeur
+    name: 'Editor',
+    component: PageWithEditor
+  },
+  ...AccountRoutes,
+  ...ServiceRoutes,
+  ...AdminRoutes,
+  ...PrestataireRoutes,
+  ...PrestationRouter,
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -69,4 +75,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router
+export default router;
