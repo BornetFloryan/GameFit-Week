@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <button class="btn-save">Enregistrer</button>
+      <button class="btn-save" @click="saveContent">Enregistrer</button>
     </div>
   </div>
 </template>
@@ -86,9 +86,6 @@ export default {
       type: String,
       default: "<h1>Écrivez votre contenu ici...</h1>",
     },
-    uploadApiUrl: {
-      type: String,
-    },
   },
   data() {
     return {
@@ -105,19 +102,29 @@ export default {
   },
   methods: {
     handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+      // Créer une URL locale de l'image téléchargée sans appel API
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const url = e.target.result;
-        Editor.insertEmbed(cursorLocation, "image", url);
-        resetUploader();
+
+      reader.onloadend = () => {
+        // Insérer l'image dans l'éditeur via son URL local
+        Editor.insertEmbed(cursorLocation, "image", reader.result);
+        resetUploader(); // Réinitialiser l'uploader
       };
-      reader.readAsDataURL(file);
+
+      if (file) {
+        reader.readAsDataURL(file); // Lire le fichier localement comme une URL Data
+      }
     },
     toggleMobileView() {
       this.mobileNav = !this.mobileNav;
     },
     disconnected() {
-      console.log('Déconnexion');
+      console.log("Déconnexion");
+    },
+    saveContent() {
+      // Sauvegarde locale des données (pouvez utiliser localStorage si nécessaire)
+      localStorage.setItem("content", this.content);
+      alert("Contenu enregistré localement !");
     },
   },
 };
