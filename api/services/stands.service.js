@@ -43,8 +43,8 @@ async function modifyStand(stand) {
     const client = await pool.connect();
     try {
         const res = await client.query(
-            'UPDATE stands SET name = $1, description = $2, price = $3, customer_id = $4, pavillon_id = $5 WHERE _id = $6 RETURNING *',
-            [stand.name, stand.description, stand.price, stand.customer_id, stand.pavillon_id, stand._id]
+            'UPDATE stands SET name = $1, price = $2, pavillon_id = $3 WHERE _id = $4 RETURNING *',
+            [stand.name, stand.price, stand.pavillon_id, stand._id]
         );
         if (res.rowCount === 0) {
             return { error: 1, status: 404, data: 'Stand introuvable' };

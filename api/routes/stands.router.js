@@ -118,10 +118,81 @@ router.get("/reservations", standsController.getStandsReservations);
  *         description: Erreur interne du serveur
  */
 
-router.put("/modify", standsController.modifyStand);
+router.post("/reservations", standsController.addStandReservation);
 /**
  * @swagger
- * /stands/modify:
+ * /stands/reservations:
+ *   post:
+ *     summary: Ajouter une nouvelle réservation de stand
+ *     tags: [Réservations de stands]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *                 example: "2023-01-01"
+ *               stand_id:
+ *                 type: integer
+ *                 example: 1
+ *               customer_id:
+ *                 type: integer
+ *                 example: 1
+ *               description:
+ *                 type: string
+ *                 example: "Description de la réservation"
+ *               start_time:
+ *                 type: string
+ *                 example: "10:00"
+ *               end_time:
+ *                 type: string
+ *                 example: "12:00"
+ *               service_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       201:
+ *         description: La réservation de stand créée
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: integer
+ *                   example: 1
+ *                 date:
+ *                   type: string
+ *                   example: "2023-01-01"
+ *                 stand_id:
+ *                   type: integer
+ *                   example: 1
+ *                 customer_id:
+ *                   type: integer
+ *                   example: 1
+ *                 description:
+ *                   type: string
+ *                   example: "Description de la réservation"
+ *                 start_time:
+ *                   type: string
+ *                   example: "10:00"
+ *                 end_time:
+ *                   type: string
+ *                   example: "12:00"
+ *                 service_id:
+ *                   type: integer
+ *                   example: 1
+ *       500:
+ *         description: Erreur interne du serveur
+ */
+
+router.put("/", standsController.modifyStand);
+/**
+ * @swagger
+ * /stands:
  *   put:
  *     summary: Modifier un stand
  *     tags: [Stands]
@@ -138,16 +209,10 @@ router.put("/modify", standsController.modifyStand);
  *               name:
  *                 type: string
  *                 example: "Nom du stand mis à jour"
- *               description:
- *                 type: string
- *                 example: "Description du stand mise à jour"
  *               price:
  *                 type: number
  *                 format: float
  *                 example: 150.0
- *               customer_id:
- *                 type: integer
- *                 example: 1
  *               pavillon_id:
  *                 type: integer
  *                 example: 1
@@ -165,16 +230,10 @@ router.put("/modify", standsController.modifyStand);
  *                 name:
  *                   type: string
  *                   example: "Nom du stand mis à jour"
- *                 description:
- *                   type: string
- *                   example: "Description du stand mise à jour"
  *                 price:
  *                   type: number
  *                   format: float
  *                   example: 150.0
- *                 customer_id:
- *                   type: integer
- *                   example: 1
  *                 pavillon_id:
  *                   type: integer
  *                   example: 1
@@ -184,10 +243,10 @@ router.put("/modify", standsController.modifyStand);
  *         description: Erreur interne du serveur
  */
 
-router.put("/reservations/modify", standsController.modifyStandsReservations);
+router.put("/reservations", standsController.modifyStandsReservations);
 /**
  * @swagger
- * /stands/reservations/modify:
+ * /stands/reservations:
  *   put:
  *     summary: Modifier une réservation de stand
  *     tags: [Réservations de stands]
@@ -256,77 +315,6 @@ router.put("/reservations/modify", standsController.modifyStandsReservations);
  *                   example: 1
  *       404:
  *         description: Réservation de stand non trouvée
- *       500:
- *         description: Erreur interne du serveur
- */
-
-router.post("/reservations/add", standsController.addStandReservation);
-/**
- * @swagger
- * /stands/reservations/add:
- *   post:
- *     summary: Ajouter une nouvelle réservation de stand
- *     tags: [Réservations de stands]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               date:
- *                 type: string
- *                 example: "2023-01-01"
- *               stand_id:
- *                 type: integer
- *                 example: 1
- *               customer_id:
- *                 type: integer
- *                 example: 1
- *               description:
- *                 type: string
- *                 example: "Description de la réservation"
- *               start_time:
- *                 type: string
- *                 example: "10:00"
- *               end_time:
- *                 type: string
- *                 example: "12:00"
- *               service_id:
- *                 type: integer
- *                 example: 1
- *     responses:
- *       201:
- *         description: La réservation de stand créée
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: integer
- *                   example: 1
- *                 date:
- *                   type: string
- *                   example: "2023-01-01"
- *                 stand_id:
- *                   type: integer
- *                   example: 1
- *                 customer_id:
- *                   type: integer
- *                   example: 1
- *                 description:
- *                   type: string
- *                   example: "Description de la réservation"
- *                 start_time:
- *                   type: string
- *                   example: "10:00"
- *                 end_time:
- *                   type: string
- *                   example: "12:00"
- *                 service_id:
- *                   type: integer
- *                   example: 1
  *       500:
  *         description: Erreur interne du serveur
  */
