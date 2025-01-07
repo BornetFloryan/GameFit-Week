@@ -17,7 +17,7 @@
         <td>
           <ul>
             <li v-for="service in services" :key="service._id">
-              {{ getServiceCategoryById(service.service_category_id)?.name || 'Unknown' }}
+              {{ getServiceCategoryById(service.service_id)?.name || 'Unknown' }}
             </li>
           </ul>
         </td>

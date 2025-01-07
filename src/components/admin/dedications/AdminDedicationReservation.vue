@@ -3,7 +3,7 @@
     <router-link :to="{ name: 'admin-dedication' }">
       <button class="btn-action">Retour à la gestion des dédicaces</button>
     </router-link>
-    <router-link v-if="this.$route.query.stands_reservations_id" :to="{ name: 'admin-dedication-reservation'}">
+    <router-link v-if="this.$route.query.stand_reservation_id" :to="{ name: 'admin-dedication-reservation'}">
       <button class="btn-action">Voir toutes les réservations de dédicaces</button>
     </router-link>
     <router-link to="/admin-dashboard/admin-dedication-reservation-add">
@@ -37,7 +37,7 @@ export default {
     return {
       title: "Gestion des réservations de dédicace",
       headers: ['Numéro', 'Date', 'Heure', 'Numéro de ticket', 'Numéro de service', 'Numéro de réservation de stand'],
-      fields: ['_id', 'date', 'time', 'ticket_id', 'service_id', 'stands_reservations_id'],
+      fields: ['_id', 'date', 'time', 'ticket_id', 'service_id', 'stand_reservation_id'],
       modifyName: 'admin-dedication-reservation-edit',
       enableRes: false,
       enableDelete: true,
@@ -69,8 +69,8 @@ export default {
     },
 
     filterReservations() {
-      if (this.$route.query.stands_reservations_id) {
-        this.dataSource = this.getServiceReservationsByStandsReservationsIdAndServiceId(this.$route.query.stands_reservations_id, '0');
+      if (this.$route.query.stand_reservation_id) {
+        this.dataSource = this.getServiceReservationsByStandsReservationsIdAndServiceId(this.$route.query.stand_reservation_id, '0');
       } else {
         this.dataSource = this.getServiceReservationByServiceId('0');
       }

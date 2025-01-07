@@ -29,7 +29,7 @@ export default {
         ticket_id: "",
         customer_id: "",
         service_id: "0",
-        stands_reservations_id: "",
+        stand_reservation_id: "",
         date: "",
         time: "",
       },
@@ -194,7 +194,7 @@ export default {
       });
 
       if (standReservation) {
-        data.stands_reservations_id = standReservation._id;
+        data.stand_reservation_id = standReservation._id;
       } else {
         alert("No valid stand reservation found for the selected time.");
         return;
@@ -218,7 +218,7 @@ export default {
     await this.getStands();
     await this.getProviderServiceCategories();
     this.prestataires = this.getProviderOfferingServices.filter((p) =>
-        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_category_id === "0" && psc.state === '1')
+        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_id === "0" && psc.state === '1')
     );
     this.initializeFormFields();
   },

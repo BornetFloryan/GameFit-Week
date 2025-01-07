@@ -6,9 +6,14 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require('./utils/swaggerConfig');
 const pool = require('./database/db');
 
-const standsRoutes = require('./routes/stands.router');
 const accountRoutes = require('./routes/account.router');
+const sportsCategoriesRoutes = require('./routes/sportsCategories.router');
+const providerRequestsRoutes = require('./routes/providerRequests.router');
+const serviceCategoriesRoutes = require('./routes/serviceCategories.router');
+const providerServiceCategoriesRoutes = require('./routes/providerServiceCategories.router');
+const serviceReservationRoutes = require('./routes/serviceReservation.router');
 const ticketRoutes = require('./routes/ticket.router');
+const standsRoutes = require('./routes/stands.router');
 
 const app = express();
 const PORT = 3000;
@@ -18,9 +23,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use('/stands', standsRoutes);
 app.use('/accounts', accountRoutes);
+app.use('/sports-categories', sportsCategoriesRoutes);
+app.use('/provider-requests', providerRequestsRoutes);
+app.use('/service-categories', serviceCategoriesRoutes);
+app.use('/provider-service-categories', providerServiceCategoriesRoutes);
+app.use('/service-reservations', serviceReservationRoutes);
 app.use('/tickets', ticketRoutes);
+app.use('/stands', standsRoutes);
+
 
 app.use(session({
     secret: 'votre_secret',

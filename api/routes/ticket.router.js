@@ -4,11 +4,11 @@ const router = require('express').Router();
 router.get('/', ticketController.getTickets);
 /**
  * @swagger
- * /tickets:
+ * /Tickets:
  *   get:
  *     tags:
- *       - tickets
- *     description: Récupérer la liste des tickets
+ *       - Tickets
+ *     description: Récupérer la liste des Tickets
  *     responses:
  *       200:
  *         description: Succès
@@ -19,11 +19,11 @@ router.get('/', ticketController.getTickets);
 router.post('/', ticketController.addTickets);
 /**
  * @swagger
- * /tickets:
+ * /Tickets:
  *   post:
  *     tags:
- *       - tickets
- *     description: Ajouter des tickets
+ *       - Tickets
+ *     description: Ajouter des Tickets
  *     requestBody:
  *       required: true
  *       content:
@@ -50,7 +50,7 @@ router.post('/', ticketController.addTickets);
  *                 type: integer
  *                 example: 0
  *     responses:
- *       200:
+ *       201:
  *         description: Succès
  *         content:
  *           application/json:
@@ -79,10 +79,10 @@ router.post('/', ticketController.addTickets);
 router.delete('/', ticketController.deleteTicket);
 /**
  * @swagger
- * /tickets:
+ * /Tickets:
  *   delete:
  *     tags:
- *       - tickets
+ *       - Tickets
  *     description: Supprimer un ticket
  *     requestBody:
  *       required: true
@@ -91,11 +91,11 @@ router.delete('/', ticketController.deleteTicket);
  *           schema:
  *             type: object
  *             properties:
- *               _id:
+ *               id:
  *                 type: string
  *                 example: 0
  *     responses:
- *       200:
+ *       204:
  *         description: Succès
  *       500:
  *         description: Erreur serveur
@@ -104,11 +104,11 @@ router.delete('/', ticketController.deleteTicket);
 router.get('/animation-categories', ticketController.getTicketsAnimationCategories);
 /**
  * @swagger
- * /tickets/animation-categories:
+ * /Tickets/animation-categories:
  *   get:
  *     tags:
- *       - tickets
- *     description: Récupérer la liste des catégories d'animation des tickets
+ *       - Tickets
+ *     description: Récupérer la liste des catégories d'animation des Tickets
  *     responses:
  *       200:
  *         description: Succès
@@ -119,11 +119,11 @@ router.get('/animation-categories', ticketController.getTicketsAnimationCategori
 router.get('/age-categories', ticketController.getTicketsAgeCategories);
 /**
  * @swagger
- * /tickets/age-categories:
+ * /Tickets/age-categories:
  *   get:
  *     tags:
- *       - tickets
- *     description: Récupérer la liste des catégories d'âge des tickets
+ *       - Tickets
+ *     description: Récupérer la liste des catégories d'âge des Tickets
  *     responses:
  *       200:
  *         description: Succès
@@ -134,15 +134,164 @@ router.get('/age-categories', ticketController.getTicketsAgeCategories);
 router.post('/prices', ticketController.getTicketPrices);
 /**
  * @swagger
- * /tickets/prices:
+ * /Tickets/prices:
  *   post:
  *     tags:
- *       - tickets
- *     description: Récupérer le prix des tickets
+ *       - Tickets
+ *     description: Récupérer le prix des Tickets
  *     responses:
  *       200:
  *         description: Succès
  *       500:
  *         description: Erreur serveur
  */
+
+router.get('/:id', ticketController.getTicketById);
+/**
+ * @swagger
+ * /Tickets/{id}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer un ticket par ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID du ticket
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Ticket non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/prices/:id', ticketController.getTicketPricesPriceById);
+/**
+ * @swagger
+ * /Tickets/prices/{id}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer le prix d'un ticket par ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID du prix du ticket
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Prix du ticket non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/prices/categories/:animationCategoryId/:ageCategoryId', ticketController.getTicketPriceByCategories);
+/**
+ * @swagger
+ * /Tickets/prices/categories/{animationCategoryId}/{ageCategoryId}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer le prix d'un ticket par catégories
+ *     parameters:
+ *       - in: path
+ *         name: animationCategoryId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la catégorie d'animation
+ *       - in: path
+ *         name: ageCategoryId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la catégorie d'âge
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Prix du ticket non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/animation-categories/:id', ticketController.getTicketsAnimationCategoryById);
+/**
+ * @swagger
+ * /Tickets/animation-categories/{id}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer une catégorie d'animation de ticket par ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la catégorie d'animation
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Catégorie d'animation non trouvée
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/age-categories/:id', ticketController.getTicketsAgeCategoryById);
+/**
+ * @swagger
+ * /Tickets/age-categories/{id}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer une catégorie d'âge de ticket par ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la catégorie d'âge
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Catégorie d'âge non trouvée
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/customer/:customerId', ticketController.getTicketsByCustomerId);
+/**
+ * @swagger
+ * /Tickets/customer/{customerId}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer les Tickets par ID client
+ *     parameters:
+ *       - in: path
+ *         name: customerId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID du client
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       500:
+ *         description: Erreur serveur
+ */
+
 module.exports = router;

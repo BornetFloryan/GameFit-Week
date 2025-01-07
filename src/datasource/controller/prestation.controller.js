@@ -29,7 +29,7 @@ function addProviderServiceCategory(providerServiceCategory) {
 
     let existingProviderServiceCategories = provider_service_categories.filter(e => e.customer_id === existingUser);
     if(existingProviderServiceCategories.length > 0){
-        if(existingProviderServiceCategories.find(e => e.service_category_id === providerServiceCategory.serviceCategory)){
+        if(existingProviderServiceCategories.find(e => e.service_id === providerServiceCategory.serviceCategory)){
             return {error: 1, status: 404, data: 'Service déjà existant pour le prestataire'}
         }
     }
@@ -38,7 +38,7 @@ function addProviderServiceCategory(providerServiceCategory) {
         _id: uuidv4(),
         state: "0",
         customer_id: existingUser._id,
-        service_category_id: providerServiceCategory.serviceCategory
+        service_id: providerServiceCategory.serviceCategory
     };
 
     return {error: 0, status: 200, data: providerServiceCategoryData}
@@ -59,7 +59,7 @@ function modifyProviderServiceCategory(providerServiceCategory) {
 
     existingProviderServiceCategory.state = providerServiceCategory.state;
     existingProviderServiceCategory.customer_id = providerServiceCategory.customer_id;
-    existingProviderServiceCategory.service_category_id = providerServiceCategory.service_category_id;
+    existingProviderServiceCategory.service_id = providerServiceCategory.service_id;
 
     return {error: 0, status: 200, data: existingProviderServiceCategory}
 }
@@ -87,7 +87,6 @@ function addServiceReservation(serviceReservation) {
     if (!serviceReservation) {
         return {error: 1, status: 404, data: 'Aucune donnée'}
     }
-    console.log('serviceReservation', serviceReservation)
     if (!serviceReservation.date) {
         return {error: 1, status: 404, data: 'Date manquante'};
     }
@@ -100,7 +99,7 @@ function addServiceReservation(serviceReservation) {
     if (!serviceReservation.service_id) {
         return {error: 1, status: 404, data: 'ID de service manquant'};
     }
-    if (!serviceReservation.stands_reservations_id) {
+    if (!serviceReservation.stand_reservation_id) {
         return {error: 1, status: 404, data: 'ID de réservation de stand manquant'};
     }
 
@@ -110,7 +109,7 @@ function addServiceReservation(serviceReservation) {
         time: serviceReservation.time,
         ticket_id: serviceReservation.ticket_id,
         service_id: serviceReservation.service_id,
-        stands_reservations_id: serviceReservation.stands_reservations_id
+        stand_reservation_id: serviceReservation.stand_reservation_id
     }
 
     return {error: 0, status: 200, data: serviceReservationData}

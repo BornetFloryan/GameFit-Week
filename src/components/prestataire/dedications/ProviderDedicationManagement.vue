@@ -25,7 +25,7 @@
           :showReservationsButton="enableRes"
           :reservationsButtonText="'Voir les réservations'"
           :reservationsRouteName="'provider-dedication-reservation'"
-          :reservationsQueryParams="(item) => ({ stands_reservations_id: item._id })"
+          :reservationsQueryParams="(item) => ({ stand_reservation_id: item._id })"
           :showDeleteButton="enableDelete"
           :deleteButtonText="'Supprimer'"
           @delete="handleDeleteButton"

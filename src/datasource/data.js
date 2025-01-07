@@ -335,109 +335,109 @@ let provider_service_categories = [
         "_id": "0",
         "state": "1",
         "customer_id": "3", // Lionel Messi
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "1",
         "state": "1",
         "customer_id": "4", // LeBron James
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "2",
         "state": "1",
         "customer_id": "5", // Serena Williams
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "3",
         "state": "1",
         "customer_id": "6", // Cristiano Ronaldo
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "4",
         "state": "1",
         "customer_id": "7", // Tom Brady
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "5",
         "state": "1",
         "customer_id": "8", // Roger Federer
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "6",
         "state": "1",
         "customer_id": "9", // Stephen Curry
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "7",
         "state": "1",
         "customer_id": "10", // Usain Bolt
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "8",
         "state": "1",
         "customer_id": "11", // Neymar Jr.
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "9",
         "state": "1",
         "customer_id": "12", // Michael Jordan
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "10",
         "state": "1",
         "customer_id": "13", // Khabib Nurmagomedov
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "11",
         "state": "1",
         "customer_id": "14", // Pelé
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "12",
         "state": "1",
         "customer_id": "15", // Virat Kohli
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "13",
         "state": "1",
         "customer_id": "16", // Misty May-Treanor
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "14",
         "state": "1",
         "customer_id": "17", // Bugha
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "15",
         "state": "1",
         "customer_id": "18", // Ninja
-        "service_category_id": "0" // Dédicace
+        "service_id": "0" // Dédicace
     },
     {
         "_id": "16",
         "state": "0",
         "customer_id": "2",
-        "service_category_id": "0"
+        "service_id": "0"
     },
     {
         "_id": "17",
         "state": "0",
         "customer_id": "2",
-        "service_category_id": "1"
+        "service_id": "1"
     }
 ];
 
@@ -503,82 +503,82 @@ let provider_sport_categories = [
     {
         "_id": "0",
         "customer_id": "3",
-        "sportsCategories_id": "0"
+        "sport_id": "0"
     },
     {
         "_id": "1",
         "customer_id": "4",
-        "sportsCategories_id": "1"
+        "sport_id": "1"
     },
     {
         "_id": "2",
         "customer_id": "5",
-        "sportsCategories_id": "2"
+        "sport_id": "2"
     },
     {
         "_id": "3",
         "customer_id": "6",
-        "sportsCategories_id": "0"
+        "sport_id": "0"
     },
     {
         "_id": "4",
         "customer_id": "7",
-        "sportsCategories_id": "6"
+        "sport_id": "6"
     },
     {
         "_id": "5",
         "customer_id": "8",
-        "sportsCategories_id": "2"
+        "sport_id": "2"
     },
     {
         "_id": "6",
         "customer_id": "9",
-        "sportsCategories_id": "1"
+        "sport_id": "1"
     },
     {
         "_id": "7",
         "customer_id": "10",
-        "sportsCategories_id": "3"
+        "sport_id": "3"
     },
     {
         "_id": "8",
         "customer_id": "11",
-        "sportsCategories_id": "0"
+        "sport_id": "0"
     },
     {
         "_id": "9",
         "customer_id": "12",
-        "sportsCategories_id": "1"
+        "sport_id": "1"
     },
     {
         "_id": "10",
         "customer_id": "13",
-        "sportsCategories_id": "7"
+        "sport_id": "7"
     },
     {
         "_id": "11",
         "customer_id": "14",
-        "sportsCategories_id": "0"
+        "sport_id": "0"
     },
     {
         "_id": "12",
         "customer_id": "15",
-        "sportsCategories_id": "4"
+        "sport_id": "4"
     },
     {
         "_id": "13",
         "customer_id": "16",
-        "sportsCategories_id": "5"
+        "sport_id": "5"
     },
     {
         "_id": "14",
         "customer_id": "17",
-        "sportsCategories_id": "8"
+        "sport_id": "8"
     },
     {
         "_id": "15",
         "customer_id": "18",
-        "sportsCategories_id": "8"
+        "sport_id": "8"
     }
 ];
 
@@ -1049,55 +1049,55 @@ let stands_reservations = [
     },
 ];
 
-let proteams = [
+let pro_teams = [
     {
         "id": "1",
         "name": "Team Liquid",
-        "img": require("../assets/img/TL_Logo.jpg"),
+        "img": "../assets/img/TL_Logo.jpg",
         "description": "Team Liquid est l’une des organisations les plus emblématiques de l’e-sport mondial, reconnue pour son incroyable polyvalence et ses résultats constants dans de multiples disciplines telles que Dota 2, League of Legends, CS:GO et bien d’autres. Fondée en 2000, cette équipe a su évoluer avec les tendances de l’industrie, recrutant des talents de classe mondiale et développant des stratégies innovantes. Leur capacité à s’adapter à différents styles de jeu et à maintenir un haut niveau de performance les a souvent placés parmi les favoris dans les compétitions majeures. Au-delà de leurs performances en tournoi, Team Liquid est également reconnue pour son engagement envers la communauté e-sportive et son influence dans la culture gaming.",
     },
     {
         "id": "2",
         "name": "Fnatic",
-        "img": require("../assets/img/FNATIC_Logo.jpg"),
+        "img": "../assets/img/FNATIC_Logo.jpg",
         "description": "Fnatic est une légende vivante de l’e-sport, avec un palmarès impressionnant couvrant plus d’une décennie. Cette équipe basée au Royaume-Uni est particulièrement célèbre pour son succès dans League of Legends et CS:GO, où elle a remporté de nombreux titres prestigieux. Fnatic est connue pour son approche innovante du jeu, testant constamment de nouvelles stratégies et surprenant ses adversaires avec des mouvements imprévisibles. Leur équipe est composée de joueurs talentueux qui excellent individuellement tout en montrant une synergie d’équipe remarquable. En plus de leur succès compétitif, Fnatic est un pionnier dans la promotion de l’e-sport en tant que phénomène global, grâce à des partenariats innovants et une forte présence sur les réseaux sociaux.",
     },
     {
         "id": "3",
         "name": "G2 Esports",
-        "img": require("../assets/img/G2_Logo.jpg"),
+        "img": "../assets/img/G2_Logo.jpg",
         "description": "G2 Esports, souvent surnommée 'les Samouraïs', est une organisation qui combine talent brut, flair et charisme. Basée en Europe, cette équipe s’est imposée comme l’une des plus dominantes dans des jeux comme League of Legends, CS:GO et Valorant. G2 est connue pour son style de jeu agressif et audacieux, qui leur permet de dicter le rythme des parties et de maintenir leurs adversaires sous pression constante. En dehors du terrain, G2 Esports est célèbre pour son humour et son approche décontractée, attirant une base de fans passionnés. Malgré cette légèreté apparente, leur engagement envers l’excellence compétitive est indéniable, et ils continuent de figurer parmi les meilleures équipes dans presque toutes les disciplines qu’ils touchent.",
     },
     {
         "id": "4",
         "name": "T1",
-        "img": require("../assets/img/T1_Logo.jpg"),
+        "img": "../assets/img/T1_Logo.jpg",
         "description": "T1 est une institution en Corée du Sud et un nom incontournable dans l’histoire de l’e-sport mondial, notamment grâce à ses incroyables succès dans League of Legends. Avec Faker, considéré comme le plus grand joueur de l’histoire de LoL, T1 a remporté trois championnats du monde et continue de figurer parmi les équipes les plus redoutées du circuit. Leur jeu repose sur une discipline tactique rigoureuse, une exécution mécanique parfaite et une préparation stratégique qui les distingue des autres équipes. En plus de leur domination dans LoL, T1 s’est également aventurée dans d’autres titres comme Valorant, où ils cherchent à étendre leur héritage légendaire. Leur influence dépasse les frontières du jeu, faisant d’eux des ambassadeurs de la culture e-sportive coréenne dans le monde entier.",
     },
     {
         "id": "5",
         "name": "Cloud9",
-        "img": require("../assets/img/Cloud9_Logo.jpg"),
+        "img": "../assets/img/Cloud9_Logo.jpg",
         "description": "Cloud9 est une organisation nord-américaine qui représente l’innovation et l’adaptabilité dans l’e-sport. Active dans des jeux comme CS:GO, League of Legends, et Valorant, cette équipe est connue pour ses stratégies créatives et son style de jeu rapide qui met constamment ses adversaires sur la défensive. Fondée en 2013, Cloud9 a rapidement gravi les échelons pour devenir l’une des équipes les plus respectées sur la scène internationale. Ce qui les distingue, c’est leur capacité à exceller dans des situations de forte pression, où ils transforment souvent des désavantages apparents en victoires spectaculaires. Cloud9 est également adorée pour sa culture d’équipe positive et son approche inclusive, ce qui en fait un favori des fans.",
     },
     {
         "id": "6",
         "name": "Natus Vincere",
-        "img": require("../assets/img/NAVI_Logo.jpg"),
+        "img": "../assets/img/NAVI_Logo.jpg",
         "description": "Natus Vincere, ou NAVI, est une organisation ukrainienne de renom qui domine depuis des années la scène compétitive dans des jeux comme CS:GO et Dota 2. NAVI a marqué l’histoire en devenant la première équipe à remporter un Grand Chelem en CS:GO, en décrochant tous les titres majeurs de la saison 2021. Leur style de jeu repose sur une combinaison de tactiques méticuleuses, de coordination d’équipe impeccable et de performances individuelles exceptionnelles. Les joueurs de NAVI, comme s1mple, sont souvent considérés parmi les meilleurs au monde dans leurs disciplines respectives. Au-delà de leurs succès compétitifs, NAVI incarne la résilience et la passion, représentant fièrement leur région sur la scène mondiale.",
     },
     {
         "id": "7",
         "name": "Evil Geniuses",
-        "img": require("../assets/img/EG_Logo.jpg"),
+        "img": "../assets/img/EG_Logo.jpg",
         "description": "Evil Geniuses, fondée en 1999, est l’une des organisations les plus anciennes et les plus respectées de l’e-sport. Connue pour ses succès dans des titres comme Dota 2, CS:GO et Valorant, EG est une équipe qui allie expérience, innovation et détermination. Leur victoire emblématique à The International 2015 reste un moment légendaire dans l’histoire de Dota 2. Ce qui distingue Evil Geniuses, c’est leur capacité à analyser le jeu de leurs adversaires et à s’adapter rapidement, leur permettant de prendre l’avantage même dans des situations difficiles. En dehors des compétitions, EG est reconnue pour son engagement envers le développement des talents et son rôle de pionnier dans l’e-sport.",
     },
     {
         "id": "8",
         "name": "100 Thieves",
-        "img": require("../assets/img/100T_Logo.jpg"),
+        "img": "../assets/img/100T_Logo.jpg",
         "description": "100 Thieves est une organisation jeune et dynamique qui a rapidement gagné en popularité grâce à son approche novatrice de l’e-sport. Fondée par l’ancien joueur professionnel Matthew 'Nadeshot' Haag, 100 Thieves a su se démarquer à la fois sur le terrain, dans des jeux comme Valorant et League of Legends, et en dehors grâce à son identité de marque unique. Ils combinent une stratégie de jeu efficace avec une communication de marque axée sur le lifestyle, attirant une audience qui dépasse le simple cadre des compétitions. En compétition, 100 Thieves est reconnue pour ses stratégies bien pensées, ses joueurs talentueux et son esprit d’équipe inébranlable, qui leur permettent de s’imposer comme un sérieux concurrent dans les tournois internationaux.",
-    }
+    }   
 ]
 
 let sale = [
@@ -1116,7 +1116,7 @@ let sale = [
 ];
 
 
-let foodItems = [
+let food_items = [
     { _id: 1, food: { _id: 201, name: 'Pizza GameFit', img: "", price: 10 }, quantity: 20, date: '2025-01-01' },
     { _id: 2, food: { _id: 202, name: 'Burger Gourmet', img: "", price: 8 }, quantity: 15, date: '2025-01-02' },
     { _id: 3, food: { _id: 203, name: 'Salade César', img: "", price: 6 }, quantity: 10, date: '2025-01-03' },
@@ -1138,14 +1138,14 @@ let service_reservations = [
         "time": "09:00",
         "ticket_id": "0",
         "service_id": "0",
-        "stands_reservations_id": "0",
+        "stand_reservation_id": "0",
     },{
         "_id": "1",
         "date": "2025-07-07",
         "time": "10:00",
         "ticket_id": "0",
         "service_id": "1",
-        "stands_reservations_id": "0",
+        "stand_reservation_id": "0",
     },
 ];
 
@@ -1176,8 +1176,9 @@ module.exports = {
     pavillons,
     stands,
     stands_reservations,
-    proteams,
+    pro_teams,
     sale,
-    foodItems,
-    service_reservations,dailyTickets
+    food_items,
+    service_reservations,
+    dailyTickets,
 }

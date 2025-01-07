@@ -20,7 +20,7 @@
         <div class="match" v-for="(match, matchIndex) in round" :key="matchIndex">
           <div class="teams-match">
             <div class="team" v-for="(team, teamIndex) in match.teams" :key="teamIndex">
-              <img :src="team.img || require('@/assets/img/noteam.jpg')" alt="team logo" class="team-logo"/>
+              <img :src="require(team.img) || require('@/assets/img/noteam.jpg')" alt="team logo" class="team-logo"/>
               <p class="name-team">{{ team.name }}</p>
               <b class="score-team">{{ team.score }}</b>
             </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {proteams} from "@/datasource/data.js"; // Import des données d'équipes
+import {pro_teams} from "@/datasource/data.js"; // Import des données d'équipes
 
 export default {
   data() {
@@ -50,7 +50,7 @@ export default {
         return;
       }
 
-      this.teams = [...proteams];
+      this.teams = [...pro_teams];
 
       while (this.teams.length < this.teamCount) {
         this.teams.push({

@@ -3,7 +3,7 @@
     <router-link :to="{ name: 'provider-dedication' }">
       <button class="btn-action">Retour à la gestion des dédicaces</button>
     </router-link>
-    <router-link v-if="this.$route.query.stands_reservations_id" :to="{ name: 'provider-dedication-reservation'}">
+    <router-link v-if="this.$route.query.stand_reservation_id" :to="{ name: 'provider-dedication-reservation'}">
       <button class="btn-action">Voir toutes les réservations de dédicaces</button>
     </router-link>
     <AdminTable
@@ -34,7 +34,7 @@ export default {
     return {
       title: "Gestion des réservations de dédicace",
       headers: ['Numéro', 'Date', 'Heure', 'Numéro de ticket', 'Numéro de service', 'Numéro de réservation de stand'],
-      fields: ['_id', 'date', 'time', 'ticket_id', 'service_id', 'stands_reservations_id'],
+      fields: ['_id', 'date', 'time', 'ticket_id', 'service_id', 'stand_reservation_id'],
       modifyName: '',
       enableRes: false,
       enableDelete: true,
@@ -67,11 +67,10 @@ export default {
     },
 
     filterReservations() {
-      if (this.$route.query.stands_reservations_id) {
-        this.dataSource = this.getServiceReservationsByStandsReservationsIdAndServiceId(this.$route.query.stands_reservations_id, '0');
+      if (this.$route.query.stand_reservation_id) {
+        this.dataSource = this.getServiceReservationsByStandsReservationsIdAndServiceId(this.$route.query.stand_reservation_id, '0');
       } else {
         const userStandsReservations = this.getStandsReservationsByCustomerIdAndServiceId(this.currentUser._id, '0');
-        console.log(userStandsReservations);
         this.dataSource = userStandsReservations.flatMap(reservation =>
             this.getServiceReservationsByStandsReservationsIdAndServiceId(reservation._id, '0')
         );

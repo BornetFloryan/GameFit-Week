@@ -176,7 +176,7 @@ const getters = {
     },
     getProviderServiceCategoriesByCustomerIdAndServiceID: (state) => (_id, service_id) => {
 
-        return state.providerServiceCategories.find((psc) => psc.customer_id === _id && psc.service_category_id === service_id);
+        return state.providerServiceCategories.find((psc) => psc.customer_id === _id && psc.service_id === service_id);
     },
     getProviderServiceCategoriesCustomerId: (state) => {
         return state.providerServiceCategories
@@ -210,7 +210,7 @@ const getters = {
     },
     getServiceReservationsByStandsReservationsIdAndServiceId: (state) => (standsReservationsId, service_id) => {
         return state.serviceReservations.filter((sr) =>
-            sr.stands_reservations_id === standsReservationsId
+            sr.stand_reservation_id === standsReservationsId
             && sr.service_id === service_id);
     },
     getServiceReservationsByTicketIdAndDate: (state) => (ticket_id, date) => {

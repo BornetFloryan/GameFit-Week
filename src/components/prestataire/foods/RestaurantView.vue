@@ -25,13 +25,13 @@
 
 <script>
 // Importation des données ou source de données (ex: une API, une liste statique)
-import { foodItems } from "@/datasource/data.js"; // Remplace par ta source de données réelle
+import { food_items } from "@/datasource/data.js"; // Remplace par ta source de données réelle
 
 export default {
   name: "RestaurantView",
   data() {
     return {
-      foodItems: foodItems,  // Liste des nourritures disponibles
+      food_items: food_items,  // Liste des nourritures disponibles
     };
   },
   methods: {

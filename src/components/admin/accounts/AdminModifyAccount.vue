@@ -150,7 +150,7 @@ export default {
       if (this.formData.privilege === "1") {
         const userServices = await this.getProviderServiceCategoriesByCustomerId(this.id);
 
-        this.formData.services = userServices.map(service => service.service_category_id);
+        this.formData.services = userServices.map(service => service.service_id);
       }
     },
 

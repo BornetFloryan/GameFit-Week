@@ -12,9 +12,13 @@ exports.getCustomersAccounts = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
     try {
-        let data = await accountService.loginUser(req.body.login, req.body.password);
+        const { login, password } = req.body;
+        if (!login || !password) {
+            return res.status(400).json({ error: 1, status: 404, data: 'aucun login/pass fourni' });
+        }
+        let data = await accountService.loginUser({login, password});
         if (data) {
-            return res.status(200).json({ data: data });
+            return res.status(200).json({ data: data.data });
         } else {
             return res.status(404).send("Login/pass incorrect");
         }
@@ -41,5 +45,54 @@ exports.modifyCustomerAccount = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la modification du compte client");
+    }
+}
+
+exports.deleteCustomerAccount = async (req, res) => {
+    try {
+        let data = await accountService.deleteCustomerAccount(req.body);
+        return res.status(200).json({ data: data });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Erreur lors de la suppression du compte client");
+    }
+}
+
+exports.getCustomerById = async (req, res) => {
+    try {
+        let data = await accountService.getCustomerById(req.params.id);
+        if (data.error) {
+            return res.status(data.status).send(data.data);
+        }
+        return res.status(200).json({ data: data.data });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Erreur lors de la récupération du client par ID");
+    }
+}
+
+exports.getCustomerByEmail = async (req, res) => {
+    try {
+        let data = await accountService.getCustomerByEmail(req.params.email);
+        if (data.error) {
+            return res.status(data.status).send(data.data);
+        }
+        return res.status(200).json({ data: data.data });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Erreur lors de la récupération du client par email");
+    }
+}
+
+exports.getCustomerByName = async (req, res) => {
+    try {
+        let data = await accountService.getCustomerByName(req.params.name);
+        if (data.error) {
+            return res.status(data.status).send(data.data);
+        }
+        return res.status(200).json({ data: data.data });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Erreur lors de la récupération du client par nom");
     }
 }

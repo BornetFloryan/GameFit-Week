@@ -109,8 +109,8 @@ export default {
           type: "select",
           model: "service_id",
           options: this.servicesPrestatairesCategory.map((service) => ({
-            value: service.service_category_id,
-            text: this.getServiceName(service.service_category_id),
+            value: service.service_id,
+            text: this.getServiceName(service.service_id),
           })),
           props: {required: true, disabled: !this.formData.customer_id},
         },
@@ -167,8 +167,8 @@ export default {
       const serviceField = this.formFields.find((field) => field.id === "service_id");
       if (serviceField) {
         serviceField.options = this.getProviderServiceCategoriesByCustomerId(prestataire_id).map((service) => ({
-          value: service.service_category_id,
-          text: this.getServiceName(service.service_category_id),
+          value: service.service_id,
+          text: this.getServiceName(service.service_id),
         }));
       }
       this.updateVisibility("date", this.formData.customer_id && this.formData.service_id && this.formData.stand_id);

@@ -30,7 +30,7 @@
             <div v-for="service in item[field]" :key="service._id">
               <label>
                 <input type="checkbox" :checked="service.state === '1'" :disabled="isServiceUsed(service)" @change="emitToggleServiceState(service, $event)">
-                {{ getServiceCategoryById(service.service_category_id).name }}
+                {{ getServiceCategoryById(service.service_id).name }}
               </label>
             </div>
           </div>
@@ -129,7 +129,7 @@ export default {
       this.$emit('toggle-service-state', {service});
     },
     isServiceUsed(service) {
-      let providerStandReservations = this.getStandsReservationsByCustomerIdAndServiceId(service.customer_id, service.service_category_id);
+      let providerStandReservations = this.getStandsReservationsByCustomerIdAndServiceId(service.customer_id, service.service_id);
       return providerStandReservations.length > 0;
     },
   },

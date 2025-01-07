@@ -30,7 +30,7 @@ export default {
         ticket_id: "",
         customer_id: "",
         service_id: "0",
-        stands_reservations_id: "",
+        stand_reservation_id: "",
         date: "",
         time: "",
       },
@@ -146,7 +146,7 @@ export default {
       if (this.$route.params.item_id) {
         const reservation = this.getServiceReservationsById(this.$route.params.item_id);
         if (reservation) {
-          const standReservation = this.getStandReservationById(reservation.stands_reservations_id);
+          const standReservation = this.getStandReservationById(reservation.stand_reservation_id);
           if (standReservation) {
             const start = parseInt(standReservation.start_time.split(':')[0], 10) * 60 + parseInt(standReservation.start_time.split(':')[1], 10);
             const end = parseInt(standReservation.end_time.split(':')[0], 10) * 60 + parseInt(standReservation.end_time.split(':')[1], 10);
@@ -222,7 +222,7 @@ export default {
       });
 
       if (standReservation) {
-        data.stands_reservations_id = standReservation._id;
+        data.stand_reservation_id = standReservation._id;
       } else {
         alert("No valid stand reservation found for the selected time.");
         return;
@@ -251,14 +251,14 @@ export default {
       if (reservation) {
         this.id = reservation._id;
         this.formData = {...reservation};
-        this.formData.customer_id = this.getStandReservationById(reservation.stands_reservations_id).customer_id;
+        this.formData.customer_id = this.getStandReservationById(reservation.stand_reservation_id).customer_id;
 
         this.updateAvailableTimes(this.formData.date);
       }
     }
 
     this.prestataires = this.getProviderOfferingServices.filter((p) =>
-        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_category_id === "0" && psc.state === '1')
+        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_id === "0" && psc.state === '1')
     );
     this.initializeFormFields();
   },

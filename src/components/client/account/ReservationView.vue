@@ -16,7 +16,7 @@
         <td>{{ customerServiceReservation._id }}</td>
         <td>
           {{
-            getCustomerById(getStandReservationById(customerServiceReservation.stands_reservations_id)?.customer_id)?.name
+            getCustomerById(getStandReservationById(customerServiceReservation.stand_reservation_id)?.customer_id)?.name
           }}
         </td>
         <td>

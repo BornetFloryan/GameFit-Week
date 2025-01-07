@@ -186,7 +186,7 @@ export default {
         const matchesCategory =
             this.selectedCategory === "" ||
             (animator &&
-                animator.sportsCategories_id.includes(this.selectedCategory._id));
+                animator.sport_id.includes(this.selectedCategory._id));
         return matchesQuery && matchesCategory;
       });
     },
@@ -295,7 +295,7 @@ export default {
       };
 
       if (standReservation) {
-        data.stands_reservations_id = standReservation._id;
+        data.stand_reservation_id = standReservation._id;
       } else {
         alert("No valid stand reservation found for the selected time.");
         return;

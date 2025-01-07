@@ -268,7 +268,7 @@ export default {
     }
 
     this.prestataires = this.getProviderOfferingServices.filter((p) =>
-        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_category_id === "0" && psc.state === '1')
+        this.getProviderServiceCategoriesByCustomerId(p._id).some((psc) => psc.service_id === "0" && psc.state === '1')
     );
     this.servicesPrestataires = this.providerServiceCategories;
     this.initializeFormFields();

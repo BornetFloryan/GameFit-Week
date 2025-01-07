@@ -20,7 +20,7 @@
         <td>
           <ul class="indented-list">
             <li v-for="service in getProviderServiceCategoriesByCustomerId(request.customer_id)" :key="service._id">
-              {{ getServiceCategoryById(service.service_category_id).name }}
+              {{ getServiceCategoryById(service.service_id).name }}
             </li>
           </ul>
         </td>

@@ -3,6 +3,7 @@ const pool = require('../database/db');
 
 const {
     customer_accounts,
+    provider_requests,
     service_categories,
     provider_service_categories,
     sports_categories,
@@ -11,9 +12,10 @@ const {
     ticket_age_categories,
     ticket_prices,
     tickets,
-    dedication_reservations,
     pavillons,
     stands,
+    stands_reservations,
+    service_reservations,
 } = require('../../src/datasource/data');
 
 const executeSQLFile = async (filePath) => {
@@ -41,6 +43,15 @@ const insertData = async () => {
             );
         }
 
+        for (const request of provider_requests) {
+            const { _id, date, state, customer_id } = request;
+            await insertIfNotExists(
+                'SELECT _id FROM provider_requests WHERE _id = $1',
+                'INSERT INTO provider_requests (_id, date, state, customer_id) VALUES ($1, $2, $3, $4)',
+                [_id, date, state, customer_id]
+            );
+        }
+
         for (const category of service_categories) {
             const { _id, name } = category;
             await insertIfNotExists(
@@ -51,11 +62,11 @@ const insertData = async () => {
         }
 
         for (const entry of provider_service_categories) {
-            const { _id, service_id, provider_id } = entry;
+            const { _id, state, customer_id, service_id } = entry;
             await insertIfNotExists(
                 'SELECT _id FROM provider_service_categories WHERE _id = $1',
-                'INSERT INTO provider_service_categories (_id, customer_id, customer_id) VALUES ($1, $2, $3)',
-                [_id, service_id, provider_id]
+                'INSERT INTO provider_service_categories (_id, state, customer_id, service_id) VALUES ($1, $2, $3, $4)',
+                [_id, state, customer_id, service_id]
             );
         }
 
@@ -69,11 +80,11 @@ const insertData = async () => {
         }
 
         for (const entry of provider_sport_categories) {
-            const { _id, sport_id, provider_id } = entry;
+            const { _id, customer_id, sport_id } = entry;
             await insertIfNotExists(
                 'SELECT _id FROM provider_sport_categories WHERE _id = $1',
-                'INSERT INTO provider_sport_categories (_id, sport_id, customer_id) VALUES ($1, $2, $3)',
-                [_id, sport_id, provider_id]
+                'INSERT INTO provider_sport_categories (_id, customer_id, sport_id) VALUES ($1, $2, $3)',
+                [_id, customer_id, sport_id]
             );
         }
 
@@ -96,11 +107,11 @@ const insertData = async () => {
         }
 
         for (const price of ticket_prices) {
-            const { _id, age_category_id, animation_category_id, price: ticketPrice } = price;
+            const { _id, price: ticketPrice, age_category_id, animation_category_id } = price;
             await insertIfNotExists(
                 'SELECT _id FROM ticket_prices WHERE _id = $1',
-                'INSERT INTO ticket_prices (_id, age_category_id, animation_category_id, price) VALUES ($1, $2, $3, $4)',
-                [_id, age_category_id || 0, animation_category_id || 0, ticketPrice || 0]
+                'INSERT INTO ticket_prices (_id, price, age_category_id, animation_category_id) VALUES ($1, $2, $3, $4)',
+                [_id, ticketPrice || 0, age_category_id || 0, animation_category_id || 0]
             );
         }
 
@@ -110,15 +121,6 @@ const insertData = async () => {
                 'SELECT _id FROM tickets WHERE _id = $1',
                 'INSERT INTO tickets (_id, date, time, customer_id, price_id) VALUES ($1, $2, $3, $4, $5)',
                 [_id, date, time, customer_id || 0, price_id || 0]
-            );
-        }
-
-        for (const reservation of dedication_reservations) {
-            const { _id, date, time, ticket_id, anim_id } = reservation;
-            await insertIfNotExists(
-                'SELECT _id FROM dedication_reservations WHERE _id = $1',
-                'INSERT INTO dedication_reservations (_id, date, time, ticket_id, customer_id) VALUES ($1, $2, $3, $4, $5)',
-                [_id, date, time, ticket_id || 0, anim_id || 0]
             );
         }
 
@@ -137,6 +139,24 @@ const insertData = async () => {
                 'SELECT _id FROM stands WHERE _id = $1',
                 'INSERT INTO stands (_id, name, price, pavillon_id) VALUES ($1, $2, $3, $4)',
                 [_id, name, price || 0, pavillon_id]
+            );
+        }
+
+        for (const reservation of stands_reservations) {
+            const { _id, date, start_time, end_time, description, customer_id, service_id, stand_id } = reservation;
+            await insertIfNotExists(
+                'SELECT _id FROM stands_reservations WHERE _id = $1',
+                'INSERT INTO stands_reservations (_id, date, start_time, end_time, description, customer_id, service_id, stand_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+                [_id, date, start_time, end_time, description, customer_id, service_id, stand_id]
+            );
+        }
+
+        for (const reservation of service_reservations) {
+            const { _id, date, time, ticket_id, service_id, stand_reservation_id } = reservation;
+            await insertIfNotExists(
+                'SELECT _id FROM service_reservations WHERE _id = $1',
+                'INSERT INTO service_reservations (_id, date, time, ticket_id, service_id, stand_reservation_id) VALUES ($1, $2, $3, $4, $5, $6)',
+                [_id, date, time, ticket_id, service_id, stand_reservation_id]
             );
         }
 

@@ -21,7 +21,7 @@
           <div class="teams-match">
             <div class="team" v-for="(team, teamIndex) in match.teams" :key="teamIndex">
               <img
-                  :src="team.img || require('@/assets/img/noteam.jpg')"
+                  :src="require(team.img) || require('@/assets/img/noteam.jpg')"
                   alt="team logo"
                   class="team-logo"
                   @click="toggleTooltip(roundIndex, matchIndex, teamIndex)"
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import {proteams} from "@/datasource/data.js"; // Import des données d'équipes
+import {pro_teams} from "@/datasource/data.js"; // Import des données d'équipes
 
 export default {
   data() {
@@ -93,7 +93,7 @@ export default {
         return;
       }
 
-      const availableTeams = [...proteams];
+      const availableTeams = [...pro_teams];
       while (availableTeams.length < this.teamCount) {
         availableTeams.push({
           name: `Team ${availableTeams.length + 1}`,
@@ -122,7 +122,7 @@ export default {
     },
 
     loadTeams() {
-      this.teams = proteams.map((team) => ({
+      this.teams = pro_teams.map((team) => ({
         ...team,
         score: 0
       }));
