@@ -17,19 +17,19 @@
             <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
             <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
             <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
-
           </ul>
         </li>
-
 
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
           <router-link to="" class="link">Prestation</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
             <li><router-link :to="{ path: '/prestation/goodies' }" class="link">Goodies</router-link></li>
             <li><router-link :to="{ path: '/prestation/restaurant' }" class="link">Restaurant</router-link></li>
-
           </ul>
         </li>
+
+        <!-- Nouveau bouton pour l'éditeur -->
+        <li><a href="http://localhost:8080/editor" class="link">Éditeur</a></li>
 
         <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
@@ -48,6 +48,7 @@
           </ul>
         </li>
       </ul>
+
 
       <div class="icon">
         <i @click="toggleMobileView" v-show="mobile && !mobileNav" class="fa fa-bars"></i>
