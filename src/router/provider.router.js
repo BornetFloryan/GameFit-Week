@@ -4,6 +4,7 @@ import ProviderAddDedication from "@/components/prestataire/dedications/Provider
 import ProviderDedicationReservation from "@/components/prestataire/dedications/ProviderDedicationReservation.vue";
 import GoodieSalesList from "@/components/prestataire/goodies/GoodieSalesList.vue";
 import ProviderRestaurantManagement from "@/components/prestataire/foods/ProviderRestaurantManagement.vue";
+import ProviderchartView from "@/components/ProviderChartView.vue";
 
 export default [
     {
@@ -59,6 +60,12 @@ export default [
                         meta: { requiresAuth: true, requiredPrivilege: '1' },
                     },
                 ],
+            },
+            {
+                path:'chart',
+                name:'chart',
+                component: ProviderchartView,
+                meta: { requiresAuth: true, requiredPrivilege: '1' },
             }
         ],
     },
