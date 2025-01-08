@@ -11,14 +11,17 @@
 
     <h3>Menu</h3>
     <div class="menu">
-      <router-link :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
+      <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '0')"
+                   :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
         <span class="material-icons">Dédicaces</span>
       </router-link>
-      <router-link :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
-        <span class="material-icons">Restaurant</span>
-      </router-link>
-      <router-link :to="{ path: '/provider-dashboard/provider-goodies' }" class="button">
+      <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '1')"
+                   :to="{ path: '/provider-dashboard/provider-goodies' }" class="button">
         <span class="material-icons">Goodies</span>
+      </router-link>
+      <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '2')"
+                   :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
+        <span class="material-icons">Produits Alimentaires</span>
       </router-link>
       <router-link :to="{ path: '/provider-dashboard/chart' }" class="button">
         <span class="material-icons">Graphique</span>
@@ -28,22 +31,32 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: 'AdminSidebar',
   data() {
     return {
       logoURL: require('@/assets/img/logo.png'),
+      providerServiceCategories: [],
     };
+  },
+  computed: {
+    ...mapState('account', ['currentUser']),
+    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerIdAndServiceID'])
+
   },
   methods: {
     ...mapActions('account', ['logoutUser']),
+    ...mapActions('prestation', ['getProviderServiceCategories']),
     logout() {
       this.logoutUser();
       this.$router.push('/');
     },
   },
+  async mounted() {
+    await this.getProviderServiceCategories();
+  }
 };
 </script>
 
