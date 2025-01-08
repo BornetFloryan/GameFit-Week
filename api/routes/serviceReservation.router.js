@@ -142,7 +142,7 @@ router.put('/', serviceReservationController.modifyServiceReservation);
  *                 example: "10:00"
  *               ticket_id:
  *                 type: string
- *                 example: "1"
+ *                 example: "0"
  *               service_id:
  *                 type: string
  *                 example: "1"
@@ -240,6 +240,7 @@ router.get('/:id', serviceReservationController.getServiceReservationsById);
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The service reservation ID
  *     responses:
  *       200:
@@ -286,6 +287,7 @@ router.get('/ticket/:ticket_id', serviceReservationController.getServiceReservat
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The ticket ID
  *     responses:
  *       200:
@@ -332,6 +334,7 @@ router.get('/service/:service_id', serviceReservationController.getServiceReserv
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The service ID
  *     responses:
  *       200:
@@ -378,12 +381,14 @@ router.get('/stand/:standsReservationsId/service/:service_id', serviceReservatio
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The stand reservation ID
  *       - in: path
  *         name: service_id
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The service ID
  *     responses:
  *       200:
@@ -430,12 +435,14 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The ticket ID
  *       - in: path
  *         name: date
  *         required: true
  *         schema:
- *           type: string
+ *           type: date
+ *           example: "2025-07-06T22:00:00.000Z"
  *         description: The date
  *     responses:
  *       200:
@@ -452,19 +459,19 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *                     example: "1"
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   time:
  *                     type: string
- *                     example: "10:00"
+ *                     example: "09:00:00"
  *                   ticket_id:
  *                     type: string
- *                     example: "1"
+ *                     example: "0"
  *                   service_id:
  *                     type: string
- *                     example: "1"
+ *                     example: "0"
  *                   stand_reservation_id:
  *                     type: string
- *                     example: "1"
+ *                     example: "0"
  *       500:
  *         description: Internal server error
  */
@@ -481,7 +488,8 @@ router.get('/date/:date', serviceReservationController.getServiceReservationsByD
  *         name: date
  *         required: true
  *         schema:
- *           type: string
+ *           type: date
+ *           example: "2025-07-06T22:00:00.000Z"
  *         description: The date
  *     responses:
  *       200:

@@ -63,10 +63,10 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  *                 properties:
  *                   email:
  *                     type: string
- *                     example: "user@example.com"
+ *                     example: "prestataire@prestataire.com"
  *               serviceCategory:
  *                 type: string
- *                 example: "1"
+ *                 example: "2"
  *     responses:
  *       200:
  *         description: The created provider service category
@@ -196,7 +196,7 @@ router.delete('/', providerServiceCategoriesController.deleteProviderServiceCate
  *                   type: string
  *                   example: "Server error"
  */
-router.get('/provider-service-categories/customer/:customer_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerId);
+router.get('/customer/:customer_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerId);
 /**
  * @swagger
  * /provider-service-categories/customer/{customer_id}:
@@ -209,6 +209,7 @@ router.get('/provider-service-categories/customer/:customer_id', providerService
  *         required: true
  *         schema:
  *           type: string
+ *           example: "3"
  *         description: The customer ID
  *     responses:
  *       200:
@@ -236,7 +237,7 @@ router.get('/provider-service-categories/customer/:customer_id', providerService
  *         description: Internal server error
  */
 
-router.get('/provider-service-categories/customer/:customer_id/service/:service_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerIdAndServiceID);
+router.get('/customer/:customer_id/service/:service_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerIdAndServiceID);
 /**
  * @swagger
  * /provider-service-categories/customer/{customer_id}/service/{service_id}:
@@ -249,12 +250,14 @@ router.get('/provider-service-categories/customer/:customer_id/service/:service_
  *         required: true
  *         schema:
  *           type: string
+ *           example: "3"
  *         description: The customer ID
  *       - in: path
  *         name: service_id
  *         required: true
  *         schema:
  *           type: string
+ *           example: "1"
  *         description: The service ID
  *     responses:
  *       200:
@@ -282,7 +285,7 @@ router.get('/provider-service-categories/customer/:customer_id/service/:service_
  *         description: Internal server error
  */
 
-router.get('/provider-service-categories/customer-ids', providerServiceCategoriesController.getProviderServiceCategoriesCustomerId);
+router.get('/customer-ids', providerServiceCategoriesController.getProviderServiceCategoriesCustomerId);
 /**
  * @swagger
  * /provider-service-categories/customer-ids:
@@ -303,7 +306,7 @@ router.get('/provider-service-categories/customer-ids', providerServiceCategorie
  *         description: Internal server error
  */
 
-router.get('/provider-service-categories/provider-offering-services', providerServiceCategoriesController.getProviderOfferingServices);
+router.get('/provider-offering-services', providerServiceCategoriesController.getProviderOfferingServices);
 /**
  * @swagger
  * /provider-service-categories/provider-offering-services:

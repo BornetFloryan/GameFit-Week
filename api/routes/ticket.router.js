@@ -160,6 +160,7 @@ router.get('/:id', ticketController.getTicketById);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID du ticket
  *     responses:
  *       200:
@@ -184,6 +185,7 @@ router.get('/prices/:id', ticketController.getTicketPricesPriceById);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID du prix du ticket
  *     responses:
  *       200:
@@ -208,12 +210,14 @@ router.get('/prices/categories/:animationCategoryId/:ageCategoryId', ticketContr
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID de la catégorie d'animation
  *       - in: path
  *         name: ageCategoryId
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID de la catégorie d'âge
  *     responses:
  *       200:
@@ -238,6 +242,7 @@ router.get('/animation-categories/:id', ticketController.getTicketsAnimationCate
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID de la catégorie d'animation
  *     responses:
  *       200:
@@ -262,6 +267,7 @@ router.get('/age-categories/:id', ticketController.getTicketsAgeCategoryById);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID de la catégorie d'âge
  *     responses:
  *       200:
@@ -286,6 +292,7 @@ router.get('/customer/:customerId', ticketController.getTicketsByCustomerId);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: ID du client
  *     responses:
  *       200:

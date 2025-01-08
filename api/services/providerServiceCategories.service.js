@@ -1,5 +1,4 @@
 const pool = require('../database/db');
-const { v4: uuidv4 } = require('uuid');
 
 async function getProviderServiceCategories() {
     const client = await pool.connect();
@@ -31,9 +30,12 @@ async function addProviderServiceCategory(providerServiceCategory) {
             return { error: 1, status: 404, data: 'Service déjà existant pour le prestataire' };
         }
 
+        const lastIdRes = await client.query('SELECT _id FROM provider_service_categories ORDER BY _id DESC LIMIT 1');
+        const newId = lastIdRes.rows.length > 0 ? parseInt(lastIdRes.rows[0]._id) + 1 : 1;
+
         const res = await client.query(
             'INSERT INTO provider_service_categories (_id, state, customer_id, service_id) VALUES ($1, $2, $3, $4) RETURNING *',
-            [uuidv4(), "0", existingUser.rows[0]._id, providerServiceCategory.serviceCategory]
+            [newId, "0", existingUser.rows[0]._id, providerServiceCategory.serviceCategory]
         );
         return { error: 0, status: 200, data: res.rows[0] };
     } catch (error) {

@@ -38,10 +38,10 @@ router.get('/', serviceCategoriesController.getServiceCategories);
  *                   example: "Server error"
  */
 
-router.get('/service-category/:id', serviceCategoriesController.getServiceCategoryById);
+router.get('/:id', serviceCategoriesController.getServiceCategoryById);
 /**
  * @swagger
- * /service-category/{id}:
+ * /service-categories/{id}:
  *   get:
  *     summary: Retrieve a service category by ID
  *     tags: [Service Categories]
@@ -51,6 +51,7 @@ router.get('/service-category/:id', serviceCategoriesController.getServiceCatego
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The service category ID
  *     responses:
  *       200:

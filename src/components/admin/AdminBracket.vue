@@ -21,7 +21,7 @@
           <div class="teams-match">
             <div class="team" v-for="(team, teamIndex) in match.teams" :key="teamIndex">
               <img
-                  :src="require(team.img) || require('@/assets/img/noteam.jpg')"
+                  :src="getTeamImage(team.img)"
                   alt="team logo"
                   class="team-logo"
                   @click="toggleTooltip(roundIndex, matchIndex, teamIndex)"
@@ -37,7 +37,6 @@
                   @input="validateAndCorrectScore(team)"
               />
 
-              <!-- Tooltip -->
               <div
                   v-if="isActiveTooltip(roundIndex, matchIndex, teamIndex)"
                   class="tooltip"
@@ -50,7 +49,6 @@
             </div>
           </div>
 
-          <!-- Boutons pour avancer ou valider le résultat -->
           <button
               v-if="!match.buttonClicked && !isLastMatchOfFinalRound(roundIndex)"
               @click="advanceWinner(roundIndex, matchIndex)"
@@ -74,7 +72,7 @@
 </template>
 
 <script>
-import {pro_teams} from "@/datasource/data.js"; // Import des données d'équipes
+import {pro_teams} from "@/datasource/data.js";
 
 export default {
   data() {
@@ -83,7 +81,7 @@ export default {
       teamCount: 4,
       tournamentStarted: false,
       rounds: [],
-      activeTooltip: {round: null, match: null, team: null}, // Stockage de l'état actif
+      activeTooltip: {round: null, match: null, team: null},
     };
   },
   methods: {
@@ -129,13 +127,13 @@ export default {
     },
 
     isLastMatchOfFinalRound(roundIndex) {
-      const finalRoundIndex = this.rounds.length - 1; // Dernier round
+      const finalRoundIndex = this.rounds.length - 1;
       const finalRound = this.rounds[finalRoundIndex];
       return roundIndex === finalRoundIndex && finalRound.length === 1;
     },
 
     arePreviousMatchesFinished(roundIndex) {
-      if (roundIndex === 0) return true; // Aucun match précédent pour le premier round
+      if (roundIndex === 0) return true;
       return this.rounds[roundIndex - 1].every(match => match.buttonClicked);
     },
 
@@ -231,6 +229,14 @@ export default {
       if (team.score < 0 || team.score > maxScore) {
         team.score = Math.max(0, Math.min(team.score, maxScore));
       }
+    },
+
+    getTeamImage(img) {
+      try {
+        return require(`@/assets/img/${img}`);
+      } catch (e) {
+        return require('@/assets/img/noteam.jpg');
+      }
     }
   },
   mounted() {
@@ -241,7 +247,6 @@ export default {
 
 
 <style>
-/* Ajout d'un style basique pour que les boutons et éléments soient plus clairs */
 .team-logo {
   width: 50px;
   height: 50px;

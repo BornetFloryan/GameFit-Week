@@ -95,7 +95,8 @@ router.get("/reservations", standsController.getStandsReservations);
  *                     example: 1
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06"
  *                   stand_id:
  *                     type: integer
  *                     example: 1
@@ -134,7 +135,8 @@ router.post("/reservations", standsController.addStandReservation);
  *             properties:
  *               date:
  *                 type: string
- *                 example: "2023-01-01"
+ *                 format: date
+ *                 example: "2025-07-06"
  *               stand_id:
  *                 type: integer
  *                 example: 1
@@ -166,7 +168,8 @@ router.post("/reservations", standsController.addStandReservation);
  *                   example: 1
  *                 date:
  *                   type: string
- *                   example: "2023-01-01"
+ *                   format: date
+ *                   example: "2025-07-06"
  *                 stand_id:
  *                   type: integer
  *                   example: 1
@@ -262,7 +265,8 @@ router.put("/reservations", standsController.modifyStandsReservations);
  *                 example: 1
  *               date:
  *                 type: string
- *                 example: "2023-01-01"
+ *                 format: date
+ *                 example: "2025-07-06"
  *               stand_id:
  *                 type: integer
  *                 example: 1
@@ -294,7 +298,8 @@ router.put("/reservations", standsController.modifyStandsReservations);
  *                   example: 1
  *                 date:
  *                   type: string
- *                   example: "2023-01-01"
+ *                   format: date
+ *                   example: "2025-07-06"
  *                 stand_id:
  *                   type: integer
  *                   example: 1
@@ -332,6 +337,7 @@ router.delete("/reservations/:id", standsController.deleteStandReservation);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 1
  *         description: L'ID de la réservation de stand
  *     responses:
  *       200:
@@ -363,6 +369,7 @@ router.delete("/:id", standsController.deleteStand);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 1
  *         description: L'ID du stand
  *     responses:
  *       200:
@@ -380,6 +387,7 @@ router.delete("/:id", standsController.deleteStand);
  *       500:
  *         description: Erreur interne du serveur
  */
+
 router.get("/:id", standsController.getStandById);
 /**
  * @swagger
@@ -393,6 +401,7 @@ router.get("/:id", standsController.getStandById);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 2
  *         description: L'ID du stand
  *     responses:
  *       200:
@@ -440,6 +449,7 @@ router.get("/reservations/:id", standsController.getStandReservationById);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 1
  *         description: L'ID de la réservation de stand
  *     responses:
  *       200:
@@ -454,7 +464,8 @@ router.get("/reservations/:id", standsController.getStandReservationById);
  *                   example: 1
  *                 date:
  *                   type: string
- *                   example: "2023-01-01"
+ *                   format: date
+ *                   example: "2025-07-06T22:00:00.000Z"
  *                 stand_id:
  *                   type: integer
  *                   example: 1
@@ -492,6 +503,7 @@ router.get("/stand/:stand_id/reservations", standsController.getStandReservation
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 4
  *         description: L'ID du stand
  *     responses:
  *       200:
@@ -508,7 +520,8 @@ router.get("/stand/:stand_id/reservations", standsController.getStandReservation
  *                     example: 1
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   stand_id:
  *                     type: integer
  *                     example: 1
@@ -544,12 +557,15 @@ router.get("/stand/:stand_id/reservations/:date", standsController.getStandsRese
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 4
  *         description: L'ID du stand
  *       - in: path
  *         name: date
  *         required: true
  *         schema:
  *           type: string
+ *           format: date
+ *           example: "2025-07-06T22:00:00.000Z"
  *         description: La date des réservations
  *     responses:
  *       200:
@@ -563,28 +579,29 @@ router.get("/stand/:stand_id/reservations/:date", standsController.getStandsRese
  *                 properties:
  *                   _id:
  *                     type: integer
- *                     example: 1
+ *                     example: 3
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   stand_id:
  *                     type: integer
- *                     example: 1
+ *                     example: 4
  *                   customer_id:
  *                     type: integer
- *                     example: 1
+ *                     example: 6
  *                   description:
  *                     type: string
- *                     example: "Description de la réservation"
+ *                     example: "Venez rencontrer Cristiano Ronaldo !"
  *                   start_time:
  *                     type: string
- *                     example: "10:00"
+ *                     example: "13:00"
  *                   end_time:
  *                     type: string
- *                     example: "12:00"
+ *                     example: "14:00"
  *                   service_id:
  *                     type: integer
- *                     example: 1
+ *                     example: 0
  *       500:
  *         description: Erreur interne du serveur
  */
@@ -602,6 +619,7 @@ router.get("/customer/:customer_id/reservations", standsController.getStandsRese
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 3
  *         description: L'ID du client
  *     responses:
  *       200:
@@ -618,7 +636,8 @@ router.get("/customer/:customer_id/reservations", standsController.getStandsRese
  *                     example: 1
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   stand_id:
  *                     type: integer
  *                     example: 1
@@ -654,6 +673,7 @@ router.get("/service/:service_id/reservations", standsController.getStandsReserv
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: L'ID du service
  *     responses:
  *       200:
@@ -670,7 +690,8 @@ router.get("/service/:service_id/reservations", standsController.getStandsReserv
  *                     example: 1
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   stand_id:
  *                     type: integer
  *                     example: 1
@@ -706,12 +727,14 @@ router.get("/customer/:customer_id/service/:service_id/reservations", standsCont
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 3
  *         description: L'ID du client
  *       - in: path
  *         name: service_id
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: L'ID du service
  *     responses:
  *       200:
@@ -728,7 +751,8 @@ router.get("/customer/:customer_id/service/:service_id/reservations", standsCont
  *                     example: 1
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   stand_id:
  *                     type: integer
  *                     example: 1
@@ -764,18 +788,22 @@ router.get("/customer/:customer_id/service/:service_id/date/:date/reservations",
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 3
  *         description: L'ID du client
  *       - in: path
  *         name: service_id
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: L'ID du service
  *       - in: path
  *         name: date
  *         required: true
  *         schema:
  *           type: string
+ *           format: date
+ *           example: "2025-07-06T22:00:00.000Z"
  *         description: La date des réservations
  *     responses:
  *       200:
@@ -792,7 +820,8 @@ router.get("/customer/:customer_id/service/:service_id/date/:date/reservations",
  *                     example: 1
  *                   date:
  *                     type: string
- *                     example: "2023-01-01"
+ *                     format: date
+ *                     example: "2025-07-06T22:00:00.000Z"
  *                   stand_id:
  *                     type: integer
  *                     example: 1
@@ -828,18 +857,22 @@ router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservat
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 3
  *         description: L'ID du client
  *       - in: path
  *         name: date
  *         required: true
  *         schema:
  *           type: string
+ *           format: date
+ *           example: "2025-07-06T22:00:00.000Z"
  *         description: La date des réservations
  *       - in: path
  *         name: stand_id
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 3
  *         description: L'ID du stand à exclure
  *     responses:
  *       200:
@@ -856,6 +889,7 @@ router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservat
  *                     example: 1
  *                   date:
  *                     type: string
+ *                     format: date
  *                     example: "2023-01-01"
  *                   stand_id:
  *                     type: integer

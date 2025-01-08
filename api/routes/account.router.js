@@ -384,6 +384,7 @@ router.get("/email/:email", accountController.getCustomerByEmail);
  *         required: true
  *         schema:
  *           type: string
+ *           example: "client@client.com"
  *         description: The customer account email
  *     responses:
  *       200:
@@ -443,6 +444,7 @@ router.get("/name/:name", accountController.getCustomerByName);
  *         required: true
  *         schema:
  *           type: string
+ *           example: "client"
  *         description: The customer account name
  *     responses:
  *       200:
@@ -502,6 +504,7 @@ router.get("/:id", accountController.getCustomerById);
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 0
  *         description: The customer account ID
  *     responses:
  *       200:

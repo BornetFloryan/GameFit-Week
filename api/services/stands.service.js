@@ -61,9 +61,10 @@ async function modifyStand(stand) {
 async function modifyStandsReservations(standReservation) {
     const client = await pool.connect();
     try {
+        const dateObj = standReservation.date instanceof Date ? standReservation.date : new Date(standReservation.date);
         const res = await client.query(
             'UPDATE stands_reservations SET date = $1, stand_id = $2, customer_id = $3, description = $4, start_time = $5, end_time = $6, service_id = $7 WHERE _id = $8 RETURNING *',
-            [standReservation.date, standReservation.stand_id, standReservation.customer_id, standReservation.description, standReservation.start_time, standReservation.end_time, standReservation.service_id, standReservation._id]
+            [dateObj, standReservation.stand_id, standReservation.customer_id, standReservation.description, standReservation.start_time, standReservation.end_time, standReservation.service_id, standReservation._id]
         );
         if (res.rowCount === 0) {
             return { error: 1, status: 404, data: 'Réservation de stand introuvable' };
@@ -80,12 +81,13 @@ async function modifyStandsReservations(standReservation) {
 async function addStandReservation(standReservation) {
     const client = await pool.connect();
     try {
+        const dateObj = standReservation.date instanceof Date ? standReservation.date : new Date(standReservation.date);
         const lastIdRes = await client.query('SELECT _id FROM stands_reservations ORDER BY _id DESC LIMIT 1');
         const newId = lastIdRes.rows.length ? lastIdRes.rows[0]._id + 1 : 1;
 
         const res = await client.query(
             'INSERT INTO stands_reservations (_id, date, stand_id, customer_id, description, start_time, end_time, service_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [newId, standReservation.date, standReservation.stand_id, standReservation.customer_id, standReservation.description, standReservation.start_time, standReservation.end_time, standReservation.service_id]
+            [newId, dateObj, standReservation.stand_id, standReservation.customer_id, standReservation.description, standReservation.start_time, standReservation.end_time, standReservation.service_id]
         );
         return { error: 0, data: res.rows[0] };
     } catch (error) {
@@ -176,7 +178,8 @@ async function getStandReservationsByStandId(stand_id) {
 async function getStandsReservationsByStandIdAndDate(stand_id, date) {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM stands_reservations WHERE stand_id = $1 AND date = $2', [stand_id, date]);
+        const dateObj = date instanceof Date ? date : new Date(date);
+        const res = await client.query('SELECT * FROM stands_reservations WHERE stand_id = $1 AND date = $2', [stand_id, dateObj]);
         return { error: 0, data: res.rows };
     } catch (error) {
         console.error(error);
@@ -228,7 +231,8 @@ async function getStandsReservationsByCustomerIdAndServiceId(customer_id, servic
 async function getStandsReservationsByCustomerIdAndServiceIdAndDate(customer_id, service_id, date) {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM stands_reservations WHERE customer_id = $1 AND service_id = $2 AND date = $3', [customer_id, service_id, date]);
+        const dateObj = date instanceof Date ? date : new Date(date);
+        const res = await client.query('SELECT * FROM stands_reservations WHERE customer_id = $1 AND service_id = $2 AND date = $3', [customer_id, service_id, dateObj]);
         return { error: 0, data: res.rows };
     } catch (error) {
         console.error(error);
@@ -241,7 +245,8 @@ async function getStandsReservationsByCustomerIdAndServiceIdAndDate(customer_id,
 async function getStandsReservationsByCustomerIdAndDateAndExcludingStandId(customer_id, date, stand_id) {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM stands_reservations WHERE customer_id = $1 AND date = $2 AND stand_id != $3', [customer_id, date, stand_id]);
+        const dateObj = date instanceof Date ? date : new Date(date);
+        const res = await client.query('SELECT * FROM stands_reservations WHERE customer_id = $1 AND date = $2 AND stand_id != $3', [customer_id, dateObj, stand_id]);
         return { error: 0, data: res.rows };
     } catch (error) {
         console.error(error);

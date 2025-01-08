@@ -48,7 +48,7 @@ router.get("/", providerRequestsController.getProviderRequests);
 router.post("/", providerRequestsController.addProviderRequest);
 /**
  * @swagger
- * provider-requests:
+ * /provider-requests:
  *   post:
  *     summary: Add a new provider request
  *     tags: [Provider Requests]
@@ -126,7 +126,7 @@ router.post("/", providerRequestsController.addProviderRequest);
 router.put("/", providerRequestsController.modifyProviderRequest);
 /**
  * @swagger
- * provider-requests:
+ * /provider-requests:
  *   put:
  *     summary: Modify a provider request
  *     tags: [Provider Requests]
@@ -202,7 +202,7 @@ router.put("/", providerRequestsController.modifyProviderRequest);
 router.delete("/", providerRequestsController.deleteProviderRequest);
 /**
  * @swagger
- * provider-requests:
+ * /provider-requests:
  *   delete:
  *     summary: Delete a provider request
  *     tags: [Provider Requests]
@@ -252,10 +252,10 @@ router.delete("/", providerRequestsController.deleteProviderRequest);
  *                   example: "Server error"
  */
 
-router.get("/provider-requests/:id", providerRequestsController.getProviderRequestById);
+router.get("/:id", providerRequestsController.getProviderRequestById);
 /**
  * @swagger
- * provider-requests/{id}:
+ * /provider-requests/{id}:
  *   get:
  *     summary: Retrieve a provider request by ID
  *     tags: [Provider Requests]
@@ -265,6 +265,7 @@ router.get("/provider-requests/:id", providerRequestsController.getProviderReque
  *         required: true
  *         schema:
  *           type: string
+ *           example: "0"
  *         description: The provider request ID
  *     responses:
  *       200:
@@ -309,7 +310,7 @@ router.get("/provider-requests/:id", providerRequestsController.getProviderReque
  *                   example: "Server error"
  */
 
-router.get("/provider-requests/customer/:customer_id", providerRequestsController.getProviderRequestsByCustomerId);
+router.get("/customer/:customer_id", providerRequestsController.getProviderRequestsByCustomerId);
 /**
  * @swagger
  * /provider-requests/customer/{customer_id}:
@@ -322,6 +323,7 @@ router.get("/provider-requests/customer/:customer_id", providerRequestsControlle
  *         required: true
  *         schema:
  *           type: integer
+ *           example: 2
  *         description: The customer ID
  *     responses:
  *       200:
