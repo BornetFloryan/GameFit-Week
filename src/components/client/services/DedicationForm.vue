@@ -174,7 +174,6 @@ export default {
       "getServiceReservationsByTicketIdAndDate",
       "getServiceReservationsByDate",
     ]),
-
     ...mapGetters('stands', ['getStandsReservationsByCustomerIdAndServiceIdAndDate']),
 
     filteredCards() {
@@ -243,7 +242,6 @@ export default {
             return aHours * 60 + aMinutes - (bHours * 60 + bMinutes);
           });
 
-
       return availableTimes.length > 0 ? availableTimes : [];
     },
 
@@ -270,8 +268,6 @@ export default {
       return times;
     },
 
-
-
     async submitForm() {
       if (!this.date || !this.time) {
         alert("Veuillez sélectionner une date et une heure");
@@ -286,7 +282,7 @@ export default {
         const selectedMinutes = parseInt(selectedTime.split(':')[0], 10) * 60 + parseInt(selectedTime.split(':')[1], 10);
         return selectedMinutes >= startTime && selectedMinutes < endTime;
       });
-      
+
       let data = {
         date: this.date,
         time: this.time,
@@ -344,6 +340,14 @@ export default {
       imageSrc: require(`@/assets/img/${animator.name}.jpg`),
       name: `${animator.name}`,
     }));
+
+    const prestataireId = this.$route.query.prestataireId;
+    if (prestataireId) {
+      const selectedAnimator = this.getCustomerById(prestataireId);
+      if (selectedAnimator) {
+        this.selectedAnimator = selectedAnimator;
+      }
+    }
   },
 };
 </script>

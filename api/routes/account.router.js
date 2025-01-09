@@ -1,5 +1,6 @@
 const express = require("express");
 const accountController = require("../controllers/account.controller");
+const checkSession = require('../middleware/auth');
 
 var router = express.Router();
 
@@ -8,11 +9,11 @@ router.get("/", accountController.getCustomersAccounts);
  * @swagger
  * /accounts:
  *   get:
- *     summary: Retrieve all customer accounts
- *     tags: [Accounts]
+ *     summary: Récupérer tous les comptes clients
+ *     tags: [Comptes]
  *     responses:
  *       200:
- *         description: A list of customer accounts
+ *         description: Une liste de comptes clients
  *         content:
  *           application/json:
  *             schema:
@@ -30,7 +31,7 @@ router.get("/", accountController.getCustomersAccounts);
  *                     type: integer
  *                     example: 0
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -38,7 +39,7 @@ router.get("/", accountController.getCustomersAccounts);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.post("/login", accountController.loginUser);
@@ -46,8 +47,8 @@ router.post("/login", accountController.loginUser);
  * @swagger
  * /accounts/login:
  *   post:
- *     summary: Login a user
- *     tags: [Accounts]
+ *     summary: Connecter un utilisateur
+ *     tags: [Comptes]
  *     requestBody:
  *       required: true
  *       content:
@@ -63,7 +64,7 @@ router.post("/login", accountController.loginUser);
  *                 example: "client"
  *     responses:
  *       200:
- *         description: User logged in successfully
+ *         description: Utilisateur connecté avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -103,7 +104,7 @@ router.post("/login", accountController.loginUser);
  *                       type: string
  *                       example: ""
  *       401:
- *         description: Login or password incorrect
+ *         description: Login ou mot de passe incorrect
  *         content:
  *           application/json:
  *             schema:
@@ -111,9 +112,9 @@ router.post("/login", accountController.loginUser);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Unauthorized"
+ *                   example: "Non autorisé"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -121,7 +122,7 @@ router.post("/login", accountController.loginUser);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.post("/register", accountController.addCustomerAccount);
@@ -129,8 +130,8 @@ router.post("/register", accountController.addCustomerAccount);
  * @swagger
  * /accounts/register:
  *   post:
- *     summary: Register a new user
- *     tags: [Accounts]
+ *     summary: Enregistrer un nouvel utilisateur
+ *     tags: [Comptes]
  *     requestBody:
  *       required: true
  *       content:
@@ -152,7 +153,7 @@ router.post("/register", accountController.addCustomerAccount);
  *                 example: "newemail@new.com"
  *     responses:
  *       201:
- *         description: User registered successfully
+ *         description: Utilisateur enregistré avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -192,7 +193,7 @@ router.post("/register", accountController.addCustomerAccount);
  *                       type: string
  *                       example: ""
  *       400:
- *         description: Bad request
+ *         description: Mauvaise requête
  *         content:
  *           application/json:
  *             schema:
@@ -200,9 +201,9 @@ router.post("/register", accountController.addCustomerAccount);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid input"
+ *                   example: "Entrée invalide"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -210,16 +211,24 @@ router.post("/register", accountController.addCustomerAccount);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.put("/profil", accountController.modifyCustomerAccount);
+router.put("/profil", checkSession, accountController.modifyCustomerAccount);
 /**
  * @swagger
  * /accounts/profil:
  *   put:
- *     summary: Modify user's profile
- *     tags: [Accounts]
+ *     summary: Modifier le profil de l'utilisateur
+ *     tags: [Comptes]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -256,7 +265,7 @@ router.put("/profil", accountController.modifyCustomerAccount);
  *                  example: ""
  *     responses:
  *       200:
- *         description: User profile modified successfully
+ *         description: Profil utilisateur modifié avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -296,7 +305,7 @@ router.put("/profil", accountController.modifyCustomerAccount);
  *                       type: string
  *                       example: ""
  *       400:
- *         description: Bad request
+ *         description: Mauvaise requête
  *         content:
  *           application/json:
  *             schema:
@@ -304,9 +313,9 @@ router.put("/profil", accountController.modifyCustomerAccount);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid input"
+ *                   example: "Entrée invalide"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -314,16 +323,24 @@ router.put("/profil", accountController.modifyCustomerAccount);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.delete("/profil", accountController.deleteCustomerAccount);
+router.delete("/profil", checkSession, accountController.deleteCustomerAccount);
 /**
  * @swagger
  * /accounts/profil:
  *   delete:
- *     summary: Delete user's profile
- *     tags: [Accounts]
+ *     summary: Supprimer le profil de l'utilisateur
+ *     tags: [Comptes]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -336,7 +353,7 @@ router.delete("/profil", accountController.deleteCustomerAccount);
  *                 example: 0
  *     responses:
  *       200:
- *         description: User profile deleted successfully
+ *         description: Profil utilisateur supprimé avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -349,7 +366,7 @@ router.delete("/profil", accountController.deleteCustomerAccount);
  *                   type: integer
  *                   example: 0
  *       400:
- *         description: Bad request
+ *         description: Mauvaise requête
  *         content:
  *           application/json:
  *             schema:
@@ -357,9 +374,9 @@ router.delete("/profil", accountController.deleteCustomerAccount);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid input"
+ *                   example: "Entrée invalide"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -367,17 +384,16 @@ router.delete("/profil", accountController.deleteCustomerAccount);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
-
 
 router.get("/email/:email", accountController.getCustomerByEmail);
 /**
  * @swagger
  * /accounts/email/{email}:
  *   get:
- *     summary: Retrieve a customer account by email
- *     tags: [Accounts]
+ *     summary: Récupérer un compte client par email
+ *     tags: [Comptes]
  *     parameters:
  *       - in: path
  *         name: email
@@ -385,10 +401,10 @@ router.get("/email/:email", accountController.getCustomerByEmail);
  *         schema:
  *           type: string
  *           example: "client@client.com"
- *         description: The customer account email
+ *         description: L'email du compte client
  *     responses:
  *       200:
- *         description: A customer account
+ *         description: Un compte client
  *         content:
  *           application/json:
  *             schema:
@@ -410,7 +426,7 @@ router.get("/email/:email", accountController.getCustomerByEmail);
  *                   type: integer
  *                   example: 0
  *       404:
- *         description: Customer not found
+ *         description: Client non trouvé
  *         content:
  *           application/json:
  *             schema:
@@ -418,9 +434,9 @@ router.get("/email/:email", accountController.getCustomerByEmail);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Customer not found"
+ *                   example: "Client non trouvé"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -428,7 +444,7 @@ router.get("/email/:email", accountController.getCustomerByEmail);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.get("/name/:name", accountController.getCustomerByName);
@@ -436,8 +452,8 @@ router.get("/name/:name", accountController.getCustomerByName);
  * @swagger
  * /accounts/name/{name}:
  *   get:
- *     summary: Retrieve a customer account by name
- *     tags: [Accounts]
+ *     summary: Récupérer un compte client par nom
+ *     tags: [Comptes]
  *     parameters:
  *       - in: path
  *         name: name
@@ -445,10 +461,10 @@ router.get("/name/:name", accountController.getCustomerByName);
  *         schema:
  *           type: string
  *           example: "client"
- *         description: The customer account name
+ *         description: Le nom du compte client
  *     responses:
  *       200:
- *         description: A customer account
+ *         description: Un compte client
  *         content:
  *           application/json:
  *             schema:
@@ -470,7 +486,7 @@ router.get("/name/:name", accountController.getCustomerByName);
  *                   type: integer
  *                   example: 0
  *       404:
- *         description: Customer not found
+ *         description: Client non trouvé
  *         content:
  *           application/json:
  *             schema:
@@ -478,9 +494,9 @@ router.get("/name/:name", accountController.getCustomerByName);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Customer not found"
+ *                   example: "Client non trouvé"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -488,7 +504,7 @@ router.get("/name/:name", accountController.getCustomerByName);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.get("/:id", accountController.getCustomerById);
@@ -496,8 +512,8 @@ router.get("/:id", accountController.getCustomerById);
  * @swagger
  * /accounts/{id}:
  *   get:
- *     summary: Retrieve a customer account by ID
- *     tags: [Accounts]
+ *     summary: Récupérer un compte client par ID
+ *     tags: [Comptes]
  *     parameters:
  *       - in: path
  *         name: id
@@ -505,10 +521,10 @@ router.get("/:id", accountController.getCustomerById);
  *         schema:
  *           type: integer
  *           example: 0
- *         description: The customer account ID
+ *         description: L'ID du compte client
  *     responses:
  *       200:
- *         description: A customer account
+ *         description: Un compte client
  *         content:
  *           application/json:
  *             schema:
@@ -530,7 +546,7 @@ router.get("/:id", accountController.getCustomerById);
  *                   type: integer
  *                   example: 0
  *       404:
- *         description: Customer not found
+ *         description: Client non trouvé
  *         content:
  *           application/json:
  *             schema:
@@ -538,9 +554,9 @@ router.get("/:id", accountController.getCustomerById);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Customer not found"
+ *                   example: "Client non trouvé"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -548,7 +564,7 @@ router.get("/:id", accountController.getCustomerById);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 module.exports = router;

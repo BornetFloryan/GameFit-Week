@@ -54,7 +54,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("stands", ["getStands", "addStandReservation"]),
+    ...mapActions("stands", ["getStands", "getStandsReservations", "addStandReservation"]),
     ...mapActions("prestation", ["getProviderServiceCategories"]),
 
     async handleAddStandReservation(data) {
@@ -75,6 +75,7 @@ export default {
       const customerReservations = this.getStandsReservationsByCustomerIdAndDateAndExcludingStandId(
           this.formData.customer_id, date, stand_id
       );
+      console.log('customerReservations', customerReservations);
       const usedTimes = [...reservations, ...customerReservations]
           .filter(res => res._id !== this.id)
           .flatMap((res) => {
@@ -100,7 +101,7 @@ export default {
           label: "Prestataire",
           type: "select",
           model: "customer_id",
-          options: this.prestataires.map((p) => ({value: p._id, text: p.name})),
+          options: this.prestataires ? this.prestataires.map((p) => ({value: p._id, text: p.name})) : [],
           props: {required: true, disabled: false},
         },
         {
@@ -108,10 +109,10 @@ export default {
           label: "Service du prestataire",
           type: "select",
           model: "service_id",
-          options: this.servicesPrestatairesCategory.map((service) => ({
+          options: this.servicesPrestatairesCategory ? this.servicesPrestatairesCategory.map((service) => ({
             value: service.service_id,
             text: this.getServiceName(service.service_id),
-          })),
+          })) : [],
           props: {required: true, disabled: !this.formData.customer_id},
         },
         {
@@ -119,7 +120,7 @@ export default {
           label: "Stand",
           type: "select",
           model: "stand_id",
-          options: this.stands.map((stand) => ({value: stand._id, text: stand.name})),
+          options: this.stands ? this.stands.map((stand) => ({value: stand._id, text: stand.name})) : [],
           props: {required: true, disabled: !this.formData.service_id},
         },
         {
@@ -139,7 +140,7 @@ export default {
           label: "Heure de début",
           type: "select",
           model: "start_time",
-          options: this.availableTimes.map(time => ({value: time, text: time})),
+          options: this.availableTimes ? this.availableTimes.map(time => ({value: time, text: time})) : [],
           props: {required: true, disabled: !this.formData.date},
         },
         {
@@ -147,7 +148,7 @@ export default {
           label: "Heure de fin",
           type: "select",
           model: "end_time",
-          options: this.availableTimes.map(time => ({value: time, text: time})),
+          options: this.availableTimes ? this.availableTimes.map(time => ({value: time, text: time})) : [],
           props: {required: true, disabled: true},
         },
         {
@@ -244,6 +245,7 @@ export default {
   async mounted() {
     await this.getStands();
     await this.getProviderServiceCategories();
+    await this.getStandsReservations();
     this.prestataires = this.getProviderOfferingServices;
     this.servicesPrestataires = this.providerServiceCategories;
     this.initializeFormFields();

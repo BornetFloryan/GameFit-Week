@@ -11,22 +11,17 @@
         <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
         <li><router-link :to="{ name: 'ticketing' }" class="link">Billetterie</router-link></li>
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
-          <router-link to="" class="link">Services</router-link>
+          <router-link to="" class="link">Prestations</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
+            <li><router-link :to="{ path: '/prestataire/list' }" class="link">Liste des prestataires</router-link></li>
             <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
-            <li><router-link :to="{ path: '/services/stream' }" class="link">Stream</router-link></li>
             <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
-            <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
-          </ul>
-        </li>
-
-        <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
-          <router-link to="" class="link">Prestation</router-link>
-          <ul v-show="showServicesDropdown" class="dropdown">
             <li><router-link :to="{ path: '/prestation/goodies' }" class="link">Goodies</router-link></li>
+            <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
             <li><router-link :to="{ path: '/prestation/restaurations' }" class="link">Restaurations</router-link></li>
           </ul>
         </li>
+        <li><router-link :to="{ path: '/services/stream' }" class="link">En direct</router-link></li>
 
         <li><router-link :to="{ path: '/editor' }" class="link">Éditeur</router-link></li>
 

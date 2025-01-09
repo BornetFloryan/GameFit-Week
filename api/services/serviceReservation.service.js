@@ -72,7 +72,6 @@ async function modifyServiceReservation(serviceReservation) {
 
 async function deleteServiceReservation(id) {
     const client = await pool.connect();
-    console.log(id);
     try {
         if (!id) {
             return { error: 1, status: 404, data: 'Champs manquants' };

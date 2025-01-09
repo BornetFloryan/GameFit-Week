@@ -1,5 +1,6 @@
 const express = require('express');
 const providerServiceCategoriesController = require('../controllers/providerServiceCategories.controller');
+const checkSession = require('../middleware/auth');
 
 var router = express.Router();
 
@@ -8,11 +9,11 @@ router.get('/', providerServiceCategoriesController.getProviderServiceCategories
  * @swagger
  * /provider-service-categories:
  *   get:
- *     summary: Retrieve all provider service categories
- *     tags: [Provider Service Categories]
+ *     summary: Récupérer toutes les catégories de services des prestataires
+ *     tags: [Catégories de services des prestataires]
  *     responses:
  *       200:
- *         description: A list of provider service categories
+ *         description: Une liste de catégories de services des prestataires
  *         content:
  *           application/json:
  *             schema:
@@ -33,7 +34,7 @@ router.get('/', providerServiceCategoriesController.getProviderServiceCategories
  *                     type: string
  *                     example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -41,7 +42,7 @@ router.get('/', providerServiceCategoriesController.getProviderServiceCategories
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.post('/', providerServiceCategoriesController.addProviderServiceCategory);
@@ -49,8 +50,8 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  * @swagger
  * /provider-service-categories:
  *   post:
- *     summary: Add a new provider service category
- *     tags: [Provider Service Categories]
+ *     summary: Ajouter une nouvelle catégorie de services des prestataires
+ *     tags: [Catégories de services des prestataires]
  *     requestBody:
  *       required: true
  *       content:
@@ -69,7 +70,7 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  *                 example: "2"
  *     responses:
  *       200:
- *         description: The created provider service category
+ *         description: La catégorie de services des prestataires créée
  *         content:
  *           application/json:
  *             schema:
@@ -88,7 +89,7 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  *                   type: string
  *                   example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -96,16 +97,24 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.put('/', providerServiceCategoriesController.modifyProviderServiceCategory);
+router.put('/', checkSession, providerServiceCategoriesController.modifyProviderServiceCategory);
 /**
  * @swagger
  * /provider-service-categories:
  *   put:
- *     summary: Modify an existing provider service category
- *     tags: [Provider Service Categories]
+ *     summary: Modifier une catégorie de services des prestataires existante
+ *     tags: [Catégories de services des prestataires]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -127,7 +136,7 @@ router.put('/', providerServiceCategoriesController.modifyProviderServiceCategor
  *                 example: "1"
  *     responses:
  *       200:
- *         description: The modified provider service category
+ *         description: La catégorie de services des prestataires modifiée
  *         content:
  *           application/json:
  *             schema:
@@ -146,7 +155,7 @@ router.put('/', providerServiceCategoriesController.modifyProviderServiceCategor
  *                   type: string
  *                   example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -154,16 +163,24 @@ router.put('/', providerServiceCategoriesController.modifyProviderServiceCategor
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.delete('/', providerServiceCategoriesController.deleteProviderServiceCategory);
+router.delete('/', checkSession, providerServiceCategoriesController.deleteProviderServiceCategory);
 /**
  * @swagger
  * /provider-service-categories:
  *   delete:
- *     summary: Delete a provider service category
- *     tags: [Provider Service Categories]
+ *     summary: Supprimer une catégorie de services des prestataires
+ *     tags: [Catégories de services des prestataires]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -176,7 +193,7 @@ router.delete('/', providerServiceCategoriesController.deleteProviderServiceCate
  *                 example: "1"
  *     responses:
  *       200:
- *         description: The deleted provider service category ID
+ *         description: L'ID de la catégorie de services des prestataires supprimée
  *         content:
  *           application/json:
  *             schema:
@@ -186,7 +203,7 @@ router.delete('/', providerServiceCategoriesController.deleteProviderServiceCate
  *                   type: string
  *                   example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -194,15 +211,16 @@ router.delete('/', providerServiceCategoriesController.deleteProviderServiceCate
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
+
 router.get('/customer/:customer_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerId);
 /**
  * @swagger
  * /provider-service-categories/customer/{customer_id}:
  *   get:
- *     summary: Retrieve provider service categories by customer ID
- *     tags: [Provider Service Categories]
+ *     summary: Récupérer les catégories de services des prestataires par ID client
+ *     tags: [Catégories de services des prestataires]
  *     parameters:
  *       - in: path
  *         name: customer_id
@@ -210,10 +228,10 @@ router.get('/customer/:customer_id', providerServiceCategoriesController.getProv
  *         schema:
  *           type: string
  *           example: "3"
- *         description: The customer ID
+ *         description: L'ID du client
  *     responses:
  *       200:
- *         description: A list of provider service categories
+ *         description: Une liste de catégories de services des prestataires
  *         content:
  *           application/json:
  *             schema:
@@ -234,16 +252,16 @@ router.get('/customer/:customer_id', providerServiceCategoriesController.getProv
  *                     type: string
  *                     example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
-router.get('/customer/:customer_id/service/:service_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerIdAndServiceID);
+router.get('/customer/:customer_id/service/:service_id', checkSession, providerServiceCategoriesController.getProviderServiceCategoriesByCustomerIdAndServiceID);
 /**
  * @swagger
  * /provider-service-categories/customer/{customer_id}/service/{service_id}:
  *   get:
- *     summary: Retrieve a provider service category by customer ID and service ID
- *     tags: [Provider Service Categories]
+ *     summary: Récupérer une catégorie de services des prestataires par ID client et ID service
+ *     tags: [Catégories de services des prestataires]
  *     parameters:
  *       - in: path
  *         name: customer_id
@@ -251,17 +269,24 @@ router.get('/customer/:customer_id/service/:service_id', providerServiceCategori
  *         schema:
  *           type: string
  *           example: "3"
- *         description: The customer ID
+ *         description: L'ID du client
  *       - in: path
  *         name: service_id
  *         required: true
  *         schema:
  *           type: string
- *           example: "1"
- *         description: The service ID
+ *           example: "0"
+ *         description: L'ID du service
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A provider service category
+ *         description: Une catégorie de services des prestataires
  *         content:
  *           application/json:
  *             schema:
@@ -280,21 +305,29 @@ router.get('/customer/:customer_id/service/:service_id', providerServiceCategori
  *                   type: string
  *                   example: "1"
  *       404:
- *         description: Provider service category not found
+ *         description: Catégorie de services des prestataires non trouvée
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
-router.get('/customer-ids', providerServiceCategoriesController.getProviderServiceCategoriesCustomerId);
+router.get('/customer-ids', checkSession, providerServiceCategoriesController.getProviderServiceCategoriesCustomerId);
 /**
  * @swagger
  * /provider-service-categories/customer-ids:
  *   get:
- *     summary: Retrieve distinct customer IDs from provider service categories
- *     tags: [Provider Service Categories]
+ *     summary: Récupérer les IDs distincts des clients des catégories de services des prestataires
+ *     tags: [Catégories de services des prestataires]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A list of customer IDs
+ *         description: Une liste d'IDs de clients
  *         content:
  *           application/json:
  *             schema:
@@ -303,19 +336,27 @@ router.get('/customer-ids', providerServiceCategoriesController.getProviderServi
  *                 type: string
  *                 example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
-router.get('/provider-offering-services', providerServiceCategoriesController.getProviderOfferingServices);
+router.get('/provider-offering-services', checkSession, providerServiceCategoriesController.getProviderOfferingServices);
 /**
  * @swagger
  * /provider-service-categories/provider-offering-services:
  *   get:
- *     summary: Retrieve providers offering services
- *     tags: [Provider Service Categories]
+ *     summary: Récupérer les prestataires offrant des services
+ *     tags: [Catégories de services des prestataires]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A list of providers offering services
+ *         description: Une liste de prestataires offrant des services
  *         content:
  *           application/json:
  *             schema:
@@ -331,9 +372,9 @@ router.get('/provider-offering-services', providerServiceCategoriesController.ge
  *                     example: "provider@example.com"
  *                   name:
  *                     type: string
- *                     example: "Provider Name"
+ *                     example: "Nom du prestataire"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
 module.exports = router;

@@ -335,109 +335,109 @@ let provider_service_categories = [
         "_id": "0",
         "state": "1",
         "customer_id": "3", // Lionel Messi
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "1",
         "state": "1",
         "customer_id": "4", // LeBron James
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "2",
         "state": "1",
         "customer_id": "5", // Serena Williams
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "3",
         "state": "1",
         "customer_id": "6", // Cristiano Ronaldo
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "4",
         "state": "1",
         "customer_id": "7", // Tom Brady
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "5",
         "state": "1",
         "customer_id": "8", // Roger Federer
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "6",
         "state": "1",
         "customer_id": "9", // Stephen Curry
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "7",
         "state": "1",
         "customer_id": "10", // Usain Bolt
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "8",
         "state": "1",
         "customer_id": "11", // Neymar Jr.
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "9",
         "state": "1",
         "customer_id": "12", // Michael Jordan
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "10",
         "state": "1",
         "customer_id": "13", // Khabib Nurmagomedov
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "11",
         "state": "1",
         "customer_id": "14", // Pelé
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "12",
         "state": "1",
         "customer_id": "15", // Virat Kohli
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "13",
         "state": "1",
         "customer_id": "16", // Misty May-Treanor
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "14",
         "state": "1",
         "customer_id": "17", // Bugha
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "15",
         "state": "1",
         "customer_id": "18", // Ninja
-        "service_id": "0" // Dédicace
+        "service_id": "0", // Dédicace
     },
     {
         "_id": "16",
         "state": "0",
         "customer_id": "2",
-        "service_id": "0"
+        "service_id": "0",
     },
     {
         "_id": "17",
         "state": "0",
         "customer_id": "2",
-        "service_id": "1"
+        "service_id": "1",
     }
 ];
 
@@ -1144,8 +1144,95 @@ let service_reservations = [
         "date": "2025-07-07",
         "time": "10:00",
         "ticket_id": "0",
-        "service_id": "1",
+        "service_id": "0",
         "stand_reservation_id": "0",
+    },
+];
+
+let provider_guestbook_status = [
+    {
+        "customer_id": "2",
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "3", // Lionel Messi
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "4", // LeBron James
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "5", // Serena Williams
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "6", // Cristiano Ronaldo
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "7", // Tom Brady
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "8", // Roger Federer
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "9", // Stephen Curry
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "10", // Usain Bolt
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "11", // Neymar Jr.
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "12", // Michael Jordan
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "13", // Khabib Nurmagomedov
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "14", // Pelé
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "15", // Virat Kohli
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "16", // Misty May-Treanor
+        "guestbook_activated": false
+    },
+    {
+        "customer_id": "17", // Bugha
+        "guestbook_activated": true
+    },
+    {
+        "customer_id": "18", // Ninja
+        "guestbook_activated": false
+    }
+];
+
+let guestbook_entries = [
+    {
+        "_id": "0",
+        "date": "2025-07-07T14:00:00.000Z",
+        "rating": "5",
+        "comment": "Super événement, j'ai adoré !",
+        "service_reservations_id": "0",
+    },{
+        "_id": "1",
+        "date": "2025-07-07T15:00:00.000Z",
+        "rating": "4",
+        "comment": "Très bonne organisation !",
+        "service_reservations_id": "1",
     },
 ];
 
@@ -1180,5 +1267,7 @@ module.exports = {
     sale,
     food_items,
     service_reservations,
+    provider_guestbook_status,
+    guestbook_entries,
     dailyTickets,
 }

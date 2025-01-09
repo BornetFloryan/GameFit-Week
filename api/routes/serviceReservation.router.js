@@ -1,5 +1,6 @@
 const express = require('express');
 const serviceReservationController = require('../controllers/serviceReservation.controller');
+const checkSession = require("../middleware/auth");
 
 var router = express.Router();
 
@@ -8,11 +9,11 @@ router.get('/', serviceReservationController.getServiceReservations);
  * @swagger
  * /service-reservations:
  *   get:
- *     summary: Retrieve all service reservations
- *     tags: [Service Reservations]
+ *     summary: Récupérer toutes les réservations de service
+ *     tags: [Réservations de service]
  *     responses:
  *       200:
- *         description: A list of service reservations
+ *         description: Une liste de réservations de service
  *         content:
  *           application/json:
  *             schema:
@@ -39,7 +40,7 @@ router.get('/', serviceReservationController.getServiceReservations);
  *                     type: string
  *                     example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -47,7 +48,7 @@ router.get('/', serviceReservationController.getServiceReservations);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.post('/', serviceReservationController.addServiceReservation);
@@ -55,8 +56,8 @@ router.post('/', serviceReservationController.addServiceReservation);
  * @swagger
  * /service-reservations:
  *   post:
- *     summary: Add a new service reservation
- *     tags: [Service Reservations]
+ *     summary: Ajouter une nouvelle réservation de service
+ *     tags: [Réservations de service]
  *     requestBody:
  *       required: true
  *       content:
@@ -81,7 +82,7 @@ router.post('/', serviceReservationController.addServiceReservation);
  *                 example: "0"
  *     responses:
  *       200:
- *         description: The created service reservation
+ *         description: La réservation de service créée
  *         content:
  *           application/json:
  *             schema:
@@ -106,7 +107,7 @@ router.post('/', serviceReservationController.addServiceReservation);
  *                   type: string
  *                   example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -114,16 +115,24 @@ router.post('/', serviceReservationController.addServiceReservation);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.put('/', serviceReservationController.modifyServiceReservation);
+router.put('/', checkSession, serviceReservationController.modifyServiceReservation);
 /**
  * @swagger
  * /service-reservations:
  *   put:
- *     summary: Modify an existing service reservation
- *     tags: [Service Reservations]
+ *     summary: Modifier une réservation de service existante
+ *     tags: [Réservations de service]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -151,7 +160,7 @@ router.put('/', serviceReservationController.modifyServiceReservation);
  *                 example: "1"
  *     responses:
  *       200:
- *         description: The modified service reservation
+ *         description: La réservation de service modifiée
  *         content:
  *           application/json:
  *             schema:
@@ -176,7 +185,7 @@ router.put('/', serviceReservationController.modifyServiceReservation);
  *                   type: string
  *                   example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -184,7 +193,7 @@ router.put('/', serviceReservationController.modifyServiceReservation);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.delete('/', serviceReservationController.deleteServiceReservation);
@@ -192,8 +201,8 @@ router.delete('/', serviceReservationController.deleteServiceReservation);
  * @swagger
  * /service-reservations:
  *   delete:
- *     summary: Delete a service reservation
- *     tags: [Service Reservations]
+ *     summary: Supprimer une réservation de service
+ *     tags: [Réservations de service]
  *     requestBody:
  *       required: true
  *       content:
@@ -206,7 +215,7 @@ router.delete('/', serviceReservationController.deleteServiceReservation);
  *                 example: "1"
  *     responses:
  *       200:
- *         description: The deleted service reservation ID
+ *         description: L'ID de la réservation de service supprimée
  *         content:
  *           application/json:
  *             schema:
@@ -216,7 +225,7 @@ router.delete('/', serviceReservationController.deleteServiceReservation);
  *                   type: string
  *                   example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -224,16 +233,16 @@ router.delete('/', serviceReservationController.deleteServiceReservation);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.get('/:id', serviceReservationController.getServiceReservationsById);
+router.get('/:id', checkSession, serviceReservationController.getServiceReservationsById);
 /**
  * @swagger
  * /service-reservations/{id}:
  *   get:
- *     summary: Retrieve a service reservation by ID
- *     tags: [Service Reservations]
+ *     summary: Récupérer une réservation de service par ID
+ *     tags: [Réservations de service]
  *     parameters:
  *       - in: path
  *         name: id
@@ -241,10 +250,17 @@ router.get('/:id', serviceReservationController.getServiceReservationsById);
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The service reservation ID
+ *         description: L'ID de la réservation de service
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A service reservation
+ *         description: Une réservation de service
  *         content:
  *           application/json:
  *             schema:
@@ -269,9 +285,9 @@ router.get('/:id', serviceReservationController.getServiceReservationsById);
  *                   type: string
  *                   example: "1"
  *       404:
- *         description: Service reservation not found
+ *         description: Réservation de service non trouvée
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
 router.get('/ticket/:ticket_id', serviceReservationController.getServiceReservationsByTicketId);
@@ -279,8 +295,8 @@ router.get('/ticket/:ticket_id', serviceReservationController.getServiceReservat
  * @swagger
  * /service-reservations/ticket/{ticket_id}:
  *   get:
- *     summary: Retrieve service reservations by ticket ID
- *     tags: [Service Reservations]
+ *     summary: Récupérer les réservations de service par ID de ticket
+ *     tags: [Réservations de service]
  *     parameters:
  *       - in: path
  *         name: ticket_id
@@ -288,10 +304,10 @@ router.get('/ticket/:ticket_id', serviceReservationController.getServiceReservat
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The ticket ID
+ *         description: L'ID du ticket
  *     responses:
  *       200:
- *         description: A list of service reservations
+ *         description: Une liste de réservations de service
  *         content:
  *           application/json:
  *             schema:
@@ -318,16 +334,16 @@ router.get('/ticket/:ticket_id', serviceReservationController.getServiceReservat
  *                     type: string
  *                     example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
-router.get('/service/:service_id', serviceReservationController.getServiceReservationByServiceId);
+router.get('/service/:service_id', checkSession, serviceReservationController.getServiceReservationByServiceId);
 /**
  * @swagger
  * /service-reservations/service/{service_id}:
  *   get:
- *     summary: Retrieve service reservations by service ID
- *     tags: [Service Reservations]
+ *     summary: Récupérer les réservations de service par ID de service
+ *     tags: [Réservations de service]
  *     parameters:
  *       - in: path
  *         name: service_id
@@ -335,10 +351,17 @@ router.get('/service/:service_id', serviceReservationController.getServiceReserv
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The service ID
+ *         description: L'ID du service
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A list of service reservations
+ *         description: Une liste de réservations de service
  *         content:
  *           application/json:
  *             schema:
@@ -365,16 +388,16 @@ router.get('/service/:service_id', serviceReservationController.getServiceReserv
  *                     type: string
  *                     example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
-router.get('/stand/:standsReservationsId/service/:service_id', serviceReservationController.getServiceReservationsByStandsReservationsIdAndServiceId);
+router.get('/stand/:standsReservationsId/service/:service_id', checkSession, serviceReservationController.getServiceReservationsByStandsReservationsIdAndServiceId);
 /**
  * @swagger
  * /service-reservations/stand/{standsReservationsId}/service/{service_id}:
  *   get:
- *     summary: Retrieve service reservations by stand reservation ID and service ID
- *     tags: [Service Reservations]
+ *     summary: Récupérer les réservations de service par ID de réservation de stand et ID de service
+ *     tags: [Réservations de service]
  *     parameters:
  *       - in: path
  *         name: standsReservationsId
@@ -382,17 +405,24 @@ router.get('/stand/:standsReservationsId/service/:service_id', serviceReservatio
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The stand reservation ID
+ *         description: L'ID de la réservation de stand
  *       - in: path
  *         name: service_id
  *         required: true
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The service ID
+ *         description: L'ID du service
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A list of service reservations
+ *         description: Une liste de réservations de service
  *         content:
  *           application/json:
  *             schema:
@@ -419,7 +449,7 @@ router.get('/stand/:standsReservationsId/service/:service_id', serviceReservatio
  *                     type: string
  *                     example: "1"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
 router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServiceReservationsByTicketIdAndDate);
@@ -427,8 +457,8 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  * @swagger
  * /service-reservations/ticket/{ticket_id}/date/{date}:
  *   get:
- *     summary: Retrieve service reservations by ticket ID and date
- *     tags: [Service Reservations]
+ *     summary: Récupérer les réservations de service par ID de ticket et date
+ *     tags: [Réservations de service]
  *     parameters:
  *       - in: path
  *         name: ticket_id
@@ -436,17 +466,18 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The ticket ID
+ *         description: L'ID du ticket
  *       - in: path
  *         name: date
  *         required: true
  *         schema:
- *           type: date
+ *           type: string
+ *           format: date-time
  *           example: "2025-07-06T22:00:00.000Z"
- *         description: The date
+ *         description: La date
  *     responses:
  *       200:
- *         description: A list of service reservations
+ *         description: Une liste de réservations de service
  *         content:
  *           application/json:
  *             schema:
@@ -459,6 +490,7 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *                     example: "1"
  *                   date:
  *                     type: string
+ *                     format: date-time
  *                     example: "2025-07-06T22:00:00.000Z"
  *                   time:
  *                     type: string
@@ -473,7 +505,7 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *                     type: string
  *                     example: "0"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
 router.get('/date/:date', serviceReservationController.getServiceReservationsByDate);
@@ -481,19 +513,27 @@ router.get('/date/:date', serviceReservationController.getServiceReservationsByD
  * @swagger
  * /service-reservations/date/{date}:
  *   get:
- *     summary: Retrieve service reservations by date
- *     tags: [Service Reservations]
+ *     summary: Récupérer les réservations de service par date
+ *     tags: [Réservations de service]
  *     parameters:
  *       - in: path
  *         name: date
  *         required: true
  *         schema:
- *           type: date
+ *           type: string
+ *           format: date-time
  *           example: "2025-07-06T22:00:00.000Z"
- *         description: The date
+ *         description: La date
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
- *         description: A list of service reservations
+ *         description: Une liste de réservations de service
  *         content:
  *           application/json:
  *             schema:
@@ -520,7 +560,15 @@ router.get('/date/:date', serviceReservationController.getServiceReservationsByD
  *                     type: string
  *                     example: "0"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Erreur du serveur"
  */
 
 module.exports = router;

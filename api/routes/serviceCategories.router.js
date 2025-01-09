@@ -8,11 +8,11 @@ router.get('/', serviceCategoriesController.getServiceCategories);
  * @swagger
  * /service-categories:
  *   get:
- *     summary: Retrieve all service categories
- *     tags: [Service Categories]
+ *     summary: Récupérer toutes les catégories de services
+ *     tags: [Catégories de Services]
  *     responses:
  *       200:
- *         description: A list of service categories
+ *         description: Une liste de catégories de services
  *         content:
  *           application/json:
  *             schema:
@@ -27,7 +27,7 @@ router.get('/', serviceCategoriesController.getServiceCategories);
  *                     type: string
  *                     example: "Dédicaces"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -35,7 +35,7 @@ router.get('/', serviceCategoriesController.getServiceCategories);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.get('/:id', serviceCategoriesController.getServiceCategoryById);
@@ -43,8 +43,8 @@ router.get('/:id', serviceCategoriesController.getServiceCategoryById);
  * @swagger
  * /service-categories/{id}:
  *   get:
- *     summary: Retrieve a service category by ID
- *     tags: [Service Categories]
+ *     summary: Récupérer une catégorie de service par ID
+ *     tags: [Catégories de Services]
  *     parameters:
  *       - in: path
  *         name: id
@@ -52,10 +52,10 @@ router.get('/:id', serviceCategoriesController.getServiceCategoryById);
  *         schema:
  *           type: string
  *           example: "0"
- *         description: The service category ID
+ *         description: L'ID de la catégorie de service
  *     responses:
  *       200:
- *         description: A service category
+ *         description: Une catégorie de service
  *         content:
  *           application/json:
  *             schema:
@@ -63,14 +63,14 @@ router.get('/:id', serviceCategoriesController.getServiceCategoryById);
  *               properties:
  *                 _id:
  *                   type: string
- *                   example: "1"
+ *                   example: "0"
  *                 name:
  *                   type: string
- *                   example: "Cleaning"
+ *                   example: "Dédicaces"
  *       404:
- *         description: Service category not found
+ *         description: Catégorie de service non trouvée
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
 

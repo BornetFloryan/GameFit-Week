@@ -1,5 +1,6 @@
 const express = require("express");
 const providerRequestsController = require("../controllers/providerRequests.controller");
+const checkSession = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -8,11 +9,11 @@ router.get("/", providerRequestsController.getProviderRequests);
  * @swagger
  * /provider-requests:
  *   get:
- *     summary: Retrieve all provider requests
- *     tags: [Provider Requests]
+ *     summary: Récupérer toutes les demandes de prestataires
+ *     tags: [Demandes des prestataires]
  *     responses:
  *       200:
- *         description: A list of provider requests
+ *         description: Une liste de demandes de prestataires
  *         content:
  *           application/json:
  *             schema:
@@ -34,7 +35,7 @@ router.get("/", providerRequestsController.getProviderRequests);
  *                     type: string
  *                     example: "0"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -42,7 +43,7 @@ router.get("/", providerRequestsController.getProviderRequests);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.post("/", providerRequestsController.addProviderRequest);
@@ -50,8 +51,8 @@ router.post("/", providerRequestsController.addProviderRequest);
  * @swagger
  * /provider-requests:
  *   post:
- *     summary: Add a new provider request
- *     tags: [Provider Requests]
+ *     summary: Ajouter une nouvelle demande de prestataire
+ *     tags: [Demandes des prestataires]
  *     requestBody:
  *       required: true
  *       content:
@@ -64,7 +65,7 @@ router.post("/", providerRequestsController.addProviderRequest);
  *                 example: "provider@example.com"
  *               name:
  *                 type: string
- *                 example: "Provider Name"
+ *                 example: "Nom du prestataire"
  *               prestationServices:
  *                 type: string
  *                 example: "0"
@@ -76,7 +77,7 @@ router.post("/", providerRequestsController.addProviderRequest);
  *                 example: "providerpassword"
  *     responses:
  *       201:
- *         description: Provider request added successfully
+ *         description: Demande de prestataire ajoutée avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -102,7 +103,7 @@ router.post("/", providerRequestsController.addProviderRequest);
  *                       type: string
  *                       example: "0"
  *       400:
- *         description: Bad request
+ *         description: Mauvaise requête
  *         content:
  *           application/json:
  *             schema:
@@ -110,9 +111,9 @@ router.post("/", providerRequestsController.addProviderRequest);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid input"
+ *                   example: "Entrée invalide"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -120,16 +121,24 @@ router.post("/", providerRequestsController.addProviderRequest);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.put("/", providerRequestsController.modifyProviderRequest);
+router.put("/", checkSession, providerRequestsController.modifyProviderRequest);
 /**
  * @swagger
  * /provider-requests:
  *   put:
- *     summary: Modify a provider request
- *     tags: [Provider Requests]
+ *     summary: Modifier une demande de prestataire
+ *     tags: [Demandes des prestataires]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -152,7 +161,7 @@ router.put("/", providerRequestsController.modifyProviderRequest);
  *                 example: "0"
  *     responses:
  *       200:
- *         description: Provider request modified successfully
+ *         description: Demande de prestataire modifiée avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -178,7 +187,7 @@ router.put("/", providerRequestsController.modifyProviderRequest);
  *                       type: string
  *                       example: "0"
  *       400:
- *         description: Bad request
+ *         description: Mauvaise requête
  *         content:
  *           application/json:
  *             schema:
@@ -186,9 +195,9 @@ router.put("/", providerRequestsController.modifyProviderRequest);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid input"
+ *                   example: "Entrée invalide"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -196,16 +205,24 @@ router.put("/", providerRequestsController.modifyProviderRequest);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
-router.delete("/", providerRequestsController.deleteProviderRequest);
+router.delete("/", checkSession, providerRequestsController.deleteProviderRequest);
 /**
  * @swagger
  * /provider-requests:
  *   delete:
- *     summary: Delete a provider request
- *     tags: [Provider Requests]
+ *     summary: Supprimer une demande de prestataire
+ *     tags: [Demandes des prestataires]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -218,7 +235,7 @@ router.delete("/", providerRequestsController.deleteProviderRequest);
  *                 example: "0"
  *     responses:
  *       200:
- *         description: Provider request deleted successfully
+ *         description: Demande de prestataire supprimée avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -231,7 +248,7 @@ router.delete("/", providerRequestsController.deleteProviderRequest);
  *                   type: string
  *                   example: "0"
  *       400:
- *         description: Bad request
+ *         description: Mauvaise requête
  *         content:
  *           application/json:
  *             schema:
@@ -239,9 +256,9 @@ router.delete("/", providerRequestsController.deleteProviderRequest);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Invalid input"
+ *                   example: "Entrée invalide"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -249,7 +266,7 @@ router.delete("/", providerRequestsController.deleteProviderRequest);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.get("/:id", providerRequestsController.getProviderRequestById);
@@ -257,19 +274,19 @@ router.get("/:id", providerRequestsController.getProviderRequestById);
  * @swagger
  * /provider-requests/{id}:
  *   get:
- *     summary: Retrieve a provider request by ID
- *     tags: [Provider Requests]
+ *     summary: Récupérer une demande de prestataire par ID
+ *     tags: [Demandes des prestataires]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *           example: "0"
- *         description: The provider request ID
+ *           example: "1"
+ *         description: L'ID de la demande de prestataire
  *     responses:
  *       200:
- *         description: A provider request
+ *         description: Une demande de prestataire
  *         content:
  *           application/json:
  *             schema:
@@ -289,7 +306,7 @@ router.get("/:id", providerRequestsController.getProviderRequestById);
  *                   type: string
  *                   example: "0"
  *       404:
- *         description: Provider request not found
+ *         description: Demande de prestataire non trouvée
  *         content:
  *           application/json:
  *             schema:
@@ -297,9 +314,9 @@ router.get("/:id", providerRequestsController.getProviderRequestById);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Provider request not found"
+ *                   example: "Demande de prestataire non trouvée"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -307,7 +324,7 @@ router.get("/:id", providerRequestsController.getProviderRequestById);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 router.get("/customer/:customer_id", providerRequestsController.getProviderRequestsByCustomerId);
@@ -315,8 +332,8 @@ router.get("/customer/:customer_id", providerRequestsController.getProviderReque
  * @swagger
  * /provider-requests/customer/{customer_id}:
  *   get:
- *     summary: Retrieve provider requests by customer ID
- *     tags: [Provider Requests]
+ *     summary: Récupérer les demandes de prestataires par ID client
+ *     tags: [Demandes des prestataires]
  *     parameters:
  *       - in: path
  *         name: customer_id
@@ -324,10 +341,10 @@ router.get("/customer/:customer_id", providerRequestsController.getProviderReque
  *         schema:
  *           type: integer
  *           example: 2
- *         description: The customer ID
+ *         description: L'ID du client
  *     responses:
  *       200:
- *         description: A list of provider requests
+ *         description: Une liste de demandes de prestataires
  *         content:
  *           application/json:
  *             schema:
@@ -349,7 +366,7 @@ router.get("/customer/:customer_id", providerRequestsController.getProviderReque
  *                     type: string
  *                     example: "1"
  *       404:
- *         description: No provider requests found for this customer
+ *         description: Aucune demande de prestataire trouvée pour ce client
  *         content:
  *           application/json:
  *             schema:
@@ -357,9 +374,9 @@ router.get("/customer/:customer_id", providerRequestsController.getProviderReque
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "No provider requests found for this customer"
+ *                   example: "Aucune demande de prestataire trouvée pour ce client"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -367,7 +384,7 @@ router.get("/customer/:customer_id", providerRequestsController.getProviderReque
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 module.exports = router;

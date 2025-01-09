@@ -2,7 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import AccueilView from '../views/AccueilView.vue';
 import TicketingView from "@/views/TicketingView.vue";
-import PrestataireInfoView from '@/views/PrestataireInfoView.vue';
+import PrestataireView from '@/views/PrestataireView.vue';
+import PrestataireList from "@/components/PrestataireList.vue";
+import PrestataireInfo from "@/components/PrestataireInfo.vue";
 import PageWithEditor from "@/components/PageWithEditor.vue";
 
 import AccountRoutes from './account.router';
@@ -12,6 +14,7 @@ import PrestataireRoutes from './provider.router';
 import PrestationRouter from "./prestation.router";
 
 import store from '@/store';
+
 
 Vue.use(VueRouter);
 
@@ -27,10 +30,23 @@ const routes = [
     component: TicketingView
   },
   {
-    path: '/prestataire/:id',
-    name: 'prestataire-info',
-    component: PrestataireInfoView
+    path: '/prestataire',
+    name: 'prestataire',
+    component: PrestataireView,
+    children: [
+      {
+        path: 'list',
+        name: 'prestataire-list',
+        component: PrestataireList
+      },
+      {
+        path: ':id',
+        name: 'prestataire-info',
+        component: PrestataireInfo
+      },
+    ]
   },
+
   {
     path: '/editor',
     name: 'editor',

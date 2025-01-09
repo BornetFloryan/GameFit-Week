@@ -7,7 +7,7 @@
         <p>Réservez un créneau pour rencontrer votre animateur préféré et obtenir une dédicace personnalisée !</p>
         <br>
         <input type="text" v-model="ticketNumber" @input="validateTicket" placeholder="Entrez votre numéro de billet">
-        <router-link :to="{ path: '/services/dedication/dedication-form', query: { ticket: ticketNumber } }">
+        <router-link :to="dedicationFormLink">
           <button class="cta-button" :disabled="!isTicketValid">Réservez maintenant</button>
         </router-link>
       </div>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "DedicationHomeView",
@@ -38,11 +38,19 @@ export default {
     return {
       ticketNumber: null,
       isTicketValid: false,
+      prestataireId: this.$route.query.prestataireId || null,
     };
   },
   computed: {
     ...mapState("ticket", ["tickets"]),
     ...mapGetters("ticket", ["getTicketById"]),
+    dedicationFormLink() {
+      const query = { ticket: this.ticketNumber };
+      if (this.prestataireId) {
+        query.prestataireId = this.prestataireId;
+      }
+      return { path: '/services/dedication/dedication-form', query };
+    }
   },
   methods: {
     ...mapActions("ticket", ["getTickets"]),
@@ -80,7 +88,7 @@ export default {
   align-items: center;
   text-align: center;
   flex-direction: column;
-  padding: 20px; /* Ajout pour éviter le débordement sur les petits écrans */
+  padding: 20px;
   box-shadow: inset 0px 0px 60px rgba(0, 0, 0, 0.1);
 }
 
@@ -90,11 +98,11 @@ export default {
   flex-direction: column;
   align-items: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-  padding: 0 10px; /* Ajout pour empêcher le contenu de toucher les bords */
+  padding: 0 10px;
 }
 
 .hero-content input {
-  width: 90%; /* Ajustement pour les petits écrans */
+  width: 90%;
   max-width: 300px;
   margin-bottom: 20px;
   padding: 10px;
@@ -104,13 +112,13 @@ export default {
 }
 
 .hero h1 {
-  font-size: 2.5em; /* Réduction pour les petits écrans */
+  font-size: 2.5em;
   margin: 0;
   text-align: center;
 }
 
 .hero p {
-  font-size: 1em; /* Réduction pour les petits écrans */
+  font-size: 1em;
   margin-top: 10px;
   text-align: center;
 }
@@ -120,7 +128,7 @@ export default {
   padding: 10px 20px;
   background-color: #007bff;
   color: white;
-  font-size: 1em; /* Réduction pour les petits écrans */
+  font-size: 1em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -138,9 +146,9 @@ export default {
 
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  padding: 20px; /* Réduction du padding pour les petits écrans */
+  padding: 20px;
   text-align: center;
   background-color: #f4f4f4;
 }
@@ -153,12 +161,12 @@ export default {
 }
 
 .feature h2 {
-  font-size: 1.5em; /* Ajustement pour les petits écrans */
+  font-size: 1.5em;
   color: #333;
 }
 
 .feature p {
-  font-size: 0.9em; /* Ajustement pour les petits écrans */
+  font-size: 0.9em;
   color: #555;
 }
 </style>

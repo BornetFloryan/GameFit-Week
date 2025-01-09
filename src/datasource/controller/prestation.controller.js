@@ -1,10 +1,11 @@
 import {
-    customer_accounts,
+    customer_accounts, guestbook_entries, provider_guestbook_status,
     provider_service_categories,
     service_categories,
     service_reservations
 } from "@/datasource/data";
 import {v4 as uuidv4} from 'uuid'
+import store from "@/store";
 
 function getServiceCategories() {
     return {error: 0, data: service_categories}
@@ -52,6 +53,14 @@ function modifyProviderServiceCategory(providerServiceCategory) {
         return {error: 1, status: 404, data: 'ID manquant'}
     }
 
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '1'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+
     let existingProviderServiceCategory = provider_service_categories.find(e => e._id === providerServiceCategory._id);
     if(!existingProviderServiceCategory){
         return {error: 1, status: 404, data: 'Service non trouvé'}
@@ -70,6 +79,14 @@ function deleteProviderServiceCategory(providerServiceCategory) {
     }
     if(!providerServiceCategory._id){
         return {error: 1, status: 404, data: 'ID manquant'}
+    }
+
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '1'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
     }
 
     let index = provider_service_categories.findIndex(e => e._id === providerServiceCategory._id);
@@ -123,6 +140,14 @@ function modifyServiceReservation(serviceReservation) {
         return {error: 1, status: 404, data: 'ID manquant'}
     }
 
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '1'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+
     let existingServiceReservation = service_reservations.find(e => e._id === serviceReservation._id);
     if (!existingServiceReservation) {
         return {error: 1, status: 404, data: 'Réservation non trouvée'}
@@ -149,6 +174,118 @@ function deleteServiceReservation(id) {
     return {error: 1, status: 404, data: 'Réservation non trouvée'}
 }
 
+function getGuestbookEntries() {
+    return {error: 0, data: guestbook_entries}
+}
+
+function addGuestbookEntry(guestbookEntry) {
+    if (!guestbookEntry) {
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if(!guestbookEntry.newEntry){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if (!guestbookEntry.currentUser){
+        return {error: 1, status: 404, data: 'Utilisateur non renseigné'}
+    }
+    if(!guestbookEntry.prestataire){
+        return {error: 1, status: 404, data: 'Prestataire non renseigné'}
+    }
+
+    if (!guestbookEntry.newEntry.rating){
+        return {error: 1, status: 404, data: 'Note manquante'};
+    }
+    if (!guestbookEntry.newEntry.comment){
+        return {error: 1, status: 404, data: 'Commentaire manquant'};
+    }
+
+    const date = new Date();
+
+    let tickets = store.state.ticket.tickets.filter(e => e.customer_id === guestbookEntry.currentUser._id);
+    if (!tickets || tickets.length === 0) {
+        return {error: 1, status: 404, data: 'Pas de tickets trouvés pour l\'utilisateur'};
+    }
+
+    let serviceReservations = service_reservations.filter(e => tickets.some(ticket => e.ticket_id === ticket._id));
+    if (serviceReservations.length === 0) {
+        return {error: 1, status: 404, data: 'Pas de réservations de service trouvée pour les tickets'};
+    }
+
+    let standReservations = store.state.stands.standsReservations.filter(e => e.customer_id === guestbookEntry.prestataire._id);
+    if (standReservations.length === 0) {
+        return {error: 1, status: 404, data: 'Pas de réservation de stand trouvée pour le prestataire'};
+    }
+
+    let customerServiceReservation = serviceReservations.find(serviceReservation =>
+        standReservations.some(standReservation => serviceReservation.stand_reservation_id === standReservation._id)
+    );
+
+    if (!customerServiceReservation) {
+        return {error: 1, status: 404, data: 'Aucune réservation de service n\'est liée au prestataire'};
+    }
+
+
+
+    let guestbookEntryData = {
+        _id: uuidv4(),
+        date: date,
+        rating: guestbookEntry.newEntry.rating,
+        comment: guestbookEntry.newEntry.comment,
+        service_reservations_id: customerServiceReservation._id
+    }
+
+    return {error: 0, status: 200, data: guestbookEntryData}
+}
+
+function getGuestbookStatus() {
+    return {error: 0, data: provider_guestbook_status}
+}
+
+function addGuestbookStatus(customer_id) {
+    if(!customer_id){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+
+    let existingCustomer = customer_accounts.find(e => e._id === customer_id);
+    if(!existingCustomer){
+        return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
+    }
+
+    let guestbookStatusData = {
+        _id: uuidv4(),
+        status: false,
+        customer_id: existingCustomer._id
+    };
+
+    return {error: 0, status: 200, data: guestbookStatusData}
+
+}
+
+function modifyGuestbookStatus(providerGuestbookStatus) {
+    if(!providerGuestbookStatus){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '1'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+
+    let existingStatus = guestbook_entries.find(e => e._id === providerGuestbookStatus._id);
+    if(!existingStatus){
+        return {error: 1, status: 404, data: 'Statut non trouvé'}
+    }
+
+    console.log(providerGuestbookStatus)
+    console.log(existingStatus)
+
+    existingStatus.guestbook_activated = providerGuestbookStatus.guestbook_activated;
+
+    return {error: 0, status: 200, data: existingStatus}
+}
 
 export default {
     getServiceCategories,
@@ -160,4 +297,9 @@ export default {
     addServiceReservation,
     modifyServiceReservation,
     deleteServiceReservation,
+    getGuestbookEntries,
+    addGuestbookEntry,
+    getGuestbookStatus,
+    addGuestbookStatus,
+    modifyGuestbookStatus
 }

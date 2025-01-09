@@ -2,7 +2,7 @@ import TicketService from "@/services/ticket.service";
 
 const state = () => ({
     // state = les données centralisées
-    tickets: localStorage.getItem('tickets') ? localStorage.getItem('tickets') : [],
+    tickets: [],
     ticketsAnimationCategories: [],
     ticketsAgeCategories: [],
     ticketPrices: [],
@@ -12,7 +12,6 @@ const state = () => ({
 const mutations = {
     updatetickets(state, tickets) {
         state.tickets = tickets;
-        localStorage.setItem('tickets', tickets);
     },
     updateticketsAnimationCategories(state, animationCategories) {
         state.ticketsAnimationCategories = animationCategories;
@@ -26,14 +25,12 @@ const mutations = {
     addTickets(state, tickets) {
         for (let ticket of tickets)
             state.tickets.push(ticket);
-        localStorage.setItem('tickets', state.tickets);
     },
     deleteTicket(state, ticket_id) {
         let index = state.tickets.findIndex(e => e._id === ticket_id);
         if (index !== -1) {
             state.tickets.splice(index, 1);
         }
-        localStorage.setItem('tickets', state.tickets);
     },
 };
 
@@ -131,7 +128,7 @@ const getters = {
     getTicketsAnimationCategoryById: (state) => (id) => {
         return state.ticketsAnimationCategories.find(animationCategory => animationCategory._id === id);
     },
-    getTicketsAgeCategoriesgoryById: (state) => (id) => {
+    getTicketsAgeCategoryById: (state) => (id) => {
         return state.ticketsAgeCategories.find(ageCategory => ageCategory._id === id);
     },
     getTicketsByCustomerId: (state) => (id) => {

@@ -1,5 +1,6 @@
 const express = require("express");
 const standsController = require("../controllers/stands.controller");
+const checkSession = require("../middleware/auth");
 
 var router = express.Router();
 
@@ -119,13 +120,21 @@ router.get("/reservations", standsController.getStandsReservations);
  *         description: Erreur interne du serveur
  */
 
-router.post("/reservations", standsController.addStandReservation);
+router.post("/reservations", checkSession, standsController.addStandReservation);
 /**
  * @swagger
  * /stands/reservations:
  *   post:
  *     summary: Ajouter une nouvelle réservation de stand
  *     tags: [Réservations de stands]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -192,13 +201,21 @@ router.post("/reservations", standsController.addStandReservation);
  *         description: Erreur interne du serveur
  */
 
-router.put("/", standsController.modifyStand);
+router.put("/", checkSession, standsController.modifyStand);
 /**
  * @swagger
  * /stands:
  *   put:
  *     summary: Modifier un stand
  *     tags: [Stands]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -246,13 +263,21 @@ router.put("/", standsController.modifyStand);
  *         description: Erreur interne du serveur
  */
 
-router.put("/reservations", standsController.modifyStandsReservations);
+router.put("/reservations", checkSession, standsController.modifyStandsReservations);
 /**
  * @swagger
  * /stands/reservations:
  *   put:
  *     summary: Modifier une réservation de stand
  *     tags: [Réservations de stands]
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -324,7 +349,7 @@ router.put("/reservations", standsController.modifyStandsReservations);
  *         description: Erreur interne du serveur
  */
 
-router.delete("/reservations/:id", standsController.deleteStandReservation);
+router.delete("/reservations/:id", checkSession, standsController.deleteStandReservation);
 /**
  * @swagger
  * /stands/reservations/{id}:
@@ -339,6 +364,13 @@ router.delete("/reservations/:id", standsController.deleteStandReservation);
  *           type: integer
  *           example: 1
  *         description: L'ID de la réservation de stand
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
  *         description: L'ID de la réservation de stand supprimée
@@ -356,7 +388,7 @@ router.delete("/reservations/:id", standsController.deleteStandReservation);
  *         description: Erreur interne du serveur
  */
 
-router.delete("/:id", standsController.deleteStand);
+router.delete("/:id", checkSession, standsController.deleteStand);
 /**
  * @swagger
  * /stands/{id}:
@@ -371,6 +403,13 @@ router.delete("/:id", standsController.deleteStand);
  *           type: integer
  *           example: 1
  *         description: L'ID du stand
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
  *         description: L'ID du stand supprimé
@@ -435,7 +474,6 @@ router.get("/:id", standsController.getStandById);
  *       500:
  *         description: Erreur interne du serveur
  */
-
 router.get("/reservations/:id", standsController.getStandReservationById);
 /**
  * @swagger
@@ -606,7 +644,7 @@ router.get("/stand/:stand_id/reservations/:date", standsController.getStandsRese
  *         description: Erreur interne du serveur
  */
 
-router.get("/customer/:customer_id/reservations", standsController.getStandsReservationsByCustomerId);
+router.get("/customer/:customer_id/reservations", checkSession, standsController.getStandsReservationsByCustomerId);
 /**
  * @swagger
  * /stands/customer/{customer_id}/reservations:
@@ -621,6 +659,13 @@ router.get("/customer/:customer_id/reservations", standsController.getStandsRese
  *           type: integer
  *           example: 3
  *         description: L'ID du client
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de stand
@@ -844,7 +889,7 @@ router.get("/customer/:customer_id/service/:service_id/date/:date/reservations",
  *         description: Erreur interne du serveur
  */
 
-router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservations", standsController.getStandsReservationsByCustomerIdAndDateAndExcludingStandId);
+router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservations", checkSession, standsController.getStandsReservationsByCustomerIdAndDateAndExcludingStandId);
 /**
  * @swagger
  * /stands/customer/{customer_id}/date/{date}/excluding-stand/{stand_id}/reservations:
@@ -874,6 +919,13 @@ router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservat
  *           type: integer
  *           example: 3
  *         description: L'ID du stand à exclure
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de stand

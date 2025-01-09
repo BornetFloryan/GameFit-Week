@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     ...mapActions("account", ['getCustomersAccounts', 'getProviderRequests', "addProviderRequest"]),
-    ...mapActions("prestation", ["getServiceCategories", 'getProviderServiceCategories', 'addProviderServiceCategory']),
+    ...mapActions("prestation", ["getServiceCategories", 'getProviderServiceCategories', 'addProviderServiceCategory', 'addProviderGuestbookStatus']),
 
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
@@ -166,6 +166,14 @@ export default {
       } catch (error) {
         console.error("Erreur lors de l'enregistrement:", error);
         alert("Une erreur est survenue lors de l'enregistrement.");
+      }
+      try{
+        let response = await this.addProviderGuestbookStatus(this.user._id);
+        if(response.error !==0){
+          alert(response.message);
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   },

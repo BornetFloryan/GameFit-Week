@@ -5,6 +5,7 @@ import ProviderDedicationReservation from "@/components/prestataire/dedications/
 import GoodieSalesList from "@/components/prestataire/goodies/GoodieSalesList.vue";
 import ProviderRestaurantManagement from "@/components/prestataire/foods/ProviderRestaurantManagement.vue";
 import ProviderchartView from "@/components/ProviderChartView.vue";
+import ProviderGuestbook from "@/components/prestataire/ProviderGuestbook.vue";
 
 export default [
     {
@@ -60,6 +61,12 @@ export default [
                         meta: { requiresAuth: true, requiredPrivilege: '1' },
                     },
                 ],
+            },
+            {
+              path:'provider-guestbook',
+              name:'provider-guestbook',
+              component: ProviderGuestbook,
+              meta: { requiresAuth: true, requiredPrivilege: '1' },
             },
             {
                 path:'chart',

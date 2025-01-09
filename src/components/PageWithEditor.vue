@@ -1,7 +1,6 @@
 <template>
   <div class="page-with-editor">
-    <NavView/>
-<!--    <h1>Éditeur de texte</h1>-->
+    <h1>Éditeur de texte</h1>
     <Editor
         :initialContent="editorContent"
         :uploadApiUrl="uploadApiUrl"
@@ -11,12 +10,10 @@
 
 <script>
 import Editor from "@/components/Editor";
-import NavView from "@/components/NavBar.vue";
 
 export default {
   name: "PageWithEditor",
   components: {
-    NavView,
     Editor,
   },
   data() {
@@ -30,8 +27,8 @@ export default {
 
 <style scoped>
 .page-with-editor {
-  //max-width: 800px;
+  max-width: 800px;
   margin: 0 auto;
-  //padding: 20px;
+  padding: 20px;
 }
 </style>

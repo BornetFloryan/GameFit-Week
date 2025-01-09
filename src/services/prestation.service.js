@@ -36,7 +36,25 @@ async function deleteServiceReservationFromLocalSource(id) {
     return LocalSource.deleteServiceReservation(id);
 }
 
+async function getGuestbookEntriesFromLocalSource() {
+    return LocalSource.getGuestbookEntries();
+}
 
+async function addGuestbookEntryFromLocalSource(guestbookEntry) {
+    return LocalSource.addGuestbookEntry(guestbookEntry);
+}
+
+async function getGuestbookStatusFromLocalSource() {
+    return LocalSource.getGuestbookStatus();
+}
+
+async function addGuestbookStatusFromLocalSource(customer_id) {
+    return LocalSource.addGuestbookStatus(customer_id);
+}
+
+async function modifyGuestbookStatusFromLocalSource(providerGuestbookStatus) {
+    return LocalSource.modifyGuestbookStatus(providerGuestbookStatus);
+}
 
 async function getServiceCategories() {
     let response = null;
@@ -155,6 +173,71 @@ async function deleteServiceReservation(id) {
     return response
 }
 
+async function getGuestbookEntries() {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getGuestbookEntriesFromLocalSource();
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste du livre d\' or' }
+    }
+    return response
+}
+
+async function addGuestbookEntry(guestbookEntry) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await addGuestbookEntryFromLocalSource(guestbookEntry);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible d\'ajouter un commentaire dans le livre d\' or' }
+    }
+    return response
+}
+
+async function getGuestbookStatus() {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getGuestbookStatusFromLocalSource();
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer le statut du livre d\' or' }
+    }
+    return response
+}
+
+async function addGuestbookStatus(customer_id) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await addGuestbookStatusFromLocalSource(customer_id);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de ajouter le statut du livre d\' or' }
+    }
+    return response
+}
+
+async function modifyGuestbookStatus(providerGuestbookStatus) {
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await modifyGuestbookStatusFromLocalSource(providerGuestbookStatus);
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de modifier le statut du livre d\' or' }
+    }
+    return response
+}
+
 export default {
     getServiceCategories,
     getProviderServiceCategories,
@@ -165,4 +248,9 @@ export default {
     addServiceReservation,
     modifyServiceReservation,
     deleteServiceReservation,
+    getGuestbookEntries,
+    addGuestbookEntry,
+    getGuestbookStatus,
+    addGuestbookStatus,
+    modifyGuestbookStatus
 }

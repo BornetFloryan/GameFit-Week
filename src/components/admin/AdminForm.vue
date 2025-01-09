@@ -4,13 +4,13 @@
       <button @click="goBack" class="form-back-button">{{ backButtonText }}</button>
       <h2>{{ title }}</h2>
       <form @submit.prevent="handleSubmit">
-        <div v-for="field in visibleFormFields" :key="field._id" class="form-group">
-          <label :for="field._id">{{ field.label }}</label>
+        <div v-for="field in visibleFormFields" :key="field.id" class="form-group">
+          <label :for="field.id">{{ field.label }}</label>
 
           <div v-if="field.type === 'select'">
             <select
                 v-model="formData[field.model]"
-                :id="field._id"
+                :id="field.id"
                 v-bind="field.props"
                 @change="handleFieldChange(field)"
             >
@@ -27,30 +27,17 @@
           <div v-else-if="field.type === 'textarea'">
             <textarea
                 v-model="formData[field.model]"
-                :id="field._id"
+                :id="field.id"
                 v-bind="field.props"
                 @change="handleFieldChange(field)"
             ></textarea>
-          </div>
-
-          <div v-else-if="field.type === 'checkbox' && formData.privilege === '1'">
-            <div v-for="option in field.options" :key="option.value" class="checkbox-group">
-              <input
-                  type="checkbox"
-                  :id="option.value"
-                  :value="option.value"
-                  :checked="(formData[field.model] || []).includes(option.value)"
-                  @change="handleCheckboxChange(field.model, option.value)"
-              />
-              <label :for="option.value">{{ option.text }}</label>
-            </div>
           </div>
 
           <div v-else>
             <input
                 :type="field.type"
                 v-model="formData[field.model]"
-                :id="field._id"
+                :id="field.id"
                 v-bind="field.props"
                 @change="handleFieldChange(field)"
             />
@@ -97,17 +84,11 @@ export default {
   data() {
     return {
       formData: {...this.initialFormData},
-      savedServices: [],
     };
   },
   computed: {
     visibleFormFields() {
-      return this.formFields.filter(field => {
-        if (field.id === "services" && this.formData.privilege !== "1") {
-          return false;
-        }
-        return field.visible !== false;
-      });
+      return this.formFields.filter(field => field.visible !== false);
     },
   },
   watch: {
@@ -126,16 +107,6 @@ export default {
       this.$emit("back");
     },
     handleFieldChange(field) {
-      if (field.id === "privilege") {
-        if (this.formData.privilege === "1") {
-          this.formData.services = this.savedServices;
-        } else {
-          if (this.formData.services.length > 0) {
-            this.savedServices = [...this.formData.services];
-          }
-          this.formData.services = [];
-        }
-      }
       if (field.id === "customer_id") {
         this.$emit("prestataireSelected", this.formData.customer_id);
       } else if (field.id === "service_id") {
@@ -146,22 +117,9 @@ export default {
         this.$emit("dateSelected", this.formData.date);
       } else if (field.id === "start_time") {
         this.$emit("startTimeSelected", this.formData.start_time);
-      } else if (field.id === "ticket_id") {
-        this.$emit("ticketSelected", this.formData.ticket_id);
       }
       this.$emit("field-change", field);
       this.$emit("update:formData", this.formData);
-    },
-    handleCheckboxChange(model, value) {
-      if (!Array.isArray(this.formData[model])) {
-        this.$set(this.formData, model, []);
-      }
-      const index = this.formData[model].indexOf(value);
-      if (index > -1) {
-        this.formData[model].splice(index, 1);
-      } else {
-        this.formData[model].push(value);
-      }
     },
   },
 };

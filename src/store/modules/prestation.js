@@ -1,9 +1,12 @@
 import PrestationService from '../../services/prestation.service';
+import store from "@/store";
 const state = () => ({
     // state = les données centralisées
     serviceCategories: [],
     providerServiceCategories: [],
     serviceReservations: [],
+    guestbookEntries: [],
+    providerGuestbookStatus: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -41,6 +44,25 @@ const mutations = {
     deleteServiceReservation(state, index) {
         state.serviceReservations.splice(index, 1);
     },
+    updateGuestbookEntries(state, guestbookEntries) {
+        state.guestbookEntries = guestbookEntries;
+    },
+    addGuestbookEntry(state, guestbookEntry) {
+        state.guestbookEntries.push(guestbookEntry);
+    },
+    updateGuestbookStatus(state, providerGuestbookStatus) {
+
+        state.providerGuestbookStatus = providerGuestbookStatus;
+    },
+    addGuestbookStatus(state, providerGuestbookStatus) {
+        state.providerGuestbookStatus.push(providerGuestbookStatus);
+    },
+    modifyGuestbookStatus(state, providerGuestbookStatus) {
+        let index = state.providerGuestbookStatus.findIndex(e => e._id === providerGuestbookStatus._id);
+        if (index !== -1) {
+            state.providerGuestbookStatus[index] = providerGuestbookStatus;
+        }
+    }
 };
 
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -165,29 +187,115 @@ const actions = {
             return {error: 1, data: 'Erreur lors de la suppression d\'une réservation'};
         }
     },
+    async getGuestbookEntries({ commit }) {
+        try {
+            let response = await PrestationService.getGuestbookEntries();
+            if (response.error === 0) {
+                commit('updateGuestbookEntries', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des commentaires:', error);
+        }
+    },
+    async addGuestbookEntry({ commit }, guestbookEntry) {
+        try {
+            let response = await PrestationService.addGuestbookEntry(guestbookEntry);
+            if (response.error === 0) {
+                commit('addGuestbookEntry', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout d\'un commentaire:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout d\'un commentaire' };
+        }
+    },
+    async getProviderGuestbookStatus({ commit }) {
+        try {
+            let response = await PrestationService.getGuestbookStatus();
+            if (response.error === 0) {
+                commit('updateGuestbookStatus', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des commentaires:', error);
+        }
+    },
+    async addProviderGuestbookStatus({ commit }, customer_id) {
+        try {
+            let response = await PrestationService.addGuestbookStatus(customer_id);
+            if (response.error === 0) {
+                commit('addGuestbookStatus', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout du statut du livre d\'or:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout du statut du livre d\'or' };
+        }
+    },
+    async modifyProviderGuestbookStatus({ commit }, providerGuestbookStatus) {
+        try {
+            let response = await PrestationService.modifyGuestbookStatus(providerGuestbookStatus);
+            if (response.error === 0) {
+                commit('modifyGuestbookStatus', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification du statut du livre d\'or:', error);
+            return { error: 1, data: 'Erreur lors de la modification du statut du livre d\'or' };
+        }
+    },
 };
 
 const getters = {
     getServiceCategoryById: (state) => (_id) => {
+        if (!_id) return null;
         return state.serviceCategories.find((sc) => sc._id === _id);
     },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
+        if(!_id) return null;
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);
     },
     getProviderServiceCategoriesByCustomerIdAndServiceID: (state) => (_id, service_id) => {
+        if(!_id || !service_id) return null;
+        if(store.state.account.currentUser == null){
+            return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+        }
 
+        if (store.state.account.currentUser.privilege < '1'){
+            return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+        }
         return state.providerServiceCategories.find((psc) => psc.customer_id === _id && psc.service_id === service_id);
     },
     getProviderServiceCategoriesCustomerId: (state) => {
+        if(!state.providerServiceCategories) return null;
+        if(store.state.account.currentUser == null){
+            return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+        }
+
+        if (store.state.account.currentUser.privilege < '1'){
+            return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+        }
+
         return state.providerServiceCategories
             .filter((psc) => psc.customer_id)
             .map((psc) => psc.customer_id);
     },
     getProviderOfferingServices: (state, getters, rootState) => {
+        if(!state.providerServiceCategories) return null;
+        if(store.state.account.currentUser == null){
+            return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+        }
+
+        if (store.state.account.currentUser.privilege < '1'){
+            return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+        }
         const providerIds = getters.getProviderServiceCategoriesCustomerId;
         let providerServices = [];
-        for (let i = 0; i < providerIds.length; i++) {
-            const services = getters.getProviderServiceCategoriesByCustomerId(providerIds[i]);
+        for (const element of providerIds) {
+            const services = getters.getProviderServiceCategoriesByCustomerId(element);
             if (services.some(service => {
                 return service.state === "1";
             })) {
@@ -206,9 +314,24 @@ const getters = {
         return state.serviceReservations.filter((sr) => sr.ticket_id === ticket_id);
     },
     getServiceReservationByServiceId: (state) => (service_id) => {
+        if(store.state.account.currentUser == null){
+            return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+        }
+
+        if (store.state.account.currentUser.privilege < '1'){
+            return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+        }
         return state.serviceReservations.filter((sr) => sr.service_id === service_id);
     },
     getServiceReservationsByStandsReservationsIdAndServiceId: (state) => (standsReservationsId, service_id) => {
+        if(store.state.account.currentUser == null){
+            return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+        }
+
+        if (store.state.account.currentUser.privilege < '1'){
+            return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+        }
+
         return state.serviceReservations.filter((sr) =>
             sr.stand_reservation_id === standsReservationsId
             && sr.service_id === service_id);
@@ -219,6 +342,20 @@ const getters = {
     getServiceReservationsByDate: (state) => (date) => {
         return state.serviceReservations.filter((sr) => sr.date === date);
     },
+    getGuestbookEntriesByCustomerId: (state) => (customer_id) => {
+        const standReservations = store.state.stands.standsReservations.filter((sr) => sr.customer_id === customer_id);
+        const standReservationIds = standReservations.map(sr => sr._id);
+        const serviceReservations = state.serviceReservations.filter((sr) => standReservationIds.includes(sr.stand_reservation_id));
+        return state.guestbookEntries.filter((ge) => serviceReservations.some(sr => sr._id === ge.service_reservations_id));
+    },
+    getProviderGuestbookStatusByCustomerId: (state) => (customer_id) => {
+        const status = state.providerGuestbookStatus.find((pgs) => pgs.customer_id === customer_id);
+        if (!status) {
+            console.error(`Aucun statut du livre d'or trouvé pour customer_id : ${customer_id}`);
+            return null;
+        }
+        return status;
+    }
 };
 
 export default {

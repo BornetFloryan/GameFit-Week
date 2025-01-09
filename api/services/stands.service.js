@@ -117,6 +117,11 @@ async function deleteStandReservation(_id) {
 async function deleteStand(_id) {
     const client = await pool.connect();
     try {
+        const standReservation = await client.query('SELECT * FROM stands_reservations WHERE stand_id = $1', [_id]);
+        if (standReservation.rows.length > 0) {
+            await client.query('DELETE FROM stands_reservations WHERE stand_id = $1', [_id]);
+        }
+        
         const res = await client.query('DELETE FROM stands WHERE _id = $1 RETURNING _id', [_id]);
         if (res.rowCount === 0) {
             return { error: 1, status: 404, data: 'Stand introuvable' };

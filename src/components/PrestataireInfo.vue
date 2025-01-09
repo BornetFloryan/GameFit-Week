@@ -1,159 +1,198 @@
 <template>
-  <div class="stand-info">
-    <div class="stand-card">
+  <div class="prestataire-page">
+    <div class="header">
       <div class="image-container">
-        <img :src="require('@/assets/img/' + prestataire.picture)" alt="Prestataire" class="provider-image" v-if="prestataire.picture" />
+        <img v-if="prestataire && prestataire.picture" :src="require('@/assets/img/' + prestataire.picture)" alt="Prestataire" class="provider-image" />
       </div>
-      <h2 class="provider-name">{{ prestataire.name }}</h2>
-      <p class="provider-description">{{ prestataire.description }}</p>
-
-      <router-link :to="{ name: 'dedication', params: { selectedAnimator: prestataire } }">
-        <button class="btn-more-info">Réserver une dédicace</button>
-      </router-link>
+      <div class="header-text">
+        <h1 class="provider-name">{{ prestataire?.name }}</h1>
+        <p class="provider-description">{{ prestataire?.description }}</p>
+      </div>
     </div>
+    <div class="content">
+      <div class="services-section">
+        <h2 class="section-title">Services Proposés</h2>
+        <ul class="service-list">
+          <li v-for="service in servicesPrestataires" :key="service._id" class="service-item">
+            <router-link :to="{ name: 'dedication-home', query: { prestataireId: prestataire._id } }" class="service-link">{{ service.name }}</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="guestbook-section" v-if="guestbookActivated">
+      <Guestbook />
+    </div>
+    <p v-else>Le livre d'or n'est pas activé.</p>
+    <button @click="goBack" class="back-button">Retour à la liste des prestataires</button>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+import Guestbook from "@/components/Guestbook.vue";
+
 export default {
   name: "PrestataireInfo",
-  props: {
-    prestataire: {
-      type: Object,
-      required: true
-    }
+  components: {
+    Guestbook
+  },
+  data() {
+    return {
+      guestbookActivated: false,
+    };
+  },
+  computed: {
+    ...mapGetters('account', ['getCustomerById']),
+    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getServiceCategoryById', 'getProviderGuestbookStatusByCustomerId']),
+    prestataire() {
+      const id = this.$route.params.id;
+      return this.getCustomerById(id);
+    },
+    servicesPrestataires() {
+      if (!this.prestataire) return [];
+      const serviceCategories = this.getProviderServiceCategoriesByCustomerId(this.prestataire._id);
+      return serviceCategories
+          .filter(category => category.state === '1')
+          .map(category => this.getServiceCategoryById(category.service_id));
+    },
   },
   methods: {
-  }
+    ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', 'getProviderGuestbookStatus']),
+    goBack() {
+      this.$router.go(-1);
+    },
+    async fetchGuestbookStatus() {
+      await this.getProviderGuestbookStatus();
+      const status = await this.getProviderGuestbookStatusByCustomerId(this.prestataire._id);
+      if (status) {
+        this.guestbookActivated = status.guestbook_activated;
+      }
+    }
+  },
+  async created() {
+    await this.getServiceCategories();
+    await this.getProviderServiceCategories();
+    await this.fetchGuestbookStatus();
+  },
 };
 </script>
 
 <style scoped>
-.stand-info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  height: 80vh;
-  overflow: hidden;
-}
-
-.stand-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-  box-sizing: border-box;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+.prestataire-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: auto;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  min-height: 100vh;
 }
 
-.stand-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 40px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .image-container {
-  max-width: 100%;
-  height: auto;
+  flex: 0 0 200px;
+  height: 200px;
   border: 4px solid #4caf50;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f5f5f5;
+  margin-right: 20px;
 }
 
 .provider-image {
   max-width: 100%;
   height: auto;
   object-fit: contain;
-  max-height: 250px;
+  max-height: 200px;
+}
+
+.header-text {
+  flex: 1;
 }
 
 .provider-name {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.provider-description {
+  font-size: 20px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.content, .guestbook-section {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.services-section {
+  margin-top: 30px;
+}
+
+.section-title {
   font-size: 28px;
   font-weight: 600;
   color: #333;
   margin-bottom: 20px;
-  letter-spacing: 1px;
-  word-wrap: break-word;
 }
 
-.provider-description {
+.service-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.service-item {
+  margin: 10px 0;
+}
+
+.service-link {
+  color: #1E90FF;
+  text-decoration: none;
   font-size: 18px;
-  color: #666;
-  line-height: 1.7;
-  text-align: justify;
-  margin-bottom: 30px;
-  word-wrap: break-word;
+  transition: color 0.3s ease;
 }
 
-.stand-card::after {
-  content: '';
-  display: block;
-  height: 4px;
-  width: 60px;
-  background-color: #4caf50;
-  margin: 30px auto;
+.service-link:hover {
+  color: #4682B4;
 }
 
-@media (max-width: 800px) {
-  .stand-card {
-    padding: 20px;
-  }
-
-  .provider-name {
-    font-size: 24px;
-  }
-
-  .provider-description {
-    font-size: 16px;
-  }
-
-  .provider-image {
-    max-height: 200px;
-  }
+.guestbook-section {
+  margin-top: 30px;
 }
 
-@media (max-width: 600px) {
-  .stand-card {
-    padding: 15px;
-  }
-
-  .provider-name {
-    font-size: 20px;
-  }
-
-  .provider-description {
-    font-size: 14px;
-  }
-
-  .provider-image {
-    max-height: 150px;
-  }
-}
-
-.btn-more-info {
-  margin-top: 15px;
+.back-button {
+  margin-top: 20px;
   padding: 10px 20px;
-  background-color: #1E90FF;
-  color: white;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.btn-more-info:hover {
-  background-color: #4682B4;
+.back-button:hover {
+  background-color: #0056b3;
 }
 </style>

@@ -1,5 +1,6 @@
 import {customer_accounts, provider_requests, sports_categories} from '../data'
 import {v4 as uuidv4} from 'uuid'
+import store from "@/store";
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
   Dans certains cas, ces fonctions vont avoir des paramètres afin de filtrer les données qui se trouvent dans data.js
@@ -58,6 +59,23 @@ function loginUser(data) {
 }
 
 function modifyCustomerAccount(customer) {
+    if (!customer) return {error: 1, status: 404, data: 'Aucune donnée'}
+
+    if (!customer._id) return {error: 1, status: 404, data: 'ID manquant'}
+
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '0'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+
+    if(store.state.account.currentUser._id !== customer._id
+        && store.state.account.currentUser.privilege !== '2'){
+       return {error: 1, status: 404, data: 'vous ne pouvez pas modifier un autre compte que le votre'}
+    }
+
     let user = customer_accounts.find(e => e._id === customer._id)
     if (!user) return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
 
@@ -73,8 +91,22 @@ function modifyCustomerAccount(customer) {
     return {error: 0, status: 200, data: user}
 }
 
-function deleteCustomerAccount(customer) {
-    let index = customer_accounts.findIndex(e => e._id === customer._id)
+function deleteCustomerAccount(id) {
+    if (!id) {
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+    if (store.state.account.currentUser.privilege < '0'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+    if(store.state.account.currentUser._id !== id
+        && store.state.account.currentUser.privilege !== '2'){
+        return {error: 1, status: 404, data: 'vous ne pouvez pas supprimer un autre compte que le votre'}
+    }
+
+    let index = customer_accounts.findIndex(e => e._id === id)
     if (index !== -1) {
         return {error: 0, status: 200, data: index}
     }
@@ -150,6 +182,14 @@ function modifyProviderRequest(request) {
         return {error: 1, status: 404, data: 'Champs manquants: state'};
     }
 
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '2'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+
     let r = provider_requests.find(e => e._id === request._id);
     if (!r) return {error: 1, status: 404, data: 'Demande non trouvée'};
 
@@ -167,6 +207,14 @@ function deleteProviderRequest(request) {
 
     if(!request._id){
         return {error: 1, status: 404, data: 'ID manquant'}
+    }
+
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '2'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
     }
 
     let index = provider_requests.findIndex(e => e._id === request._id);

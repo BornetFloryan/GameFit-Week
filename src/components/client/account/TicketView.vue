@@ -42,7 +42,7 @@ export default {
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapState('ticket', ['tickets', 'ticketsAnimationCategories', 'ticketsAgeCategories', 'ticketPrices']),
-    ...mapGetters('ticket', ["getTicketsByCustomerId", 'getTicketPricesPriceById', "getTicketsAnimationCategoryById", "getTicketsAgeCategoriesgoryById"]),
+    ...mapGetters('ticket', ["getTicketsByCustomerId", 'getTicketPricesPriceById', "getTicketsAnimationCategoryById", "getTicketsAgeCategoryById"]),
     price() {
       return (ticket) => {
         if (!this.ticketPrices) return null;
@@ -60,7 +60,7 @@ export default {
       return (ticket) => {
         const price = this.price(ticket);
         if (!price || !this.ticketsAgeCategories) return null;
-        return this.getTicketsAgeCategoriesgoryById(price.age_category_id);
+        return this.getTicketsAgeCategoryById(price.age_category_id);
       };
     }
   },

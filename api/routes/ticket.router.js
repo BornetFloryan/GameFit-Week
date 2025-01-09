@@ -1,5 +1,6 @@
 const ticketController = require('../controllers/ticket.controller');
 const router = require('express').Router();
+const checkSession = require("../middleware/auth");
 
 router.get('/', ticketController.getTickets);
 /**
@@ -76,7 +77,7 @@ router.post('/', ticketController.addTickets);
  *         description: Erreur serveur
  */
 
-router.delete('/', ticketController.deleteTicket);
+router.delete('/', checkSession, ticketController.deleteTicket);
 /**
  * @swagger
  * /Tickets:
@@ -84,6 +85,14 @@ router.delete('/', ticketController.deleteTicket);
  *     tags:
  *       - Tickets
  *     description: Supprimer un ticket
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
