@@ -15,7 +15,7 @@ import AdminDedicationReservation from "@/components/admin/dedications/AdminDedi
 import AdminModifyDedicationReservation from "@/components/admin/dedications/AdminModifyDedicationReservation.vue";
 import AdminAddDedicationReservation from "@/components/admin/dedications/AdminAddDedicationReservation.vue";
 import AdminBracket from "@/components/admin/AdminBracket.vue";
-import AdminchartView from "@/components/ProviderChartView.vue";
+import AdminchartView from "@/components/admin/AdminChartView.vue";
 
 export default [
     {
