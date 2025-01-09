@@ -32,13 +32,15 @@ export default {
   methods: {
     ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
     goToProviderInfo(providerId) {
-      this.$router.push({ name: 'prestataire-info', params: { id: providerId } });
+      this.$router.push({name: 'prestataire-info', params: {id: providerId}});
     },
   },
   async created() {
     await this.getCustomersAccounts();
     await this.getProviderRequests();
-    this.prestataires = this.providerRequests.map(request => this.getCustomerById(request.customer_id));
+    this.prestataires = this.providerRequests
+        .filter(request => request.state === '1')
+        .map(request => this.getCustomerById(request.customer_id));
   }
 };
 </script>

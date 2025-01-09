@@ -1,4 +1,4 @@
-const guestbookStatusService = require('../services/guestbookStatus.service');
+const guestbookStatusService = require('../services/providerGuestbookStatus.service');
 
 exports.getGuestbookStatus = async (req, res) => {
     try {
@@ -29,5 +29,16 @@ exports.modifyGuestbookStatus = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la modification du statut du livre d'or");
+    }
+}
+
+exports.getProviderGuestbookStatusByCustomerId = async (req, res) => {
+    try {
+        const { customer_id } = req.params;
+        let data = await guestbookStatusService.getProviderGuestbookStatusByCustomerId(customer_id);
+        return res.status(200).json({ data: data });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Erreur lors de la récupération des entrées du livre d'or");
     }
 }

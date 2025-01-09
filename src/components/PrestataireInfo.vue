@@ -18,18 +18,18 @@
           </li>
         </ul>
       </div>
-      <ProviderSchedule />
+      <ProviderSchedule :provider="prestataire" />
     </div>
     <div class="guestbook-section" v-if="guestbookActivated">
       <Guestbook />
     </div>
     <p v-else>Le livre d'or n'est pas activé.</p>
-    <button @click="goBack" class="back-button">Retour à la liste des prestataires</button>
+    <button @click="goBack" class="back-button">Retour</button>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import Guestbook from "@/components/Guestbook.vue";
 import ProviderSchedule from "@/components/prestataire/ProviderSchedule.vue";
 
@@ -45,6 +45,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('prestation', ['providerGuestbookStatus']),
     ...mapGetters('account', ['getCustomerById']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getServiceCategoryById', 'getProviderGuestbookStatusByCustomerId']),
     prestataire() {

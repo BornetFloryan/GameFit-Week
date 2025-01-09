@@ -68,7 +68,7 @@ export default {
     ...mapState('stands', ['stands', 'standsReservations']),
     ...mapState('account', ['customersAccounts']),
     ...mapGetters('stands', ['getStandById', 'getStandsReservationsByStandIdAndDate']),
-    ...mapGetters('account', ['getCustomerById', 'getProviderRequestById']),
+    ...mapGetters('account', ['getCustomerById', 'getProviderRequestsByCustomerId']),
   },
   methods: {
     ...mapActions('stands', ['getStands', 'getStandsReservations']),
@@ -93,8 +93,8 @@ export default {
       let prestataire = null;
       if (this.stand) {
         standReservations = this.getStandsReservationsByStandIdAndDate(this.stand._id, this.selectedDate);
-        if (standReservations.length > 0 && standReservations[0].customer_id) {
-          let provider_requests = this.getProviderRequestById(standReservations[0].customer_id);
+        if (standReservations.length > 0 && standReservations[0] && standReservations[0].customer_id) {
+          let provider_requests = this.getProviderRequestsByCustomerId(standReservations[0].customer_id);
           prestataire = this.getCustomerById(provider_requests.customer_id);
         }
       }

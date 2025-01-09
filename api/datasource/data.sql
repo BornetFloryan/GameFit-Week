@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS guestbook_entries;
+DROP TABLE IF EXISTS provider_schedule_status;
 DROP TABLE IF EXISTS provider_guestbook_status;
 DROP TABLE IF EXISTS service_reservations;
 DROP TABLE IF EXISTS stands_reservations;
@@ -137,6 +138,13 @@ CREATE TABLE IF NOT EXISTS provider_guestbook_status
 (
     _id         SERIAL PRIMARY KEY,
     guestbook_activated      BOOLEAN,
+    customer_id INT REFERENCES customer_accounts (_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS provider_schedule_status
+(
+    _id         SERIAL PRIMARY KEY,
+    schedule_activated      BOOLEAN,
     customer_id INT REFERENCES customer_accounts (_id) ON DELETE CASCADE
 );
 

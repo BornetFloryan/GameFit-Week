@@ -38,6 +38,26 @@ const provider_guestbook_status = [
     { customer_id: "18", guestbook_activated: false }
 ];
 
+const provider_schedule_status = [
+    { customer_id: "2", schedule_activated: true },
+    { customer_id: "3", schedule_activated: true },
+    { customer_id: "4", schedule_activated: false },
+    { customer_id: "5", schedule_activated: true },
+    { customer_id: "6", schedule_activated: false },
+    { customer_id: "7", schedule_activated: true },
+    { customer_id: "8", schedule_activated: false },
+    { customer_id: "9", schedule_activated: true },
+    { customer_id: "10", schedule_activated: false },
+    { customer_id: "11", schedule_activated: true },
+    { customer_id: "12", schedule_activated: false },
+    { customer_id: "13", schedule_activated: true },
+    { customer_id: "14", schedule_activated: false },
+    { customer_id: "15", schedule_activated: true },
+    { customer_id: "16", schedule_activated: false },
+    { customer_id: "17", schedule_activated: true },
+    { customer_id: "18", schedule_activated: false }
+];
+
 const guestbook_entries = [
     { _id: "0", date: "2025-07-07T14:00:00.000Z", rating: "5", comment: "Super événement, j'ai adoré !", service_reservations_id: "0" },
     { _id: "1", date: "2025-07-07T15:00:00.000Z", rating: "4", comment: "Très bonne organisation !", service_reservations_id: "1" }
@@ -191,6 +211,15 @@ const insertData = async () => {
                 'SELECT customer_id FROM provider_guestbook_status WHERE customer_id = $1',
                 'INSERT INTO provider_guestbook_status (customer_id, guestbook_activated) VALUES ($1, $2)',
                 [customer_id, guestbook_activated]
+            );
+        }
+
+        for (const status of provider_schedule_status) {
+            const { customer_id, schedule_activated } = status;
+            await insertIfNotExists(
+                'SELECT customer_id FROM provider_schedule_status WHERE customer_id = $1',
+                'INSERT INTO provider_schedule_status (customer_id, schedule_activated) VALUES ($1, $2)',
+                [customer_id, schedule_activated]
             );
         }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="stand-info">
     <div class="stand-card">
-      <h3>Planning du stand : {{stand._id}}</h3>
+      <h3>Planning du stand : {{ Number(stand._id) + 1 }}</h3>
       <ul class="stand-schedule">
         <li v-for="reservation in sortedStandReservations" :key="reservation._id" class="schedule-item">
           <span class="schedule-time">{{ reservation.start_time }}h - {{ reservation.end_time }}h</span>

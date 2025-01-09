@@ -253,7 +253,7 @@ function addGuestbookStatus(customer_id) {
 
     let guestbookStatusData = {
         _id: uuidv4(),
-        status: false,
+        guestbook_activated: false,
         customer_id: existingCustomer._id
     };
 
@@ -288,15 +288,15 @@ function getProviderScheduleStatus() {
     return {error: 0, data: provider_schedule_status}
 }
 
-function addProviderScheduleStatus(providerScheduleStatus) {
-    if(!providerScheduleStatus){
+function addProviderScheduleStatus(user) {
+    if(!user){
         return {error: 1, status: 404, data: 'Aucune donnée'}
     }
-    if(!providerScheduleStatus.user.email){
+    if(!user.email){
         return {error: 1, status: 404, data: 'Email manquant'}
     }
 
-    let existingUser = customer_accounts.find(e => e.email === providerScheduleStatus.user.email);
+    let existingUser = customer_accounts.find(e => e.email === user.email);
     if(!existingUser){
         return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
     }
@@ -308,7 +308,7 @@ function addProviderScheduleStatus(providerScheduleStatus) {
 
     let providerScheduleStatusData = {
         _id: uuidv4(),
-        state: "0",
+        schedule_activated: false,
         customer_id: existingUser._id
     }
 
@@ -341,9 +341,6 @@ function modifyProviderScheduleStatus(providerScheduleStatus) {
 
     return {error: 0, status: 200, data: existingProviderScheduleStatus}
 }
-
-
-
 
 export default {
     getServiceCategories,

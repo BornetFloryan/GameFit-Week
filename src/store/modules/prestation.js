@@ -272,9 +272,9 @@ const actions = {
             console.error('Erreur lors de la récupération des statuts de planning:', error);
         }
     },
-    async addProviderScheduleStatus({ commit }, providerScheduleStatus) {
+    async addProviderScheduleStatus({ commit }, user) {
         try {
-            let response = await PrestationService.addProviderScheduleStatus(providerScheduleStatus);
+            let response = await PrestationService.addProviderScheduleStatus(user);
             if (response.error === 0) {
                 commit('addProviderScheduleStatus', response.data);
             }

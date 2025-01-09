@@ -54,7 +54,7 @@ async function modifyGuestbookStatus(providerGuestbookStatus) {
     try {
         const res = await client.query('SELECT _id FROM provider_guestbook_status WHERE _id = $1', [providerGuestbookStatus._id]);
         if (res.rows.length === 0) {
-            return { error: 1, status: 404, data: 'Statut non trouv��' };
+            return { error: 1, status: 404, data: 'Statut non trouvé' };
         }
 
         await client.query(
@@ -71,8 +71,29 @@ async function modifyGuestbookStatus(providerGuestbookStatus) {
     }
 }
 
+async function getProviderGuestbookStatusByCustomerId(customer_id) {
+    if (!customer_id) {
+        return { error: 1, status: 404, data: 'ID client manquant' };
+    }
+
+    const client = await pool.connect();
+    try {
+        const res = await client.query('SELECT * FROM provider_guestbook_status WHERE customer_id = $1', [customer_id]);
+        if (res.rows.length === 0) {
+            return { error: 1, status: 404, data: 'Aucun statut du livre d\'or trouvé pour ce client' };
+        }
+        return { error: 0, status: 200, data: res.rows[0] };
+    } catch (error) {
+        console.error('Erreur lors de la récupération du statut du livre d\'or:', error);
+        return { error: 1, status: 500, data: 'Erreur interne du serveur' };
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
     getGuestbookStatus,
     addGuestbookStatus,
     modifyGuestbookStatus,
-}
+    getProviderGuestbookStatusByCustomerId,
+};

@@ -33,7 +33,7 @@
                   :key="index"
                   class="card"
               >
-                <img :src="card.imageSrc" alt="Image de la carte" />
+                <img v-if="card.imageSrc" :src="card.imageSrc" alt="Image de la carte" />
                 <h2>{{ card.name }}</h2>
                 <button
                     v-if="!card.empty"
@@ -336,10 +336,18 @@ export default {
         this.getCustomerById(date.customer_id)
     );
 
-    this.cards = this.animators.map((animator) => ({
-      imageSrc: require(`@/assets/img/${animator.name}.jpg`),
-      name: `${animator.name}`,
-    }));
+    this.cards = this.animators.map((animator) => {
+      let imageSrc;
+      try {
+        imageSrc = require(`@/assets/img/${animator.name}.jpg`);
+      } catch (e) {
+        imageSrc = null;
+      }
+      return {
+        imageSrc: imageSrc,
+        name: `${animator.name}`,
+      };
+    });
 
     const prestataireId = this.$route.query.prestataireId;
     if (prestataireId) {

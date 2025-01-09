@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       user: {
+        _id: "",
         name: "",
         login: "",
         password: "",
@@ -130,7 +131,14 @@ export default {
   },
   methods: {
     ...mapActions("account", ['getCustomersAccounts', 'getProviderRequests', "addProviderRequest"]),
-    ...mapActions("prestation", ["getServiceCategories", 'getProviderServiceCategories', 'addProviderServiceCategory', 'addProviderGuestbookStatus']),
+    ...mapActions("prestation", [
+        "getServiceCategories",
+      'getProviderGuestbookStatus',
+      'getProviderScheduleStatus',
+      'getProviderServiceCategories',
+      'addProviderServiceCategory',
+      'addProviderGuestbookStatus',
+      'addProviderScheduleStatus']),
 
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
@@ -150,30 +158,40 @@ export default {
         if (response.error === 0) {
           for (let service of this.user.prestationServices) {
             try {
-              await this.addProviderServiceCategory({
+              let response = await this.addProviderServiceCategory({
                 user: this.user,
                 serviceCategory: service,
               });
+              if(response.error !== 0){
+                alert(response.data);
+                return;
+              }
+
+              this.user = this.getCustomerByEmail(this.user.email);
+
+              response = await this.addProviderGuestbookStatus(this.user._id);
+              if(response.error !== 0){
+                alert(response.data);
+                return;
+              }
+
+              response = await this.addProviderScheduleStatus(this.user);
+              if(response.error !== 0){
+                alert(response.data);
+                return;
+              }
+              alert("Votre demande a été envoyée à l'administrateur. Vous pouvez la consulter en vous connectant puis dans la section demande sur votre compte.");
+              this.$router.push({name: "login"});
             } catch (error) {
               console.error("Erreur lors de l'ajout de la catégorie de service:", error);
             }
           }
-          alert("Votre demande a été envoyée à l'administrateur. Vous pouvez la consulter en vous connectant puis dans la section demande sur votre compte.");
-          this.$router.push({name: "login"});
         } else {
           alert(response.data);
         }
       } catch (error) {
         console.error("Erreur lors de l'enregistrement:", error);
         alert("Une erreur est survenue lors de l'enregistrement.");
-      }
-      try{
-        let response = await this.addProviderGuestbookStatus(this.user._id);
-        if(response.error !==0){
-          alert(response.message);
-        }
-      } catch (error) {
-        console.error(error);
       }
     },
   },
@@ -182,6 +200,8 @@ export default {
     await this.getServiceCategories();
     await this.getProviderServiceCategories();
     await this.getProviderRequests();
+    await this.getProviderGuestbookStatus();
+    await this.getProviderScheduleStatus();
   },
 };
 </script>

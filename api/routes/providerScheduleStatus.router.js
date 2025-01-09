@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const guestbookStatusController = require('../controllers/guestbookStatus.controller');
+const providerScheduleStatusController = require('../controllers/providerScheduleStatus.controller');
 
-router.get('/', guestbookStatusController.getGuestbookStatus);
+router.get('/', providerScheduleStatusController.getScheduleStatus);
 /**
  * @swagger
- * /guestbook-status:
+ * /provider-schedule-status:
  *   get:
- *     summary: Récupérer le statut du livre d'or
- *     tags: [Statut du livre d'or]
+ *     summary: Récupérer le statut du planning du prestataire
+ *     tags: [Statut du planning du prestataire]
  *     responses:
  *       200:
- *         description: Le statut du livre d'or
+ *         description: Le statut du planning du prestataire
  *         content:
  *           application/json:
  *             schema:
@@ -32,13 +32,13 @@ router.get('/', guestbookStatusController.getGuestbookStatus);
  *                   example: "Erreur du serveur"
  */
 
-router.post('/', guestbookStatusController.addGuestbookStatus);
+router.post('/', providerScheduleStatusController.addScheduleStatus);
 /**
  * @swagger
- * /guestbook-status:
+ * /provider-schedule-status:
  *   post:
- *     summary: Ajouter un nouveau statut au livre d'or
- *     tags: [Statut du livre d'or]
+ *     summary: Ajouter un nouveau statut au planning du prestataire
+ *     tags: [Statut du planning du prestataire]
  *     requestBody:
  *       required: true
  *       content:
@@ -46,12 +46,12 @@ router.post('/', guestbookStatusController.addGuestbookStatus);
  *           schema:
  *             type: object
  *             properties:
- *               customer_id:
+ *               email:
  *                 type: string
- *                 example: "1"
+ *                 example: "client@client.com"
  *     responses:
  *       201:
- *         description: Statut du livre d'or ajouté avec succès
+ *         description: Statut du planning du prestataire ajouté avec succès
  *         content:
  *           application/json:
  *             schema:
@@ -82,13 +82,13 @@ router.post('/', guestbookStatusController.addGuestbookStatus);
  *                   example: "Erreur du serveur"
  */
 
-router.put('/', guestbookStatusController.modifyGuestbookStatus);
+router.put('/', providerScheduleStatusController.modifyScheduleStatus);
 /**
  * @swagger
- * /guestbook-status:
+ * /provider-schedule-status:
  *   put:
- *     summary: Modifier le statut du livre d'or
- *     tags: [Statut du livre d'or]
+ *     summary: Modifier le statut du planning du prestataire
+ *     tags: [Statut du planning du prestataire]
  *     requestBody:
  *       required: true
  *       content:
@@ -99,21 +99,21 @@ router.put('/', guestbookStatusController.modifyGuestbookStatus);
  *               _id:
  *                 type: string
  *                 example: "1"
- *               guestbook_activated:
+ *               schedule_activated:
  *                 type: boolean
  *                 example: false
  *               customer_id:
  *                 type: string
- *                 example: 2
+ *                 example: "2"
  *     responses:
  *       200:
- *         description: Statut du livre d'or modifié avec succès
+ *         description: Statut du planning du prestataire modifié avec succès
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 guestbook_activated:
+ *                 schedule_activated:
  *                   type: boolean
  *                   example: false
  *       400:
@@ -126,6 +126,50 @@ router.put('/', guestbookStatusController.modifyGuestbookStatus);
  *                 error:
  *                   type: string
  *                   example: "Entrée invalide"
+ *       500:
+ *         description: Erreur interne du serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Erreur du serveur"
+ */
+
+router.get('/customer/:customer_id', providerScheduleStatusController.getScheduleStatusByCustomerId);
+/**
+ * @swagger
+ * /provider-schedule-status/customer/{customer_id}:
+ *   get:
+ *     summary: Récupérer le statut du planning par ID client
+ *     tags: [Statut du planning du prestataire]
+ *     parameters:
+ *       - in: path
+ *         name: customer_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "3"
+ *         description: ID du client
+ *     responses:
+ *       200:
+ *         description: Le statut du planning pour le client spécifié
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   example: "1"
+ *                 schedule_activated:
+ *                   type: boolean
+ *                   example: false
+ *                 customer_id:
+ *                   type: string
+ *                   example: "2"
  *       500:
  *         description: Erreur interne du serveur
  *         content:

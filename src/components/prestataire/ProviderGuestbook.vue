@@ -15,7 +15,9 @@
           <p><strong>Date :</strong> {{ formatDate(entry.date) }}</p>
           <p><strong>Note :</strong> <span v-html="getStars(entry.rating)"></span></p>
           <p><strong>Commentaire :</strong> {{ entry.comment }}</p>
-          <p><strong>Utilisateur :</strong> {{ getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name }}</p>
+          <p><strong>Utilisateur :</strong> {{
+              getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name
+            }}</p>
         </div>
       </div>
     </div>
@@ -30,12 +32,12 @@ export default {
   name: 'ProviderGuestbook',
   data() {
     return {
-      serviceStatus: true,
+      serviceStatus: null,
     };
   },
   computed: {
     ...mapState('account', ['currentUser']),
-    ...mapState('prestation', ['guestbookEntries']),
+    ...mapState('prestation', ['guestbookEntries', 'providerGuestbookStatus']),
     ...mapGetters('prestation', ['getServiceReservationsById', 'getProviderGuestbookStatusByCustomerId']),
     ...mapGetters('ticket', ['getTicketById']),
     ...mapGetters('account', ['getCustomerById']),
@@ -74,31 +76,33 @@ export default {
       return dateObject.toLocaleString('fr-FR', {timeZone: 'UTC'});
     },
     async toggleServiceStatus() {
-      const providerGuestbookStatus = this.getProviderGuestbookStatusByCustomerId(this.currentUser._id);
-      if (!providerGuestbookStatus) {
-        alert('Erreur: Statut du livre d\'or non trouvé pour ce prestataire');
-        return;
-      }
-      providerGuestbookStatus.guestbook_activated = this.serviceStatus;
       try {
+        const providerGuestbookStatus = this.getProviderGuestbookStatusByCustomerId(this.currentUser._id);
+        if (!providerGuestbookStatus) {
+          alert('Erreur: Statut du livre d\'or non trouvé pour ce prestataire');
+          return;
+        }
+        providerGuestbookStatus.guestbook_activated = this.serviceStatus;
         await this.modifyProviderGuestbookStatus(providerGuestbookStatus);
         alert(`Service ${this.serviceStatus ? 'activé' : 'désactivé'} avec succès`);
       } catch (e) {
         alert('Erreur lors de la mise à jour du statut du service');
       }
-    }
+    },
   },
-  async created() {
-    await this.getGuestbookEntries();
-    await this.getStandsReservations();
-    await this.getProviderGuestbookStatus();
-    await this.getServiceReservations();
+  created() {
+    this.getGuestbookEntries();
+    this.getProviderGuestbookStatus();
+    this.getStandsReservations();
+    this.getServiceReservations();
     const status = this.getProviderGuestbookStatusByCustomerId(this.currentUser._id);
     if (status) {
       this.serviceStatus = status.guestbook_activated;
+    } else {
+      this.serviceStatus = false;
     }
-    await this.fetchData();
-  }
+    this.fetchData();
+  },
 };
 </script>
 

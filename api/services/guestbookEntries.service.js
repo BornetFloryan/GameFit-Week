@@ -90,7 +90,24 @@ async function addGuestbookEntry(guestbookEntry) {
     }
 }
 
+async function getGuestbookEntriesByCustomerId(customer_id) {
+    const client = await pool.connect();
+    try {
+        const res = await client.query(`
+            SELECT ge.*
+            FROM guestbook_entries ge
+            JOIN service_reservations sr ON ge.service_reservations_id = sr._id
+            JOIN stands_reservations str ON sr.stand_reservation_id = str._id
+            WHERE str.customer_id = $1
+        `, [customer_id]);
+        return res.rows;
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
     getGuestbookEntries,
     addGuestbookEntry,
+    getGuestbookEntriesByCustomerId,
 }

@@ -60,8 +60,8 @@ async function getProviderScheduleStatusFromLocalSource() {
     return LocalSource.getProviderScheduleStatus();
 }
 
-async function addProviderScheduleStatusFromLocalSource(providerScheduleStatus) {
-    return LocalSource.addProviderScheduleStatus(providerScheduleStatus);
+async function addProviderScheduleStatusFromLocalSource(user) {
+    return LocalSource.addProviderScheduleStatus(user);
 }
 
 async function modifyProviderScheduleStatusFromLocalSource(providerScheduleStatus) {
@@ -261,10 +261,10 @@ async function getProviderScheduleStatus(){
     return response
 }
 
-async function addProviderScheduleStatus(providerScheduleStatus){
+async function addProviderScheduleStatus(user){
     let response = null;
     try {
-        response = await addProviderScheduleStatusFromLocalSource(providerScheduleStatus);
+        response = await addProviderScheduleStatusFromLocalSource(user);
     }
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible d\'ajouter le statut du planning' }

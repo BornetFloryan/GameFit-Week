@@ -8,23 +8,28 @@
         <input type="radio" v-model="serviceStatus" :value="false" @change="toggleServiceStatus"> Désactiver le service
       </label>
     </div>
-    <h1>Planning du Prestataire pour la Semaine de l'Événement</h1>
-    <div v-if="serviceStatus" class="calendar">
-      <div class="calendar-header">
-        <div class="calendar-cell"></div>
-        <div class="calendar-cell" v-for="day in days" :key="day">{{ day }}</div>
-      </div>
-      <div class="calendar-body">
-        <div class="calendar-row" v-for="hour in hours" :key="hour">
-          <div class="calendar-cell">{{ hour }}</div>
-          <div class="calendar-cell" v-for="day in days" :key="day">
-            <div v-for="event in getEventsForDayAndHour(day, hour)" :key="event.id" class="event" @mouseover="showTooltip" @mouseout="hideTooltip" @click="navigateToService()">
-              <div>{{ event.description }}</div>
-              <div>{{ serviceName(event.service) }}</div>
+    <div v-if="serviceStatus">
+      <h1>Planning du Prestataire pour la Semaine de l'Événement</h1>
+      <div class="calendar">
+        <div class="calendar-header">
+          <div class="calendar-cell"></div>
+          <div class="calendar-cell" v-for="day in days" :key="day">{{ day }}</div>
+        </div>
+        <div class="calendar-body">
+          <div class="calendar-row" v-for="hour in hours" :key="hour">
+            <div class="calendar-cell">{{ hour }}</div>
+            <div class="calendar-cell" v-for="day in days" :key="day">
+              <div v-for="event in getEventsForDayAndHour(day, hour)" :key="event.id" class="event" @mouseover="showTooltip" @mouseout="hideTooltip" @click="navigateToService()">
+                <div>{{ event.description }}</div>
+                <div>{{ serviceName(event.service) }}</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <p>L'emploi du temps est désactivé</p>
     </div>
     <div v-if="tooltipVisible" :style="tooltipStyle" class="tooltip">En savoir plus</div>
   </div>

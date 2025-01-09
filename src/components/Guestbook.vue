@@ -44,6 +44,7 @@ export default {
   },
   computed: {
     ...mapState('account', ['currentUser']),
+    ...mapState('prestation', ['guestbookEntries']),
     ...mapGetters('prestation', ['getServiceReservationsById']),
     ...mapGetters('ticket', ['getTicketById', 'getTicketsByCustomerId']),
     ...mapGetters('account', ['getCustomerById']),
