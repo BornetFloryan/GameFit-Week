@@ -18,6 +18,31 @@ const {
     service_reservations,
 } = require('../../src/datasource/data');
 
+const provider_guestbook_status = [
+    { customer_id: "2", guestbook_activated: true },
+    { customer_id: "3", guestbook_activated: true },
+    { customer_id: "4", guestbook_activated: false },
+    { customer_id: "5", guestbook_activated: true },
+    { customer_id: "6", guestbook_activated: false },
+    { customer_id: "7", guestbook_activated: true },
+    { customer_id: "8", guestbook_activated: false },
+    { customer_id: "9", guestbook_activated: true },
+    { customer_id: "10", guestbook_activated: false },
+    { customer_id: "11", guestbook_activated: true },
+    { customer_id: "12", guestbook_activated: false },
+    { customer_id: "13", guestbook_activated: true },
+    { customer_id: "14", guestbook_activated: false },
+    { customer_id: "15", guestbook_activated: true },
+    { customer_id: "16", guestbook_activated: false },
+    { customer_id: "17", guestbook_activated: true },
+    { customer_id: "18", guestbook_activated: false }
+];
+
+const guestbook_entries = [
+    { _id: "0", date: "2025-07-07T14:00:00.000Z", rating: "5", comment: "Super événement, j'ai adoré !", service_reservations_id: "0" },
+    { _id: "1", date: "2025-07-07T15:00:00.000Z", rating: "4", comment: "Très bonne organisation !", service_reservations_id: "1" }
+];
+
 const executeSQLFile = async (filePath) => {
     const sql = fs.readFileSync(filePath, 'utf8');
     await pool.query(sql);
@@ -157,6 +182,24 @@ const insertData = async () => {
                 'SELECT _id FROM service_reservations WHERE _id = $1',
                 'INSERT INTO service_reservations (_id, date, time, ticket_id, service_id, stand_reservation_id) VALUES ($1, $2, $3, $4, $5, $6)',
                 [_id, date, time, ticket_id, service_id, stand_reservation_id]
+            );
+        }
+
+        for (const status of provider_guestbook_status) {
+            const { customer_id, guestbook_activated } = status;
+            await insertIfNotExists(
+                'SELECT customer_id FROM provider_guestbook_status WHERE customer_id = $1',
+                'INSERT INTO provider_guestbook_status (customer_id, guestbook_activated) VALUES ($1, $2)',
+                [customer_id, guestbook_activated]
+            );
+        }
+
+        for (const entry of guestbook_entries) {
+            const { _id, date, rating, comment, service_reservations_id } = entry;
+            await insertIfNotExists(
+                'SELECT _id FROM guestbook_entries WHERE _id = $1',
+                'INSERT INTO guestbook_entries (_id, date, rating, comment, service_reservations_id) VALUES ($1, $2, $3, $4, $5)',
+                [_id, date, rating, comment, service_reservations_id]
             );
         }
 

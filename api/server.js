@@ -14,6 +14,8 @@ const providerServiceCategoriesRoutes = require('./routes/providerServiceCategor
 const serviceReservationRoutes = require('./routes/serviceReservation.router');
 const ticketRoutes = require('./routes/ticket.router');
 const standsRoutes = require('./routes/stands.router');
+const guestbookStatusRoutes = require('./routes/guestbookStatus.router');
+const guestbookEntriesRoutes = require('./routes/guestbookEntries.router');
 
 const app = express();
 const PORT = 3000;
@@ -31,6 +33,8 @@ app.use('/provider-service-categories', providerServiceCategoriesRoutes);
 app.use('/service-reservations', serviceReservationRoutes);
 app.use('/tickets', ticketRoutes);
 app.use('/stands', standsRoutes);
+app.use('/guestbook-status', guestbookStatusRoutes);
+app.use('/guestbook-entries', guestbookEntriesRoutes);
 
 
 app.use(session({

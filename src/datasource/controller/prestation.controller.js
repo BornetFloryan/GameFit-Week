@@ -279,9 +279,6 @@ function modifyGuestbookStatus(providerGuestbookStatus) {
         return {error: 1, status: 404, data: 'Statut non trouvé'}
     }
 
-    console.log(providerGuestbookStatus)
-    console.log(existingStatus)
-
     existingStatus.guestbook_activated = providerGuestbookStatus.guestbook_activated;
 
     return {error: 0, status: 200, data: existingStatus}

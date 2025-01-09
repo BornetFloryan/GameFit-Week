@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS guestbook_entries;
+DROP TABLE IF EXISTS provider_guestbook_status;
 DROP TABLE IF EXISTS service_reservations;
 DROP TABLE IF EXISTS stands_reservations;
 DROP TABLE IF EXISTS stands;
@@ -12,6 +14,7 @@ DROP TABLE IF EXISTS provider_service_categories;
 DROP TABLE IF EXISTS service_categories;
 DROP TABLE IF EXISTS provider_requests;
 DROP TABLE IF EXISTS customer_accounts;
+
 
 CREATE TABLE IF NOT EXISTS customer_accounts
 (
@@ -128,4 +131,20 @@ CREATE TABLE IF NOT EXISTS service_reservations
     ticket_id INT REFERENCES tickets (_id) ON DELETE CASCADE,
     service_id  INT REFERENCES service_categories(_id) ON DELETE CASCADE,
     stand_reservation_id INT REFERENCES stands_reservations(_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS provider_guestbook_status
+(
+    _id         SERIAL PRIMARY KEY,
+    guestbook_activated      BOOLEAN,
+    customer_id INT REFERENCES customer_accounts (_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS guestbook_entries
+(
+    _id         SERIAL PRIMARY KEY,
+    date       DATE,
+    rating    INT,
+    comment   TEXT,
+    service_reservations_id INT REFERENCES service_reservations(_id) ON DELETE CASCADE
 );
