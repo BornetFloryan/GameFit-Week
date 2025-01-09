@@ -7,13 +7,13 @@
           <span class="schedule-time">{{ reservation.start_time }}h - {{ reservation.end_time }}h</span>
           <p>
             Prestation :
-            <router-link :to="{path: 'services/dedication/dedication-home'}" class="schedule-service">
+            <router-link :to="{path: 'services/dedication/dedication-home', query: { prestataireId: reservation.customer_id }}" class="schedule-service">
               {{ getServiceCategoryById(reservation.service_id)?.name || 'Unknown' }}
             </router-link>
           </p>
           <p>
             Prestataire :
-            <router-link :to="{path: '/prestataire/'}" class="schedule-prestataire">
+            <router-link :to="{ name: 'prestataire-info', params: { id: reservation.customer_id } }" class="schedule-prestataire">
               {{ getCustomerById(reservation.customer_id)?.name || 'Unknown' }}
             </router-link>
           </p>

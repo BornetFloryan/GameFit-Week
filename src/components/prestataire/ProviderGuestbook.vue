@@ -80,7 +80,6 @@ export default {
         return;
       }
       providerGuestbookStatus.guestbook_activated = this.serviceStatus;
-      console.log(providerGuestbookStatus);
       try {
         await this.modifyProviderGuestbookStatus(providerGuestbookStatus);
         alert(`Service ${this.serviceStatus ? 'activé' : 'désactivé'} avec succès`);

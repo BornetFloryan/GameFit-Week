@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavView />
-    <router-view></router-view> <!-- Les vues enfants (goodies, restaurant) seront rendues ici -->
+    <router-view></router-view>
   </div>
 </template>
 

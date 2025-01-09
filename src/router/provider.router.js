@@ -7,6 +7,7 @@ import ProviderRestaurantManagement from "@/components/prestataire/foods/Provide
 import ProviderchartView from "@/components/ProviderChartView.vue";
 import ProviderGuestbook from "@/components/prestataire/ProviderGuestbook.vue";
 import ProviderEditor from "@/components/prestataire/ProviderEditor.vue";
+import ProviderSchedule from "@/components/prestataire/ProviderSchedule.vue";
 
 export default [
     {
@@ -15,6 +16,12 @@ export default [
         component: ProviderDashboard,
         meta: { requiresAuth: true, requiredPrivilege: '1' },
         children: [
+            {
+                path: 'provider-schedule',
+                name: 'provider-schedule',
+                component: ProviderSchedule,
+                meta: { requiresAuth: true, requiredPrivilege: '1' },
+            },
             {
                 path: 'provider-editor',
                 name: 'provider-editor',

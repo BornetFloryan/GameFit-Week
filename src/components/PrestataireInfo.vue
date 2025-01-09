@@ -18,6 +18,7 @@
           </li>
         </ul>
       </div>
+      <ProviderSchedule />
     </div>
     <div class="guestbook-section" v-if="guestbookActivated">
       <Guestbook />
@@ -30,11 +31,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import Guestbook from "@/components/Guestbook.vue";
+import ProviderSchedule from "@/components/prestataire/ProviderSchedule.vue";
 
 export default {
   name: "PrestataireInfo",
   components: {
-    Guestbook
+    Guestbook,
+    ProviderSchedule
   },
   data() {
     return {
@@ -58,6 +61,7 @@ export default {
   },
   methods: {
     ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', 'getProviderGuestbookStatus']),
+    ...mapActions('stands', ['getStandsReservations']),
     goBack() {
       this.$router.go(-1);
     },
@@ -72,6 +76,7 @@ export default {
   async created() {
     await this.getServiceCategories();
     await this.getProviderServiceCategories();
+    await this.getStandsReservations();
     await this.fetchGuestbookStatus();
   },
 };

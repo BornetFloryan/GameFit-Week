@@ -150,13 +150,6 @@ const getters = {
         return state.standsReservations.filter((reservation) => reservation.stand_id === stand_id && reservation.date === date);
     },
     getStandsReservationsByCustomerId: (state) => (customer_id) => {
-        if(store.state.account.currentUser == null){
-            return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
-        }
-
-        if (store.state.account.currentUser.privilege < '1'){
-            return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
-        }
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id);
     },
     getStandsReservationsByServiceId: (state) => (service_id) => {

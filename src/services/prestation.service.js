@@ -56,6 +56,18 @@ async function modifyGuestbookStatusFromLocalSource(providerGuestbookStatus) {
     return LocalSource.modifyGuestbookStatus(providerGuestbookStatus);
 }
 
+async function getProviderScheduleStatusFromLocalSource() {
+    return LocalSource.getProviderScheduleStatus();
+}
+
+async function addProviderScheduleStatusFromLocalSource(providerScheduleStatus) {
+    return LocalSource.addProviderScheduleStatus(providerScheduleStatus);
+}
+
+async function modifyProviderScheduleStatusFromLocalSource(providerScheduleStatus) {
+    return LocalSource.modifyProviderScheduleStatus(providerScheduleStatus);
+}
+
 async function getServiceCategories() {
     let response = null;
     try {
@@ -238,6 +250,38 @@ async function modifyGuestbookStatus(providerGuestbookStatus) {
     return response
 }
 
+async function getProviderScheduleStatus(){
+    let response = null;
+    try {
+        response = await getProviderScheduleStatusFromLocalSource();
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer le statut du planning' }
+    }
+    return response
+}
+
+async function addProviderScheduleStatus(providerScheduleStatus){
+    let response = null;
+    try {
+        response = await addProviderScheduleStatusFromLocalSource(providerScheduleStatus);
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible d\'ajouter le statut du planning' }
+    }
+    return response
+}
+
+async function modifyProviderScheduleStatus(providerScheduleStatus) {
+    let response = null;
+    try {
+        response = await modifyProviderScheduleStatusFromLocalSource(providerScheduleStatus);
+    } catch (err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de modifier le statut du planning'}
+    }
+    return response
+}
+
 export default {
     getServiceCategories,
     getProviderServiceCategories,
@@ -252,5 +296,8 @@ export default {
     addGuestbookEntry,
     getGuestbookStatus,
     addGuestbookStatus,
-    modifyGuestbookStatus
+    modifyGuestbookStatus,
+    getProviderScheduleStatus,
+    addProviderScheduleStatus,
+    modifyProviderScheduleStatus,
 }

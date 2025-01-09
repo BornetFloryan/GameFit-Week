@@ -1220,6 +1220,77 @@ let provider_guestbook_status = [
     }
 ];
 
+let provider_schedule_status = [
+    {
+        "customer_id": "2",
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "3", // Lionel Messi
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "4", // LeBron James
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "5", // Serena Williams
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "6", // Cristiano Ronaldo
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "7", // Tom Brady
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "8", // Roger Federer
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "9", // Stephen Curry
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "10", // Usain Bolt
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "11", // Neymar Jr.
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "12", // Michael Jordan
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "13", // Khabib Nurmagomedov
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "14", // Pelé
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "15", // Virat Kohli
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "16", // Misty May-Treanor
+        "schedule_activated": false
+    },
+    {
+        "customer_id": "17", // Bugha
+        "schedule_activated": true
+    },
+    {
+        "customer_id": "18", // Ninja
+        "schedule_activated": false
+    }
+];
+
 let guestbook_entries = [
     {
         "_id": "0",
@@ -1270,4 +1341,5 @@ module.exports = {
     provider_guestbook_status,
     guestbook_entries,
     dailyTickets,
+    provider_schedule_status,
 }

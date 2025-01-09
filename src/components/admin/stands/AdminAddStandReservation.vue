@@ -75,7 +75,6 @@ export default {
       const customerReservations = this.getStandsReservationsByCustomerIdAndDateAndExcludingStandId(
           this.formData.customer_id, date, stand_id
       );
-      console.log('customerReservations', customerReservations);
       const usedTimes = [...reservations, ...customerReservations]
           .filter(res => res._id !== this.id)
           .flatMap((res) => {

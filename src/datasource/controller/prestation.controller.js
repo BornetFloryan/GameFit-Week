@@ -1,5 +1,5 @@
 import {
-    customer_accounts, guestbook_entries, provider_guestbook_status,
+    customer_accounts, guestbook_entries, provider_guestbook_status, provider_schedule_status,
     provider_service_categories,
     service_categories,
     service_reservations
@@ -284,6 +284,67 @@ function modifyGuestbookStatus(providerGuestbookStatus) {
     return {error: 0, status: 200, data: existingStatus}
 }
 
+function getProviderScheduleStatus() {
+    return {error: 0, data: provider_schedule_status}
+}
+
+function addProviderScheduleStatus(providerScheduleStatus) {
+    if(!providerScheduleStatus){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if(!providerScheduleStatus.user.email){
+        return {error: 1, status: 404, data: 'Email manquant'}
+    }
+
+    let existingUser = customer_accounts.find(e => e.email === providerScheduleStatus.user.email);
+    if(!existingUser){
+        return {error: 1, status: 404, data: 'Utilisateur non trouvé'}
+    }
+
+    let existingProviderScheduleStatus = provider_schedule_status.find(e => e.customer_id === existingUser._id);
+    if(existingProviderScheduleStatus){
+        return {error: 1, status: 404, data: 'Statut déjà existant pour le prestataire'}
+    }
+
+    let providerScheduleStatusData = {
+        _id: uuidv4(),
+        state: "0",
+        customer_id: existingUser._id
+    }
+
+    return {error: 0, status: 200, data: providerScheduleStatusData}
+}
+
+function modifyProviderScheduleStatus(providerScheduleStatus) {
+    if(!providerScheduleStatus){
+        return {error: 1, status: 404, data: 'Aucune donnée'}
+    }
+    if(!providerScheduleStatus._id){
+        return {error: 1, status: 404, data: 'ID manquant'}
+    }
+
+    if(store.state.account.currentUser == null){
+        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    }
+
+    if (store.state.account.currentUser.privilege < '1'){
+        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
+    }
+
+    let existingProviderScheduleStatus = provider_schedule_status.find(e => e._id === providerScheduleStatus._id);
+    if(!existingProviderScheduleStatus){
+        return {error: 1, status: 404, data: 'Statut non trouvé'}
+    }
+
+    existingProviderScheduleStatus.schedule_activated = providerScheduleStatus.schedule_activated;
+    existingProviderScheduleStatus.customer_id = providerScheduleStatus.customer_id;
+
+    return {error: 0, status: 200, data: existingProviderScheduleStatus}
+}
+
+
+
+
 export default {
     getServiceCategories,
     getProviderServiceCategories,
@@ -298,5 +359,8 @@ export default {
     addGuestbookEntry,
     getGuestbookStatus,
     addGuestbookStatus,
-    modifyGuestbookStatus
+    modifyGuestbookStatus,
+    getProviderScheduleStatus,
+    addProviderScheduleStatus,
+    modifyProviderScheduleStatus,
 }

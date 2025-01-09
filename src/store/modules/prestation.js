@@ -7,6 +7,7 @@ const state = () => ({
     serviceReservations: [],
     guestbookEntries: [],
     providerGuestbookStatus: [],
+    providerScheduleStatus: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -62,7 +63,19 @@ const mutations = {
         if (index !== -1) {
             state.providerGuestbookStatus[index] = providerGuestbookStatus;
         }
-    }
+    },
+    updateProviderScheduleStatus(state, providerScheduleStatus) {
+        state.providerScheduleStatus = providerScheduleStatus;
+    },
+    addProviderScheduleStatus(state, providerScheduleStatus) {
+        state.providerScheduleStatus.push(providerScheduleStatus);
+    },
+    modifyProviderScheduleStatus(state, providerScheduleStatus) {
+        let index = state.providerScheduleStatus.findIndex(e => e._id === providerScheduleStatus._id);
+        if (index !== -1) {
+            state.providerScheduleStatus[index] = providerScheduleStatus;
+        }
+    },
 };
 
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -247,6 +260,42 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la modification du statut du livre d\'or' };
         }
     },
+    async getProviderScheduleStatus({ commit }) {
+        try {
+            let response = await PrestationService.getProviderScheduleStatus();
+            if (response.error === 0) {
+                commit('updateProviderScheduleStatus', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des statuts de planning:', error);
+        }
+    },
+    async addProviderScheduleStatus({ commit }, providerScheduleStatus) {
+        try {
+            let response = await PrestationService.addProviderScheduleStatus(providerScheduleStatus);
+            if (response.error === 0) {
+                commit('addProviderScheduleStatus', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout d\'un statut de planning:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout d\'un statut de planning' };
+        }
+    },
+    async modifyProviderScheduleStatus({ commit }, providerScheduleStatus) {
+        try {
+            let response = await PrestationService.modifyProviderScheduleStatus(providerScheduleStatus);
+            if (response.error === 0) {
+                commit('modifyProviderScheduleStatus', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification d\'un statut de planning:', error);
+            return {error: 1, data: 'Erreur lors de la modification d\'un statut de planning'};
+        }
+    },
 };
 
 const getters = {
@@ -352,6 +401,15 @@ const getters = {
         const status = state.providerGuestbookStatus.find((pgs) => pgs.customer_id === customer_id);
         if (!status) {
             console.error(`Aucun statut du livre d'or trouvé pour customer_id : ${customer_id}`);
+            return null;
+        }
+        return status;
+    },
+    getProviderScheduleStatusByCustomerId: (state) => (customer_id) => {
+        if(customer_id == null) return null;
+        const status = state.providerScheduleStatus.find((pss) => pss.customer_id === customer_id);
+        if (!status) {
+            console.error(`Aucun statut de planning trouvé pour customer_id : ${customer_id}`);
             return null;
         }
         return status;

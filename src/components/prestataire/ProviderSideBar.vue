@@ -11,6 +11,11 @@
 
     <h3>Menu</h3>
     <div class="menu">
+
+      <router-link
+          :to="{ path: '/provider-dashboard/provider-schedule' }" class="button">
+        <span class="material-icons">Emploi du temps</span>
+      </router-link>
       <router-link
                    :to="{ path: '/provider-dashboard/provider-editor' }" class="button">
         <span class="material-icons">Page de présentation</span>

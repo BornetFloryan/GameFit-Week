@@ -26,7 +26,6 @@ export default {
   data() {
     return {
       description: '',
-      guestbookActivated: false,
     };
   },
   computed: {
@@ -57,7 +56,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('account', ['modifyCustomerAccount']),
+    ...mapActions('account', ['getCustomersAccounts', 'modifyCustomerAccount']),
     ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', 'getProviderGuestbookStatus']),
     async saveDescription() {
       if (this.prestataire) {
@@ -70,20 +69,17 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    async fetchGuestbookStatus() {
-      await this.getProviderGuestbookStatus();
-      const status = await this.getProviderGuestbookStatusByCustomerId(this.prestataire._id);
-      if (status) {
-        this.guestbookActivated = status.guestbook_activated;
-      }
-    },
   },
   async created() {
     await this.getServiceCategories();
     await this.getProviderServiceCategories();
-    await this.fetchGuestbookStatus();
-    if (this.prestataire) {
-      this.description = this.prestataire.description || '';
+    await this.getCustomersAccounts();
+
+    this.provider = this.getCustomerById(this.$route.params.id) || this.currentUser;
+    if (this.provider && this.provider._id) {
+      await this.getCustomerById(this.provider._id);
+    } else {
+      console.error('Provider or provider ID is undefined');
     }
   },
 };
