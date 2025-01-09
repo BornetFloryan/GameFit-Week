@@ -11,6 +11,10 @@
 
     <h3>Menu</h3>
     <div class="menu">
+      <router-link
+                   :to="{ path: '/provider-dashboard/provider-editor' }" class="button">
+        <span class="material-icons">Page de présentation</span>
+      </router-link>
       <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '0')"
                    :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
         <span class="material-icons">Dédicaces</span>

@@ -6,6 +6,7 @@ import GoodieSalesList from "@/components/prestataire/goodies/GoodieSalesList.vu
 import ProviderRestaurantManagement from "@/components/prestataire/foods/ProviderRestaurantManagement.vue";
 import ProviderchartView from "@/components/ProviderChartView.vue";
 import ProviderGuestbook from "@/components/prestataire/ProviderGuestbook.vue";
+import ProviderEditor from "@/components/prestataire/ProviderEditor.vue";
 
 export default [
     {
@@ -14,6 +15,12 @@ export default [
         component: ProviderDashboard,
         meta: { requiresAuth: true, requiredPrivilege: '1' },
         children: [
+            {
+                path: 'provider-editor',
+                name: 'provider-editor',
+                component: ProviderEditor,
+                meta: { requiresAuth: true, requiredPrivilege: '1' },
+            },
             {
                 path: 'provider-dedication',
                 name: 'provider-dedication',

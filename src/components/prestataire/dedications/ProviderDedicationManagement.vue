@@ -50,7 +50,7 @@ export default {
       title: "Gestion des dédicaces",
       headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
       fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
-      modifyName: 'provider-dedication-edit',
+      modifyName: '',
       enableRes: true,
       enableDelete: true,
       dataSource: [],

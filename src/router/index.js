@@ -5,7 +5,6 @@ import TicketingView from "@/views/TicketingView.vue";
 import PrestataireView from '@/views/PrestataireView.vue';
 import PrestataireList from "@/components/PrestataireList.vue";
 import PrestataireInfo from "@/components/PrestataireInfo.vue";
-import PageWithEditor from "@/components/PageWithEditor.vue";
 
 import AccountRoutes from './account.router';
 import ServiceRoutes from './service.router';
@@ -14,7 +13,6 @@ import PrestataireRoutes from './provider.router';
 import PrestationRouter from "./prestation.router";
 
 import store from '@/store';
-
 
 Vue.use(VueRouter);
 
@@ -47,11 +45,6 @@ const routes = [
     ]
   },
 
-  {
-    path: '/editor',
-    name: 'editor',
-    component: PageWithEditor
-  },
   ...AccountRoutes,
   ...ServiceRoutes,
   ...AdminRoutes,

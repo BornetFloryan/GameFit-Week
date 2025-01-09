@@ -6,47 +6,35 @@
       </div>
       <div class="header-text">
         <h1 class="provider-name">{{ prestataire?.name }}</h1>
-        <p class="provider-description" v-html="prestataire?.description"></p>
+        <VueEditor v-model="description" />
       </div>
     </div>
-    <div class="content">
-      <div class="services-section">
-        <h2 class="section-title">Services Proposés</h2>
-        <ul class="service-list">
-          <li v-for="service in servicesPrestataires" :key="service._id" class="service-item">
-            <router-link :to="{ name: 'dedication-home', query: { prestataireId: prestataire._id } }" class="service-link">{{ service.name }}</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="guestbook-section" v-if="guestbookActivated">
-      <Guestbook />
-    </div>
-    <p v-else>Le livre d'or n'est pas activé.</p>
+    <button @click="saveDescription" class="save-button">Enregistrer</button>
     <button @click="goBack" class="back-button">Retour à la liste des prestataires</button>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import Guestbook from "@/components/Guestbook.vue";
+import { mapActions, mapGetters, mapState } from 'vuex';
+import { VueEditor } from 'vue2-editor';
 
 export default {
-  name: "PrestataireInfo",
+  name: 'ProviderEditor',
   components: {
-    Guestbook
+    VueEditor,
   },
   data() {
     return {
+      description: '',
       guestbookActivated: false,
     };
   },
   computed: {
+    ...mapState('account', ['currentUser']),
     ...mapGetters('account', ['getCustomerById']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getServiceCategoryById', 'getProviderGuestbookStatusByCustomerId']),
     prestataire() {
-      const id = this.$route.params.id;
-      return this.getCustomerById(id);
+      return this.currentUser ? this.getCustomerById(this.currentUser._id) : null;
     },
     servicesPrestataires() {
       if (!this.prestataire) return [];
@@ -56,8 +44,29 @@ export default {
           .map(category => this.getServiceCategoryById(category.service_id));
     },
   },
+  watch: {
+    prestataire: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          this.description = newVal.description || '';
+        } else {
+          console.error('Prestataire is undefined');
+        }
+      },
+    },
+  },
   methods: {
+    ...mapActions('account', ['modifyCustomerAccount']),
     ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', 'getProviderGuestbookStatus']),
+    async saveDescription() {
+      if (this.prestataire) {
+        this.prestataire.description = this.description;
+        await this.modifyCustomerAccount(this.prestataire);
+      } else {
+        console.error('Prestataire is undefined');
+      }
+    },
     goBack() {
       this.$router.go(-1);
     },
@@ -73,6 +82,9 @@ export default {
     await this.getServiceCategories();
     await this.getProviderServiceCategories();
     await this.fetchGuestbookStatus();
+    if (this.prestataire) {
+      this.description = this.prestataire.description || '';
+    }
   },
 };
 </script>
@@ -129,13 +141,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.provider-description {
-  font-size: 20px;
-  color: #666;
-  line-height: 1.6;
-}
-
-.content, .guestbook-section {
+.content {
   width: 100%;
   max-width: 1200px;
   background-color: #fff;
@@ -176,20 +182,27 @@ export default {
   color: #4682B4;
 }
 
-.guestbook-section {
-  margin-top: 30px;
-}
-
-.back-button {
+.save-button, .back-button {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.save-button {
+  background-color: #007bff;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.back-button {
+  background-color: #007bff;
 }
 
 .back-button:hover {

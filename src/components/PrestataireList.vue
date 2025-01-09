@@ -7,7 +7,7 @@
         <div class="provider-details">
           <p><strong>Nom :</strong> {{ prestataire.name }}</p>
           <p><strong>Email :</strong> {{ prestataire.email }}</p>
-          <p><strong>Description :</strong> {{ prestataire.description }}</p>
+          <p><strong>Description :</strong> <span v-html="prestataire.description"></span></p>
           <button @click="goToProviderInfo(prestataire._id)" class="info-button">Accéder à l'espace du prestataire</button>
         </div>
       </div>

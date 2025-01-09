@@ -23,8 +23,6 @@
         </li>
         <li><router-link :to="{ path: '/services/stream' }" class="link">En direct</router-link></li>
 
-        <li><router-link :to="{ path: '/editor' }" class="link">Éditeur</router-link></li>
-
         <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
