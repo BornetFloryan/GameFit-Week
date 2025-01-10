@@ -1,52 +1,54 @@
 <template>
-  <aside class="modern-sidebar">
-    <div class="header">
-      <div class="logo">
-        <img :src="logoURL" alt="GameFit Week Logo" />
+  <div class="provider-layout">
+    <aside class="modern-sidebar">
+      <div class="header">
+        <div class="logo">
+          <img :src="logoURL" alt="GameFit Week Logo" />
+        </div>
+        <button @click="logout" class="button logout-button" title="Déconnexion">
+          <span class="material-icons">Déconnexion</span>
+        </button>
       </div>
-      <button @click="logout" class="button logout-button" title="Déconnexion">
-        <span class="material-icons">Déconnexion</span>
-      </button>
-    </div>
 
-    <h3>Menu</h3>
-    <div class="menu">
-
-      <router-link
-          :to="{ path: '/provider-dashboard/provider-schedule' }" class="button">
-        <span class="material-icons">Emploi du temps</span>
-      </router-link>
-      <router-link
-                   :to="{ path: '/provider-dashboard/provider-editor' }" class="button">
-        <span class="material-icons">Page de présentation</span>
-      </router-link>
-      <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '0')"
-                   :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
-        <span class="material-icons">Dédicaces</span>
-      </router-link>
-      <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '1')"
-                   :to="{ path: '/provider-dashboard/provider-goodies' }" class="button">
-        <span class="material-icons">Goodies</span>
-      </router-link>
-      <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '2')"
-                   :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
-        <span class="material-icons">Produits Alimentaires</span>
-      </router-link>
-      <router-link :to="{ path: '/provider-dashboard/provider-guestbook' }" class="button">
-        <span class="material-icons">Livre d'Or</span>
-      </router-link>
-      <router-link :to="{ path: '/provider-dashboard/chart' }" class="button">
-        <span class="material-icons">Graphique</span>
-      </router-link>
+      <h3>Menu</h3>
+      <div class="menu">
+        <router-link :to="{ path: '/provider-dashboard/provider-schedule' }" class="button">
+          <span class="material-icons">Emploi du temps</span>
+        </router-link>
+        <router-link :to="{ path: '/provider-dashboard/provider-editor' }" class="button">
+          <span class="material-icons">Page de présentation</span>
+        </router-link>
+        <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '0')"
+                     :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
+          <span class="material-icons">Dédicaces</span>
+        </router-link>
+        <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '1')"
+                     :to="{ path: '/provider-dashboard/provider-goodies' }" class="button">
+          <span class="material-icons">Goodies</span>
+        </router-link>
+        <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '2')"
+                     :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
+          <span class="material-icons">Produits Alimentaires</span>
+        </router-link>
+        <router-link :to="{ path: '/provider-dashboard/provider-guestbook' }" class="button">
+          <span class="material-icons">Livre d'Or</span>
+        </router-link>
+        <router-link :to="{ path: '/provider-dashboard/chart' }" class="button">
+          <span class="material-icons">Graphique</span>
+        </router-link>
+      </div>
+    </aside>
+    <div class="main-content">
+      <slot></slot>
     </div>
-  </aside>
+  </div>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
-  name: 'AdminSidebar',
+  name: 'ProviderSidebar',
   data() {
     return {
       logoURL: require('@/assets/img/logo.png'),
@@ -56,7 +58,6 @@ export default {
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerIdAndServiceID'])
-
   },
   methods: {
     ...mapActions('account', ['logoutUser']),
@@ -83,6 +84,10 @@ export default {
   --background-gradient: linear-gradient(135deg, #2c3e50, #34495e);
 }
 
+.provider-layout {
+  display: flex;
+}
+
 .modern-sidebar {
   display: flex;
   flex-direction: column;
@@ -92,7 +97,10 @@ export default {
   min-height: 100vh;
   padding: 1rem;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .header {
@@ -171,12 +179,67 @@ h3 {
   color: var(--text-color);
 }
 
+.main-content {
+  margin-left: 220px;
+  padding: 1rem;
+  flex: 1;
+}
+
 @media (max-width: 1024px) {
   .modern-sidebar {
-    position: absolute;
     width: 200px;
-    z-index: 10;
-    transform: translateX(-100%);
+  }
+
+  .button {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .button .material-icons {
+    font-size: 1.2rem;
+    margin-right: 0.3rem;
+  }
+
+  .logout-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .logout-button .material-icons {
+    font-size: 1.2rem;
+  }
+
+  .main-content {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modern-sidebar {
+    width: 180px;
+  }
+
+  .button {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .button .material-icons {
+    font-size: 1rem;
+    margin-right: 0.2rem;
+  }
+
+  .logout-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .logout-button .material-icons {
+    font-size: 1rem;
+  }
+
+  .main-content {
+    margin-left: 180px;
   }
 }
 </style>

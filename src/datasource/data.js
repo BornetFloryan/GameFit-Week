@@ -913,7 +913,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Serena Williams !",
         "customer_id": "5",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "5",
     },
     {
         "_id": "3",
@@ -923,7 +923,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Cristiano Ronaldo !",
         "customer_id": "6",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "5",
     },
     {
         "_id": "4",
@@ -933,7 +933,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Tom Brady !",
         "customer_id": "7",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "6",
     },
     {
         "_id": "5",
@@ -943,7 +943,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Roger Federer !",
         "customer_id": "8",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "6",
     },
     {
         "_id": "6",
@@ -953,7 +953,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Stephen Curry !",
         "customer_id": "9",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "7",
     },
     {
         "_id": "7",
@@ -963,7 +963,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Usain Bolt !",
         "customer_id": "10",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "7",
     },
     {
         "_id": "8",
@@ -973,7 +973,7 @@ let stands_reservations = [
         "description": "Venez rencontrer Neymar Jr. !",
         "customer_id": "11",
         "service_id":"0",
-        "stand_id": "4",
+        "stand_id": "8",
     },
     {
         "_id": "9",

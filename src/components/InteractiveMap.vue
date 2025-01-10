@@ -4,7 +4,8 @@
     <div class="date-picker-container">
       <label for="reservation-date">{{ dateTitle }}</label>
       <br>
-      <input @change="updateSelectedDate" type="date" id="reservation-date" v-model="selectedDate" :min="minDate" :max="maxDate" />
+      <input @change="updateSelectedDate" type="date" id="reservation-date" v-model="selectedDate" :min="minDate"
+             :max="maxDate"/>
     </div>
     <div ref="svgContainer" class="svg-container" v-html="svgContent"></div>
   </div>
@@ -92,8 +93,7 @@ export default {
       this.$emit("update-selected-date", this.selectedDate);
     },
   },
-  computed: {
-  },
+  computed: {},
   mounted() {
     this.fetchSvgContent();
   },
@@ -103,20 +103,24 @@ export default {
 <style scoped>
 h2 {
   color: #fff;
+  text-align: center;
+  margin: 20px 0;
 }
+
 .interactive-map {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
+  padding: 20px;
   background-color: #222;
   color: #fff;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .svg-container {
-  width: 90%;
+  width: 100%;
   max-width: 1200px;
   height: auto;
   display: flex;
@@ -137,5 +141,16 @@ h2 {
 .date-picker-container input {
   padding: 5px;
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .interactive-map {
+    padding: 10px;
+  }
+
+  .date-picker-container input {
+    width: 100%;
+    font-size: 14px;
+  }
 }
 </style>
