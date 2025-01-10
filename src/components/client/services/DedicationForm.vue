@@ -164,7 +164,7 @@ export default {
   computed: {
     ...mapState("stands", ["standsReservations"]),
     ...mapState("prestation", ["serviceReservations"]),
-    ...mapState("account", ["currentUser", "sportsCategories"]),
+    ...mapState("account", ["currentUser", "sportsCategories", "provider_sport_categories"]),
     ...mapGetters("stands", [
       "getStandsReservationsByServiceId",
       "getStandsReservationsByCustomerIdAndServiceId",
@@ -182,10 +182,17 @@ export default {
         const matchesQuery =
             this.searchQuery === "" ||
             card.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+
+        const providerSportCategories = this.provider_sport_categories.filter(
+            (category) => animator && category.customer_id === animator._id
+        );
+
         const matchesCategory =
             this.selectedCategory === "" ||
-            (animator &&
-                animator.sport_id.includes(this.selectedCategory._id));
+            (animator && providerSportCategories.some(
+                (category) => category.sport_id.includes(this.selectedCategory._id)
+            ));
+
         return matchesQuery && matchesCategory;
       });
     },
@@ -201,7 +208,7 @@ export default {
   },
   methods: {
     ...mapActions("stands", ["getStands", "getStandsReservations"]),
-    ...mapActions("account", ["getCustomersAccounts", "getSportsCategories"]),
+    ...mapActions("account", ["getCustomersAccounts", "getSportsCategories", "getProviderSportCategories"]),
     ...mapActions("prestation", [
       "getServiceReservations",
       "addServiceReservation",
@@ -329,6 +336,7 @@ export default {
     await this.getSportsCategories();
     await this.getServiceReservations();
     await this.getStandsReservations();
+    await this.getProviderSportCategories();
 
     this.animatorDedicationDates = this.getStandsReservationsByServiceId("0");
 

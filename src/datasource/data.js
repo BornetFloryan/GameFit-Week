@@ -1138,14 +1138,14 @@ let service_reservations = [
         "time": "09:00",
         "ticket_id": "0",
         "service_id": "0",
-        "stand_reservation_id": "0",
+        "stand_reservation_id": "1",
     },{
         "_id": "1",
         "date": "2025-07-07",
         "time": "10:00",
         "ticket_id": "0",
         "service_id": "0",
-        "stand_reservation_id": "0",
+        "stand_reservation_id": "1",
     },
 ];
 
@@ -1160,7 +1160,7 @@ let provider_guestbook_status = [
     },
     {
         "customer_id": "4", // LeBron James
-        "guestbook_activated": false
+        "guestbook_activated": true
     },
     {
         "customer_id": "5", // Serena Williams
@@ -1231,7 +1231,7 @@ let provider_schedule_status = [
     },
     {
         "customer_id": "4", // LeBron James
-        "schedule_activated": false
+        "schedule_activated": true
     },
     {
         "customer_id": "5", // Serena Williams

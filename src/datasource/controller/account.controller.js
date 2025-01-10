@@ -1,4 +1,4 @@
-import {customer_accounts, provider_requests, sports_categories} from '../data'
+import {customer_accounts, provider_requests, provider_sport_categories, sports_categories} from '../data'
 import {v4 as uuidv4} from 'uuid'
 import store from "@/store";
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
@@ -234,6 +234,10 @@ function getSportsCategories(){
     return {error: 0, data: sports_categories}
 }
 
+function getProviderSportsCategories(){
+    return {error: 0, data: provider_sport_categories}
+}
+
 export default{
     getCustomersAccounts,
     addCustomerAccount,
@@ -245,4 +249,5 @@ export default{
     modifyProviderRequest,
     deleteProviderRequest,
     getSportsCategories,
+    getProviderSportsCategories,
 }

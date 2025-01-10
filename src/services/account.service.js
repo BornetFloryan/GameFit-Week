@@ -40,6 +40,10 @@ async function getSportsCategoriesFromLocalSource(){
     return LocalSource.getSportsCategories()
 }
 
+async function getProviderSportsCategoriesFromLocalSource(){
+    return LocalSource.getProviderSportsCategories()
+}
+
 
 async function loginUser(data) {
     let response = null;
@@ -171,6 +175,20 @@ async function getSportsCategories(){
     return response
 }
 
+async function getProviderSportsCategories(){
+    let response = null;
+    try {
+        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
+        response = await getProviderSportsCategoriesFromLocalSource()
+    }
+        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des catÃ©gories'  }
+    }
+    return response
+}
+
+
 export default {
     loginUser,
     getCustomersAccounts,
@@ -182,4 +200,5 @@ export default {
     modifyProviderRequest,
     deleteProviderRequest,
     getSportsCategories,
+    getProviderSportsCategories,
 }

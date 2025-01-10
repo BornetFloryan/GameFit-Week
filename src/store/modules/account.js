@@ -6,6 +6,7 @@ const state = () => ({
     currentUser: null,
     providerRequests: [],
     sportsCategories: [],
+    provider_sport_categories: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -48,6 +49,9 @@ const mutations = {
     },
     updateSportsCategories(state, sportsCategories){
         state.sportsCategories = sportsCategories;
+    },
+    updateProviderSportCategories(state, provider_sport_categories){
+        state.provider_sport_categories = provider_sport_categories;
     },
 };
 
@@ -191,6 +195,18 @@ const actions = {
             console.error('Erreur lors de la récupération des catégories de sports:', error);
         }
     },
+    async getProviderSportCategories({commit}){
+        try {
+            let response = await AccountService.getProviderSportsCategories();
+            if (response.error === 0) {
+                commit('updateProviderSportCategories', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des catégories de sports des fournisseurs:', error);
+        }
+    }
 };
 
 const getters = {
