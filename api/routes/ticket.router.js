@@ -34,7 +34,7 @@ router.post('/', ticketController.addTickets);
  *             properties:
  *               email:
  *                 type: string
- *                 example: test@test.com
+ *                 example: client@client.com
  *               date:
  *                 type: string
  *                 example: 2024/12/19

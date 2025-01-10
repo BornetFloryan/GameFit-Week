@@ -17,7 +17,7 @@ async function getTickets() {
 async function getTicketsAnimationCategories() {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM ticketsanimationcategories');
+        const res = await client.query('SELECT * FROM ticket_animation_categories');
         return { error: 0, status: 200, data: res.rows };
     } catch (error) {
         console.error(error);
@@ -56,9 +56,9 @@ async function getTicketPrices() {
 async function addTickets(formData) {
     const client = await pool.connect();
     try {
-        let customer = await client.query('SELECT * FROM customersaccounts WHERE email = $1', [formData.email]);
+        let customer = await client.query('SELECT * FROM customer_accounts WHERE email = $1', [formData.email]);
         if (customer.rows.length < 1) {
-            const _idCustomer = await client.query('SELECT MAX(_id) FROM customersaccounts');
+            const _idCustomer = await client.query('SELECT MAX(_id) FROM customer_accounts');
             customer = {
                 _id: parseInt(_idCustomer.rows[0].max) + 1,
                 name: formData.name,
@@ -68,7 +68,7 @@ async function addTickets(formData) {
                 privilege: 0,
                 session: null
             };
-            await client.query('INSERT INTO customersaccounts (_id, name, login, password, email, privilege, session) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+            await client.query('INSERT INTO customer_accounts (_id, name, login, password, email, privilege, session) VALUES ($1, $2, $3, $4, $5, $6, $7)',
                 [customer._id, customer.name, customer.login, customer.password, customer.email, customer.privilege, customer.session]);
         } else {
             customer = customer.rows[0];
@@ -167,7 +167,7 @@ async function getTicketPriceByCategories(animationCategoryId, ageCategoryId) {
 async function getTicketsAnimationCategoryById(id) {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM ticketsanimationcategories WHERE _id = $1', [id]);
+        const res = await client.query('SELECT * FROM ticket_animation_categories WHERE _id = $1', [id]);
         if (res.rows.length === 0) {
             return { error: 1, status: 404, data: 'Ticket animation category not found' };
         }
