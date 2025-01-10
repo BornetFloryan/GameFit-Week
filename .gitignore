@@ -1,19 +1,22 @@
+# Ignorer les archives et les fichiers système spécifiques
+*.zip
 .DS_Store
+
+# Dossiers générés
 node_modules
 /dist
 
-
-# local env files
+# Fichiers d'environnement locaux
 .env.local
 .env.*.local
 
-# Log files
+# Fichiers de log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Editor directories and files
+# Dossiers et fichiers spécifiques à l'éditeur
 .idea
 .vscode
 *.suo
