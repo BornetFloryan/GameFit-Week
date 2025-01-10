@@ -229,6 +229,7 @@ export default {
       }
 
       try {
+        console.log("data", data);
         let response = await this.modifyServiceReservation(data);
         if (response.error === 0) {
           await this.$router.push("/admin-dashboard/admin-dedication-reservation");

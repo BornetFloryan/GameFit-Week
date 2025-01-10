@@ -89,6 +89,10 @@ function deleteProviderServiceCategory(providerServiceCategory) {
         return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
     }
 
+    if(service_reservations.find(e => e.service_id === providerServiceCategory.service_id)){
+        return {error: 1, status: 404, data: 'Impossible de supprimer : Service lié à une réservation'}
+    }
+
     let index = provider_service_categories.findIndex(e => e._id === providerServiceCategory._id);
     if (index !== -1) {
         return {error: 0, status: 200, data: index}
@@ -133,6 +137,7 @@ function addServiceReservation(serviceReservation) {
 }
 
 function modifyServiceReservation(serviceReservation) {
+    console.log('serviceReservation', serviceReservation);
     if (!serviceReservation) {
         return {error: 1, status: 404, data: 'Aucune donnée'}
     }
@@ -153,11 +158,11 @@ function modifyServiceReservation(serviceReservation) {
         return {error: 1, status: 404, data: 'Réservation non trouvée'}
     }
 
-    existingServiceReservation.state = serviceReservation.state;
-    existingServiceReservation.providerServiceCategory = serviceReservation.providerServiceCategory;
     existingServiceReservation.date = serviceReservation.date;
-    existingServiceReservation.start = serviceReservation.start;
-    existingServiceReservation.end = serviceReservation.end;
+    existingServiceReservation.time = serviceReservation.time;
+    existingServiceReservation.ticket_id = serviceReservation.ticket_id;
+    existingServiceReservation.service_id = serviceReservation.service_id;
+    existingServiceReservation.stand_reservation_id = serviceReservation.stand_reservation_id;
 
     return {error: 0, status: 200, data: existingServiceReservation}
 }

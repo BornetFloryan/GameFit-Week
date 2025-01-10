@@ -66,9 +66,18 @@ export default {
   },
   methods: {
     ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrices', 'deleteTicket']),
-    deleteTicketAction(ticket) {
-      this.deleteTicket(ticket._id);
-      this.customerTickets = this.customerTickets.filter(t => t._id !== ticket._id);
+    async deleteTicketAction(ticket) {
+      try{
+        let response = await this.deleteTicket(ticket._id)
+        if(response.error !==0){
+          alert(response.data);
+          return;
+        }
+        this.customerTickets = this.customerTickets.filter(t => t._id !== ticket._id);
+      } catch (error){
+        console.error('error', error);
+      }
+
     },
   },
   mounted() {

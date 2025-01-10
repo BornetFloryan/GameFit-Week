@@ -1135,7 +1135,7 @@ let service_reservations = [
     {
         "_id": "0",
         "date": "2025-07-07",
-        "time": "09:00",
+        "time": "10:10",
         "ticket_id": "0",
         "service_id": "0",
         "stand_reservation_id": "1",

@@ -33,6 +33,7 @@ function modifyStand(stand) {
 }
 
 function modifyStandsReservations(standReservation) {
+
     if(!standReservation){
         return {error: 1, data: 'Aucune donnée'}
     }
@@ -47,7 +48,7 @@ function modifyStandsReservations(standReservation) {
 
     if(!standReservation.date || !standReservation.stand_id || !standReservation.customer_id || !standReservation.description
         || !standReservation.start_time || !standReservation.end_time || !standReservation.service_id){
-        return {error: 1, data: 'Données manquantes'}
+        return {error: 1, status: 404, data: 'Données manquantes'}
     }
     let index = stands_reservations.findIndex(sr => sr._id === standReservation._id)
     if (index !== -1) {

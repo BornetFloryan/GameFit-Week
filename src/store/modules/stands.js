@@ -102,7 +102,8 @@ const actions = {
         try {
             let response = await StandsService.modifyStandsReservations(standReservation);
             if (response.error === 0) {
-                commit('modifyStandsReservations', standReservation);
+                commit('modifyStandsReservations', response.data);
+                return response;
             } else {
                 console.error(response.data);
             }

@@ -20,11 +20,11 @@
 
 <script>
 import AdminForm from "@/components/admin/AdminForm.vue";
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "AdminModifyDedication",
-  components: {AdminForm},
+  components: { AdminForm },
   data() {
     return {
       id: "",
@@ -47,7 +47,7 @@ export default {
     ...mapState("stands", ["standsReservations", "stands"]),
     ...mapState("account", ["customersAccounts"]),
     ...mapState("prestation", ["providerServiceCategories", "serviceCategories"]),
-    ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate", 'getStandsReservationsByCustomerIdAndDateAndExcludingStandId']),
+    ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate", "getStandsReservationsByCustomerIdAndDateAndExcludingStandId"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById", "getProviderOfferingServices"]),
   },
   methods: {
@@ -62,11 +62,22 @@ export default {
         end_time: data.end_time,
         description: data.description,
         customer_id: data.customer_id,
-        service_id: this.formData.service_id,
+        service_id: "0",
         stand_id: data.stand_id,
       };
-      await this.modifyStandsReservations(updatedReservation);
-      await this.$router.push("/admin-dashboard/admin-dedication");
+
+      if(updatedReservation){
+        try {
+          let response = await this.modifyStandsReservations(updatedReservation);
+          if (response.error !== 0) {
+            alert(response.data);
+            return;
+          }
+          await this.$router.push("/admin-dashboard/admin-dedication");
+        } catch (e) {
+          console.error(e);
+        }
+      }
     },
 
     goBack() {
@@ -87,7 +98,7 @@ export default {
           .flatMap((res) => {
             const start = parseInt(res.start_time.split(':')[0], 10);
             const end = parseInt(res.end_time.split(':')[0], 10);
-            return Array.from({ length: end - start }, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
+            return Array.from({length: end - start}, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
           });
 
       const availableTimes = this.availableTimes.filter(
@@ -131,7 +142,7 @@ export default {
           label: "Service du prestataire",
           type: "select",
           model: "service_id",
-          options: [{ value: "0", text: "Dédicace" }],
+          options: [{value: "0", text: "Dédicace"}],
           props: {required: true, disabled: true},
         },
         {
@@ -219,7 +230,6 @@ export default {
       this.updateVisibility("end_time", !!start_time);
     },
 
-
     updateAvailableTimes(date) {
       this.formData.date = date;
       const availableTimes = this.filterAvailableTimes(date, this.formData.stand_id);
@@ -236,7 +246,6 @@ export default {
         this.formData.date = "";
       }
     },
-
 
     updateVisibility(fieldId, condition) {
       const field = this.formFields.find((f) => f.id === fieldId);
@@ -263,7 +272,7 @@ export default {
       if (reservation) {
         this.id = reservation._id;
         this.formData = {...reservation};
-        this.formData.service_id = "dédicace";
+        this.formData.service_id = "0";
       }
     }
 

@@ -1,7 +1,13 @@
-import {tickets, ticket_animation_categories, ticket_age_categories, customer_accounts, ticket_prices} from '../data'
+import {
+    tickets,
+    ticket_animation_categories,
+    ticket_age_categories,
+    customer_accounts,
+    ticket_prices,
+    service_reservations
+} from '../data'
 import LoginController from './account.controller'
 import {v4 as uuidv4} from "uuid";
-import store from "@/store";
 
 //Ticketing
 function getTickets() {
@@ -55,13 +61,15 @@ function addTickets(formData) {
 }
 
 function deleteTicket(ticket_id) {
-    if(store.state.account.currentUser == null){
-        return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
+    let ticket = tickets.find(ticket => ticket._id === ticket_id);
+    if (ticket === undefined) {
+        return {error: 1, status: 404, data: 'ticket non trouvé'};
+    }
+    let reservations = service_reservations.filter(reservation => reservation.ticket_id === ticket_id);
+    if (reservations.length) {
+        return {error: 1, status: 400, data: 'le ticket possède une réservation, annulez la réservation avant de supprimer le ticket'};
     }
 
-    if (store.state.account.currentUser.privilege < '2'){
-        return {error: 1, status: 404, data: 'vous n\'avez pas les droits pour effectuer cette action'}
-    }
     return {error: 0, status: 204, data: ticket_id};
 }
 
