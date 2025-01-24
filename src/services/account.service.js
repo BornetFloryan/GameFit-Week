@@ -1,11 +1,20 @@
 import LocalSource from "@/datasource/controller/account.controller";
+import {postRequest, getRequest} from "@/services/axios.service";
 
-async function loginUserFromLocalSource(data) {
-    return LocalSource.loginUser(data)
+// async function loginUserFromLocalSource(data) {
+//     return LocalSource.loginUser(data)
+// }
+
+async function loginUserFromApi(data) {
+    return postRequest('accounts/login', data, 'LoginUser')
 }
 
-async function getCustomersAccountsFromLocalSource() {
-    return LocalSource.getCustomersAccounts()
+// async function getCustomersAccountsFromLocalSource() {
+//     return LocalSource.getCustomersAccounts()
+// }
+
+async function getCustomersAccountsFromApi() {
+    return getRequest('accounts/',  'GetCustomersAccounts')
 }
 
 async function addCustomerAccountFromLocalSource(customer) {
@@ -49,7 +58,10 @@ async function loginUser(data) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await loginUserFromLocalSource(data)
+
+        // response = await loginUserFromLocalSource(data)
+
+        response = await loginUserFromApi(data)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -62,7 +74,8 @@ async function getCustomersAccounts() {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getCustomersAccountsFromLocalSource()
+        // response = await getCustomersAccountsFromLocalSource()
+        response = await getCustomersAccountsFromApi()
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {

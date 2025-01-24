@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require('./utils/swaggerConfig');
 const pool = require('./database/db');
+const cors = require('cors');
 
 const accountRoutes = require('./routes/account.router');
 const sportsCategoriesRoutes = require('./routes/sportsCategories.router');
@@ -20,6 +21,8 @@ const providerScheduleStatusRoutes = require('./routes/providerScheduleStatus.ro
 
 const app = express();
 const PORT = 3000;
+
+app.use(cors({ origin: 'http://localhost:8080' }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -38,7 +38,6 @@ const mutations = {
     },
     modifyServiceReservation(state, serviceReservation) {
         let index = state.serviceReservations.findIndex(e => e._id === serviceReservation._id);
-        console.log('index', index);
         if (index !== -1) {
             state.serviceReservations[index] = serviceReservation;
         }

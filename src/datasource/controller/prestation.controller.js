@@ -137,7 +137,6 @@ function addServiceReservation(serviceReservation) {
 }
 
 function modifyServiceReservation(serviceReservation) {
-    console.log('serviceReservation', serviceReservation);
     if (!serviceReservation) {
         return {error: 1, status: 404, data: 'Aucune donnée'}
     }
