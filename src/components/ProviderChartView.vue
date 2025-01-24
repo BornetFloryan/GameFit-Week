@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Répartition des créneaux (Réservés, Libres, Annulés)</h1>
+    <h1>Répartition des créneaux (Réservés, Annulés)</h1>
     <h2>{{ reservedSlots }} réservations</h2>
     <canvas ref="slotChart"></canvas>
   </div>
