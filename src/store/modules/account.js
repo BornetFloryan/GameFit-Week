@@ -82,9 +82,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de l\'utilisateur' };
         }
     },
-    async modifyCustomerAccount({ commit }, customer) {
+    async modifyCustomerAccount({ commit }, customer, session) {
         try {
-            let response = await AccountService.modifyCustomerAccount(customer);
+            let response = await AccountService.modifyCustomerAccount(customer, session);
             if (response.error === 0) {
                 commit('modifyCustomerAccount', response.data);
             }
@@ -94,9 +94,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la modification de l\'utilisateur' };
         }
     },
-    async deleteCustomerAccount({ commit }, customer) {
+    async deleteCustomerAccount({ commit }, customer, session) {
         try {
-            let response = await AccountService.deleteCustomerAccount(customer);
+            let response = await AccountService.deleteCustomerAccount(customer, session);
             if (response.error === 0) {
                 commit('deleteCustomerAccount', response.data);
             }
@@ -145,9 +145,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de la demande' };
         }
     },
-    async deleteProviderRequest({ commit }, request) {
+    async deleteProviderRequest({ commit }, request, session) {
         try {
-            let response = await AccountService.deleteProviderRequest(request);
+            let response = await AccountService.deleteProviderRequest(request, session);
             if (response.error === 0) {
                 commit('deleteProviderRequest', response.data);
             }
@@ -157,10 +157,10 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la suppression de la demande' };
         }
     },
-    async approveProviderRequest({ commit }, request) {
+    async approveProviderRequest({ commit }, request, session) {
         try {
             request.state = '1';
-            let response = await AccountService.modifyProviderRequest(request);
+            let response = await AccountService.modifyProviderRequest(request, session);
             if (response.error === 0) {
                 commit('modifyProviderRequest', response.data);
             }
@@ -206,23 +206,16 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories de sports des fournisseurs:', error);
         }
-    },
-    getCustomerById: async (_id) => {
-        try {
-            let response = await AccountService.getCustomerById(_id);
-            if (response.error === 0) {
-                return response.data;
-            } else {
-                console.error(response.data);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération d\'un compte:', error);
-        }
-    },
-
+    }
 };
 
 const getters = {
+    getCustomerById: (state) => (_id) => {
+        if(state.customersAccounts.length === 0){
+            return undefined;
+        }
+        return state.customersAccounts.find(e => e._id === _id);
+    },
     getCustomerByEmail: (state) => (email) => {
         return state.customersAccounts.find(e => e.email === email);
     },

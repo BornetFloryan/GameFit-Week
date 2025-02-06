@@ -14,22 +14,21 @@
       </thead>
       <tbody>
       <tr v-for="request in providerRequests" :key="request._id">
-        request: {{ request }}
         <td>{{ request._id }}</td>
         <td>{{ request.date }}</td>
         <td>{{ getCustomerById(request.customer_id)?.name || 'Unknown' }}</td>
         <td>
           <ul class="indented-list">
             <li v-for="service in getProviderServiceCategoriesByCustomerId(request.customer_id)" :key="service._id">
-              {{ getServiceCategoryById(service.service_id).name }}
+              {{ getServiceCategoryById(service.service_id)?.name || 'Unknown' }}
             </li>
           </ul>
         </td>
         <td>{{ request.state }}</td>
         <td>
-          <button v-if="request.state !== '1' && request.state !== '2'" @click="approveRequest(request)">Approuver</button>
-          <button v-if="request.state === '1' || request.state === '2'" @click="deleteRequest(request)">Supprimer</button>
-          <button v-if="request.state !== '1' && request.state !== '2'" @click="rejectRequest(request)">Rejeter</button>
+          <button v-if="request.state !== 1 && request.state !== 2" @click="approveRequest(request)">Approuver</button>
+          <button v-if="request.state === 1 || request.state === 2" @click="deleteRequest(request)">Supprimer</button>
+          <button v-if="request.state !== 1 && request.state !== 2" @click="rejectRequest(request)">Rejeter</button>
         </td>
       </tr>
       </tbody>
@@ -43,10 +42,17 @@ import {mapState, mapActions, mapGetters} from "vuex";
 export default {
   name: "AdminRequests",
   computed: {
-    ...mapState("account", ["currentUser", "providerRequests"]),
-    ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById"]),
-    ...mapGetters("account", []),
-    ...mapGetters('stands', ['getStandsReservationsByCustomerId'])
+    ...mapState("account", [
+      "currentUser",
+      "providerRequests"
+    ]),
+    ...mapGetters("prestation", [
+      "getProviderServiceCategoriesByCustomerId",
+      "getServiceCategoryById",
+    ]),
+    ...mapGetters("account", ["getCustomerById"]),
+    ...mapGetters('stands', ['getStandsReservationsByCustomerId']),
+
   },
   methods: {
     ...mapActions("account", [
@@ -56,20 +62,23 @@ export default {
       "rejectProviderRequest",
       "deleteProviderRequest",
       "modifyCustomerAccount",
-      "getCustomerById",
     ]),
-    ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', "deleteProviderServiceCategory"]),
+    ...mapActions('prestation', [
+      'getServiceCategories',
+      'getProviderServiceCategories',
+      "deleteProviderServiceCategory"
+    ]),
     ...mapActions('stands', ['getStands', 'getStandsReservations']),
 
     async approveRequest(request) {
       if (confirm("Êtes-vous sûr de vouloir approuver cette demande ?")) {
         try {
-          let response = await this.approveProviderRequest(request);
+          let response = await this.approveProviderRequest(request, this.currentUser.session);
           if (response.error === 0) {
             let user = this.getCustomerById(request.customer_id);
             if (user) {
               user.privilege = 1;
-              response = await this.modifyCustomerAccount(user);
+              response = await this.modifyCustomerAccount(user, this.currentUser.session);
               if (response.error !== 0) {
                 alert(response.data);
               }
@@ -90,7 +99,7 @@ export default {
           if (response.error === 0) {
             for (let category of this.getProviderServiceCategoriesByCustomerId(request.customer_id)) {
               try {
-                response = await this.deleteProviderServiceCategory(category);
+                response = await this.deleteProviderServiceCategory(category, this.currentUser.session);
                 if (response.error !== 0) {
                   alert(response.data);
                 }
@@ -116,7 +125,7 @@ export default {
       }
       if (confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
         try {
-          let response = await this.deleteProviderRequest(request);
+          let response = await this.deleteProviderRequest(request, this.currentUser.session);
           if (response.error !== 0) {
             alert(response.data);
           }

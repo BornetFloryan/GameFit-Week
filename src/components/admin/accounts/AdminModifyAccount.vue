@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("account", ["customersAccounts"]),
+    ...mapState("account", ["customersAccounts", "currentUser"]),
     ...mapState("prestation", ["serviceCategories", 'providerServiceCategories']),
     ...mapGetters("account", ["getCustomerById"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId"]),
@@ -60,7 +60,7 @@ export default {
         },
       ];
 
-      if (this.formData.privilege === "1") {
+      if (this.formData.privilege === 1) {
         fields.push({
           id: "services",
           label: "Services",
@@ -105,7 +105,7 @@ export default {
         for (const service of servicesToRemove) {
           let serviceToDelete = providerServices.find(providerService => providerService._id === service);
           try {
-            let response = await this.deleteProviderServiceCategory(serviceToDelete);
+            let response = await this.deleteProviderServiceCategory(serviceToDelete, this.currentUser.session);
             if (response.error !== 0) {
               alert(response.data);
               return;
@@ -135,7 +135,7 @@ export default {
         }
       }
 
-      await this.modifyCustomerAccount(updatedAccount);
+      await this.modifyCustomerAccount(updatedAccount, this.currentUser.session);
       await this.$router.push("/admin-dashboard/admin-accounts");
     },
 
@@ -147,7 +147,7 @@ export default {
       await this.getServiceCategories();
       await this.getProviderServiceCategories();
 
-      if (this.formData.privilege === "1") {
+      if (this.formData.privilege === 1) {
         const userServices = await this.getProviderServiceCategoriesByCustomerId(this.id);
 
         this.formData.services = userServices.map(service => service.service_id);
@@ -160,7 +160,7 @@ export default {
   },
   async mounted() {
     if (this.$route.params.item_id) {
-      const account = this.getCustomerById(this.$route.params.item_id);
+      const account = this.getCustomerById(parseInt(this.$route.params.item_id));
       if (account) {
         this.id = account._id;
         this.formData = {...account, services: account.services || []};

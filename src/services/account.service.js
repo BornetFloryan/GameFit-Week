@@ -1,5 +1,5 @@
 // import LocalSource from "@/datasource/controller/account.controller";
-import {postRequest, getRequest} from "@/services/axios.service";
+import {postRequest, getRequest, deleteRequest, putRequest} from "@/services/axios.service";
 
 // async function loginUserFromLocalSource(data) {
 //     return LocalSource.loginUser(data)
@@ -22,23 +22,23 @@ async function getCustomersAccountsFromApi() {
 // }
 
 async function addCustomerAccountFromApi(customer) {
-    return postRequest('accounts/', customer, 'AddCustomerAccount')
+    return postRequest('accounts/register', customer, 'AddCustomerAccount')
 }
 
 // async function ModifyCustomerAccountFromLocalSource(customer) {
 //     return LocalSource.modifyCustomerAccount(customer)
 // }
 
-async function ModifyCustomerAccountFromApi(customer) {
-    return postRequest('accounts/', customer, 'ModifyCustomerAccount')
+async function ModifyCustomerAccountFromApi(customer, session) {
+    return putRequest('accounts/profil/?session=' + session, customer, 'ModifyCustomerAccount')
 }
 
 // async function deleteCustomerAccountFromLocalSource(customer) {
 //     return LocalSource.deleteCustomerAccount(customer)
 // }
 
-async function deleteCustomerAccountFromApi(customer) {
-    return postRequest('accounts/', customer, 'DeleteCustomerAccount')
+async function deleteCustomerAccountFromApi(customer, session) {
+    return deleteRequest('accounts/profil/?session=' + session, customer, 'DeleteCustomerAccount')
 }
 
 // async function getProviderRequestsFromLocalSource() {
@@ -61,16 +61,16 @@ async function addProviderRequestFromApi(user) {
 //     return LocalSource.modifyProviderRequest(request)
 // }
 
-async function modifyProviderRequestFromApi(request) {
-    return postRequest('provider-requests', request, 'ModifyProviderRequest')
+async function modifyProviderRequestFromApi(request, session) {
+    return putRequest('provider-requests/?session=' + session, request, 'ModifyProviderRequest')
 }
 
 // async function deleteProviderRequestFromLocalSource(request) {
 //     return LocalSource.deleteProviderRequest(request)
 // }
 
-async function deleteProviderRequestFromApi(request) {
-    return postRequest('provider-requests', request, 'DeleteProviderRequest')
+async function deleteProviderRequestFromApi(request, session) {
+    return deleteRequest('provider-requests/?session=' + session, request, 'DeleteProviderRequest')
 }
 
 // async function getSportsCategoriesFromLocalSource(){
@@ -87,11 +87,6 @@ async function getSportsCategoriesFromApi() {
 
 async function getProviderSportsCategoriesFromApi(){
     return getRequest('provider-sports-categories', 'GetProviderSportsCategories')
-}
-
-async function getCustomerByIdFromApi(id){
-    console.log('id', id)
-    return getRequest('accounts/'+id, 'GetCustomerById')
 }
 
 
@@ -137,29 +132,29 @@ async function addCustomerAccount(customer) {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de crÃ©er le compte'  }
     }
-    return response
+    return response.data
 }
 
-async function modifyCustomerAccount(customer) {
+async function modifyCustomerAccount(customer, session) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await ModifyCustomerAccountFromLocalSource(customer)
-        response = await ModifyCustomerAccountFromApi(customer)
+        response = await ModifyCustomerAccountFromApi(customer, session)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de crÃ©er le compte'  }
     }
-    return response
+    return response.data
 }
 
-async function deleteCustomerAccount(customer) {
+async function deleteCustomerAccount(customer, session) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await deleteCustomerAccountFromLocalSource(customer)
-        response = await deleteCustomerAccountFromApi(customer)
+        response = await deleteCustomerAccountFromApi(customer, session)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -179,7 +174,7 @@ async function getProviderRequests() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer les demandes de prestataires'  }
     }
-    return response
+    return response.data
 }
 
 async function addProviderRequest(user) {
@@ -196,12 +191,12 @@ async function addProviderRequest(user) {
     return response
 }
 
-async function modifyProviderRequest(request) {
+async function modifyProviderRequest(request, session) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await modifyProviderRequestFromLocalSource(request)
-        response = await modifyProviderRequestFromApi(request)
+        response = await modifyProviderRequestFromApi(request, session)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -210,18 +205,18 @@ async function modifyProviderRequest(request) {
     return response
 }
 
-async function deleteProviderRequest(request) {
+async function deleteProviderRequest(request, session) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await deleteProviderRequestFromLocalSource(request)
-        response = await deleteProviderRequestFromApi(request)
+        response = await deleteProviderRequestFromApi(request, session)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de supprimer la demande de prestataire'  }
     }
-    return response
+    return response.data
 }
 
 async function getSportsCategories(){
@@ -235,7 +230,7 @@ async function getSportsCategories(){
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des catÃ©gories'  }
     }
-    return response
+    return response.data
 }
 
 async function getProviderSportsCategories(){
@@ -249,21 +244,9 @@ async function getProviderSportsCategories(){
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des catÃ©gories'  }
     }
-    return response
+    return response.data
 }
 
-async function getCustomerById(id){
-    let response = null;
-    try {
-        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        response = await getCustomerByIdFromApi(id)
-    }
-        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
-    catch(err) {
-        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer le client'  }
-    }
-    return response
-}
 
 
 export default {
@@ -278,5 +261,5 @@ export default {
     deleteProviderRequest,
     getSportsCategories,
     getProviderSportsCategories,
-    getCustomerById,
+
 }

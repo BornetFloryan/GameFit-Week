@@ -139,9 +139,37 @@ async function patchRequest(uri, data, name, config={}) {
     return response.data;
 }
 
+async function putRequest(uri, data, name, config = {}) {
+    let response = null;
+    try {
+        response = await axiosAgent.put(uri, data, config);
+    } catch (err) {
+        // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
+        // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs
+        response = handleError(name, err);
+    }
+    // on retourne les données dans response, qu'il y ait eu une erreur ou pas.
+    return response.data;
+}
+
+async function deleteRequest(uri, data, name, config = {}) {
+    let response = null;
+    try {
+        response = await axiosAgent.delete(uri, { ...config, data: data });
+    } catch (err) {
+        // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
+        // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs
+        response = handleError(name, err);
+    }
+    // on retourne les données dans response, qu'il y ait eu une erreur ou pas.
+    return response.data;
+}
+
 export {
     getRequest,
     postRequest,
     patchRequest,
+    putRequest,
+    deleteRequest,
 }
 

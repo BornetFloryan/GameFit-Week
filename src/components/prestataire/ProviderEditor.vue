@@ -61,7 +61,7 @@ export default {
     async saveDescription() {
       if (this.prestataire) {
         this.prestataire.description = this.description;
-        await this.modifyCustomerAccount(this.prestataire);
+        await this.modifyCustomerAccount(this.prestataire, this.currentUser.session);
       } else {
         console.error('Prestataire is undefined');
       }

@@ -41,7 +41,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('account', ['customersAccounts']),
+    ...mapState('account', ['customersAccounts', 'currentUser']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getProviderOfferingServices']),
     ...mapGetters('stands', ['getStandsReservationsByCustomerIdAndServiceId'])
   },
@@ -52,7 +52,7 @@ export default {
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer ce compte ?')) {
-        await this.deleteCustomerAccount(id);
+        await this.deleteCustomerAccount(id, this.currentUser.session);
         await this.getCustomersAccounts();
       }
     },
@@ -65,7 +65,7 @@ export default {
       });
     },
     async handleToggleServiceState({ service }) {
-      await this.modifyProviderServiceCategory({ service });
+      await this.modifyProviderServiceCategory(service , this.currentUser.session);
     },
   },
   async mounted() {

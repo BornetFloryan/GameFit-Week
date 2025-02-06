@@ -120,7 +120,6 @@ async function deleteCustomerAccount(customer) {
 async function getCustomerById(_id) {
     const client = await pool.connect();
     try {
-        console.log('_id', _id);
         const res = await client.query('SELECT * FROM customer_accounts WHERE _id = $1', [_id]);
         if (res.rows.length === 0) {
             return { error: 1, status: 404, data: 'Customer not found' };

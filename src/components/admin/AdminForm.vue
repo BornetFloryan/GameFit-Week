@@ -33,7 +33,7 @@
             ></textarea>
           </div>
 
-          <div v-else-if="field.type === 'checkbox' && formData.privilege === '1'">
+          <div v-else-if="field.type === 'checkbox' && formData.privilege === 1">
             <div v-for="option in field.options" :key="option.value" class="checkbox-group">
               <input
                   type="checkbox"
@@ -103,7 +103,7 @@ export default {
   computed: {
     visibleFormFields() {
       return this.formFields.filter(field => {
-        if (field.id === "services" && this.formData.privilege !== "1") {
+        if (field.id === "services" && this.formData.privilege !== 1) {
           return false;
         }
         return field.visible !== false;
@@ -127,7 +127,7 @@ export default {
     },
     handleFieldChange(field) {
       if (field.id === "privilege") {
-        if (this.formData.privilege === "1") {
+        if (this.formData.privilege === 1) {
           this.formData.services = this.savedServices;
         } else {
           if (this.formData.services.length > 0) {

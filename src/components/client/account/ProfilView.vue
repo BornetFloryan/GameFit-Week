@@ -76,7 +76,7 @@ export default {
       };
 
       try {
-        let response = await this.modifyCustomerAccount(modifyUser);
+        let response = await this.modifyCustomerAccount(modifyUser, this.currentUser.session);
         if (response.error === 0) {
           await this.loginUser(modifyUser);
         } else {

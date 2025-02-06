@@ -16,7 +16,7 @@ async function getProviderServiceCategories() {
 async function addProviderServiceCategory(providerServiceCategory) {
     const client = await pool.connect();
     try {
-        if (!providerServiceCategory || !providerServiceCategory.user.email || !providerServiceCategory.serviceCategory) {
+        if (!providerServiceCategory || !providerServiceCategory.user.email || (providerServiceCategory.serviceCategory === undefined || providerServiceCategory.serviceCategory === null)) {
             return { error: 1, status: 404, data: 'Champs manquants' };
         }
 
@@ -49,7 +49,7 @@ async function addProviderServiceCategory(providerServiceCategory) {
 async function modifyProviderServiceCategory(providerServiceCategory) {
     const client = await pool.connect();
     try {
-        if (!providerServiceCategory || !providerServiceCategory._id) {
+        if (!providerServiceCategory || (providerServiceCategory._id === undefined || providerServiceCategory._id === null)) {
             return { error: 1, status: 404, data: 'Champs manquants' };
         }
 

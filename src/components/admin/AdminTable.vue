@@ -10,6 +10,7 @@
       </thead>
       <tbody>
       <tr v-for="item in dataSource" :key="item._id">
+        {{ item }}
         <td v-for="field in fields" :key="field">
           <p v-if="field === 'pavillon_id'">
             {{ getPavillonById(item[field])?.name || 'Unknown' }}
@@ -29,7 +30,7 @@
           <div v-else-if="field === 'services'">
             <div v-for="service in item[field]" :key="service._id">
               <label>
-                <input type="checkbox" :checked="service.state === '1'" :disabled="isServiceUsed(service)" @change="emitToggleServiceState(service, $event)">
+                <input type="checkbox" :checked="service.state === 1" :disabled="isServiceUsed(service)" @change="emitToggleServiceState(service, $event)">
                 {{ getServiceCategoryById(service.service_id).name }}
               </label>
             </div>
@@ -40,7 +41,7 @@
         </td>
         <td>
           <div class="actions-container">
-            <router-link :to="{ name: modifyName, params: { item_id: item._id } }">
+            <router-link :to="{ name: modifyName, params: { item_id: item._id.toString() } }">
               <button v-if="showModifyButton" class="btn-action">{{ modifyButtonText }}</button>
             </router-link>
             <router-link :to="{ name: reservationsRouteName, query: reservationsQueryParams(item) }">
@@ -114,18 +115,18 @@ export default {
     },
     getPrivilegeLabel(privilege) {
       switch (privilege) {
-        case '0':
+        case 0:
           return 'Client';
-        case '1':
+        case 1:
           return 'Prestataire';
-        case '2':
+        case 2:
           return 'Admin';
         default:
           return 'Unknown';
       }
     },
     emitToggleServiceState(service, event) {
-      service.state = event.target.checked ? '1' : '0';
+      service.state = event.target.checked ? 1 : 0;
       this.$emit('toggle-service-state', {service});
     },
     isServiceUsed(service) {

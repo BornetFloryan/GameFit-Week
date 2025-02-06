@@ -65,7 +65,6 @@ export default {
 
         if (response.error === 0) {
           const loggedUser = response.data;
-          console.log('loggedUser', loggedUser);
           switch (loggedUser.privilege) {
             case 2:
               await this.$router.push({path: "/admin-dashboard"});

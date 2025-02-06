@@ -1,5 +1,6 @@
 import PrestationService from '../../services/prestation.service';
 import store from "@/store";
+
 const state = () => ({
     // state = les données centralisées
     serviceCategories: [],
@@ -116,9 +117,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout d\'un service prestataire' };
         }
     },
-    async modifyProviderServiceCategory({ commit }, providerServiceCategory) {
+    async modifyProviderServiceCategory({ commit }, providerServiceCategory, session) {
         try {
-            let response = await PrestationService.modifyProviderServiceCategory(providerServiceCategory);
+            let response = await PrestationService.modifyProviderServiceCategory(providerServiceCategory, session);
             if (response.error === 0) {
                 commit('modifyProviderServiceCategorytegory', response.data);
             }
@@ -128,9 +129,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la modification d\'un service prestataire' };
         }
     },
-    async deleteProviderServiceCategory({ commit }, providerServiceCategory) {
+    async deleteProviderServiceCategory({ commit }, providerServiceCategory, session) {
         try {
-            let response = await PrestationService.deleteProviderServiceCategory(providerServiceCategory);
+            let response = await PrestationService.deleteProviderServiceCategory(providerServiceCategory, session);
             if (response.error === 0) {
                 commit('deleteProviderServiceCategory', response.data);
             }
@@ -300,15 +301,16 @@ const actions = {
 
 const getters = {
     getServiceCategoryById: (state) => (_id) => {
-        if (!_id) return null;
+        if (_id === null || _id === undefined) return null;
         return state.serviceCategories.find((sc) => sc._id === _id);
     },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
-        if(!_id) return null;
+        if (_id === null || _id === undefined) return null;
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);
     },
     getProviderServiceCategoriesByCustomerIdAndServiceID: (state) => (_id, service_id) => {
-        if(!_id || !service_id) return null;
+        if((_id === null || _id === undefined) ||
+            (service_id === null || service_id === undefined)) return null;
         if(store.state.account.currentUser == null){
             return {error: 1, status: 404, data: 'vous n\'Ãªtes pas connectÃ©'}
         }
