@@ -53,9 +53,9 @@ export default {
         {id: "description", label: "Description", type: "textarea", model: "description", props: {required: false}},
         {
           id: "privilege", label: "Privilège", type: "select", model: "privilege", options: [
-            {value: "0", text: "Client"},
-            {value: "1", text: "Prestataire"},
-            {value: "2", text: "Admin"},
+            {value: 0, text: "Client"},
+            {value: 1, text: "Prestataire"},
+            {value: 2, text: "Admin"},
           ], props: {required: true}
         },
       ];

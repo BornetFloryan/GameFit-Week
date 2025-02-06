@@ -60,9 +60,9 @@ export default {
     ...mapState('account', ['currentUser']),
     ...mapGetters('account', ['getProviderRequestsByCustomerId']),
     dashboardPath() {
-      if (this.currentUser.privilege === '2') {
+      if (this.currentUser.privilege === 2) {
         return '/admin-dashboard';
-      } else if (this.currentUser.privilege === '1') {
+      } else if (this.currentUser.privilege === 1) {
         return '/provider-dashboard';
       }
       return null;

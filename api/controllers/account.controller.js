@@ -18,7 +18,7 @@ exports.loginUser = async (req, res) => {
         }
         let data = await accountService.loginUser({login, password});
         if (data) {
-            return res.status(200).json({ data: data.data });
+            return res.status(200).json({ data: data });
         } else {
             return res.status(404).send("Login/pass incorrect");
         }
@@ -64,7 +64,7 @@ exports.getCustomerById = async (req, res) => {
         if (data.error) {
             return res.status(data.status).send(data.data);
         }
-        return res.status(200).json({ data: data.data });
+        return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la récupération du client par ID");
@@ -77,7 +77,7 @@ exports.getCustomerByEmail = async (req, res) => {
         if (data.error) {
             return res.status(data.status).send(data.data);
         }
-        return res.status(200).json({ data: data.data });
+        return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la récupération du client par email");
@@ -90,7 +90,7 @@ exports.getCustomerByName = async (req, res) => {
         if (data.error) {
             return res.status(data.status).send(data.data);
         }
-        return res.status(200).json({ data: data.data });
+        return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la récupération du client par nom");

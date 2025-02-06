@@ -27,7 +27,7 @@ function addCustomerAccount(customer) {
         login: customer.login ? customer.login : "",
         password: customer.password ? customer.password : "",
         email: customer.email,
-        privilege: "0",
+        privilege: 0,
         session: uuidv4()
     };
 

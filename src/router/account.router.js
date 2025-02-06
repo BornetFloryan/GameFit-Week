@@ -33,25 +33,25 @@ export default [
                 path: 'profil',
                 name: 'profil',
                 component: ProfilView,
-                meta: { requiresAuth: true, requiredPrivilege: '0' },
+                meta: { requiresAuth: true, requiredPrivilege: 0 },
             },
             {
                 path: "reservation",
                 name: "reservation",
                 component: ReservationView,
-                meta: { requiresAuth: true, requiredPrivilege: '0' },
+                meta: { requiresAuth: true, requiredPrivilege: 0 },
             },
             {
                 path: "ticket",
                 name: "ticket",
                 component: TicketView,
-                meta: { requiresAuth: true, requiredPrivilege: '0' },
+                meta: { requiresAuth: true, requiredPrivilege: 0 },
             },
             {
                 path: "request",
                 name: "request",
                 component: ProviderRequestView,
-                meta: { requiresAuth: true, requiredPrivilege: '0' },
+                meta: { requiresAuth: true, requiredPrivilege: 0 },
             }
         ]
     },

@@ -206,16 +206,23 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories de sports des fournisseurs:', error);
         }
-    }
+    },
+    getCustomerById: async (_id) => {
+        try {
+            let response = await AccountService.getCustomerById(_id);
+            if (response.error === 0) {
+                return response.data;
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération d\'un compte:', error);
+        }
+    },
+
 };
 
 const getters = {
-    getCustomerById: (state) => (_id) => {
-        if(state.customersAccounts.length === 0){
-            return undefined;
-        }
-        return state.customersAccounts.find(e => e._id === _id);
-    },
     getCustomerByEmail: (state) => (email) => {
         return state.customersAccounts.find(e => e.email === email);
     },

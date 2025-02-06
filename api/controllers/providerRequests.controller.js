@@ -46,7 +46,7 @@ exports.getProviderRequestById = async (req, res) => {
         if (data.error) {
             return res.status(data.status).send(data.data);
         }
-        return res.status(200).json({ data: data.data });
+        return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la récupération de la demande de fournisseur par ID");
@@ -59,7 +59,7 @@ exports.getProviderRequestsByCustomerId = async (req, res) => {
         if (data.error) {
             return res.status(data.status).send(data.data);
         }
-        return res.status(200).json({ data: data.data });
+        return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la récupération des demandes de fournisseur par ID client");

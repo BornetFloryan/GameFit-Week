@@ -14,6 +14,7 @@
       </thead>
       <tbody>
       <tr v-for="request in providerRequests" :key="request._id">
+        request: {{ request }}
         <td>{{ request._id }}</td>
         <td>{{ request.date }}</td>
         <td>{{ getCustomerById(request.customer_id)?.name || 'Unknown' }}</td>
@@ -44,7 +45,7 @@ export default {
   computed: {
     ...mapState("account", ["currentUser", "providerRequests"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById"]),
-    ...mapGetters("account", ["getCustomerById"]),
+    ...mapGetters("account", []),
     ...mapGetters('stands', ['getStandsReservationsByCustomerId'])
   },
   methods: {
@@ -55,6 +56,7 @@ export default {
       "rejectProviderRequest",
       "deleteProviderRequest",
       "modifyCustomerAccount",
+      "getCustomerById",
     ]),
     ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', "deleteProviderServiceCategory"]),
     ...mapActions('stands', ['getStands', 'getStandsReservations']),
@@ -66,7 +68,7 @@ export default {
           if (response.error === 0) {
             let user = this.getCustomerById(request.customer_id);
             if (user) {
-              user.privilege = "1";
+              user.privilege = 1;
               response = await this.modifyCustomerAccount(user);
               if (response.error !== 0) {
                 alert(response.data);

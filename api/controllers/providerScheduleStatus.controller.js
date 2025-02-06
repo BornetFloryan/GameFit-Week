@@ -14,7 +14,7 @@ exports.addScheduleStatus = async (req, res) => {
     try {
         const { email } = req.body;
         let data = await providerScheduleStatusService.addProviderScheduleStatus(email);
-        return res.status(data.status).json({ data: data.data });
+        return res.status(data.status).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de l'ajout du statut du planning");
@@ -25,7 +25,7 @@ exports.modifyScheduleStatus = async (req, res) => {
     try {
         const providerScheduleStatus = req.body;
         let data = await providerScheduleStatusService.modifyProviderScheduleStatus(providerScheduleStatus);
-        return res.status(data.status).json({ data: data.data });
+        return res.status(data.status).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la modification du statut du planning");

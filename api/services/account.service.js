@@ -5,7 +5,7 @@ async function getCustomersAccounts() {
     const client = await pool.connect();
     try {
         const res = await client.query('SELECT * FROM customer_accounts');
-        return { error: 0, data: res.rows };
+        return { error: 0, status: 200, data: res.rows };
     } catch (error) {
         console.error(error);
         return { error: 1, status: 500, data: 'Erreur lors de la récupération des comptes clients' };
@@ -45,6 +45,7 @@ async function loginUser(data) {
         }
 
         const result = await client.query('SELECT * FROM customer_accounts WHERE login = $1 AND password = $2', [data.login, data.password]);
+
         if (result.rows.length === 0) {
             return { error: 1, status: 404, data: 'login/pass incorrect' };
         }
@@ -119,6 +120,7 @@ async function deleteCustomerAccount(customer) {
 async function getCustomerById(_id) {
     const client = await pool.connect();
     try {
+        console.log('_id', _id);
         const res = await client.query('SELECT * FROM customer_accounts WHERE _id = $1', [_id]);
         if (res.rows.length === 0) {
             return { error: 1, status: 404, data: 'Customer not found' };

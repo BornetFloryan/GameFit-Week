@@ -65,11 +65,12 @@ export default {
 
         if (response.error === 0) {
           const loggedUser = response.data;
+          console.log('loggedUser', loggedUser);
           switch (loggedUser.privilege) {
-            case "2":
+            case 2:
               await this.$router.push({path: "/admin-dashboard"});
               break;
-            case "1":
+            case 1:
               await this.$router.push({path: "/provider-dashboard"});
               break;
             default:
