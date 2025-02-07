@@ -202,7 +202,7 @@ export default {
       if (newAnimator) {
         this.date = null;
         this.time = "";
-        this.getStandsReservationsByCustomerIdAndServiceId(newAnimator, "0");
+        this.getStandsReservationsByCustomerIdAndServiceId(newAnimator, 0);
       }
     },
   },
@@ -304,7 +304,7 @@ export default {
         return;
       }
 
-      data.service_id = "0";
+      data.service_id = 0;
 
       try {
         let response = await this.addServiceReservation(data);
@@ -338,7 +338,8 @@ export default {
     await this.getStandsReservations();
     await this.getProviderSportCategories();
 
-    this.animatorDedicationDates = this.getStandsReservationsByServiceId("0");
+    this.animatorDedicationDates = this.getStandsReservationsByServiceId(0);
+    console.log(this.animatorDedicationDates);
 
     this.animators = this.animatorDedicationDates.map((date) =>
         this.getCustomerById(date.customer_id)

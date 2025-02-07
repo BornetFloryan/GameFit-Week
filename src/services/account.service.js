@@ -86,7 +86,7 @@ async function getSportsCategoriesFromApi() {
 // }
 
 async function getProviderSportsCategoriesFromApi(){
-    return getRequest('provider-sports-categories', 'GetProviderSportsCategories')
+    return getRequest('sports-categories', 'GetProviderSportsCategories')
 }
 
 

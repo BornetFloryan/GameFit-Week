@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { transformIntToString } from './utils/transformIntToString';
+
+Vue.mixin(transformIntToString);
 
 Vue.config.productionTip = false
 

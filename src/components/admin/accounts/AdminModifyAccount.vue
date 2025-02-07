@@ -53,14 +53,14 @@ export default {
         {id: "description", label: "Description", type: "textarea", model: "description", props: {required: false}},
         {
           id: "privilege", label: "Privilège", type: "select", model: "privilege", options: [
-            {value: 0, text: "Client"},
-            {value: 1, text: "Prestataire"},
-            {value: 2, text: "Admin"},
+            {value: "0", text: "Client"},
+            {value: "1", text: "Prestataire"},
+            {value: "2", text: "Admin"},
           ], props: {required: true}
         },
       ];
 
-      if (this.formData.privilege === 1) {
+      if (this.formData.privilege === "1") {
         fields.push({
           id: "services",
           label: "Services",
@@ -147,7 +147,7 @@ export default {
       await this.getServiceCategories();
       await this.getProviderServiceCategories();
 
-      if (this.formData.privilege === 1) {
+      if (this.formData.privilege === "1") {
         const userServices = await this.getProviderServiceCategoriesByCustomerId(this.id);
 
         this.formData.services = userServices.map(service => service.service_id);

@@ -62,13 +62,13 @@ export default {
         end_time: data.end_time,
         description: data.description,
         customer_id: data.customer_id,
-        service_id: "0",
+        service_id: 0,
         stand_id: data.stand_id,
       };
 
       if(updatedReservation){
         try {
-          let response = await this.modifyStandsReservations(updatedReservation);
+          let response = await this.modifyStandsReservations(updatedReservation, this.currentUser.session);
           if (response.error !== 0) {
             alert(response.data);
             return;

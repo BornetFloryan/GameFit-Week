@@ -6,6 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require('./utils/swaggerConfig');
 const pool = require('./database/db');
 const cors = require('cors');
+const transformToInt = require('./middleware/transformToInt');
 
 const accountRoutes = require('./routes/account.router');
 const sportsCategoriesRoutes = require('./routes/sportsCategories.router');
@@ -23,6 +24,8 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors({ origin: 'http://localhost:8080' }));
+
+app.use(transformToInt)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

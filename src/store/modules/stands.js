@@ -74,9 +74,9 @@ const actions = {
             console.error('Erreur lors de la récupération des réservations des stands:', error);
         }
     },
-    async addStandReservation({ commit }, standReservation) {
+    async addStandReservation({ commit }, standReservation, session) {
         try {
-            let response = await StandsService.addStandReservation(standReservation);
+            let response = await StandsService.addStandReservation(standReservation, session);
             if (response.error === 0) {
                 commit('addStandReservation', standReservation);
             } else {
@@ -86,9 +86,9 @@ const actions = {
             console.error('Erreur lors de l\'ajout de la réservation des stands:', error);
         }
     },
-    async modifyStand({ commit }, stand) {
+    async modifyStand({ commit }, stand, session) {
         try {
-            let response = await StandsService.modifyStand(stand);
+            let response = await StandsService.modifyStand(stand, session);
             if (response.error === 0) {
                 commit('modifyStand', stand);
             } else {
@@ -98,9 +98,9 @@ const actions = {
             console.error('Erreur lors de la modification des stands:', error);
         }
     },
-    async modifyStandsReservations({ commit }, standReservation) {
+    async modifyStandsReservations({ commit }, standReservation, session) {
         try {
-            let response = await StandsService.modifyStandsReservations(standReservation);
+            let response = await StandsService.modifyStandsReservations(standReservation, session);
             if (response.error === 0) {
                 commit('modifyStandsReservations', response.data);
                 return response;
@@ -154,6 +154,7 @@ const getters = {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id);
     },
     getStandsReservationsByServiceId: (state) => (service_id) => {
+        console.log(state.standsReservations);
         return state.standsReservations.filter((reservation) => reservation.service_id === service_id);
     },
     getStandsReservationsByCustomerIdAndServiceId: (state) => (customer_id, service_id) => {

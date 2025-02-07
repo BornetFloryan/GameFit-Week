@@ -10,7 +10,6 @@ import store from "@/store";
  */
 
 function getCustomersAccounts() {
-
     return {error: 0, data: customer_accounts}
 }
 

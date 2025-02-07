@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     ...mapState("stands", ["standsReservations", "stands"]),
-    ...mapState("account", ["customersAccounts"]),
+    ...mapState("account", ["customersAccounts", "currentUser"]),
     ...mapState("prestation", ["providerServiceCategories", "serviceCategories"]),
     ...mapGetters("stands", ["getStandById", "getStandReservationById", "getStandsReservationsByStandIdAndDate", "getStandsReservationsByCustomerIdAndDateAndExcludingStandId"]),
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId", "getServiceCategoryById", "getProviderOfferingServices"]),
@@ -52,7 +52,7 @@ export default {
     ...mapActions("prestation", ["getProviderServiceCategories"]),
 
     async handleAddStandReservation(data) {
-      await this.addStandReservation({ ...this.formData, ...data });
+      await this.addStandReservation({ ...this.formData, ...data }, this.currentUser.session);
       await this.$router.push("/admin-dashboard/admin-dedication");
     },
 
