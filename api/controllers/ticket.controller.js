@@ -52,7 +52,7 @@ exports.addTickets = async (req, res) => {
 
 exports.deleteTicket = async (req, res) => {
     try {
-        let data = await ticketService.deleteTicket(req.body.id);
+        let data = await ticketService.deleteTicket(req.params.id);
         return res.status(204).json({ data: data });
     } catch (error) {
         console.error(error);

@@ -32,7 +32,7 @@ exports.modifyProviderRequest = async (req, res) => {
 
 exports.deleteProviderRequest = async (req, res) => {
     try {
-        let data = await providerService.deleteProviderRequest(req.body);
+        let data = await providerService.deleteProviderRequest(req.params.id);
         return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);

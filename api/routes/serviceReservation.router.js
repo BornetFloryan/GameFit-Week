@@ -196,23 +196,28 @@ router.put('/', checkSession, serviceReservationController.modifyServiceReservat
  *                   example: "Erreur du serveur"
  */
 
-router.delete('/', serviceReservationController.deleteServiceReservation);
+router.delete('/:id', checkSession, serviceReservationController.deleteServiceReservation);
 /**
  * @swagger
- * /service-reservations:
+ * /service-reservations/{id}:
  *   delete:
  *     summary: Supprimer une réservation de service
  *     tags: [Réservations de service]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *                 example: "1"
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "1"
+ *         description: ID de la réservation de service
  *     responses:
  *       200:
  *         description: L'ID de la réservation de service supprimée

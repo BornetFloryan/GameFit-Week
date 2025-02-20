@@ -50,7 +50,7 @@ exports.modifyCustomerAccount = async (req, res) => {
 
 exports.deleteCustomerAccount = async (req, res) => {
     try {
-        let data = await accountService.deleteCustomerAccount(req.body);
+        let data = await accountService.deleteCustomerAccount(req.params.id);
         return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);

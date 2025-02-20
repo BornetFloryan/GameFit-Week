@@ -208,10 +208,10 @@ router.put("/", checkSession, providerRequestsController.modifyProviderRequest);
  *                   example: "Erreur du serveur"
  */
 
-router.delete("/", checkSession, providerRequestsController.deleteProviderRequest);
+router.delete("/:id", checkSession, providerRequestsController.deleteProviderRequest);
 /**
  * @swagger
- * /provider-requests:
+ * /provider-requests/{id}:
  *   delete:
  *     summary: Supprimer une demande de prestataire
  *     tags: [Demandes des prestataires]
@@ -223,16 +223,13 @@ router.delete("/", checkSession, providerRequestsController.deleteProviderReques
  *           type: string
  *           example: "12abc45-953-cfb12"
  *         description: ID de session
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               _id:
- *                 type: string
- *                 example: "0"
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "0"
+ *         description: ID de la demande de prestataire
  *     responses:
  *       200:
  *         description: Demande de prestataire supprimée avec succès

@@ -32,7 +32,7 @@ exports.modifyProviderServiceCategory = async function (req, res) {
 
 exports.deleteProviderServiceCategory = async function (req, res) {
     try {
-        const result = await providerServiceCategoriesService.deleteProviderServiceCategory(req.body);
+        const result = await providerServiceCategoriesService.deleteProviderServiceCategory(req.params.id);
         res.status(result.status || 200).json(result);
     } catch (error) {
         console.error(error);

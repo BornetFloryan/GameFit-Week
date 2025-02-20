@@ -38,7 +38,7 @@ async function ModifyCustomerAccountFromApi(customer, session) {
 // }
 
 async function deleteCustomerAccountFromApi(customer, session) {
-    return deleteRequest('accounts/profil/?session=' + session, customer, 'DeleteCustomerAccount')
+    return deleteRequest('accounts/profil/' + customer + '?session=' + session, 'DeleteCustomerAccount');
 }
 
 // async function getProviderRequestsFromLocalSource() {
@@ -70,7 +70,7 @@ async function modifyProviderRequestFromApi(request, session) {
 // }
 
 async function deleteProviderRequestFromApi(request, session) {
-    return deleteRequest('provider-requests/?session=' + session, request, 'DeleteProviderRequest')
+    return deleteRequest('provider-requests/' + request+ '?session=' + session, 'DeleteProviderRequest')
 }
 
 // async function getSportsCategoriesFromLocalSource(){

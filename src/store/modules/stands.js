@@ -148,20 +148,27 @@ const getters = {
         return state.standsReservations.filter(reservation => reservation.stand_id === stand_id);
     },
     getStandsReservationsByStandIdAndDate: (state) => (stand_id, date) => {
-        return state.standsReservations.filter((reservation) => reservation.stand_id === stand_id && reservation.date === date);
+        const targetDate = new Date(date).toISOString().split('T')[0];
+        return state.standsReservations.filter((reservation) => {
+            const reservationDate = new Date(reservation.date).toISOString().split('T')[0];
+            return reservation.stand_id === stand_id && reservationDate === targetDate;
+        });
     },
     getStandsReservationsByCustomerId: (state) => (customer_id) => {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id);
     },
     getStandsReservationsByServiceId: (state) => (service_id) => {
-        console.log(state.standsReservations);
         return state.standsReservations.filter((reservation) => reservation.service_id === service_id);
     },
     getStandsReservationsByCustomerIdAndServiceId: (state) => (customer_id, service_id) => {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id && reservation.service_id === service_id);
     },
     getStandsReservationsByCustomerIdAndServiceIdAndDate: (state) => (customer_id, service_id, date) => {
-        return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id && reservation.service_id === service_id && reservation.date === date);
+        const targetDate = new Date(date).toISOString().split('T')[0];
+        return state.standsReservations.filter((reservation) => {
+            const reservationDate = new Date(reservation.date).toISOString().split('T')[0];
+            return reservation.customer_id === customer_id && reservation.service_id === service_id && reservationDate === targetDate;
+        });
     },
     getStandsReservationsByCustomerIdAndDateAndExcludingStandId: (state) => (customer_id, date, stand_id) => {
         if(store.state.account.currentUser == null){

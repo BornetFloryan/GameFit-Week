@@ -16,8 +16,23 @@ async function getServiceReservations() {
 async function addServiceReservation(serviceReservation) {
     const client = await pool.connect();
     try {
-        if (!serviceReservation || !serviceReservation.date || !serviceReservation.time || !serviceReservation.ticket_id || !serviceReservation.service_id || !serviceReservation.stand_reservation_id) {
-            return { error: 1, status: 404, data: 'Champs manquants' };
+        if (serviceReservation == null) {
+            return { error: 1, status: 404, data: 'Service reservation object is missing' };
+        }
+        if (serviceReservation.date == null) {
+            return { error: 1, status: 404, data: 'Date is missing' };
+        }
+        if (serviceReservation.time == null) {
+            return { error: 1, status: 404, data: 'Time is missing' };
+        }
+        if (serviceReservation.ticket_id == null) {
+            return { error: 1, status: 404, data: 'Ticket ID is missing' };
+        }
+        if (serviceReservation.service_id == null) {
+            return { error: 1, status: 404, data: 'Service ID is missing' };
+        }
+        if (serviceReservation.stand_reservation_id == null) {
+            return { error: 1, status: 404, data: 'Stand reservation ID is missing' };
         }
 
         const ticketRes = await client.query('SELECT _id FROM tickets WHERE _id = $1', [serviceReservation.ticket_id]);

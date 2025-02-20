@@ -24,9 +24,9 @@ const providerScheduleStatusRoutes = require('./routes/providerScheduleStatus.ro
 const app = express();
 const PORT = 3000;
 
-app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(transformToInt);
 app.use(transformToString);
 

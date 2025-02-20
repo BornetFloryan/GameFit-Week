@@ -105,7 +105,7 @@ export default {
         for (const service of servicesToRemove) {
           let serviceToDelete = providerServices.find(providerService => providerService._id === service);
           try {
-            let response = await this.deleteProviderServiceCategory(serviceToDelete, this.currentUser.session);
+            let response = await this.deleteProviderServiceCategory(serviceToDelete._id, this.currentUser.session);
             if (response.error !== 0) {
               alert(response.data);
               return;

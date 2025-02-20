@@ -124,7 +124,7 @@ export default {
       }
       if (confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
         try {
-          let response = await this.deleteProviderRequest(request, this.currentUser.session);
+          let response = await this.deleteProviderRequest(request._id, this.currentUser.session);
           if (response.error !== 0) {
             alert(response.data);
           }

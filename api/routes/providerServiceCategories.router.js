@@ -166,10 +166,10 @@ router.put('/', checkSession, providerServiceCategoriesController.modifyProvider
  *                   example: "Erreur du serveur"
  */
 
-router.delete('/', checkSession, providerServiceCategoriesController.deleteProviderServiceCategory);
+router.delete('/:id', checkSession, providerServiceCategoriesController.deleteProviderServiceCategory);
 /**
  * @swagger
- * /provider-service-categories:
+ * /provider-service-categories/{id}:
  *   delete:
  *     summary: Supprimer une catégorie de services des prestataires
  *     tags: [Catégories de services des prestataires]
@@ -181,16 +181,13 @@ router.delete('/', checkSession, providerServiceCategoriesController.deleteProvi
  *           type: string
  *           example: "12abc45-953-cfb12"
  *         description: ID de session
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               _id:
- *                 type: string
- *                 example: "1"
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "1"
+ *         description: ID de la catégorie de services des prestataires
  *     responses:
  *       200:
  *         description: L'ID de la catégorie de services des prestataires supprimée

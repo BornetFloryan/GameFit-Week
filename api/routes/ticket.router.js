@@ -77,39 +77,6 @@ router.post('/', ticketController.addTickets);
  *         description: Erreur serveur
  */
 
-router.delete('/', checkSession, ticketController.deleteTicket);
-/**
- * @swagger
- * /Tickets:
- *   delete:
- *     tags:
- *       - Tickets
- *     description: Supprimer un ticket
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               id:
- *                 type: string
- *                 example: 0
- *     responses:
- *       204:
- *         description: Succès
- *       500:
- *         description: Erreur serveur
- */
-
 router.get('/animation-categories', ticketController.getTicketsAnimationCategories);
 /**
  * @swagger
@@ -155,56 +122,6 @@ router.post('/prices', ticketController.getTicketPrices);
  *         description: Erreur serveur
  */
 
-router.get('/:id', ticketController.getTicketById);
-/**
- * @swagger
- * /Tickets/{id}:
- *   get:
- *     tags:
- *       - Tickets
- *     description: Récupérer un ticket par ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 0
- *         description: ID du ticket
- *     responses:
- *       200:
- *         description: Succès
- *       404:
- *         description: Ticket non trouvé
- *       500:
- *         description: Erreur serveur
- */
-
-router.get('/prices/:id', ticketController.getTicketPricesPriceById);
-/**
- * @swagger
- * /Tickets/prices/{id}:
- *   get:
- *     tags:
- *       - Tickets
- *     description: Récupérer le prix d'un ticket par ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 0
- *         description: ID du prix du ticket
- *     responses:
- *       200:
- *         description: Succès
- *       404:
- *         description: Prix du ticket non trouvé
- *       500:
- *         description: Erreur serveur
- */
-
 router.get('/prices/categories/:animationCategoryId/:ageCategoryId', ticketController.getTicketPriceByCategories);
 /**
  * @swagger
@@ -228,6 +145,31 @@ router.get('/prices/categories/:animationCategoryId/:ageCategoryId', ticketContr
  *           type: integer
  *           example: 0
  *         description: ID de la catégorie d'âge
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Prix du ticket non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/prices/:id', ticketController.getTicketPricesPriceById);
+/**
+ * @swagger
+ * /Tickets/prices/{id}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer le prix d'un ticket par ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *         description: ID du prix du ticket
  *     responses:
  *       200:
  *         description: Succès
@@ -306,6 +248,61 @@ router.get('/customer/:customerId', ticketController.getTicketsByCustomerId);
  *     responses:
  *       200:
  *         description: Succès
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.delete('/:id', checkSession, ticketController.deleteTicket);
+/**
+ * @swagger
+ * /Tickets/{id}:
+ *   delete:
+ *     tags:
+ *       - Tickets
+ *     description: Supprimer un ticket
+ *     parameters:
+ *       - in: query
+ *         name: session
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "12abc45-953-cfb12"
+ *         description: ID de session
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "0"
+ *         description: ID du ticket
+ *     responses:
+ *       204:
+ *         description: Succès
+ *       500:
+ *         description: Erreur serveur
+ */
+
+router.get('/:id', ticketController.getTicketById);
+/**
+ * @swagger
+ * /Tickets/{id}:
+ *   get:
+ *     tags:
+ *       - Tickets
+ *     description: Récupérer un ticket par ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *         description: ID du ticket
+ *     responses:
+ *       200:
+ *         description: Succès
+ *       404:
+ *         description: Ticket non trouvé
  *       500:
  *         description: Erreur serveur
  */

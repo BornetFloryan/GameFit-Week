@@ -125,9 +125,12 @@ async function modifyProviderRequest(request) {
 async function deleteProviderRequest(request) {
     const client = await pool.connect();
     try {
-        if (!request || !request._id) {
+        if (!request) {
             return {error: 1, status: 404, data: 'Données manquantes'};
         }
+
+        request = (await client.query('SELECT * FROM provider_requests WHERE _id = $1', [request])).rows[0];
+
 
         const res = await client.query('DELETE FROM provider_requests WHERE _id = $1 RETURNING _id', [request._id]);
         if (res.rowCount === 0) {

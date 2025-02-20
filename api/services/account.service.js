@@ -89,18 +89,18 @@ async function deleteCustomerAccount(customer) {
     try {
         await client.query('BEGIN');
 
-        await client.query('DELETE FROM provider_requests WHERE customer_id = $1', [customer._id]);
-        await client.query('DELETE FROM provider_service_categories WHERE customer_id = $1', [customer._id]);
-        await client.query('DELETE FROM provider_sport_categories WHERE customer_id = $1', [customer._id]);
+        await client.query('DELETE FROM provider_requests WHERE customer_id = $1', [customer]);
+        await client.query('DELETE FROM provider_service_categories WHERE customer_id = $1', [customer]);
+        await client.query('DELETE FROM provider_sport_categories WHERE customer_id = $1', [customer]);
 
-        let tickets = await client.query('SELECT * FROM tickets WHERE customer_id = $1', [customer._id]);
+        let tickets = await client.query('SELECT * FROM tickets WHERE customer_id = $1', [customer]);
         for (let ticket of tickets.rows) {
             await client.query('DELETE FROM service_reservations WHERE ticket_id = $1', [ticket._id]);
         }
 
-        await client.query('DELETE FROM tickets WHERE customer_id = $1', [customer._id]);
-        await client.query('DELETE FROM stands_reservations WHERE customer_id = $1', [customer._id]);
-        const res = await client.query('DELETE FROM customer_accounts WHERE _id = $1 RETURNING _id', [customer._id]);
+        await client.query('DELETE FROM tickets WHERE customer_id = $1', [customer]);
+        await client.query('DELETE FROM stands_reservations WHERE customer_id = $1', [customer]);
+        const res = await client.query('DELETE FROM customer_accounts WHERE _id = $1 RETURNING _id', [customer]);
         if (res.rowCount === 0) {
             await client.query('ROLLBACK');
             return { error: 1, status: 404, data: 'Utilisateur non trouvé' };

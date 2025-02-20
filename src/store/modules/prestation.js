@@ -305,9 +305,7 @@ const getters = {
         return state.serviceCategories.find((sc) => sc._id === _id);
     },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
-        console.log(_id)
         if (_id === null || _id === undefined) return null;
-        console.log(state.providerServiceCategories.filter((psc) => psc.customer_id === _id))
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);
     },
     getProviderServiceCategoriesByCustomerIdAndServiceID: (state) => (_id, service_id) => {
@@ -390,10 +388,18 @@ const getters = {
             && sr.service_id === service_id);
     },
     getServiceReservationsByTicketIdAndDate: (state) => (ticket_id, date) => {
-        return state.serviceReservations.filter((sr) => sr.ticket_id === ticket_id && sr.date === date);
+        const targetDate = new Date(date).toISOString().split('T')[0];
+        return state.serviceReservations.filter((sr) => {
+            const reservationDate = new Date(sr.date).toISOString().split('T')[0];
+            return sr.ticket_id === ticket_id && reservationDate === targetDate;
+        });
     },
     getServiceReservationsByDate: (state) => (date) => {
-        return state.serviceReservations.filter((sr) => sr.date === date);
+        const targetDate = new Date(date).toISOString().split('T')[0];
+        return state.serviceReservations.filter((sr) => {
+            const reservationDate = new Date(sr.date).toISOString().split('T')[0];
+            return reservationDate === targetDate;
+        });
     },
     getGuestbookEntriesByCustomerId: (state) => (customer_id) => {
         const standReservations = store.state.stands.standsReservations.filter((sr) => sr.customer_id === customer_id);

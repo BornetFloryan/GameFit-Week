@@ -54,6 +54,7 @@ export default {
       if (confirm('Voulez-vous vraiment supprimer ce compte ?')) {
         await this.deleteCustomerAccount(id, this.currentUser.session);
         await this.getCustomersAccounts();
+        this.filterAccounts();
       }
     },
     filterAccounts() {

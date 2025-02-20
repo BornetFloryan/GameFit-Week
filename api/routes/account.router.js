@@ -326,10 +326,10 @@ router.put("/profil", checkSession, accountController.modifyCustomerAccount);
  *                   example: "Erreur du serveur"
  */
 
-router.delete("/profil", checkSession, accountController.deleteCustomerAccount);
+router.delete("/profil/:id", checkSession, accountController.deleteCustomerAccount);
 /**
  * @swagger
- * /accounts/profil:
+ * /accounts/profil/{id}:
  *   delete:
  *     summary: Supprimer le profil de l'utilisateur
  *     tags: [Comptes]
@@ -341,16 +341,13 @@ router.delete("/profil", checkSession, accountController.deleteCustomerAccount);
  *           type: string
  *           example: "12abc45-953-cfb12"
  *         description: ID de session
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               _id:
- *                 type: integer
- *                 example: 0
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *         description: ID de l'utilisateur
  *     responses:
  *       200:
  *         description: Profil utilisateur supprimé avec succès

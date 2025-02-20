@@ -338,8 +338,7 @@ export default {
     await this.getStandsReservations();
     await this.getProviderSportCategories();
 
-    this.animatorDedicationDates = this.getStandsReservationsByServiceId(0);
-    console.log(this.animatorDedicationDates);
+    this.animatorDedicationDates = this.getStandsReservationsByServiceId("0");
 
     this.animators = this.animatorDedicationDates.map((date) =>
         this.getCustomerById(date.customer_id)

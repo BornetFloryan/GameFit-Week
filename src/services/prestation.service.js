@@ -38,7 +38,7 @@ async function modifyProviderServiceCategoryFromApi(providerServiceCategory, ses
 // }
 
 async function deleteProviderServiceCategoryFromApi(providerServiceCategory, session) {
-    return deleteRequest('provider-service-categories/?session=' + session, providerServiceCategory, 'DeleteProviderServiceCategory')
+    return deleteRequest('provider-service-categories/' + providerServiceCategory + '?session=' + session, 'DeleteProviderServiceCategory')
 }
 
 // async function getServiceReservationsFromLocalSource() {
@@ -70,7 +70,7 @@ async function modifyServiceReservationFromApi(serviceReservation) {
 // }
 
 async function deleteServiceReservationFromApi(id) {
-    return postRequest('service-reservations', id, 'DeleteServiceReservation')
+    return deleteRequest('service-reservations/' + id, 'DeleteServiceReservation')
 }
 
 // async function getGuestbookEntriesFromLocalSource() {

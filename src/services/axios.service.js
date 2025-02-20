@@ -152,10 +152,10 @@ async function putRequest(uri, data, name, config = {}) {
     return response.data;
 }
 
-async function deleteRequest(uri, data, name, config = {}) {
+async function deleteRequest(uri, name, config = {}) {
     let response = null;
     try {
-        response = await axiosAgent.delete(uri, { ...config, data: data });
+        response = await axiosAgent.delete(uri, config);
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs

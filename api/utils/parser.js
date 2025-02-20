@@ -147,19 +147,23 @@ const insertData = async () => {
 
         for (const reservation of stands_reservations) {
             const { _id, date, start_time, end_time, description, customer_id, service_id, stand_id } = reservation;
+            const adjustedDate = new Date(date);
+            adjustedDate.setDate(adjustedDate.getDate() + 1);
             await insertIfNotExists(
                 'SELECT _id FROM stands_reservations WHERE _id = $1',
                 'INSERT INTO stands_reservations (_id, date, start_time, end_time, description, customer_id, service_id, stand_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-                [_id, date, start_time, end_time, description, customer_id, service_id, stand_id]
+                [_id, adjustedDate.toISOString(), start_time, end_time, description, customer_id, service_id, stand_id]
             );
         }
 
         for (const reservation of service_reservations) {
             const { _id, date, time, ticket_id, service_id, stand_reservation_id } = reservation;
+            const adjustedDate = new Date(date);
+            adjustedDate.setDate(adjustedDate.getDate() + 1);
             await insertIfNotExists(
                 'SELECT _id FROM service_reservations WHERE _id = $1',
                 'INSERT INTO service_reservations (_id, date, time, ticket_id, service_id, stand_reservation_id) VALUES ($1, $2, $3, $4, $5, $6)',
-                [_id, date, time, ticket_id, service_id, stand_reservation_id]
+                [_id, adjustedDate.toISOString(), time, ticket_id, service_id, stand_reservation_id]
             );
         }
 

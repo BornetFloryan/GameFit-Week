@@ -54,7 +54,7 @@ async function addStandReservationFromApi(standReservation, session){
 // }
 
 async function deleteStandReservationFromApi(_id){
-    return deleteRequest('stands-reservations', _id, 'DeleteStandReservation');
+    return deleteRequest('stands-reservations/' + _id, 'DeleteStandReservation');
 }
 
 // async function deleteStandFromLocalSource(_id) {
@@ -62,7 +62,7 @@ async function deleteStandReservationFromApi(_id){
 // }
 
 async function deleteStandFromApi(_id){
-    return deleteRequest('stands', _id, 'DeleteStand');
+    return deleteRequest('stands/' + _id, 'DeleteStand');
 }
 
 async function getStands() {

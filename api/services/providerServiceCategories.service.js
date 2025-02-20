@@ -72,9 +72,11 @@ async function modifyProviderServiceCategory(providerServiceCategory) {
 async function deleteProviderServiceCategory(providerServiceCategory) {
     const client = await pool.connect();
     try {
-        if (!providerServiceCategory || !providerServiceCategory._id) {
+        if (!providerServiceCategory) {
             return { error: 1, status: 404, data: 'Champs manquants' };
         }
+
+        providerServiceCategory = (await client.query('SELECT * FROM provider_service_categories WHERE _id = $1', [providerServiceCategory])).rows[0];
 
         const res = await client.query('DELETE FROM provider_service_categories WHERE _id = $1 RETURNING _id', [providerServiceCategory._id]);
         if (res.rowCount === 0) {

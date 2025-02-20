@@ -32,7 +32,7 @@ exports.modifyServiceReservation = async function (req, res) {
 
 exports.deleteServiceReservation = async function (req, res) {
     try {
-        const result = await serviceReservationService.deleteServiceReservation(req.body.id);
+        const result = await serviceReservationService.deleteServiceReservation(req.params.id);
         res.status(result.status || 200).json(result);
     } catch (error) {
         console.error(error);
