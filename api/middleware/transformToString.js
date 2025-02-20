@@ -3,10 +3,16 @@ function transformToString(req, res, next) {
 
     res.send = function (data) {
         function transform(obj) {
-            for (let key in obj) {
-                if (Object.hasOwn(obj, key)) {
-                    if (typeof obj[key] === 'number') {
-                        obj[key] = obj[key].toString();
+            if (Array.isArray(obj)) {
+                obj.forEach(transform);
+            } else if (obj !== null && typeof obj === 'object') {
+                for (let key in obj) {
+                    if (Object.hasOwn(obj, key)) {
+                        if (typeof obj[key] === 'number') {
+                            obj[key] = obj[key].toString();
+                        } else if (typeof obj[key] === 'object') {
+                            transform(obj[key]);
+                        }
                     }
                 }
             }
