@@ -8,7 +8,7 @@ function transformToString(req, res, next) {
             } else if (obj !== null && typeof obj === 'object') {
                 for (let key in obj) {
                     if (Object.hasOwn(obj, key)) {
-                        if (typeof obj[key] === 'number') {
+                        if (typeof obj[key] === 'number' && key !== 'error') {
                             obj[key] = obj[key].toString();
                         } else if (typeof obj[key] === 'object') {
                             transform(obj[key]);

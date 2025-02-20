@@ -20,7 +20,7 @@ import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "AdminModifyAccount",
-  components: {AdminForm: AdminForm},
+  components: {AdminForm},
   data() {
     return {
       id: "",
@@ -160,7 +160,7 @@ export default {
   },
   async mounted() {
     if (this.$route.params.item_id) {
-      const account = this.getCustomerById(parseInt(this.$route.params.item_id));
+      const account = this.getCustomerById(this.$route.params.item_id);
       if (account) {
         this.id = account._id;
         this.formData = {...account, services: account.services || []};

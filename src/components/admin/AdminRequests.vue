@@ -14,7 +14,6 @@
       </thead>
       <tbody>
       <tr v-for="request in providerRequests" :key="request._id">
-        {{request}}
         <td>{{ request._id }}</td>
         <td>{{ request.date }}</td>
         <td>{{ getCustomerById(request.customer_id)?.name || 'Unknown' }}</td>

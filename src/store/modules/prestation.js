@@ -305,7 +305,9 @@ const getters = {
         return state.serviceCategories.find((sc) => sc._id === _id);
     },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
+        console.log(_id)
         if (_id === null || _id === undefined) return null;
+        console.log(state.providerServiceCategories.filter((psc) => psc.customer_id === _id))
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);
     },
     getProviderServiceCategoriesByCustomerIdAndServiceID: (state) => (_id, service_id) => {
