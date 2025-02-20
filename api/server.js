@@ -7,6 +7,7 @@ const swaggerDocs = require('./utils/swaggerConfig');
 const pool = require('./database/db');
 const cors = require('cors');
 const transformToInt = require('./middleware/transformToInt');
+const transformToString = require('./middleware/transformToString');
 
 const accountRoutes = require('./routes/account.router');
 const sportsCategoriesRoutes = require('./routes/sportsCategories.router');
@@ -24,11 +25,16 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors({ origin: 'http://localhost:8080' }));
-
-app.use(transformToInt)
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(transformToInt);
+app.use(transformToString);
+
+app.use(session({
+    secret: 'votre_secret',
+    resave: false,
+    saveUninitialized: true,
+}));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
@@ -43,13 +49,6 @@ app.use('/stands', standsRoutes);
 app.use('/guestbook-status', guestbookStatusRoutes);
 app.use('/guestbook-entries', guestbookEntriesRoutes);
 app.use('/provider-schedule-status', providerScheduleStatusRoutes);
-
-
-app.use(session({
-    secret: 'votre_secret',
-    resave: false,
-    saveUninitialized: true,
-}));
 
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);

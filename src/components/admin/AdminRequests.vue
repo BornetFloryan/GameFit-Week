@@ -14,6 +14,7 @@
       </thead>
       <tbody>
       <tr v-for="request in providerRequests" :key="request._id">
+        {{request}}
         <td>{{ request._id }}</td>
         <td>{{ request.date }}</td>
         <td>{{ getCustomerById(request.customer_id)?.name || 'Unknown' }}</td>
@@ -26,9 +27,9 @@
         </td>
         <td>{{ request.state }}</td>
         <td>
-          <button v-if="request.state !== 1 && request.state !== 2" @click="approveRequest(request)">Approuver</button>
-          <button v-if="request.state === 1 || request.state === 2" @click="deleteRequest(request)">Supprimer</button>
-          <button v-if="request.state !== 1 && request.state !== 2" @click="rejectRequest(request)">Rejeter</button>
+          <button v-if="request.state !== '1' && request.state !== '2'" @click="approveRequest(request)">Approuver</button>
+          <button v-if="request.state === '1' || request.state === '2'" @click="deleteRequest(request)">Supprimer</button>
+          <button v-if="request.state !== '1' && request.state !== '2'" @click="rejectRequest(request)">Rejeter</button>
         </td>
       </tr>
       </tbody>
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters} from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "AdminRequests",
@@ -52,7 +53,6 @@ export default {
     ]),
     ...mapGetters("account", ["getCustomerById"]),
     ...mapGetters('stands', ['getStandsReservationsByCustomerId']),
-
   },
   methods: {
     ...mapActions("account", [
@@ -77,7 +77,7 @@ export default {
           if (response.error === 0) {
             let user = this.getCustomerById(request.customer_id);
             if (user) {
-              user.privilege = 1;
+              user.privilege = '1';
               response = await this.modifyCustomerAccount(user, this.currentUser.session);
               if (response.error !== 0) {
                 alert(response.data);
@@ -136,18 +136,18 @@ export default {
     },
   },
   async mounted() {
-    await this.getCustomersAccounts()
+    await this.getCustomersAccounts();
     await this.getProviderRequests();
-    await this.getServiceCategories()
+    await this.getServiceCategories();
     await this.getProviderServiceCategories();
-    await this.getStands()
-    await this.getStandsReservations()
+    await this.getStands();
+    await this.getStandsReservations();
   },
 };
 </script>
 
 <style scoped>
-.admin-requests {
+.requests-container {
   padding: 20px;
 }
 
