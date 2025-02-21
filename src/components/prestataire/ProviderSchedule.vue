@@ -83,7 +83,7 @@ export default {
       const scheduleMap = {};
 
       this.standsReservations.forEach(reservation => {
-        const date = reservation.date;
+        const date = reservation.date.split('T')[0];
         if (!scheduleMap[date]) {
           scheduleMap[date] = { date, events: [] };
         }

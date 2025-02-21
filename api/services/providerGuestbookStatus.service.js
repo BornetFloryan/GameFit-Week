@@ -4,7 +4,10 @@ async function getGuestbookStatus() {
     const client = await pool.connect();
     try {
         const res = await client.query('SELECT * FROM provider_guestbook_status');
-        return res.rows;
+        if(res.rows.length === 0) {
+            return { error: 1, status: 404, data: 'Aucun statut du livre d\'or trouvé' };
+        }
+        return { error: 0, status: 200, data: res.rows };
     } finally {
         client.release();
     }

@@ -146,7 +146,7 @@ async function getServiceCategories() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des stands ' }
     }
-    return response.data
+    return response
 }
 
 async function getProviderServiceCategories() {
@@ -157,7 +157,7 @@ async function getProviderServiceCategories() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des stands ' }
     }
-    return response.data
+    return response
 }
 
 async function addProviderServiceCategory(providerServiceCategory) {
@@ -201,7 +201,7 @@ async function getServiceReservations() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des réservations de services' }
     }
-    return response.data
+    return response
 }
 
 async function addServiceReservation(serviceReservation) {
@@ -267,7 +267,7 @@ async function getGuestbookStatus() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer le statut du livre d\' or' }
     }
-    return response.Data
+    return response.data
 }
 
 async function addGuestbookStatus(customer_id) {

@@ -4,7 +4,11 @@ async function getProviderScheduleStatus() {
     const client = await pool.connect();
     try {
         const res = await client.query('SELECT * FROM provider_schedule_status');
-        return res.rows;
+        if (res.rows.length === 0) {
+            return { error: 1, status: 404, data: 'Aucun statut de planning trouvé' };
+        }
+
+        return { error: 0, status: 200, data: res.rows };
     } finally {
         client.release();
     }
