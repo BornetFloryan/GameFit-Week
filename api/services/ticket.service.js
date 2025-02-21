@@ -80,7 +80,10 @@ async function addTickets(formData) {
             const newTicketId = lastTicketId.rows[0].max ? parseInt(lastTicketId.rows[0].max) + 1 : 1;
 
             let price_id = await client.query('SELECT _id FROM ticket_prices WHERE animation_category_id = $1 AND age_category_id = $2',
-                [formData.animation_category_id, formData.age_category_id]);
+                [formData._idTicketAnimationCategories, formData._idTicketAgeCategories]);
+            if (price_id.rows.length === 0) {
+                throw new Error('Price ID not found for the given categories');
+            }
             price_id = price_id.rows[0]._id;
 
             const ticket = {

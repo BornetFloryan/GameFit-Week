@@ -39,7 +39,7 @@ export default {
     await this.getCustomersAccounts();
     await this.getProviderRequests();
     this.prestataires = this.providerRequests
-        .filter(request => request.state === 1)
+        .filter(request => request.state === "1")
         .map(request => this.getCustomerById(request.customer_id));
   }
 };

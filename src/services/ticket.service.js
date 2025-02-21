@@ -13,7 +13,7 @@ async function getTicketsFromApi(){
 // }
 
 async function getTicketsAnimationCategoriesFromApi(){
-    return getRequest('tickets/animationCategories', 'GetTicketsAnimationCategories');
+    return getRequest('tickets/animation-categories', 'GetTicketsAnimationCategories');
 }
 
 // async function getTicketsAgeCategoriesFromLocalSource() {
@@ -21,7 +21,7 @@ async function getTicketsAnimationCategoriesFromApi(){
 // }
 
 async function getTicketsAgeCategoriesFromApi(){
-    return getRequest('tickets/ageCategories', 'GetTicketsAgeCategories');
+    return getRequest('tickets/age-categories', 'GetTicketsAgeCategories');
 }
 
 // async function getTicketPricesFromLocalSource() {
@@ -78,7 +78,7 @@ async function getTicketsAnimationCategories() {
             data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des catégories d\'animations des tickets'
         }
     }
-    return response
+    return response.data
 }
 
 async function getTicketsAgeCategories() {
@@ -96,7 +96,7 @@ async function getTicketsAgeCategories() {
             data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste d\'âges des tickets'
         }
     }
-    return response
+    return response.data
 }
 
 async function getTicketPrices() {
@@ -110,7 +110,7 @@ async function getTicketPrices() {
     catch (err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer le prix du ticket'}
     }
-    return response
+    return response.data
 }
 
 async function addTickets(formData) {

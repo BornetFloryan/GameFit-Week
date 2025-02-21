@@ -142,7 +142,7 @@ export default {
       this.formData.date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
 
-      this.ticket = await this.addTickets(this.formData);
+      this.ticket = (await this.addTickets(this.formData)).data;
       this.submissionSuccess = true;
 
       this.formData = {

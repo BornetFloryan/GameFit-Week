@@ -146,7 +146,7 @@ async function getServiceCategories() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des stands ' }
     }
-    return response
+    return response.data
 }
 
 async function getProviderServiceCategories() {
@@ -157,7 +157,7 @@ async function getProviderServiceCategories() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des stands ' }
     }
-    return response
+    return response.data
 }
 
 async function addProviderServiceCategory(providerServiceCategory) {
@@ -201,7 +201,7 @@ async function getServiceReservations() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des réservations de services' }
     }
-    return response
+    return response.data
 }
 
 async function addServiceReservation(serviceReservation) {
@@ -245,7 +245,7 @@ async function getGuestbookEntries() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste du livre d\' or' }
     }
-    return response
+    return response.data
 }
 
 async function addGuestbookEntry(guestbookEntry) {
@@ -267,7 +267,7 @@ async function getGuestbookStatus() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer le statut du livre d\' or' }
     }
-    return response
+    return response.Data
 }
 
 async function addGuestbookStatus(customer_id) {
@@ -299,7 +299,7 @@ async function getProviderScheduleStatus(){
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer le statut du planning' }
     }
-    return response
+    return response.data
 }
 
 async function addProviderScheduleStatus(user){

@@ -427,53 +427,6 @@ router.delete("/:id", checkSession, standsController.deleteStand);
  *         description: Erreur interne du serveur
  */
 
-router.get("/:id", standsController.getStandById);
-/**
- * @swagger
- * /stands/{id}:
- *   get:
- *     summary: Récupérer un stand par ID
- *     tags: [Stands]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 2
- *         description: L'ID du stand
- *     responses:
- *       200:
- *         description: Un objet stand
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 _id:
- *                   type: integer
- *                   example: 1
- *                 name:
- *                   type: string
- *                   example: "Nom du stand"
- *                 description:
- *                   type: string
- *                   example: "Description du stand"
- *                 price:
- *                   type: number
- *                   format: float
- *                   example: 100.0
- *                 customer_id:
- *                   type: integer
- *                   example: 1
- *                 pavillon_id:
- *                   type: integer
- *                   example: 1
- *       404:
- *         description: Stand non trouvé
- *       500:
- *         description: Erreur interne du serveur
- */
 router.get("/reservations/:id", standsController.getStandReservationById);
 /**
  * @swagger
@@ -961,6 +914,54 @@ router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservat
  *                   service_id:
  *                     type: integer
  *                     example: 1
+ *       500:
+ *         description: Erreur interne du serveur
+ */
+
+router.get("/:id", standsController.getStandById);
+/**
+ * @swagger
+ * /stands/{id}:
+ *   get:
+ *     summary: Récupérer un stand par ID
+ *     tags: [Stands]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 2
+ *         description: L'ID du stand
+ *     responses:
+ *       200:
+ *         description: Un objet stand
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: "Nom du stand"
+ *                 description:
+ *                   type: string
+ *                   example: "Description du stand"
+ *                 price:
+ *                   type: number
+ *                   format: float
+ *                   example: 100.0
+ *                 customer_id:
+ *                   type: integer
+ *                   example: 1
+ *                 pavillon_id:
+ *                   type: integer
+ *                   example: 1
+ *       404:
+ *         description: Stand non trouvé
  *       500:
  *         description: Erreur interne du serveur
  */
