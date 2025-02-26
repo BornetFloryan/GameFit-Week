@@ -20,6 +20,7 @@ const standsRoutes = require('./routes/stands.router');
 const guestbookStatusRoutes = require('./routes/providerGuestbookStatus.router');
 const guestbookEntriesRoutes = require('./routes/guestbookEntries.router');
 const providerScheduleStatusRoutes = require('./routes/providerScheduleStatus.router');
+const reportsRoutes = require('./routes/reports.router');
 
 const app = express();
 const PORT = 3000;
@@ -49,6 +50,7 @@ app.use('/stands', standsRoutes);
 app.use('/guestbook-status', guestbookStatusRoutes);
 app.use('/guestbook-entries', guestbookEntriesRoutes);
 app.use('/provider-schedule-status', providerScheduleStatusRoutes);
+app.use('/reports', reportsRoutes);
 
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);

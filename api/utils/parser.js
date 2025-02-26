@@ -19,6 +19,7 @@ const {
     provider_guestbook_status,
     provider_schedule_status,
     guestbook_entries,
+    reports,
 } = require('../../src/datasource/data');
 
 const executeSQLFile = async (filePath) => {
@@ -191,6 +192,15 @@ const insertData = async () => {
                 'SELECT _id FROM guestbook_entries WHERE _id = $1',
                 'INSERT INTO guestbook_entries (_id, date, rating, comment, service_reservations_id) VALUES ($1, $2, $3, $4, $5)',
                 [_id, date, rating, comment, service_reservations_id]
+            );
+        }
+
+        for (const entry of reports) {
+            const { _id, date, reason, state, guestbook_entry_id} = entry;
+            await insertIfNotExists(
+                'SELECT _id FROM reports WHERE _id = $1',
+                'INSERT INTO reports (_id, date, reason, state, guestbook_entry_id) VALUES ($1, $2, $3, $4, $5)',
+                [_id, date, reason, state, guestbook_entry_id]
             );
         }
 

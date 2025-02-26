@@ -89,6 +89,14 @@ async function addGuestbookEntryFromApi(guestbookEntry) {
     return postRequest('guestbook-entries', guestbookEntry, 'AddGuestbookEntry');
 }
 
+async function modifyGuestbookEntryFromApi(guestbookEntry) {
+    return putRequest('guestbook-entries', guestbookEntry, 'ModifyGuestbookEntry');
+}
+
+async function deleteGuestbookEntryFromApi(id) {
+    return deleteRequest('guestbook-entries/' + id, 'DeleteGuestbookEntry');
+}
+
 // async function getGuestbookStatusFromLocalSource() {
 //     return LocalSource.getGuestbookStatus();
 // }
@@ -135,6 +143,18 @@ async function addProviderScheduleStatusFromApi(user) {
 
 async function modifyProviderScheduleStatusFromApi(providerScheduleStatus) {
     return postRequest('provider-schedule-status', providerScheduleStatus, 'ModifyProviderScheduleStatus');
+}
+
+async function getReportsFromApi() {
+    return getRequest('reports', 'GetReports');
+}
+
+async function addReportFromApi(report) {
+    return postRequest('reports', report, 'AddReport');
+}
+
+async function modifyReportFromApi(report) {
+    return putRequest('reports', report, 'ModifyReport');
 }
 
 
@@ -259,6 +279,28 @@ async function addGuestbookEntry(guestbookEntry) {
     return response
 }
 
+async function modifyGuestbookEntry(guestbookEntry) {
+    let response = null;
+    try {
+        response = await modifyGuestbookEntryFromApi(guestbookEntry);
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de modifier un commentaire dans le livre d\' or' }
+    }
+    return response
+}
+
+async function deleteGuestbookEntry(id) {
+    let response = null;
+    try {
+        response = await deleteGuestbookEntryFromApi(id);
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de supprimer un commentaire dans le livre d\' or' }
+    }
+    return response
+}
+
 async function getGuestbookStatus() {
     let response = null;
     try {
@@ -323,6 +365,39 @@ async function modifyProviderScheduleStatus(providerScheduleStatus) {
     return response
 }
 
+async function getReports() {
+    let response = null;
+    try {
+        response = await getReportsFromApi();
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des rapports' }
+    }
+    return response.data
+}
+
+async function addReport(report) {
+    let response = null;
+    try {
+        response = await addReportFromApi(report);
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible d\'ajouter un rapport' }
+    }
+    return response.data
+}
+
+async function modifyReport(report) {
+    let response = null;
+    try {
+        response = await modifyReportFromApi(report);
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de modifier un rapport' }
+    }
+    return response
+}
+
 export default {
     getServiceCategories,
     getProviderServiceCategories,
@@ -335,10 +410,15 @@ export default {
     deleteServiceReservation,
     getGuestbookEntries,
     addGuestbookEntry,
+    deleteGuestbookEntry,
+    modifyGuestbookEntry,
     getGuestbookStatus,
     addGuestbookStatus,
     modifyGuestbookStatus,
     getProviderScheduleStatus,
     addProviderScheduleStatus,
     modifyProviderScheduleStatus,
+    getReports,
+    addReport,
+    modifyReport,
 }

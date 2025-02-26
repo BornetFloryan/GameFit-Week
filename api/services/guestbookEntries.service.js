@@ -109,8 +109,78 @@ async function getGuestbookEntriesByCustomerId(customer_id) {
     }
 }
 
+async function updateGuestbookEntry(guestbookEntry) {
+    if (!guestbookEntry) {
+        return {error: 1, status: 404, data: 'Aucune donnée'};
+    }
+    if (!guestbookEntry._id === undefined) {
+        return {error: 1, status: 404, data: 'ID manquant'};
+    }
+    if (!guestbookEntry.rating) {
+        return {error: 1, status: 404, data: 'Note manquante'};
+    }
+    if (!guestbookEntry.comment) {
+        return {error: 1, status: 404, data: 'Commentaire manquant'};
+    }
+
+    const client = await pool.connect();
+    try {
+        const res = await client.query('SELECT * FROM guestbook_entries WHERE _id = $1', [guestbookEntry._id]);
+        if (res.rows.length === 0) {
+            return {error: 1, status: 404, data: 'Aucune entrée de livre d\'or trouvée'};
+        }
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour de l\'entrée du livre d\'or:', error);
+        return {error: 1, status: 500, data: 'Erreur interne du serveur'};
+    }
+
+    const guestbookEntryData = {
+        _id: guestbookEntry._id,
+        date: guestbookEntry.date,
+        rating: guestbookEntry.rating,
+        comment: guestbookEntry.comment,
+        service_reservations_id: guestbookEntry.service_reservations_id
+    };
+
+    try {
+        await client.query(
+            'UPDATE guestbook_entries SET date = $1, rating = $2, comment = $3, service_reservations_id = $4 WHERE _id = $5',
+            [guestbookEntryData.date, guestbookEntryData.rating, guestbookEntryData.comment, guestbookEntryData.service_reservations_id, guestbookEntryData._id]
+        );
+        return {error: 0, status: 200, data: guestbookEntryData};
+    }
+    catch (error) {
+        console.error('Erreur lors de la mise à jour de l\'entrée du livre d\'or:', error);
+        return {error: 1, status: 500, data: 'Erreur interne du serveur'};
+    } finally {
+        client.release();
+    }
+}
+
+async function deleteGuestbookEntry(id) {
+    if (!id) {
+        return {error: 1, status: 404, data: 'ID manquant'};
+    }
+
+    const client = await pool.connect();
+    try {
+        const res = await client.query('DELETE FROM guestbook_entries WHERE _id = $1 RETURNING *', [id]);
+        if (res.rows.length === 0) {
+            return {error: 1, status: 404, data: 'Aucune entrée de livre d\'or trouvée'};
+        }
+        return {error: 0, status: 200, data: 'Entrée supprimée avec succès'};
+    } catch (error) {
+        console.error('Erreur lors de la suppression de l\'entrée du livre d\'or:', error);
+        return {error: 1, status: 500, data: 'Erreur interne du serveur'};
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
     getGuestbookEntries,
     addGuestbookEntry,
     getGuestbookEntriesByCustomerId,
+    updateGuestbookEntry,
+    deleteGuestbookEntry,
 }

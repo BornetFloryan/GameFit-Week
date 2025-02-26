@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS guestbook_entries;
 DROP TABLE IF EXISTS provider_schedule_status;
 DROP TABLE IF EXISTS provider_guestbook_status;
@@ -15,7 +16,6 @@ DROP TABLE IF EXISTS provider_service_categories;
 DROP TABLE IF EXISTS service_categories;
 DROP TABLE IF EXISTS provider_requests;
 DROP TABLE IF EXISTS customer_accounts;
-
 
 CREATE TABLE IF NOT EXISTS customer_accounts
 (
@@ -155,4 +155,13 @@ CREATE TABLE IF NOT EXISTS guestbook_entries
     rating    INT,
     comment   TEXT,
     service_reservations_id INT REFERENCES service_reservations(_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS reports
+(
+    _id         SERIAL PRIMARY KEY,
+    date       DATE,
+    reason    TEXT,
+    state     INT,
+    guestbook_entry_id INT REFERENCES guestbook_entries(_id) ON DELETE CASCADE
 );

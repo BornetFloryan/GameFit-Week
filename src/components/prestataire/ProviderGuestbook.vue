@@ -18,10 +18,24 @@
           <p><strong>Utilisateur :</strong> {{
               getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name
             }}</p>
+          <button class="report-button" @click="openReportModal(entry._id)">Signaler</button>
         </div>
       </div>
     </div>
     <p v-else>Le service n'est pas activé.</p>
+    <div v-if="showReportModal" class="modal">
+      <div class="modal-content">
+        <span class="close" @click="closeReportModal">&times;</span>
+        <h2>Signaler une entrée</h2>
+        <form @submit.prevent="submitReport">
+          <div class="form-group">
+            <label for="reason">Raison</label>
+            <textarea v-model="reportReason" id="reason" required></textarea>
+          </div>
+          <button type="submit" class="form-submit-button">Valider</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,6 +47,9 @@ export default {
   data() {
     return {
       serviceStatus: null,
+      showReportModal: false,
+      reportReason: '',
+      reportEntryId: null,
     };
   },
   computed: {
@@ -55,7 +72,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('prestation', ['getServiceReservations', 'getGuestbookEntries', 'getProviderGuestbookStatus', 'modifyProviderGuestbookStatus']),
+    ...mapActions('prestation', ['getServiceReservations', 'getGuestbookEntries', 'getProviderGuestbookStatus', 'modifyProviderGuestbookStatus', 'addReport']),
     ...mapActions('account', ['getCustomersAccounts']),
     ...mapActions('ticket', ['getTickets']),
     ...mapActions('stands', ['getStandsReservations']),
@@ -87,6 +104,26 @@ export default {
         alert(`Service ${this.serviceStatus ? 'activé' : 'désactivé'} avec succès`);
       } catch (e) {
         alert('Erreur lors de la mise à jour du statut du service');
+      }
+    },
+    openReportModal(entryId) {
+      this.reportEntryId = entryId;
+      this.showReportModal = true;
+    },
+    closeReportModal() {
+      this.showReportModal = false;
+      this.reportReason = '';
+      this.reportEntryId = null;
+    },
+    async submitReport() {
+      if (this.reportEntryId && this.reportReason) {
+        const response = await this.addReport({ date: new Date().toISOString(), reason: this.reportReason, state: "0", guestbook_entry_id: this.reportEntryId });
+        if(response.error !== 0) {
+          alert(response.data);
+        } else {
+          alert(`Votre signalement a bien été pris en compte.`);
+          this.closeReportModal();
+        }
       }
     },
   },
@@ -135,5 +172,93 @@ export default {
 
 .entry p {
   margin: 0.5em 0;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-submit-button {
+  display: block;
+  width: 100%;
+  padding: 0.5em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit-button:hover {
+  background-color: #0056b3;
+}
+
+.entries {
+  margin-top: 2em;
+}
+
+.entry {
+  padding: 1em;
+  border-bottom: 1px solid #ccc;
+}
+
+.entry p {
+  margin: 0.5em 0;
+}
+
+.star i {
+  margin-right: 5px;
+}
+
+.report-button {
+  margin-top: 10px;
+  padding: 0.5em 1em;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.report-button:hover {
+  background-color: #c82333;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 </style>

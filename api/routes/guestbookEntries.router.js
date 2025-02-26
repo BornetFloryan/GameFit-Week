@@ -134,5 +134,7 @@ router.post('/', guestbookEntriesController.addGuestbookEntry);
  *                   example: "Erreur du serveur"
  */
 
+router.put('/', guestbookEntriesController.updateGuestbookEntry);
+
 
 module.exports = router;

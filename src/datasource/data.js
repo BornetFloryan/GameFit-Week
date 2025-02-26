@@ -1318,6 +1318,15 @@ let dailyTickets = [
     { date: "2025-01-07", tickets: 25 }
 ];
 
+let reports = [
+    {
+        "_id": "0",
+        "date": "2025-01-01",
+        "reason": "Problème technique",
+        "state": "0",
+        "guestbook_entry_id": "0",
+    }
+]
 
 
 module.exports = {
@@ -1342,4 +1351,5 @@ module.exports = {
     guestbook_entries,
     dailyTickets,
     provider_schedule_status,
+    reports,
 }

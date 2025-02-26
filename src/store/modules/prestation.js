@@ -9,6 +9,7 @@ const state = () => ({
     guestbookEntries: [],
     providerGuestbookStatus: [],
     providerScheduleStatus: [],
+    reports: [],
 });
 
 // mutations = fonctions synchrones pour mettre à jour le state (!!! interdit de modifier directement le state)
@@ -52,6 +53,15 @@ const mutations = {
     addGuestbookEntry(state, guestbookEntry) {
         state.guestbookEntries.push(guestbookEntry);
     },
+    modifyGuestbookEntry(state, guestbookEntry) {
+        let index = state.guestbookEntries.findIndex(e => e._id === guestbookEntry._id);
+        if (index !== -1) {
+            state.guestbookEntries[index] = guestbookEntry;
+        }
+    },
+    deleteGuestbookEntry(state, index) {
+        state.guestbookEntries.splice(index, 1);
+    },
     updateGuestbookStatus(state, providerGuestbookStatus) {
 
         state.providerGuestbookStatus = providerGuestbookStatus;
@@ -75,6 +85,18 @@ const mutations = {
         let index = state.providerScheduleStatus.findIndex(e => e._id === providerScheduleStatus._id);
         if (index !== -1) {
             state.providerScheduleStatus[index] = providerScheduleStatus;
+        }
+    },
+    updateReports(state, reports) {
+        state.reports = reports;
+    },
+    addReport(state, report) {
+        state.reports.push(report);
+    },
+    modifyReport(state, report) {
+        let index = state.reports.findIndex(e => e._id === report._id);
+        if (index !== -1) {
+            state.reports[index] = report;
         }
     },
 };
@@ -225,6 +247,30 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout d\'un commentaire' };
         }
     },
+    async modifyGuestbookEntry({ commit }, guestbookEntry) {
+        try {
+            let response = await PrestationService.modifyGuestbookEntry(guestbookEntry);
+            if (response.error === 0) {
+                commit('modifyGuestbookEntry', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification d\'un commentaire:', error);
+            return { error: 1, data: 'Erreur lors de la modification d\'un commentaire' };
+        }
+    },
+    async deleteGuestbookEntry({ commit }, id) {
+        try {
+            let response = await PrestationService.deleteGuestbookEntry(id);
+            if (response.error === 0) {
+                commit('deleteGuestbookEntry', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la suppression d\'un commentaire:', error);
+            return {error: 1, data: 'Erreur lors de la suppression d\'un commentaire'};
+        }
+    },
     async getProviderGuestbookStatus({ commit }) {
         try {
             let response = await PrestationService.getGuestbookStatus();
@@ -295,6 +341,42 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de la modification d\'un statut de planning:', error);
             return {error: 1, data: 'Erreur lors de la modification d\'un statut de planning'};
+        }
+    },
+    async getReports({ commit }) {
+        try {
+            let response = await PrestationService.getReports();
+            if (response.error === 0) {
+                commit('updateReports', response.data);
+            } else {
+                console.error(response.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des rapports:', error);
+        }
+    },
+    async addReport({ commit }, report) {
+        try {
+            let response = await PrestationService.addReport(report);
+            if (response.error === 0) {
+                commit('addReport', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout d\'un rapport:', error);
+            return { error: 1, data: 'Erreur lors de l\'ajout d\'un rapport' };
+        }
+    },
+    async modifyReport({ commit }, report) {
+        try {
+            let response = await PrestationService.modifyReport(report);
+            if (response.error === 0) {
+                commit('modifyReport', response.data);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification d\'un rapport:', error);
+            return {error: 1, data: 'Erreur lors de la modification d\'un rapport'};
         }
     },
 };
@@ -401,6 +483,9 @@ const getters = {
             return reservationDate === targetDate;
         });
     },
+    getGuestbookEntryById: (state) => (_id) => {
+        return state.guestbookEntries.find((ge) => ge._id === _id);
+    },
     getGuestbookEntriesByCustomerId: (state) => (customer_id) => {
         const standReservations = store.state.stands.standsReservations.filter((sr) => sr.customer_id === customer_id);
         const standReservationIds = standReservations.map(sr => sr._id);
@@ -423,6 +508,9 @@ const getters = {
             return null;
         }
         return status;
+    },
+    getReportsById: (state) => (_id) => {
+        return state.reports.find((r) => r._id === _id);
     }
 };
 

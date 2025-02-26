@@ -24,6 +24,21 @@
         <p><strong>Note :</strong> <span v-html="getStars(entry.rating)"></span></p>
         <p><strong>Commentaire :</strong> {{ entry.comment }}</p>
         <p><strong>Utilisateur :</strong> {{ getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name }}</p>
+        <button class="report-button" @click="openReportModal(entry._id)">Signaler</button>
+      </div>
+    </div>
+
+    <div v-if="showReportModal" class="modal">
+      <div class="modal-content">
+        <span class="close" @click="closeReportModal">&times;</span>
+        <h2>Signaler une entrée</h2>
+        <form @submit.prevent="submitReport">
+          <div class="form-group">
+            <label for="reason">Raison</label>
+            <textarea v-model="reportReason" id="reason" required></textarea>
+          </div>
+          <button type="submit" class="form-submit-button">Valider</button>
+        </form>
       </div>
     </div>
   </div>
@@ -39,7 +54,10 @@ export default {
       newEntry: {
         rating: 0,
         comment: '',
-      }
+      },
+      showReportModal: false,
+      reportReason: '',
+      reportEntryId: null,
     };
   },
   computed: {
@@ -87,7 +105,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('prestation', ['getGuestbookEntries', 'addGuestbookEntry', 'getServiceReservations']),
+    ...mapActions('prestation', ['getGuestbookEntries', 'addGuestbookEntry', 'getServiceReservations', 'addReport']),
     ...mapActions('account', ['getCustomersAccounts']),
     ...mapActions('ticket', ['getTickets']),
     ...mapActions('stands', ['getStandsReservations']),
@@ -119,7 +137,27 @@ export default {
     formatDate(dateString) {
       const dateObject = new Date(dateString);
       return dateObject.toLocaleString('fr-FR', { timeZone: 'UTC' });
-    }
+    },
+    openReportModal(entryId) {
+      this.reportEntryId = entryId;
+      this.showReportModal = true;
+    },
+    closeReportModal() {
+      this.showReportModal = false;
+      this.reportReason = '';
+      this.reportEntryId = null;
+    },
+    async submitReport() {
+      if (this.reportEntryId && this.reportReason) {
+        const response = await this.addReport({ date: new Date().toISOString(), reason: this.reportReason, state: "0", guestbook_entry_id: this.reportEntryId });
+        if(response.error !== 0) {
+          alert(response.data);
+        } else {
+          alert(`Votre signalement a bien été pris en compte.`);
+          this.closeReportModal();
+        }
+      }
+    },
   },
   async created() {
     await this.getGuestbookEntries();
@@ -208,5 +246,49 @@ textarea {
 
 .star i {
   margin-right: 5px;
+}
+
+.report-button {
+  margin-top: 10px;
+  padding: 0.5em 1em;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.report-button:hover {
+  background-color: #c82333;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
 }
 </style>

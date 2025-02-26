@@ -16,6 +16,8 @@ import AdminModifyDedicationReservation from "@/components/admin/dedications/Adm
 import AdminAddDedicationReservation from "@/components/admin/dedications/AdminAddDedicationReservation.vue";
 import AdminBracket from "@/components/admin/AdminBracket.vue";
 import AdminchartView from "@/components/admin/AdminChartView.vue";
+import AdminReportsManagement from "@/components/admin/reports/AdminReportsManagement.vue";
+import AdminReportProcessed from "@/components/admin/reports/AdminReportProcessed.vue";
 
 export default [
     {
@@ -125,6 +127,18 @@ export default [
                 name: 'admin-bracket',
                 component: AdminBracket,
                 meta: { requiresAuth: true, requiredPrivilege: "2" },
+            },
+            {
+                path: 'admin-reports',
+                name: 'admin-reports',
+                component: AdminReportsManagement,
+                meta: { requiresAuth: true, requiredPrivilege: "2" },
+            },
+            {
+                path: 'admin-reports/:guestbook_entry_id',
+                name: 'admin-reports-processed',
+                component: AdminReportProcessed,
+                meta: { requiresAuth: true, requiredPrivilege: "2"},
             },
             {
                 path: 'testChartadmin',
