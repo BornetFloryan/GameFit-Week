@@ -1,36 +1,45 @@
 <template>
   <div class="moderation-container">
     <h2 class="section-title">Modération de l'entrée</h2>
-    <form @submit.prevent="submitModeration">
-      <div class="form-group">
-        <label for="userComment">Commentaire de l'utilisateur</label>
-        <textarea id="userComment" v-model="comment"></textarea>
-      </div>
+    <div class="entry" v-if="entry">
+      <p><strong>Date :</strong> {{ formatDate(entry.date) }}</p>
+      <p><strong>Note :</strong> <span v-html="getStars(entry.rating)"></span></p>
+      <p><strong>Commentaire :</strong><textarea id="userComment" v-model="entry.comment"></textarea></p>
+      <p><strong>Utilisateur :</strong> {{ getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name }}</p>
+    </div>
+    <form @submit.prevent="confirmSubmitModeration" class="button-group">
       <button type="submit" class="form-submit-button">Soumettre</button>
-      <button type="button" class="form-delete-button" @click="deleteEntry">Supprimer</button>
+      <button type="button" class="form-delete-button" @click="confirmDeleteEntry">Supprimer</button>
       <button type="button" class="form-back-button" @click="goBack">Retour</button>
     </form>
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'AdminReportProcessed',
   data() {
     return {
-      entry: {},
+      entry: null,
       comment: '',
     };
   },
   computed: {
     ...mapState('prestation', ['guestbookEntries']),
-    ...mapGetters('prestation', ['getGuestbookEntryById', 'getReportsById']),
+    ...mapGetters('prestation', ['getGuestbookEntryById', 'getReportsById', 'getServiceReservationsById']),
+    ...mapGetters('ticket', ['getTicketById']),
+    ...mapGetters('account', ['getCustomerById']),
   },
   methods: {
-    ...mapActions('prestation', ['getGuestbookEntries', 'modifyGuestbookEntry', 'modifyReport', 'deleteGuestbookEntry']),
+    ...mapActions('prestation', ['getServiceReservations', 'getGuestbookEntries', 'modifyGuestbookEntry', 'modifyReport', 'deleteGuestbookEntry', 'deleteReport']),
+    ...mapActions('account', ['getCustomersAccounts']),
+    ...mapActions('ticket', ['getTickets']),
     async fetchGuestbookEntry() {
+      await this.getServiceReservations();
+      await this.getTickets();
+      await this.getCustomersAccounts();
       await this.getGuestbookEntries();
       const guestbookEntryId = this.$route.params.guestbook_entry_id;
       this.entry = await this.getGuestbookEntryById(guestbookEntryId);
@@ -42,14 +51,36 @@ export default {
       const report = this.getReportsById(this.$route.query.report_id);
       report.state = '1';
       await this.modifyReport(report);
-      this.$router.push({name: 'admin-reports'});
+      this.$router.push({ name: 'admin-reports' });
     },
     async deleteEntry() {
       await this.deleteGuestbookEntry(this.entry._id);
+      await this.deleteReport(this.$route.query.report_id);
       this.$router.push({name: 'admin-reports'});
+    },
+    confirmSubmitModeration() {
+      if (confirm('Êtes-vous sûr de vouloir soumettre cette modération ?')) {
+        this.submitModeration();
+      }
+    },
+    confirmDeleteEntry() {
+      if (confirm('Êtes-vous sûr de vouloir supprimer cette entrée ?')) {
+        this.deleteEntry();
+      }
     },
     goBack() {
       this.$router.go(-1);
+    },
+    formatDate(dateString) {
+      const dateObject = new Date(dateString);
+      return dateObject.toLocaleString('fr-FR', {timeZone: 'UTC'});
+    },
+    getStars(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        stars += `<i class="${i <= rating ? 'fas fa-star' : 'far fa-star'}"></i>`;
+      }
+      return stars;
     },
   },
   async created() {
@@ -60,17 +91,13 @@ export default {
 
 <style scoped>
 .moderation-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 1200px;
   background-color: #fff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  margin: 30px auto;
+  margin-top: 30px;
 }
 
 .section-title {
@@ -78,12 +105,6 @@ export default {
   font-weight: 600;
   color: #333;
   margin-bottom: 20px;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1em;
-  width: 100%;
 }
 
 label {
@@ -92,54 +113,40 @@ label {
   font-weight: bold;
 }
 
-textarea,
-select {
+textarea {
   width: 100%;
-  padding: 0.75em;
+  padding: 0.5em;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1em;
-  transition: border-color 0.3s ease;
+  border-radius: 5px;
 }
 
-textarea:focus,
-select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-textarea[readonly] {
-  background-color: #f9f9f9;
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .form-submit-button,
 .form-delete-button,
 .form-back-button {
-  display: block;
-  width: 100%;
+  flex: 1;
   padding: 0.75em;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
   font-weight: bold;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-top: 10px;
 }
 
 .form-submit-button {
-  background-color: #007bff;
+  background-color: #28a745;
 }
 
 .form-submit-button:hover {
-  background-color: #0056b3;
+  background-color: #218838;
   transform: translateY(-2px);
-}
-
-.form-submit-button:active {
-  background-color: #004494;
-  transform: translateY(0);
 }
 
 .form-delete-button {
@@ -151,11 +158,6 @@ textarea[readonly] {
   transform: translateY(-2px);
 }
 
-.form-delete-button:active {
-  background-color: #bd2130;
-  transform: translateY(0);
-}
-
 .form-back-button {
   background-color: #6c757d;
 }
@@ -165,8 +167,17 @@ textarea[readonly] {
   transform: translateY(-2px);
 }
 
-.form-back-button:active {
-  background-color: #4e555b;
-  transform: translateY(0);
+.entry {
+  padding: 1em;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1em;
+}
+
+.entry p {
+  margin: 0.5em 0;
+}
+
+.star i {
+  margin-right: 5px;
 }
 </style>

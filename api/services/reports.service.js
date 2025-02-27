@@ -61,8 +61,22 @@ async function updateReport(formData) {
     }
 }
 
+async function deleteReport(reportId) {
+    const client = await pool.connect();
+    try {
+        const res = await client.query('DELETE FROM reports WHERE _id = $1 RETURNING *', [reportId]);
+        return { error: 0, data: res.rows[0] };
+    } catch (error) {
+        console.error(error);
+        return { error: 1, status: 500, data: 'Error deleting report' };
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
     getReports,
     addReport,
     updateReport,
+    deleteReport,
 }

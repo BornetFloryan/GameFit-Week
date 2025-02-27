@@ -99,6 +99,9 @@ const mutations = {
             state.reports[index] = report;
         }
     },
+    deleteReport(state, reportId) {
+        state.reports = state.reports.filter(report => report._id !== reportId);
+    },
 };
 
 // actions = fonctions asynchrone pour mettre à jour le state, en faisant appel aux mutations, via la fonction commit()
@@ -379,6 +382,18 @@ const actions = {
             return {error: 1, data: 'Erreur lors de la modification d\'un rapport'};
         }
     },
+    async deleteReport( { commit }, id) {
+        try {
+            let response = await PrestationService.deleteReport(id);
+            if (response.error === 0) {
+                commit('deleteReport', response.data._id);
+            }
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la suppression d\'un rapport:', error);
+            return {error: 1, data: 'Erreur lors de la suppression d\'un rapport'};
+        }
+    }
 };
 
 const getters = {

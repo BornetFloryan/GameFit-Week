@@ -157,6 +157,10 @@ async function modifyReportFromApi(report) {
     return putRequest('reports', report, 'ModifyReport');
 }
 
+async function deleteReportFromApi(id) {
+    return deleteRequest('reports/' + id, 'DeleteReport');
+}
+
 
 async function getServiceCategories() {
     let response = null;
@@ -398,6 +402,17 @@ async function modifyReport(report) {
     return response
 }
 
+async function deleteReport(id) {
+    let response = null;
+    try {
+        response = await deleteReportFromApi(id);
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de supprimer un rapport' }
+    }
+    return response.data
+}
+
 export default {
     getServiceCategories,
     getProviderServiceCategories,
@@ -421,4 +436,5 @@ export default {
     getReports,
     addReport,
     modifyReport,
+    deleteReport,
 }

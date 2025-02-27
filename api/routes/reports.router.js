@@ -178,4 +178,54 @@ router.put("/", reportsController.updateReport);
  *                   example: "Erreur du serveur"
  */
 
+router.delete("/:id", reportsController.deleteReport);
+/**
+ * @swagger
+ * /reports/{id}:
+ *   delete:
+ *     summary: Supprimer un signalement
+ *     tags: [Signalements]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID du signalement à supprimer
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Signalement supprimé
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: integer
+ *                   example: 0
+ *                 date:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "20-02-2025T00:00:00.000Z"
+ *                 reason:
+ *                   type: string
+ *                   example: "Langage inapproprié"
+ *                 state:
+ *                   type: integer
+ *                   example: 1
+ *                 guestbook_entry_id:
+ *                   type: integer
+ *                   example: 0
+ *       500:
+ *         description: Erreur interne du serveur
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Erreur du serveur"
+ */
+
 module.exports = router;

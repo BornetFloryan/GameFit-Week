@@ -42,7 +42,7 @@ exports.updateGuestbookEntry = async (req, res) => {
 
 exports.deleteGuestbookEntry = async (req, res) => {
     try {
-        let data = await guestbookEntriesService.deleteGuestbookEntry(req.params.id);
+        let data = await guestbookEntriesService.deleteGuestbookEntry(req.params._id);
         return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
