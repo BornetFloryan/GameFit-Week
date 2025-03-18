@@ -1,5 +1,6 @@
 const fs = require('fs');
 const pool = require('../database/db');
+const path = require('path');
 
 const {
     customer_accounts,
@@ -29,7 +30,7 @@ const executeSQLFile = async (filePath) => {
 
 const insertData = async () => {
     try {
-        await executeSQLFile('datasource/data.sql');
+        await executeSQLFile(path.join(__dirname, '..', 'datasource', 'data.sql'));
 
         const insertIfNotExists = async (querySelect, queryInsert, values) => {
             const res = await pool.query(querySelect, [values[0]]);
