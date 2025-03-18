@@ -21,6 +21,11 @@ const {
     provider_schedule_status,
     guestbook_entries,
     reports,
+    goodies_sizes,
+    goodies,
+    goodies_variations,
+    baskets,
+    basket_items
 } = require('../../src/datasource/data');
 
 const executeSQLFile = async (filePath) => {
@@ -202,6 +207,46 @@ const insertData = async () => {
                 'SELECT _id FROM reports WHERE _id = $1',
                 'INSERT INTO reports (_id, date, reason, state, guestbook_entry_id) VALUES ($1, $2, $3, $4, $5)',
                 [_id, date, reason, state, guestbook_entry_id]
+            );
+        }
+
+        for (const size of goodies_sizes) {
+            await insertIfNotExists(
+                'SELECT _id FROM goodies_sizes WHERE _id = $1',
+                'INSERT INTO goodies_sizes (_id, size) VALUES ($1, $2)',
+                [size._id, size.size]
+            );
+        }
+
+        for (const goodie of goodies) {
+            await insertIfNotExists(
+                'SELECT _id FROM goodies WHERE _id = $1',
+                'INSERT INTO goodies (_id, name, image, price, description) VALUES ($1, $2, $3, $4, $5)',
+                [goodie._id, goodie.name, goodie.image || '', goodie.price, goodie.description]
+            );
+        }
+
+        for (const variation of goodies_variations) {
+            await insertIfNotExists(
+                'SELECT _id FROM goodies_variations WHERE _id = $1',
+                'INSERT INTO goodies_variations (_id, goodie_id, size_id) VALUES ($1, $2, $3)',
+                [variation._id, variation.goodie_id, variation.size_id]
+            );
+        }
+
+        for (const basket of baskets) {
+            await insertIfNotExists(
+                'SELECT _id FROM baskets WHERE _id = $1',
+                'INSERT INTO baskets (_id, date, state, is_order, customer_id) VALUES ($1, $2, $3, $4, $5)',
+                [basket._id, basket.date, basket.state, basket.is_order, basket.customer_id]
+            );
+        }
+
+        for (const item of basket_items) {
+            await insertIfNotExists(
+                'SELECT _id FROM basket_items WHERE _id = $1',
+                'INSERT INTO basket_items (_id, basket_id, item_id, item_type, quantity) VALUES ($1, $2, $3, $4, $5)',
+                [item._id, item.basket_id, item.item_id, item.item_type, item.quantity]
             );
         }
 

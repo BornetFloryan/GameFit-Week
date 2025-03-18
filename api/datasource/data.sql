@@ -1,21 +1,27 @@
-DROP TABLE IF EXISTS reports;
-DROP TABLE IF EXISTS guestbook_entries;
-DROP TABLE IF EXISTS provider_schedule_status;
-DROP TABLE IF EXISTS provider_guestbook_status;
-DROP TABLE IF EXISTS service_reservations;
-DROP TABLE IF EXISTS stands_reservations;
-DROP TABLE IF EXISTS stands;
-DROP TABLE IF EXISTS pavillons;
-DROP TABLE IF EXISTS tickets;
-DROP TABLE IF EXISTS ticket_prices;
-DROP TABLE IF EXISTS ticket_age_categories;
-DROP TABLE IF EXISTS ticket_animation_categories;
-DROP TABLE IF EXISTS provider_sport_categories;
-DROP TABLE IF EXISTS sports_categories;
-DROP TABLE IF EXISTS provider_service_categories;
-DROP TABLE IF EXISTS service_categories;
-DROP TABLE IF EXISTS provider_requests;
-DROP TABLE IF EXISTS customer_accounts;
+DROP TABLE IF EXISTS basket_items CASCADE;
+DROP TABLE IF EXISTS baskets CASCADE;
+DROP TABLE IF EXISTS goodies_variations CASCADE;
+DROP TABLE IF EXISTS goodies CASCADE;
+DROP TABLE IF EXISTS goodies_sizes CASCADE;
+DROP TABLE IF EXISTS reports CASCADE;
+DROP TABLE IF EXISTS guestbook_entries CASCADE;
+DROP TABLE IF EXISTS provider_schedule_status CASCADE;
+DROP TABLE IF EXISTS provider_guestbook_status CASCADE;
+DROP TABLE IF EXISTS service_reservations CASCADE;
+DROP TABLE IF EXISTS stands_reservations CASCADE;
+DROP TABLE IF EXISTS stands CASCADE;
+DROP TABLE IF EXISTS pavillons CASCADE;
+DROP TABLE IF EXISTS tickets CASCADE;
+DROP TABLE IF EXISTS ticket_prices CASCADE;
+DROP TABLE IF EXISTS ticket_age_categories CASCADE;
+DROP TABLE IF EXISTS ticket_animation_categories CASCADE;
+DROP TABLE IF EXISTS provider_sport_categories CASCADE;
+DROP TABLE IF EXISTS sports_categories CASCADE;
+DROP TABLE IF EXISTS provider_service_categories CASCADE;
+DROP TABLE IF EXISTS service_categories CASCADE;
+DROP TABLE IF EXISTS provider_requests CASCADE;
+DROP TABLE IF EXISTS customer_accounts CASCADE;
+
 
 CREATE TABLE IF NOT EXISTS customer_accounts
 (
@@ -165,3 +171,45 @@ CREATE TABLE IF NOT EXISTS reports
     state     INT,
     guestbook_entry_id INT REFERENCES guestbook_entries(_id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS goodies_sizes
+(
+    _id         SERIAL PRIMARY KEY,
+    size       VARCHAR(255) NOT NULL
+    );
+
+CREATE TABLE IF NOT EXISTS goodies
+(
+    _id         SERIAL PRIMARY KEY,
+    name       VARCHAR(255) NOT NULL,
+    image      VARCHAR(255),
+    price       NUMERIC(10, 2) NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS goodies_variations
+(
+    _id         SERIAL PRIMARY KEY,
+    stock       INT,
+    goodie_id   INT REFERENCES goodies(_id) ON DELETE CASCADE,
+    size_id     INT REFERENCES goodies_sizes(_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS baskets (
+    _id SERIAL PRIMARY KEY,
+    date TIMESTAMP DEFAULT NOW(),
+    state INT NOT NULL,
+    is_order BOOLEAN DEFAULT FALSE,
+    customer_id INT REFERENCES customer_accounts(_id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE basket_items (
+    _id SERIAL PRIMARY KEY,
+    basket_id INT REFERENCES baskets(_id) ON DELETE CASCADE,
+    item_id INT NOT NULL,
+    item_type VARCHAR(50) NOT NULL,
+    quantity INT NOT NULL
+);
+

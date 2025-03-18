@@ -2,56 +2,74 @@
   <div class="goodie-list">
 
     <div class="head-goodies">
-      <h2>Nos Goodies Disponibles</h2>
-      <router-link to="">
+      <h2>Les Goodies Disponibles</h2>
+      <router-link to="/panier">
         <button class="view-cart-button">Voir le Panier</button>
       </router-link>
     </div>
 
-    <!-- Conteneur des cartes -->
-    <div class="goodie-cards-container">
-      <!-- Affichage des cartes pour chaque goodie -->
-      <div class="goodie-card" v-for="sale in sales" :key="sale._id">
-        <!-- Image du goodie -->
-        <img :src="sale.goodie.imageUrl || require('@/assets/img/noteam.jpg')" alt="Goodie image" class="goodie-image"/>
+    <div v-if="goodies.length > 0" class="goodie-cards-container">
+      <div class="goodie-card" v-for="goodie in goodies" :key="goodie._id">
 
-        <!-- Infos du goodie -->
+        <img :src="goodie.image ? require(`@/assets/img/goodies/${goodie.image}`) : require('@/assets/img/noteam.jpg')" alt="Goodie image" class="goodie-image"/>
+
         <div class="goodie-info">
-          <h3>{{ sale.goodie.name }}</h3>
-          <p><strong>Prix : {{ sale.goodie.price }} €</strong></p>
-          <p>Stock : {{ sale.quantity }}</p>
-          <button class="add-basket" @click="addToBasket(sale)">Ajouter au Panier</button>
+          <h3>{{ goodie.name }}</h3>
+          <p><strong>Prix : {{ goodie.price ? goodie.price : 'N/A' }} €</strong></p>
+          <p v-for="(stock, size) in goodieStock(goodie)" :key="size">Stock ({{ size }}): {{ stock }}</p>
+          <button class="add-basket" @click="addToBasket(goodie)">Ajouter au Panier</button>
         </div>
       </div>
     </div>
 
-    <!-- Bouton pour accéder au panier -->
+    <div v-else class="no-goodies">
+      <p>Aucun goodie disponible pour le moment.</p>
+    </div>
 
   </div>
 </template>
 
 <script>
-// Données des ventes de goodies
-import {sale} from "@/datasource/data.js"; // Importation de la source des données de ventes
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "GoodiesView",
-  data() {
-    return {
-      sales: sale,  // Liste des ventes de goodies disponibles
-      basket: [],  // Panier de l'utilisateur
-    };
+  computed: {
+    ...mapState("goodies", ["goodies", "goodieVariations", "goodiesSizes"]),
   },
   methods: {
-    // Fonction pour ajouter un produit au panier
-    addToBasket(sale) {
-      this.basket.push(sale);
-      console.log("Panier:", this.basket);
+    ...mapActions("goodies", ["getAllGoodies", "getGoodieVariations", "getGoodiesSizes"]),
+
+    goodieStock(goodie) {
+      let stockBySize = {};
+      for (let variation of this.goodieVariations) {
+        if (variation.goodie_id === goodie._id) {
+          let size = this.goodiesSizes.find(size => size._id === variation.size_id).size;
+          stockBySize[size] = (stockBySize[size] || 0) + parseInt(variation.stock, 10);
+        }
+      }
+      return stockBySize;
+    },
+
+    addToBasket(goodie) {
+      let basket = JSON.parse(localStorage.getItem("basket")) || [];
+      let existingItem = basket.find(item => item._id === goodie._id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        basket.push({ ...goodie, quantity: 1 });
+      }
+
+      localStorage.setItem("basket", JSON.stringify(basket));
+      alert("Goodie ajouté au panier !");
     },
   },
-  async mounted(){
-
-  }
+  async mounted() {
+    await this.getAllGoodies();
+    await this.getGoodieVariations();
+    await this.getGoodiesSizes();
+  },
 };
 </script>
 
@@ -132,6 +150,10 @@ button.add-basket {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+button.add-basket:hover {
+  background-color: #0056b3;
+}
+
 button.view-cart-button {
   background-color: #28a745;
   color: white;
@@ -151,5 +173,12 @@ button.view-cart-button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.no-goodies {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
 }
 </style>

@@ -21,6 +21,8 @@ const guestbookStatusRoutes = require('./routes/providerGuestbookStatus.router')
 const guestbookEntriesRoutes = require('./routes/guestbookEntries.router');
 const providerScheduleStatusRoutes = require('./routes/providerScheduleStatus.router');
 const reportsRoutes = require('./routes/reports.router');
+const basketRoutes = require('./routes/basket.router');
+const goodiesRoutes = require('./routes/goodies.router');
 
 const app = express();
 const PORT = 3000;
@@ -51,6 +53,8 @@ app.use('/guestbook-status', guestbookStatusRoutes);
 app.use('/guestbook-entries', guestbookEntriesRoutes);
 app.use('/provider-schedule-status', providerScheduleStatusRoutes);
 app.use('/reports', reportsRoutes);
+app.use('/baskets', basketRoutes);
+app.use('/goodies', goodiesRoutes);
 
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);

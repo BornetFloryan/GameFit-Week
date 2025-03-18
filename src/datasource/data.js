@@ -1100,22 +1100,6 @@ let pro_teams = [
     }   
 ]
 
-let sale = [
-    { _id: 1, goodie: { _id: 101, name: 'T-shirt GameFitWeek', img: "", price: 19.99 }, quantity: 5, date: '2025-01-01' },
-    { _id: 2, goodie: { _id: 102, name: 'Mug Collector', img: "", price: 9.99 }, quantity: 3, date: '2025-01-02' },
-    { _id: 3, goodie: { _id: 103, name: 'Casquette GameFitWeek', img: "", price: 14.99 }, quantity: 7, date: '2025-01-03' },
-    { _id: 4, goodie: { _id: 104, name: 'Poster GameFitWeek', img: "", price: 5.99 }, quantity: 2, date: '2025-01-04' },
-    { _id: 5, goodie: { _id: 105, name: 'Badge GameFitWeek', img: "", price: 2.99 }, quantity: 8, date: '2025-01-05' },
-    { _id: 6, goodie: { _id: 106, name: 'Sweat à Capuche', img: "", price: 29.99 }, quantity: 4, date: '2025-01-06' },
-    { _id: 7, goodie: { _id: 110, name: 'Figurine', img: "", price: 24.99 }, quantity: 10, date: '2025-01-10' },
-    { _id: 8, goodie: { _id: 111, name: 'Autocollants', img: "", price: 1.99 }, quantity: 15, date: '2025-01-11' },
-    { _id: 9, goodie: { _id: 112, name: 'Stylos GameFitWeek', img: "", price: 3.99 }, quantity: 12, date: '2025-01-12' },
-    { _id: 10, goodie: { _id: 113, name: 'Carnet de Notes', img: "", price: 7.99 }, quantity: 20, date: '2025-01-13' },
-    { _id: 11, goodie: { _id: 114, name: 'Porte-Clés', img: "", price: 4.99 }, quantity: 25, date: '2025-01-14' },
-    { _id: 12, goodie: { _id: 115, name: 'Sac à Dos Édition Limitée', img: "", price: 49.99 }, quantity: 3, date: '2025-01-15' },
-];
-
-
 let food_items = [
     { _id: 1, food: { _id: 201, name: 'Pizza GameFit', img: "", price: 10 }, quantity: 20, date: '2025-01-01' },
     { _id: 2, food: { _id: 202, name: 'Burger Gourmet', img: "", price: 8 }, quantity: 15, date: '2025-01-02' },
@@ -1328,6 +1312,44 @@ let reports = [
     }
 ]
 
+let goodies_sizes = [
+    { "_id": "0", "size": "S" },
+    { "_id": "1", "size": "M" },
+    { "_id": "2", "size": "L" },
+]
+
+let goodies = [
+    {
+        "_id": "0",
+        "name": 'T-shirt GameFitWeek',
+        "image": "T-shirt GameFitWeek.webp",
+        "price": "19.99",
+        "description": "T-shirt officiel de la GameFitWeek",
+    },
+]
+
+let goodies_variations = [
+    { "_id": "0", "goodie_id": "0", "stock":"10", "size_id": "0" },
+    { "_id": "1", "goodie_id": "0", "stock": "5", "size_id": "1" },
+    { "_id": "2", "goodie_id": "0", "sotck": "3", "size_id": "2" },
+]
+
+let baskets = [
+    {
+        "_id": "0",
+        "date": "2025-03-18T15:00:00.000Z",
+        "state": "0",
+        "is_order": false,
+        "customer_id": "0"
+    }
+];
+
+let basket_items = [
+    { "_id": "0", "basket_id": "0", "item_id": "0", "item_type": "goodie", "quantity": "2" },
+    { "_id": "1", "basket_id": "0", "item_id": "2", "item_type": "goodie", "quantity": "1" }
+];
+
+
 
 module.exports = {
     customer_accounts,
@@ -1344,7 +1366,6 @@ module.exports = {
     stands,
     stands_reservations,
     pro_teams,
-    sale,
     food_items,
     service_reservations,
     provider_guestbook_status,
@@ -1352,4 +1373,10 @@ module.exports = {
     dailyTickets,
     provider_schedule_status,
     reports,
+
+    goodies_sizes,
+    goodies,
+    goodies_variations,
+    baskets,
+    basket_items,
 }
