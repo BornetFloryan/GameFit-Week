@@ -16,6 +16,20 @@ router.get('/', goodiesController.getAllGoodies);
  *         description: Erreur serveur
  */
 
+router.get('/sizes', goodiesController.getGoodieSizes);
+/**
+ * @swagger
+ * /goodies/sizes:
+ *   get:
+ *     summary: Récupérer toutes les tailles de goodies
+ *     tags: [Goodies]
+ *     responses:
+ *       200:
+ *         description: Liste des tailles disponibles
+ *       500:
+ *         description: Erreur serveur
+ */
+
 router.get('/:id', goodiesController.getGoodieById);
 /**
  * @swagger
@@ -118,20 +132,6 @@ router.delete('/:id', goodiesController.deleteGoodie);
  *         description: Goodie supprimé
  *       404:
  *         description: Goodie non trouvé
- *       500:
- *         description: Erreur serveur
- */
-
-router.get('/sizes', goodiesController.getGoodieSizes);
-/**
- * @swagger
- * /goodies/sizes:
- *   get:
- *     summary: Récupérer toutes les tailles de goodies
- *     tags: [Goodies]
- *     responses:
- *       200:
- *         description: Liste des tailles disponibles
  *       500:
  *         description: Erreur serveur
  */

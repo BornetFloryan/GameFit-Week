@@ -1,4 +1,4 @@
-import GoodiesView from "@/components/prestataire/goodies/GoodiesView.vue";
+import GoodiesView from "@/components/client/services/GoodiesView.vue";
 import RestaurantView from "@/components/prestataire/foods/RestaurantView.vue";
 import PrestationLayout from "@/components/prestataire/PrestationLayout.vue"; // Composant parent
 

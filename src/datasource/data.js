@@ -1324,14 +1324,13 @@ let goodies = [
         "name": 'T-shirt GameFitWeek',
         "image": "T-shirt GameFitWeek.webp",
         "price": "19.99",
-        "description": "T-shirt officiel de la GameFitWeek",
     },
 ]
 
 let goodies_variations = [
     { "_id": "0", "goodie_id": "0", "stock":"10", "size_id": "0" },
     { "_id": "1", "goodie_id": "0", "stock": "5", "size_id": "1" },
-    { "_id": "2", "goodie_id": "0", "sotck": "3", "size_id": "2" },
+    { "_id": "2", "goodie_id": "0", "stock": "3", "size_id": "2" },
 ]
 
 let baskets = [

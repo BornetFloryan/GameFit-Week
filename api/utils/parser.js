@@ -221,16 +221,16 @@ const insertData = async () => {
         for (const goodie of goodies) {
             await insertIfNotExists(
                 'SELECT _id FROM goodies WHERE _id = $1',
-                'INSERT INTO goodies (_id, name, image, price, description) VALUES ($1, $2, $3, $4, $5)',
-                [goodie._id, goodie.name, goodie.image || '', goodie.price, goodie.description]
+                'INSERT INTO goodies (_id, name, image, price) VALUES ($1, $2, $3, $4)',
+                [goodie._id, goodie.name, goodie.image || '', goodie.price]
             );
         }
 
         for (const variation of goodies_variations) {
             await insertIfNotExists(
                 'SELECT _id FROM goodies_variations WHERE _id = $1',
-                'INSERT INTO goodies_variations (_id, goodie_id, size_id) VALUES ($1, $2, $3)',
-                [variation._id, variation.goodie_id, variation.size_id]
+                'INSERT INTO goodies_variations (_id, stock, goodie_id, size_id) VALUES ($1, $2, $3, $4)',
+                [variation._id, variation.stock, variation.goodie_id, variation.size_id]
             );
         }
 

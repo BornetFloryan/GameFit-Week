@@ -183,8 +183,7 @@ CREATE TABLE IF NOT EXISTS goodies
     _id         SERIAL PRIMARY KEY,
     name       VARCHAR(255) NOT NULL,
     image      VARCHAR(255),
-    price       NUMERIC(10, 2) NOT NULL,
-    description TEXT
+    price       NUMERIC(10, 2) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS goodies_variations
