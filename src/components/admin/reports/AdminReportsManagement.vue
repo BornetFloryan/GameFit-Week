@@ -7,6 +7,15 @@
           <p><strong>Numéro :</strong> {{report._id}}</p>
           <p><strong>Date :</strong> {{ formatDate(report.date) }}</p>
           <p><strong>Raison :</strong> {{report.reason}}</p>
+          <p v-if="report.guestbook_entry_id">
+            <strong>Commentaire :</strong>
+            <span v-if="getGuestbookEntryById(report.guestbook_entry_id)">
+              {{getGuestbookEntryById(report.guestbook_entry_id).comment}}
+            </span>
+            <span v-else>
+              Commentaire non trouvé
+            </span>
+          </p>
           <p><strong>Etat :</strong> {{ formatState(report.state) }}</p>
           <p><strong>Numéro d'entrée dans le livre d'or :</strong> {{report.guestbook_entry_id}}</p>
           <div class="button-group">
@@ -20,19 +29,21 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapState, mapGetters} from 'vuex';
 
 export default {
   name: 'AdminReportsManagement',
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapState('prestation', ['reports']),
+    ...mapGetters('prestation', ['getGuestbookEntryById']),
   },
   methods: {
-    ...mapActions('prestation', ['getReports', 'deleteReport']),
+    ...mapActions('prestation', ['getReports', 'deleteReport', 'getGuestbookEntries']),
     formatDate(dateString) {
       const dateObject = new Date(dateString);
       return dateObject.toLocaleString('fr-FR', {timeZone: 'UTC'});
@@ -53,6 +64,7 @@ export default {
   },
   created() {
     this.getReports();
+    this.getGuestbookEntries();
   },
 };
 </script>

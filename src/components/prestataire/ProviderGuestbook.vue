@@ -8,7 +8,7 @@
         <input type="radio" v-model="serviceStatus" :value="false" @change="toggleServiceStatus"> Désactiver le service
       </label>
     </div>
-    <h2 class="section-title">Retours sur le Livre d'Or</h2>
+    <h2 class="section-title">Votre Livre d'Or</h2>
     <div v-if="serviceStatus">
       <div class="entries">
         <div v-for="entry in entries" :key="entry._id" class="entry">
