@@ -49,7 +49,7 @@ const actions = {
         try {
             let response = await BasketService.getAllBaskets();
             if (response.error === 0) {
-                commit('updateBaskets', response);
+                commit('updateBaskets', response.data);
             } else {
                 console.error(response.data);
             }
@@ -61,7 +61,7 @@ const actions = {
         try {
             let response = await BasketService.getBasketsByCustomer(customer_id);
             if (response.error === 0) {
-                commit('updateCustomerBaskets', response);
+                commit('updateCustomerBaskets', response.data);
             } else {
                 console.error(response.data);
             }
@@ -73,7 +73,7 @@ const actions = {
         try {
             let response = await BasketService.createBasket(data);
             if (response.error === 0) {
-                commit('addBasket', response);
+                commit('addBasket', response.data);
             }
             return response;
         } catch (error) {
@@ -85,7 +85,7 @@ const actions = {
         try {
             let response = await BasketService.updateBasketState(basket_id, data);
             if (response.error === 0) {
-                commit('modifyBasket', response);
+                commit('modifyBasket', response.data);
             }
             return response;
         } catch (error) {
@@ -109,7 +109,7 @@ const actions = {
         try {
             let response = await BasketService.getItemsByBasket(basket_id);
             if (response.error === 0) {
-                commit('updateBasketItems', response);
+                commit('updateBasketItems', response.data);
             } else {
                 console.error(response.data);
             }
@@ -121,7 +121,7 @@ const actions = {
         try {
             let response = await BasketService.addItemToBasket(basket_id, data);
             if (response.error === 0) {
-                commit('addItemToBasket', response);
+                commit('addItemToBasket', response.data);
             }
             return response;
         } catch (error) {
@@ -133,7 +133,7 @@ const actions = {
         try {
             let response = await BasketService.updateItemQuantity(basket_item_id, data);
             if (response.error === 0) {
-                commit('modifyBasketItem', response);
+                commit('modifyBasketItem', response.data);
             }
             return response;
         } catch (error) {

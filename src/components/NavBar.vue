@@ -17,8 +17,8 @@
             <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
             <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
             <li><router-link :to="{ path: '/prestation/goodies' }" class="link">Goodies</router-link></li>
-            <li><router-link :to="{ path: '/prestation/restaurations' }" class="link">Restaurations</router-link></li>
-            <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>
+<!--            <li><router-link :to="{ path: '/prestation/restaurations' }" class="link">Restaurations</router-link></li>-->
+<!--            <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>-->
           </ul>
         </li>
         <li><router-link :to="{ path: '/services/stream' }" class="link">En direct</router-link></li>

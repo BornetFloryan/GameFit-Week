@@ -66,6 +66,7 @@ exports.getItemsByBasket = async (req, res) => {
 exports.addItemToBasket = async (req, res) => {
     try {
         let { item_id, item_type, quantity } = req.body;
+        console.log(req.params.basket_id, item_id, item_type, quantity);
         let data = await basketItemService.addItemToBasket(req.params.basket_id, item_id, item_type, quantity);
         return res.status(data.status).json({ data: data.data });
     } catch (error) {

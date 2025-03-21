@@ -35,7 +35,7 @@
 <script>
 import CartSidebar from "@/components/client/services/CartSidebar.vue";
 import SizeSelectorModal from "@/components/client/services/SizeSelectorModal.vue";
-import { mapState, mapActions } from "vuex";
+import {mapState, mapMutations, mapActions} from "vuex";
 
 export default {
   name: "GoodiesView",
@@ -49,10 +49,12 @@ export default {
   },
   computed: {
     ...mapState("goodies", ["goodies", "goodieVariations", "goodieSizes"]),
+    ...mapState("account", ["currentUser"]),
   },
   methods: {
+    ...mapMutations("basket", ["addItemToBasket", "updateBasketItems"]),
     ...mapActions("goodies", ["getAllGoodies", "getGoodieVariations", "getGoodieSizes"]),
-    ...mapActions("basket", ["addItemToBasket"]),
+    ...mapActions("basket", ["createBasket"]),
 
     goodieStock(goodie) {
       let stockBySize = {};
@@ -82,13 +84,41 @@ export default {
       }
     },
 
-    addToBasketWithSize(size) {
-      this.addItemToBasket({
-        goodie: this.selectedGoodie,
-        size: size.size
-      });
-      this.showSizeSelector = false;
+    async addToBasketWithSize(size) {
+      try {
+        if (this.currentUser) {
+          let basket_id = sessionStorage.getItem("basket_id");
+          if (!basket_id) {
+            const response = await this.createBasket(this.currentUser._id);
+            if (response.error === 0) {
+              basket_id = response.data._id;
+              sessionStorage.setItem("basket_id", basket_id);
+            } else {
+              console.error("Error creating basket:", response);
+              throw new Error("Error creating basket");
+            }
+          }
+        }
+        await this.getGoodieVariations(this.selectedGoodie._id);
+        let variation_id = this.goodieVariations.find(variation => variation.size_id === size._id)._id;
+        const item = {
+          ...this.selectedGoodie,
+          variation_id: variation_id,
+          size_id: size._id,
+          size: size.size,
+          quantity: 1
+        };
+        this.addItemToBasket(item);
+        this.updateSessionStorage();
+        this.showSizeSelector = false;
+      } catch (error) {
+        console.error("Error adding item to basket:", error);
+      }
     },
+
+    updateSessionStorage() {
+      sessionStorage.setItem("basketItems", JSON.stringify(this.$store.state.basket.basketItems));
+    }
   },
   watch: {
     goodies: {
@@ -113,6 +143,10 @@ export default {
     await this.getGoodieSizes();
     for (let goodie of this.goodies) {
       await this.getGoodieVariations(goodie._id);
+    }
+    const storedBasketItems = sessionStorage.getItem("basketItems");
+    if (storedBasketItems) {
+      this.updateBasketItems(JSON.parse(storedBasketItems));
     }
   },
 };

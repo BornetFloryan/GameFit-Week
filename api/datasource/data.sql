@@ -211,4 +211,3 @@ CREATE TABLE basket_items (
     item_type VARCHAR(50) NOT NULL,
     quantity INT NOT NULL
 );
-

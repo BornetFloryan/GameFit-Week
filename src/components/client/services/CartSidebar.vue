@@ -2,8 +2,8 @@
   <div class="cart-sidebar">
     <h3>🛍️ Mon Panier</h3>
 
-    <div v-if="basket.length > 0">
-      <div v-for="(item, index) in basket" :key="item._id + '-' + index" class="cart-item">
+    <div v-if="basketItems.length > 0">
+      <div v-for="(item, index) in basketItems" :key="item._id + '-' + index" class="cart-item">
         <img :src="item.image ? require(`@/assets/img/goodies/${item.image}`) : require('@/assets/img/noteam.jpg')" alt="Goodie" class="cart-item-image"/>
         <div class="cart-item-info">
           <h4>{{ item.name }}</h4>
@@ -29,59 +29,112 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "CartSidebar",
-  data() {
-    return {
-      basket: JSON.parse(localStorage.getItem("basket")) || [],
-    };
-  },
   computed: {
+    ...mapState("basket", ["basketItems"]),
     ...mapState("account", ["currentUser"]),
+    ...mapState("goodies", ["goodieVariations"]),
+
     totalPrice() {
-      return this.basket.reduce((total, item) => total + item.price * item.quantity, 0);
+      return this.basketItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     },
     isLoggedIn() {
       return this.currentUser;
     }
   },
   methods: {
-    updateQuantity(index, amount) {
-      if (this.basket[index].quantity + amount > 0) {
-        this.basket[index].quantity += amount;
+    ...mapMutations("basket", ["updateBasketItems", "deleteItemFromBasket", "updateBaskets"]),
+    ...mapActions("goodies", ["getGoodieVariations"]),
+    ...mapActions("basket", ["createBasket", "addItemToBasket"]),
+    async updateQuantity(index, amount) {
+      const item = this.basketItems[index];
+      await this.getGoodieVariations(item._id);
+      let stock = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id).stock;
+      const newQuantity = item.quantity + amount;
+      if (newQuantity > 0 && newQuantity <= stock) {
+        item.quantity = newQuantity;
+        this.updateBasketItems([...this.basketItems]);
+        this.updateSessionStorage();
+        if (this.isLoggedIn) {
+          this.saveBasketToDatabase();
+        }
+      } else if (newQuantity < 1) {
+        this.removeFromBasket(index);
       } else {
-        this.basket.splice(index, 1);
+        item.quantity = stock;
+        this.updateBasketItems([...this.basketItems]);
+        this.updateSessionStorage();
+        alert("La quantité demandée dépasse le stock disponible. La quantité a été ajustée au stock disponible.");
       }
-      this.saveBasket();
     },
     removeFromBasket(index) {
-      this.basket.splice(index, 1);
-      this.saveBasket();
-    },
-    saveBasket() {
-      localStorage.setItem("basket", JSON.stringify(this.basket));
+      this.basketItems.splice(index, 1);
+      this.updateBasketItems([...this.basketItems]);
+      this.updateSessionStorage();
       if (this.isLoggedIn) {
         this.saveBasketToDatabase();
-      }
-    },
-    async saveBasketToDatabase() {
-      try {
-        await this.$axios.post('/api/basket', { basket: this.basket });
-        alert("Basket saved to database!");
-      } catch (error) {
-        console.error("Error saving basket to database:", error);
       }
     },
     checkout() {
-      alert("Commande passée ! (simulation)");
-      this.basket = [];
-      localStorage.removeItem("basket");
       if (this.isLoggedIn) {
-        this.saveBasketToDatabase();
+        alert('Commande passée avec succès!');
+      } else {
+        alert("Veuillez vous connecter pour passer la commande.");
       }
     },
+    updateSessionStorage() {
+      sessionStorage.setItem("basketItems", JSON.stringify(this.basketItems));
+    },
+    async saveBasketToDatabase() {
+      if (this.currentUser) {
+        try {
+          let basket_id = sessionStorage.getItem("basket_id");
+          if (!basket_id) {
+            const response = await this.createBasket(this.currentUser._id);
+            if (response.error === 0) {
+              basket_id = response.data._id;
+              sessionStorage.setItem("basket_id", basket_id);
+              console.log("Basket saved successfully:", response.data);
+            } else {
+              console.error("Error saving basket:", response.data);
+            }
+          } else {
+            for (let item of this.basketItems) {
+              try {
+                await this.addItemToBasket({
+                  basket_id,
+                  item_id: item.variation_id,
+                  item_type: "goodie",
+                  quantity: item.quantity
+                });
+              } catch (error) {
+                console.error("Error adding item to basket:", error);
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error saving basket to database:", error);
+        }
+      }
+    }
+  },
+  async mounted() {
+    const storedBasketItems = sessionStorage.getItem("basketItems");
+    if (storedBasketItems) {
+      this.updateBasketItems(JSON.parse(storedBasketItems));
+    }
+    for (let item of this.basketItems) {
+      await this.getGoodieVariations(item._id);
+      let stock = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id).stock;
+      if (item.quantity > stock) {
+        item.quantity = stock;
+        this.updateBasketItems([...this.basketItems]);
+        this.updateSessionStorage();
+      }
+    }
   }
 };
 </script>

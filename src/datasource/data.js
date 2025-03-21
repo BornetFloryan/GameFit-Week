@@ -1316,6 +1316,7 @@ let goodies_sizes = [
     { "_id": "0", "size": "S" },
     { "_id": "1", "size": "M" },
     { "_id": "2", "size": "L" },
+    { "_id": "3", "size": "Taille unique" },
 ]
 
 let goodies = [

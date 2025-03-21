@@ -46,12 +46,19 @@ export default {
       this.comment = this.entry.comment;
     },
     async submitModeration() {
-      this.entry.comment = this.comment;
-      await this.modifyGuestbookEntry(this.entry);
-      const report = this.getReportsById(this.$route.query.report_id);
-      report.state = '1';
-      await this.modifyReport(report);
-      this.$router.push({ name: 'admin-reports' });
+      console.log(this.entry);
+      try{
+        let response = await this.modifyGuestbookEntry(this.entry);
+        console.log(response);
+        if(response.data.error === 0){
+          const report = this.getReportsById(this.$route.query.report_id);
+          report.state = '1';
+          await this.modifyReport(report);
+          this.$router.push({ name: 'admin-reports' });
+        }
+      } catch(error){
+        alert('Erreur lors de la soumission de la modération.', error);
+      }
     },
     async deleteEntry() {
       await this.deleteGuestbookEntry(this.entry._id);
