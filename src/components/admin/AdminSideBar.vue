@@ -15,6 +15,9 @@
 
       <h3>Menu</h3>
       <div class="menu">
+        <router-link to="/admin-dashboard/edit-content" class="button">
+          <span class="material-icons">Modifier Page d'Accueil</span>
+        </router-link>
         <router-link to="/admin-dashboard/admin-requests" class="button">
           <span class="material-icons">Demande Prestataires</span>
         </router-link>

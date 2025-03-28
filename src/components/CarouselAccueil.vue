@@ -1,10 +1,8 @@
 <template>
   <div :style="carouselBackground" class="container-carousel">
     <div class="carousel-items" v-if="slides.length > 0">
-      <h1>Bienvenue à <span>GameFit Week</span></h1>
-      <p class="subtitle">
-        L’événement incontournable qui fusionne sport et esport dans une expérience inédite et immersive <span>du 7 au 12 juillet 2025.</span>
-      </p>
+      <h1 v-if="content" v-html="content.title"></h1>
+      <p class="subtitle" v-if="content" v-html="content.description"></p>
     </div>
     <div class="carousel-items" v-if="slides.length > 0">
       <h2>{{ slides[currentIndex].title }}</h2>
@@ -22,7 +20,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: 'CarouselAccueil',
@@ -32,6 +30,7 @@ export default {
     routes: [],
   }),
   methods: {
+    ...mapActions('home', ['getContentHome']),
     nextSlide() {
       this.currentIndex = (this.currentIndex + 1) % this.slides.length;
     },
@@ -39,7 +38,8 @@ export default {
       this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
     },
   },
-  mounted() {
+  async mounted() {
+    await this.getContentHome();
     this.slides = [
       {
         imageSrc: require('@/assets/img/slide1.jpg'),
@@ -68,7 +68,10 @@ export default {
     }, 8000);
   },
   computed: {
-    ...mapState('service', ['selectedService']),
+    ...mapState('home', ['content_home']),
+    content() {
+      return this.content_home.find(item => item.section === 'main');
+    },
     carouselBackground() {
       if (this.slides.length > 0) {
         return {
@@ -79,7 +82,7 @@ export default {
           height: '86vh'
         };
       }
-      // Default style if slides are not loaded
+
       return {
         backgroundColor: '#f1f1f1',
         width: '100%',
@@ -125,14 +128,6 @@ export default {
 .carousel-items h1 {
   font-size: 3rem;
   margin-bottom: 20px;
-}
-
-.carousel-items h1 span {
-  color: #00afea;
-}
-
-.carousel-items p span {
-  color: #00afea;
 }
 
 .carousel-items .subtitle {

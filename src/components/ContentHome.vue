@@ -1,63 +1,62 @@
 <template>
   <div class="content-accueil">
-
     <div class="explain">
-        <h2>Qu’est-ce que <span>GameFit Week</span> ?</h2>
-        <p>
-          Situé à Paris, Porte de Versailles, GameFit Week rassemble passionnés, amateurs et experts autour de
-          compétitions, d’activités interactives, et de technologies innovantes.
-        </p>
+      <h2 v-if="content.explain" v-html="content.explain.title"></h2>
+      <p v-if="content.explain" v-html="content.explain.description"></p>
     </div>
 
-    <div class="card">
-      <div class="card-content">
-        <div class="card-content-text">
-          <h3>🎮 Une célébration du sport et de l’esport</h3>
-          <p>
-            Participez à des compétitions exaltantes et découvrez des démonstrations qui repoussent les limites de
-            la performance.
-          </p>
+    <div class="card-container">
+      <div class="card" v-for="(card, index) in content.cards" :key="index">
+        <div class="card-content">
+          <div v-if="card" class="card-content-text">
+            <h3>{{ card.title }}</h3>
+            <p v-html="card.description"></p>
+          </div>
+          <img :src="getImageUrl(card.image_url)" :alt="card.title">
         </div>
-        <img src="@/assets/img/sport_esport.jpg" alt="Sport et Esport">
-      </div>
-
-      <div class="card-content">
-        <div class="card-content-text">
-          <h3>🌟 Un lieu de rencontre et d’innovation</h3>
-          <p>
-            Explorez un espace où sport, technologie et divertissement se croisent pour créer des moments
-            mémorables.
-          </p>
-        </div>
-        <img src="@/assets/img/Innovation.jpg" alt="Innovation">
-      </div>
-
-      <div class="card-content">
-        <div class="card-content-text">
-          <h3>👨‍👩‍👧‍👦 Des activités pour tous</h3>
-          <p>
-            Que vous soyez joueur, spectateur ou simplement curieux, plongez dans un univers qui mêle compétition et
-            convivialité.
-          </p>
-        </div>
-        <img src="@/assets/img/convivialite.png" alt="Activités pour tous">
       </div>
     </div>
-
 
     <router-link :to="{ name: 'ticketing' }" class="btn">Rejoignez-nous</router-link>
-
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'ContentHome',
-}
+  computed: {
+    ...mapState('home', ['content_home']),
+    content() {
+      const explain = this.content_home.find(item => item.section === 'explain') || { title: '', description: '' };
+      const cards = this.content_home.filter(item => item.section === 'card').map(card => ({
+        ...card,
+        title: card.title || '',
+        description: card.description || '',
+        image_url: card.image_url || ''
+      }));
+      return { explain, cards };
+    }
+  },
+  methods: {
+    ...mapActions('home', ['getContentHome']),
+    getImageUrl(imageUrl) {
+      try {
+        return require(`@/assets/img/${imageUrl}`);
+      } catch (e) {
+        console.error(`Cannot find module '@/assets/img/${imageUrl}'`);
+        return '';
+      }
+    }
+  },
+  async mounted() {
+    await this.getContentHome();
+  }
+};
 </script>
 
 <style scoped>
-
 .content-accueil {
   display: flex;
   flex-direction: column;
@@ -66,27 +65,23 @@ export default {
   width: 70vw;
 }
 
-.explain span  {
-  color: #00afea;
+.card-container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .card {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.card-content {
-  display: flex;
-  justify-content: space-between;
   flex-direction: column;
   gap: 10px;
-  width: 30%;
+  width: 300px;
   padding: 20px;
   border-radius: 10px;
   background-color: #3c4c59;
   color: white;
+  flex-shrink: 0;
 }
 
 .card-content img {
@@ -106,4 +101,7 @@ export default {
   cursor: pointer;
 }
 
+span {
+  color: #00afea;
+}
 </style>

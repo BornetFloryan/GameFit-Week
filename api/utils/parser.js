@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const path = require('path');
 
 const {
+    content_home,
     customer_accounts,
     provider_requests,
     service_categories,
@@ -42,6 +43,15 @@ const insertData = async () => {
                 await pool.query(queryInsert, values);
             }
         };
+
+        for (const content of content_home) {
+            const { _id, section, title, description, image_url } = content;
+            await insertIfNotExists(
+                'SELECT _id FROM content_home WHERE _id = $1',
+                'INSERT INTO content_home (_id, section, title, description, image_url) VALUES ($1, $2, $3, $4, $5)',
+                [_id, section, title, description, image_url]
+            );
+        }
 
         for (const customer of customer_accounts) {
             const { _id, name, login, password, email, picture, description, privilege, session } = customer;

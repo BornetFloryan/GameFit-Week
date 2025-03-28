@@ -1,3 +1,41 @@
+let content_home = [
+    {
+        "_id": "0",
+        "section": "main",
+        "title": "<p>Bienvenue à <span style=\"color: rgb(102, 163, 224);\">GameFit Week</span></p>",
+        "description": "<p>L’événement incontournable qui fusionne sport et esport dans une expérience inédite et immersive </p><p><span style=\"color: rgb(102, 163, 224);\">du 7 au 12 juillet 2025</span>.</p>",
+        "image_url": "null",
+    },
+    {
+        "_id": "1",
+        "section": "explain",
+        "title": "<p>Qu’est-ce que <span style=\"color: rgb(102, 163, 224);\">GameFit Week</span> ?</p>",
+        "description": "<p>Situé à <span style=\"color: rgb(102, 163, 224);\">Paris</span>, <span style=\"color: rgb(102, 163, 224);\">Porte de Versailles</span>, GameFit Week rassemble passionnés, amateurs et experts autour de compétitions, d’activités interactives, et de technologies innovantes.</p>",
+        "image_url": "null",
+    },
+    {
+        "_id": "2",
+        "section": "card",
+        "title": "🎮 Une célébration du sport et de l’esport",
+        "description": "Participez à des compétitions exaltantes et découvrez des démonstrations qui repoussent les limites de la performance.",
+        "image_url": "sport_esport.jpg",
+    },
+    {
+        "_id": "3",
+        "section": "card",
+        "title": "🌟 Un lieu de rencontre et d’innovation",
+        "description": "Explorez un espace où sport, technologie et divertissement se croisent pour créer des moments mémorables.",
+        "image_url": "Innovation.jpg",
+    },
+    {
+        "_id": "4",
+        "section": "card",
+        "title": "👨‍👩‍👧‍👦 Des activités pour tous",
+        "description": "Que vous soyez joueur, spectateur ou simplement curieux, plongez dans un univers qui mêle compétition et convivialité.",
+        "image_url": "convivialite.png",
+    },
+]
+
 let customer_accounts = [
     {
         "_id": "0",
@@ -1322,6 +1360,7 @@ let basket_items = [
 
 
 module.exports = {
+    content_home,
     customer_accounts,
     provider_requests,
     service_categories,

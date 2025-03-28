@@ -20,7 +20,15 @@ DROP TABLE IF EXISTS provider_service_categories CASCADE;
 DROP TABLE IF EXISTS service_categories CASCADE;
 DROP TABLE IF EXISTS provider_requests CASCADE;
 DROP TABLE IF EXISTS customer_accounts CASCADE;
+DROP TABLE IF EXISTS content_home CASCADE;
 
+CREATE TABLE IF NOT EXISTS content_home (
+    _id         SERIAL PRIMARY KEY,
+    section     VARCHAR(255) NOT NULL,
+    title       VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    image_url   VARCHAR(255) DEFAULT NULL
+);
 
 CREATE TABLE IF NOT EXISTS customer_accounts
 (

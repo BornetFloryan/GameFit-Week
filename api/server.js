@@ -23,10 +23,12 @@ const providerScheduleStatusRoutes = require('./routes/providerScheduleStatus.ro
 const reportsRoutes = require('./routes/reports.router');
 const basketRoutes = require('./routes/basket.router');
 const goodiesRoutes = require('./routes/goodies.router');
+const contentHomeRoutes = require('./routes/content_home.router');
 
 const app = express();
 const PORT = 3000;
 
+app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ origin: 'http://localhost:8080' }));
@@ -55,6 +57,7 @@ app.use('/provider-schedule-status', providerScheduleStatusRoutes);
 app.use('/reports', reportsRoutes);
 app.use('/baskets', basketRoutes);
 app.use('/goodies', goodiesRoutes);
+app.use('/content-home', contentHomeRoutes);
 
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);

@@ -18,6 +18,7 @@ import AdminBracket from "@/components/admin/AdminBracket.vue";
 import AdminchartView from "@/components/admin/AdminChartView.vue";
 import AdminReportsManagement from "@/components/admin/reports/AdminReportsManagement.vue";
 import AdminReportProcessed from "@/components/admin/reports/AdminReportProcessed.vue";
+import EditContent from "@/components/admin/EditContent.vue";
 
 export default [
     {
@@ -144,6 +145,12 @@ export default [
                 path: 'testChartadmin',
                 name: 'testChartadmin',
                 component: AdminchartView,
+                meta: { requiresAuth: true, requiredPrivilege: "2" },
+            },
+            {
+                path: 'edit-content',
+                name: 'edit-content',
+                component: EditContent,
                 meta: { requiresAuth: true, requiredPrivilege: "2" },
             }
 

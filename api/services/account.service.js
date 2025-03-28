@@ -72,7 +72,9 @@ async function loginUser(data) {
         const token = jwt.sign({ id: user._id, role: user.privilege }, 'your_jwt_secret', { expiresIn: '1h' });
         await client.query('UPDATE customer_accounts SET session = $1 WHERE _id = $2', [token, user._id]);
 
-        return { error: 0, status: 200, data: { ...user, token } };
+        user.session = token;
+
+        return { error: 0, status: 200, data: { ...user } };
     } catch (error) {
         console.error(error);
         return { error: 1, status: 500, data: 'Erreur lors de la connexion de l\'utilisateur' };
@@ -100,7 +102,6 @@ async function modifyCustomerAccount(customer) {
             pictureFileName = `${Date.now()}_${customer.file.originalname}`;
             const filePath = path.join(uploadDir, pictureFileName);
 
-            // Sauvegarde du fichier
             await fs.promises.writeFile(filePath, customer.file.buffer);
         }
 
