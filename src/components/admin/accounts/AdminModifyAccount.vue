@@ -171,3 +171,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.provider-description {
+  margin-top: 20px;
+  color: #666;
+  line-height: 1.6;
+}
+</style>

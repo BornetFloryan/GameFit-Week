@@ -1,23 +1,25 @@
 <template>
-  <div>
+  <div class="admin-accounts-management">
     <router-link to="/admin-dashboard/admin-accounts-add">
       <button class="btn-action">Ajouter un compte</button>
     </router-link>
-    <AdminTable
-        :title="title"
-        :headers="headers"
-        :fields="fields"
-        :modifyName="modifyName"
-        :showModifyButton="true"
-        :modifyButtonText="'Modifier'"
-        :showReservationsButton="enableRes"
-        :reservationsButtonText="'Voir les réservations'"
-        :showDeleteButton="enableDelete"
-        :deleteButtonText="'Supprimer'"
-        @delete="handleDeleteButton"
-        @toggle-service-state="handleToggleServiceState"
-        :dataSource="dataSource"
-    />
+    <div class="table-responsive">
+      <AdminTable
+          :title="title"
+          :headers="headers"
+          :fields="fields"
+          :modifyName="modifyName"
+          :showModifyButton="true"
+          :modifyButtonText="'Modifier'"
+          :showReservationsButton="enableRes"
+          :reservationsButtonText="'Voir les réservations'"
+          :showDeleteButton="enableDelete"
+          :deleteButtonText="'Supprimer'"
+          @delete="handleDeleteButton"
+          @toggle-service-state="handleToggleServiceState"
+          :dataSource="dataSource"
+      />
+    </div>
   </div>
 </template>
 
@@ -80,6 +82,31 @@ export default {
 </script>
 
 <style scoped>
+.admin-accounts-management {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-responsive table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.table-responsive th, .table-responsive td {
+  padding: 0.5em;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
 .btn-action {
   padding: 0.5em 1em;
   background-color: #007bff;

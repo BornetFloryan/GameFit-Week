@@ -34,7 +34,8 @@
               </label>
             </div>
           </div>
-          <p v-else>
+          <p v-else-if="field === 'description'" v-html="item[field]" class="truncate"></p>
+          <p v-else class="truncate">
             {{ item[field] }}
           </p>
         </td>
@@ -54,7 +55,6 @@
     </table>
   </div>
 </template>
-
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
@@ -209,5 +209,12 @@ h1 {
 
 .btn-action:hover {
   background-color: #0056b3;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 </style>

@@ -40,13 +40,19 @@ exports.addCustomerAccount = async (req, res) => {
 
 exports.modifyCustomerAccount = async (req, res) => {
     try {
-        let data = await accountService.modifyCustomerAccount(req.body);
-        return res.status(200).json({ data: data });
+        let customer = req.body;
+
+        if (req.file) {
+            customer.file = req.file;
+        }
+
+        let data = await accountService.modifyCustomerAccount(customer);
+        return res.status(data.status).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la modification du compte client");
     }
-}
+};
 
 exports.deleteCustomerAccount = async (req, res) => {
     try {

@@ -30,7 +30,8 @@ async function addCustomerAccountFromApi(customer) {
 // }
 
 async function ModifyCustomerAccountFromApi(customer, session) {
-    return putRequest('accounts/profil/?session=' + session, customer, 'ModifyCustomerAccount')
+
+    return putRequest('accounts/profil/?session=' + session, {... customer, file: customer.file}, 'ModifyCustomerAccount')
 }
 
 // async function deleteCustomerAccountFromLocalSource(customer) {

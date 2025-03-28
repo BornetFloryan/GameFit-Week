@@ -23,6 +23,15 @@
             </select>
           </div>
 
+          <div v-else-if="field.type === 'textarea' && field.model === 'description'">
+            <VueEditor
+                v-model="formData[field.model]"
+                :id="field._id"
+                v-bind="field.props"
+                @change="handleFieldChange(field)"
+            />
+          </div>
+
           <div v-else-if="field.type === 'textarea'">
             <textarea
                 v-model="formData[field.model]"
@@ -65,8 +74,11 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor";
+
 export default {
   name: "AdminForm",
+  components: { VueEditor },
   props: {
     title: {
       type: String,
