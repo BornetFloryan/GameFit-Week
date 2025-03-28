@@ -1,5 +1,7 @@
 const pool = require('../database/db');
 const { v4: uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 async function getCustomersAccounts() {
     const client = await pool.connect();
@@ -44,19 +46,22 @@ async function loginUser(data) {
             return { error: 1, status: 404, data: 'aucun login/pass fourni' };
         }
 
-        const result = await client.query('SELECT * FROM customer_accounts WHERE login = $1 AND password = $2', [data.login, data.password]);
+        const result = await client.query('SELECT * FROM customer_accounts WHERE login = $1', [data.login]);
 
         if (result.rows.length === 0) {
             return { error: 1, status: 404, data: 'login/pass incorrect' };
         }
 
         let user = result.rows[0];
-        if (!user.session) {
-            user.session = uuidv4();
-            await client.query('UPDATE customer_accounts SET session = $1 WHERE _id = $2', [user.session, user._id]);
+        const passwordMatch = bcrypt.compareSync(data.password, user.password);
+        if (!passwordMatch) {
+            return { error: 1, status: 404, data: 'login/pass incorrect' };
         }
 
-        return { error: 0, status: 200, data: user };
+        const token = jwt.sign({ id: user._id, role: user.privilege }, 'your_jwt_secret', { expiresIn: '1h' });
+        await client.query('UPDATE customer_accounts SET session = $1 WHERE _id = $2', [token, user._id]);
+
+        return { error: 0, status: 200, data: { ...user, token } };
     } catch (error) {
         console.error(error);
         return { error: 1, status: 500, data: 'Erreur lors de la connexion de l\'utilisateur' };

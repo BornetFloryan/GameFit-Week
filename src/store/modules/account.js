@@ -19,6 +19,14 @@ const mutations = {
     },
     updateCurrentUser(state, user) {
         state.currentUser = user;
+        localStorage.setItem('currentUser', user);
+    },
+    logout(state) {
+        state.currentUser = null;
+        state.token = null;
+        state.refreshToken = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
     },
     addCustomerAccount(state, customer) {
         state.customersAccounts.push(customer);
@@ -119,7 +127,7 @@ const actions = {
         }
     },
     async logoutUser({ commit }) {
-        commit('updateCurrentUser', null);
+        commit('logout');
     },
     async getProviderRequests({ commit }) {
         try {
