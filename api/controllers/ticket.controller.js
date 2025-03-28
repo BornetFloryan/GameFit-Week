@@ -10,16 +10,6 @@ exports.getTickets = async (req, res) => {
     }
 }
 
-exports.getTicketsAnimationCategories = async (req, res) => {
-    try {
-        let data = await ticketService.getTicketsAnimationCategories();
-        return res.status(200).json({ data: data });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send("Erreur lors de la récupération des catégories d'animation des tickets");
-    }
-}
-
 exports.getTicketsAgeCategories = async (req, res) => {
     try {
         let data = await ticketService.getTicketsAgeCategories();
@@ -82,21 +72,11 @@ exports.getTicketPricesPriceById = async (req, res) => {
 
 exports.getTicketPriceByCategories = async (req, res) => {
     try {
-        let data = await ticketService.getTicketPriceByCategories(req.params.animationCategoryId, req.params.ageCategoryId);
+        let data = await ticketService.getTicketPriceByCategories(req.params.ageCategoryId);
         return res.status(200).json({ data: data });
     } catch (error) {
         console.error(error);
         return res.status(500).send("Erreur lors de la récupération du prix du ticket par catégories");
-    }
-}
-
-exports.getTicketsAnimationCategoryById = async (req, res) => {
-    try {
-        let data = await ticketService.getTicketsAnimationCategoryById(req.params.id);
-        return res.status(200).json({ data: data });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send("Erreur lors de la récupération de la catégorie d'animation du ticket par ID");
     }
 }
 

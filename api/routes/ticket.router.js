@@ -18,22 +18,15 @@ router.get('/prices', ticketController.getTicketPrices);
  *         description: Erreur serveur
  */
 
-router.get('/prices/categories/:animationCategoryId/:ageCategoryId', ticketController.getTicketPriceByCategories);
+router.get('/prices/categories/:ageCategoryId', ticketController.getTicketPriceByCategories);
 /**
  * @swagger
- * /Tickets/prices/categories/{animationCategoryId}/{ageCategoryId}:
+ * /Tickets/prices/categories/{ageCategoryId}:
  *   get:
  *     tags:
  *       - Tickets
  *     description: Récupérer le prix d'un ticket par catégories
  *     parameters:
- *       - in: path
- *         name: animationCategoryId
- *         required: true
- *         schema:
- *           type: integer
- *           example: 0
- *         description: ID de la catégorie d'animation
  *       - in: path
  *         name: ageCategoryId
  *         required: true
@@ -71,46 +64,6 @@ router.get('/prices/:id', ticketController.getTicketPricesPriceById);
  *         description: Succès
  *       404:
  *         description: Prix du ticket non trouvé
- *       500:
- *         description: Erreur serveur
- */
-
-router.get('/animation-categories', ticketController.getTicketsAnimationCategories);
-/**
- * @swagger
- * /Tickets/animation-categories:
- *   get:
- *     tags:
- *       - Tickets
- *     description: Récupérer la liste des catégories d'animation des Tickets
- *     responses:
- *       200:
- *         description: Succès
- *       500:
- *         description: Erreur serveur
- */
-
-router.get('/animation-categories/:id', ticketController.getTicketsAnimationCategoryById);
-/**
- * @swagger
- * /Tickets/animation-categories/{id}:
- *   get:
- *     tags:
- *       - Tickets
- *     description: Récupérer une catégorie d'animation de ticket par ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *           example: 0
- *         description: ID de la catégorie d'animation
- *     responses:
- *       200:
- *         description: Succès
- *       404:
- *         description: Catégorie d'animation non trouvée
  *       500:
  *         description: Erreur serveur
  */
@@ -220,9 +173,6 @@ router.post('/', ticketController.addTickets);
  *               ticketCount:
  *                 type: integer
  *                 example: 1
- *               animation_category_id:
- *                 type: integer
- *                 example: 0
  *               age_category_id:
  *                 type: integer
  *                 example: 0

@@ -26,9 +26,12 @@ async function addCustomerAccount(customer) {
 
         const _id = await client.query('SELECT MAX(_id) FROM customer_accounts');
         customer._id = parseInt(_id.rows[0].max) + 1;
+
+        const hashedPassword = await bcrypt.hash(customer.password, 10);
+
         const res = await client.query(
             'INSERT INTO customer_accounts (_id, name, login, password, email, privilege, session) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            [customer._id, customer.name, customer.login, customer.password, customer.email, customer.privilege || 0, uuidv4()]
+            [customer._id, customer.name, customer.login, hashedPassword, customer.email, customer.privilege || 0, customer.session]
         );
         return { error: 0, status: 200, data: res.rows[0] };
     } catch (error) {
@@ -53,7 +56,14 @@ async function loginUser(data) {
         }
 
         let user = result.rows[0];
-        const passwordMatch = bcrypt.compareSync(data.password, user.password);
+        let passwordMatch;
+
+        if (user.password.startsWith('$2b$')) {
+            passwordMatch = bcrypt.compareSync(data.password, user.password);
+        } else {
+            passwordMatch = data.password === user.password;
+        }
+
         if (!passwordMatch) {
             return { error: 1, status: 404, data: 'login/pass incorrect' };
         }

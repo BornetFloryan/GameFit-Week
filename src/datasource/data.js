@@ -582,25 +582,6 @@ let provider_sport_categories = [
     }
 ];
 
-let ticket_animation_categories = [
-    {
-        "_id": "0",
-        "name": "Sport",
-        "description": "Les plus grands sportifs de tous les temps",
-    },
-    {
-        "_id": "1",
-        "name": "Jeux Vidéo",
-        "description": "Les plus grands joueurs de jeux vidéo de tous les temps",
-    },
-    {
-        "_id": "2",
-        "name": "Sport et Jeux Vidéo",
-        "description": "Les plus grands sportifs et les plus grands joueurs de jeux vidéo de tous les temps",
-    },
-];
-
-
 let ticket_age_categories = [
     {
         "_id": "0",
@@ -620,20 +601,9 @@ let ticket_age_categories = [
 ];
 
 let ticket_prices = [
-    // Animation: Sport
-    { "_id": "0", "age_category_id": "0", "animation_category_id": "0", "price": "5" },
-    { "_id": "1", "age_category_id": "1", "animation_category_id": "0", "price": "8" },
-    { "_id": "2", "age_category_id": "2", "animation_category_id": "0", "price": "10" },
-
-    // Animation: Jeux Vidéo
-    { "_id": "3", "age_category_id": "0", "animation_category_id": "1", "price": "5" },
-    { "_id": "4", "age_category_id": "1", "animation_category_id": "1", "price": "8" },
-    { "_id": "5", "age_category_id": "2", "animation_category_id": "1", "price": "10" },
-
-    // Animation: Sport et Jeux Vidéo
-    { "_id": "6", "age_category_id": "0", "animation_category_id": "2", "price": "8" },
-    { "_id": "7", "age_category_id": "1", "animation_category_id": "2", "price": "14" },
-    { "_id": "8", "age_category_id": "2", "animation_category_id": "2", "price": "18" },
+    { "_id": "0", "age_category_id": "0", "price": "5" },
+    { "_id": "1", "age_category_id": "1", "price": "8" },
+    { "_id": "2", "age_category_id": "2", "price": "10" },
 ];
 
 let tickets = [
@@ -1358,7 +1328,6 @@ module.exports = {
     provider_service_categories,
     sports_categories,
     provider_sport_categories,
-    ticket_animation_categories,
     ticket_age_categories,
     ticket_prices,
     tickets,

@@ -6,7 +6,6 @@
         <th>Numéro</th>
         <th>Date</th>
         <th>Adresse e-mail</th>
-        <th>Catégorie d'animation</th>
         <th>Catégorie d'âge</th>
         <th>Prix</th>
         <th>Actions</th>
@@ -17,7 +16,6 @@
         <td>{{ customerTicket._id }}</td>
         <td>{{ customerTicket.date }}</td>
         <td>{{ currentUser.email }}</td>
-        <td>{{ ticketAnimationCategory(customerTicket)?.name }}</td>
         <td>{{ ticketAgeCategory(customerTicket)?.name }}</td>
         <td>{{ price(customerTicket)?.price }}</td>
         <td>
@@ -41,19 +39,12 @@ export default {
   },
   computed: {
     ...mapState('account', ['currentUser']),
-    ...mapState('ticket', ['tickets', 'ticketsAnimationCategories', 'ticketsAgeCategories', 'ticketPrices']),
-    ...mapGetters('ticket', ["getTicketsByCustomerId", 'getTicketPricesPriceById', "getTicketsAnimationCategoryById", "getTicketsAgeCategoryById"]),
+    ...mapState('ticket', ['tickets', 'ticketsAgeCategories', 'ticketPrices']),
+    ...mapGetters('ticket', ["getTicketsByCustomerId", 'getTicketPricesPriceById', "getTicketsAgeCategoryById"]),
     price() {
       return (ticket) => {
         if (!this.ticketPrices) return null;
         return this.getTicketPricesPriceById(ticket.price_id);
-      };
-    },
-    ticketAnimationCategory() {
-      return (ticket) => {
-        const price = this.price(ticket);
-        if (!price || !this.ticketsAnimationCategories) return null;
-        return this.getTicketsAnimationCategoryById(price.animation_category_id);
       };
     },
     ticketAgeCategory() {
@@ -65,7 +56,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrices', 'deleteTicket']),
+    ...mapActions('ticket', ['getTickets', 'getTicketsAgeCategories', 'getTicketPrices', 'deleteTicket']),
     async deleteTicketAction(ticket) {
       try{
         let response = await this.deleteTicket(ticket._id)
@@ -85,7 +76,6 @@ export default {
         .then(() => {
           this.customerTickets = this.getTicketsByCustomerId(this.currentUser?._id);
         })
-    this.getTicketsAnimationCategories();
     this.getTicketsAgeCategories();
     this.getTicketPrices();
   },

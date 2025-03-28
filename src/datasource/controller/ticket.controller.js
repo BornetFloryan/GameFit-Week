@@ -1,6 +1,5 @@
 import {
     tickets,
-    ticket_animation_categories,
     ticket_age_categories,
     customer_accounts,
     ticket_prices,
@@ -12,10 +11,6 @@ import {v4 as uuidv4} from "uuid";
 //Ticketing
 function getTickets() {
     return {error: 0, data: tickets}
-}
-
-function getTicketsAnimationCategories() {
-    return {error: 0, status: 200, data: ticket_animation_categories};
 }
 
 function getTicketsAgeCategories() {
@@ -46,7 +41,7 @@ function addTickets(formData) {
     let addedTickets = [];
     for (let i = 0; i < formData.ticketCount; i++) {
 
-        let price_id = ticket_prices.find(price => price.animation_category_id === formData._idTicketAnimationCategories && price.age_category_id === formData._idTicketAgeCategories)._id;
+        let price_id = ticket_prices.find(price => price.age_category_id === formData._idTicketAgeCategories)._id;
 
         let ticket = {
             _id: uuidv4(),
@@ -75,7 +70,6 @@ function deleteTicket(ticket_id) {
 
 export default {
     getTickets,
-    getTicketsAnimationCategories,
     getTicketsAgeCategories,
     getTicketPrices,
     addTickets,

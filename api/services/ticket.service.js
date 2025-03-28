@@ -14,19 +14,6 @@ async function getTickets() {
     }
 }
 
-async function getTicketsAnimationCategories() {
-    const client = await pool.connect();
-    try {
-        const res = await client.query('SELECT * FROM ticket_animation_categories');
-        return { error: 0, status: 200, data: res.rows };
-    } catch (error) {
-        console.error(error);
-        return { error: 1, status: 500, data: 'Error retrieving ticket animation categories' };
-    } finally {
-        client.release();
-    }
-}
-
 async function getTicketsAgeCategories() {
     const client = await pool.connect();
     try {
@@ -79,8 +66,8 @@ async function addTickets(formData) {
             const lastTicketId = await client.query('SELECT MAX(_id) FROM tickets');
             const newTicketId = lastTicketId.rows[0].max ? parseInt(lastTicketId.rows[0].max) + 1 : 1;
 
-            let price_id = await client.query('SELECT _id FROM ticket_prices WHERE animation_category_id = $1 AND age_category_id = $2',
-                [formData._idTicketAnimationCategories, formData._idTicketAgeCategories]);
+            let price_id = await client.query('SELECT _id FROM ticket_prices WHERE age_category_id = $1',
+                [formData._idTicketAgeCategories]);
             if (price_id.rows.length === 0) {
                 throw new Error('Price ID not found for the given categories');
             }
@@ -151,10 +138,10 @@ async function getTicketPricesPriceById(id) {
     }
 }
 
-async function getTicketPriceByCategories(animationCategoryId, ageCategoryId) {
+async function getTicketPriceByCategories(ageCategoryId) {
     const client = await pool.connect();
     try {
-        const res = await client.query('SELECT * FROM ticket_prices WHERE animation_category_id = $1 AND age_category_id = $2', [animationCategoryId, ageCategoryId]);
+        const res = await client.query('SELECT * FROM ticket_prices WHERE age_category_id = $1', [ageCategoryId]);
         if (res.rows.length === 0) {
             return { error: 1, status: 404, data: 'Ticket price not found' };
         }
@@ -162,22 +149,6 @@ async function getTicketPriceByCategories(animationCategoryId, ageCategoryId) {
     } catch (error) {
         console.error(error);
         return { error: 1, status: 500, data: 'Error retrieving ticket price by categories' };
-    } finally {
-        client.release();
-    }
-}
-
-async function getTicketsAnimationCategoryById(id) {
-    const client = await pool.connect();
-    try {
-        const res = await client.query('SELECT * FROM ticket_animation_categories WHERE _id = $1', [id]);
-        if (res.rows.length === 0) {
-            return { error: 1, status: 404, data: 'Ticket animation category not found' };
-        }
-        return { error: 0, data: res.rows[0] };
-    } catch (error) {
-        console.error(error);
-        return { error: 1, status: 500, data: 'Error retrieving ticket animation category by ID' };
     } finally {
         client.release();
     }
@@ -214,7 +185,6 @@ async function getTicketsByCustomerId(customerId) {
 
 module.exports = {
     getTickets,
-    getTicketsAnimationCategories,
     getTicketsAgeCategories,
     getTicketPrices,
     addTickets,
@@ -222,7 +192,6 @@ module.exports = {
     getTicketById,
     getTicketPricesPriceById,
     getTicketPriceByCategories,
-    getTicketsAnimationCategoryById,
     getTicketsAgeCategoryById,
     getTicketsByCustomerId,
 };

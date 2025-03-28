@@ -9,7 +9,6 @@ const {
     provider_service_categories,
     sports_categories,
     provider_sport_categories,
-    ticket_animation_categories,
     ticket_age_categories,
     ticket_prices,
     tickets,
@@ -98,15 +97,6 @@ const insertData = async () => {
             );
         }
 
-        for (const category of ticket_animation_categories) {
-            const { _id, name, description } = category;
-            await insertIfNotExists(
-                'SELECT _id FROM ticket_animation_categories WHERE _id = $1',
-                'INSERT INTO ticket_animation_categories (_id, name, description) VALUES ($1, $2, $3)',
-                [_id, name, description]
-            );
-        }
-
         for (const category of ticket_age_categories) {
             const { _id, name, description } = category;
             await insertIfNotExists(
@@ -117,11 +107,11 @@ const insertData = async () => {
         }
 
         for (const price of ticket_prices) {
-            const { _id, price: ticketPrice, age_category_id, animation_category_id } = price;
+            const { _id, price: ticketPrice, age_category_id } = price;
             await insertIfNotExists(
                 'SELECT _id FROM ticket_prices WHERE _id = $1',
-                'INSERT INTO ticket_prices (_id, price, age_category_id, animation_category_id) VALUES ($1, $2, $3, $4)',
-                [_id, ticketPrice || 0, age_category_id || 0, animation_category_id || 0]
+                'INSERT INTO ticket_prices (_id, price, age_category_id) VALUES ($1, $2, $3)',
+                [_id, ticketPrice || 0, age_category_id || 0]
             );
         }
 

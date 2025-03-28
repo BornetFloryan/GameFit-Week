@@ -15,20 +15,8 @@
         />
       </div>
 
-      <div v-if="ticketsAnimationCategories.length" class="form-group">
-        <label for="event">Animation:</label>
-        <select v-model="formData._idTicketAnimationCategories" required>
-          <option value="" disabled>Choisissez votre catégorie d'animation</option>
-          <option v-for="animation in ticketsAnimationCategories"
-                  :value="animation._id"
-                  :key="animation._id">
-            {{ animation.name }}
-          </option>
-        </select>
-      </div>
-
-      <div v-if="ticketsAgeCategories.length && formData._idTicketAnimationCategories" class="form-group">
-        <label for="event">Âge:</label>
+      <div v-if="ticketsAgeCategories.length" class="form-group">
+        <label for="event">Catégorie d'âge:</label>
         <select v-model="formData._idTicketAgeCategories" required>
           <option value="" disabled>Choisissez votre catégorie d'âge</option>
           <option v-for="age in ticketsAgeCategories"
@@ -106,7 +94,6 @@ export default {
         date: '',
         time: '',
         email: '',
-        _idTicketAnimationCategories: '',
         _idTicketAgeCategories: '',
         ticketCount: 1,
         paymentMethod: 'creditCard',
@@ -116,28 +103,23 @@ export default {
   },
   computed: {
     ...mapState('account', ['currentUser']),
-    ...mapState('ticket', ['ticketsAnimationCategories', 'ticketsAgeCategories', "ticketPrices", "tickets"]),
+    ...mapState('ticket', ['ticketsAgeCategories', "ticketPrices", "tickets"]),
     ...mapGetters('ticket', ['getTicketPriceByCategories']),
   },
   watch: {
-    'formData._idTicketAnimationCategories': function () {
-      if (this.submissionSuccess === false) {
-        this.formData.price = '';
-      }
-    },
     'formData._idTicketAgeCategories': function () {
       if (this.submissionSuccess === false) {
-        this.updateTicketPrice(this.formData._idTicketAnimationCategories, this.formData._idTicketAgeCategories);
+        this.updateTicketPrice(this.formData._idTicketAgeCategories);
       }
     },
     'formData.ticketCount': function () {
       if (this.submissionSuccess === false) {
-        this.updateTicketPrice(this.formData._idTicketAnimationCategories, this.formData._idTicketAgeCategories);
+        this.updateTicketPrice(this.formData._idTicketAgeCategories);
       }
     },
   },
   methods: {
-    ...mapActions('ticket', ['getTickets', 'getTicketsAnimationCategories', 'getTicketsAgeCategories', 'getTicketPrices', "addTickets"]),
+    ...mapActions('ticket', ['getTickets', 'getTicketsAgeCategories', 'getTicketPrices', "addTickets"]),
     async submitForm() {
       this.formData.date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
@@ -150,14 +132,13 @@ export default {
         date: '',
         time: '',
         email: '',
-        _idTicketAnimationCategories: '',
         _idTicketAgeCategories: '',
         ticketCount: 1,
         paymentMethod: 'creditCard',
       };
     },
-    updateTicketPrice(_idTicketsAnimationCategories, _idTicketsAgeCategories) {
-      const price = this.getTicketPriceByCategories(_idTicketsAnimationCategories, _idTicketsAgeCategories);
+    updateTicketPrice(_idTicketsAgeCategories) {
+      const price = this.getTicketPriceByCategories(_idTicketsAgeCategories);
       if (price) {
         this.formData.price = price.price * this.formData.ticketCount;
       } else {
@@ -170,7 +151,6 @@ export default {
       this.formData.name = this.currentUser.name;
       this.formData.email = this.currentUser.email;
     }
-    this.getTicketsAnimationCategories();
     this.getTicketsAgeCategories();
     this.getTicketPrices()
     this.getTickets();

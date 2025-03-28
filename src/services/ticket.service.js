@@ -8,14 +8,6 @@ async function getTicketsFromApi(){
     return getRequest('tickets', 'GetTickets');
 }
 
-// async function getTicketsAnimationCategoriesFromLocalSource() {
-//     return LocalSource.getTicketsAnimationCategories()
-// }
-
-async function getTicketsAnimationCategoriesFromApi(){
-    return getRequest('tickets/animation-categories', 'GetTicketsAnimationCategories');
-}
-
 // async function getTicketsAgeCategoriesFromLocalSource() {
 //     return LocalSource.getTicketsAgeCategories()
 // }
@@ -59,24 +51,6 @@ async function getTickets() {
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch (err) {
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des tickets '}
-    }
-    return response.data
-}
-
-async function getTicketsAnimationCategories() {
-    let response = null;
-    try {
-        // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-        // response = await getTicketsAnimationCategoriesFromLocalSource()
-        response = await getTicketsAnimationCategoriesFromApi()
-    }
-        // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
-    catch (err) {
-        response = {
-            error: 1,
-            status: 404,
-            data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des catégories d\'animations des tickets'
-        }
     }
     return response.data
 }
@@ -143,7 +117,6 @@ async function deleteTicket(ticket_id) {
 
 export default {
     getTickets,
-    getTicketsAnimationCategories,
     getTicketsAgeCategories,
     getTicketPrices,
     addTickets,

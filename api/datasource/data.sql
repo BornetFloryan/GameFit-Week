@@ -14,7 +14,6 @@ DROP TABLE IF EXISTS pavillons CASCADE;
 DROP TABLE IF EXISTS tickets CASCADE;
 DROP TABLE IF EXISTS ticket_prices CASCADE;
 DROP TABLE IF EXISTS ticket_age_categories CASCADE;
-DROP TABLE IF EXISTS ticket_animation_categories CASCADE;
 DROP TABLE IF EXISTS provider_sport_categories CASCADE;
 DROP TABLE IF EXISTS sports_categories CASCADE;
 DROP TABLE IF EXISTS provider_service_categories CASCADE;
@@ -72,13 +71,6 @@ CREATE TABLE IF NOT EXISTS provider_sport_categories
     sport_id    INT REFERENCES sports_categories (_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS ticket_animation_categories
-(
-    _id         SERIAL PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
-    description TEXT
-);
-
 CREATE TABLE IF NOT EXISTS ticket_age_categories
 (
     _id         SERIAL PRIMARY KEY,
@@ -90,8 +82,7 @@ CREATE TABLE IF NOT EXISTS ticket_prices
 (
     _id                          SERIAL PRIMARY KEY,
     price                        NUMERIC(10, 2) NOT NULL,
-    age_category_id              INT NOT NULL REFERENCES ticket_age_categories(_id) ON DELETE CASCADE,
-    animation_category_id        INT NOT NULL REFERENCES ticket_animation_categories(_id) ON DELETE CASCADE
+    age_category_id              INT NOT NULL REFERENCES ticket_age_categories(_id) ON DELETE CASCADE
 
 );
 

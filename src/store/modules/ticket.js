@@ -3,7 +3,6 @@ import TicketService from "@/services/ticket.service";
 const state = () => ({
     // state = les données centralisées
     tickets: [],
-    ticketsAnimationCategories: [],
     ticketsAgeCategories: [],
     ticketPrices: [],
 });
@@ -12,9 +11,6 @@ const state = () => ({
 const mutations = {
     updatetickets(state, tickets) {
         state.tickets = tickets;
-    },
-    updateticketsAnimationCategories(state, animationCategories) {
-        state.ticketsAnimationCategories = animationCategories;
     },
     updateticketsAgeCategories(state, ageCategories) {
         state.ticketsAgeCategories = ageCategories;
@@ -46,19 +42,6 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des tickets:', error);
-        }
-    },
-    async getTicketsAnimationCategories({commit}) {
-        if (this.state.ticket.ticketsAnimationCategories.length > 0) return;
-        try {
-            let response = await TicketService.getTicketsAnimationCategories();
-            if (response.error === 0) {
-                commit('updateticketsAnimationCategories', response.data);
-            } else {
-                console.error(response.data);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération des catégories d\'animation:', error);
         }
     },
     async getTicketsAgeCategories({commit},) {
@@ -119,14 +102,10 @@ const getters = {
     getTicketPricesPriceById: (state) => (id) => {
         return state.ticketPrices.find(price => price._id === id);
     },
-    getTicketPriceByCategories: (state) => (animationCategoryId, ageCategoryId) => {
+    getTicketPriceByCategories: (state) => (ageCategoryId) => {
         return state.ticketPrices.find(price =>
-            price.age_category_id === ageCategoryId &&
-            price.animation_category_id === animationCategoryId
+            price.age_category_id === ageCategoryId
         );
-    },
-    getTicketsAnimationCategoryById: (state) => (id) => {
-        return state.ticketsAnimationCategories.find(animationCategory => animationCategory._id === id);
     },
     getTicketsAgeCategoryById: (state) => (id) => {
         return state.ticketsAgeCategories.find(ageCategory => ageCategory._id === id);
