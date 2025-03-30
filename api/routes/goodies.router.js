@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const goodiesController = require('../controllers/goodies.controller');
+const uploadImage = require('../middleware/multerConfig');
 
 router.get('/', goodiesController.getAllGoodies);
 /**
@@ -256,6 +257,38 @@ router.delete('/variations/:id', goodiesController.deleteGoodieVariation);
  *         description: Variation supprimée avec succès
  *       404:
  *         description: Variation non trouvée
+ */
+
+router.post('/upload', uploadImage('goodies'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('Aucun fichier téléchargé.');
+    }
+    res.send({ imageUrl: `/assets/goodies/${req.file.filename}` });
+});
+
+/**
+ * @swagger
+ * /goodies/upload:
+ *   post:
+ *     summary: Télécharger une image de goodie
+ *     tags: [Goodies]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Image téléchargée avec succès
+ *       400:
+ *         description: Aucun fichier téléchargé
+ *       500:
+ *         description: Erreur serveur
  */
 
 module.exports = router;

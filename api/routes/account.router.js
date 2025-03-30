@@ -1,7 +1,7 @@
 const express = require("express");
 const accountController = require("../controllers/account.controller");
 const checkSession = require('../middleware/auth');
-const upload = require('../middleware/multerConfig');
+const uploadImage = require('../middleware/multerConfig');
 
 var router = express.Router();
 
@@ -215,7 +215,7 @@ router.post("/register", accountController.addCustomerAccount);
  *                   example: "Erreur du serveur"
  */
 
-router.put("/profil", checkSession, upload.single('file'), accountController.modifyCustomerAccount);
+router.put("/profil", checkSession, uploadImage('file'), accountController.modifyCustomerAccount);
 /**
  * @swagger
  * /accounts/profil:

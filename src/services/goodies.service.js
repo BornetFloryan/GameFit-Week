@@ -40,6 +40,10 @@ async function getGoodieVariationByIdFromApi(id) {
     return getRequest(`goodies/variations/${id}`, 'GetGoodieVariation');
 }
 
+async function uploadImageFromApi(data) {
+    return postRequest('goodies/upload', data, 'UploadImage');
+}
+
 async function getAllGoodies() {
     try {
         let response = await getAllGoodiesFromApi();
@@ -130,6 +134,15 @@ async function getGoodieVariationById(id) {
     }
 }
 
+async function uploadImage(data) {
+    try {
+        let response = await uploadImageFromApi(data);
+        return response.data;
+    } catch (err) {
+        return { error: 1, status: 500, data: 'Erreur: Impossible de télécharger l’image' };
+    }
+}
+
 export default {
     getAllGoodies,
     addGoodie,
@@ -140,5 +153,6 @@ export default {
     addGoodieVariation,
     updateGoodieVariation,
     deleteGoodieVariation,
-    getGoodieVariationById
+    getGoodieVariationById,
+    uploadImage,
 };

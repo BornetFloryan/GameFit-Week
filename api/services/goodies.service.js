@@ -12,9 +12,12 @@ class GoodiesService {
     }
 
     async addGoodie(name, image, price, provider_service_categories_id) {
+        const { rows: maxRows } = await pool.query('SELECT MAX(_id) as max_id FROM goodies');
+        const newId = (maxRows[0].max_id || 0) + 1;
+
         const { rows } = await pool.query(
-            'INSERT INTO goodies (_id, name, image, price, provider_service_categories_id) VALUES (DEFAULT, $1, $2, $3, $4) RETURNING *',
-            [name, image, price, provider_service_categories_id]
+            'INSERT INTO goodies (_id, name, image, price, provider_service_categories_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [newId, name, image, price, provider_service_categories_id]
         );
         return rows[0];
     }
@@ -46,9 +49,12 @@ class GoodiesService {
     }
 
     async addGoodieVariation(goodie_id, size_id, stock) {
+        const { rows: maxRows } = await pool.query('SELECT MAX(_id) as max_id FROM goodies_variations');
+        const newId = (maxRows[0].max_id || 0) + 1;
+
         const { rows } = await pool.query(
-            'INSERT INTO goodies_variations (_id, goodie_id, size_id, stock) VALUES (DEFAULT, $1, $2, $3) RETURNING *',
-            [goodie_id, size_id, stock]
+            'INSERT INTO goodies_variations (_id, goodie_id, size_id, stock) VALUES ($1, $2, $3, $4) RETURNING *',
+            [newId, goodie_id, size_id, stock]
         );
         return rows[0];
     }

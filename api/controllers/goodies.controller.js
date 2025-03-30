@@ -77,6 +77,7 @@ exports.getGoodieVariations = async (req, res) => {
 exports.addGoodieVariation = async (req, res) => {
     try {
         const { goodie_id, size_id, stock } = req.body;
+        console.log("addGoodieVariation", req.body);
         const data = await goodiesService.addGoodieVariation(goodie_id, size_id, stock);
         return res.status(201).json({ data });
     } catch (error) {

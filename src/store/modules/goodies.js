@@ -36,7 +36,6 @@ const mutations = {
         if (index !== -1) {
             state.goodieVariations[index] = variation;
         }
-        console.log('state.goodieVariations', state.goodieVariations);
     },
     deleteGoodieVariation(state, variationId) {
         state.goodieVariations = state.goodieVariations.filter(v => v._id !== variationId);
@@ -89,7 +88,6 @@ const actions = {
     async getGoodieVariations({ commit }, goodie_id) {
         try {
             let response = await GoodiesService.getGoodieVariations(goodie_id);
-            console.log('response', response);
             if(response.error === 0) {
                 commit('updateGoodieVariations', response);
             }
@@ -110,7 +108,6 @@ const actions = {
     async modifyGoodieVariation({ commit }, data) {
         try {
             let response = await GoodiesService.updateGoodieVariation(data._id, data);
-            console.log('response', response);
             commit('modifyGoodieVariation', response);
             return response;
         } catch (error) {
@@ -126,10 +123,16 @@ const actions = {
         }
     }
 };
+const getters = {
+    getGoodieById: (state) => (id) => {
+        return state.goodies.find(goodie => goodie._id === id);
+    },
+};
 
 export default {
     namespaced: true,
     state,
     mutations,
-    actions
+    actions,
+    getters
 };

@@ -83,8 +83,6 @@ export default {
       } else {
         this.dataSource = this.getStandsReservationsByCustomerIdAndServiceId(this.currentUser._id, '0');
       }
-      this.providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '0');
-      this.serviceStatus = this.providerServiceCategory.state;
     },
 
     async toggleServiceStatus() {
@@ -104,6 +102,8 @@ export default {
     await this.getProviderRequests();
     await this.getServiceCategories();
     await this.getProviderServiceCategories();
+    this.providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '0');
+    this.serviceStatus = this.providerServiceCategory.state;
     this.filterReservations();
   },
 };

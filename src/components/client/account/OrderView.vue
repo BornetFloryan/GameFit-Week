@@ -16,8 +16,10 @@
         <td>{{ formatDate(order.date) }}</td>
         <td>{{ order.ticket_id }}</td>
         <td>{{ orderState(order.state) }}</td>
-        <td><button @click="toggleOrderDetails()">Voir le détail</button></td>
-        <td v-if="visibleOrderDetails">
+        <td><button @click="toggleOrderDetails(order._id)">Voir le détail</button></td>
+      </tr>
+      <tr v-for="order in visibleOrders" :key="order._id + '-details'">
+        <td colspan="5">
           <div class="order-details">
             <h4>Détails de la commande</h4>
             <ul>
@@ -44,7 +46,6 @@ export default {
   data() {
     return {
       userOrders: [],
-      visibleOrderDetails: false,
     };
   },
   computed: {
@@ -52,6 +53,9 @@ export default {
     ...mapState('ticket', ['tickets']),
     ...mapState('goodies', ['goodieSizes', 'goodies']),
     ...mapGetters('ticket', ['getTicketsByCustomerId']),
+    visibleOrders() {
+      return this.userOrders.filter(order => order.visible);
+    }
   },
   methods: {
     ...mapActions('ticket', ['getTickets']),
@@ -67,7 +71,6 @@ export default {
             if (response.error === 0) {
               for (let order of response.data) {
                 const itemsResponse = await basketService.getItemsByBasket(order._id);
-                console.log('itemsResponse', itemsResponse);
 
                 if (itemsResponse.error === 0) {
                   for (let i of itemsResponse.data) {
@@ -85,6 +88,7 @@ export default {
                 } else {
                   order.items = [];
                 }
+                order.visible = false;
               }
               this.userOrders.push(...response.data);
             } else {
@@ -104,8 +108,11 @@ export default {
       if (state === '1') return 'À venir récupérer';
       return 'Inconnu';
     },
-    toggleOrderDetails() {
-      this.visibleOrderDetails = !this.visibleOrderDetails;
+    toggleOrderDetails(orderId) {
+      const order = this.userOrders.find(order => order._id === orderId);
+      if (order) {
+        order.visible = !order.visible;
+      }
     },
     calculateTotal(items) {
       return items.reduce((total, item) => total + item.price * item.quantity, 0);

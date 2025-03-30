@@ -35,6 +35,7 @@
             </div>
           </div>
           <p v-else-if="field === 'description'" v-html="item[field]" class="truncate"></p>
+          <img v-else-if="field === 'image'" :src="item[field]" alt="Image" class="table-image">
           <p v-else class="truncate">
             {{ item[field] }}
           </p>
@@ -55,6 +56,7 @@
     </table>
   </div>
 </template>
+
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
@@ -126,7 +128,7 @@ export default {
     },
     emitToggleServiceState(service, event) {
       service.state = event.target.checked ? "1" : "0";
-      this.$emit('toggle-service-state', {service});
+      this.$emit('toggle-service-state', { service });
     },
     isServiceUsed(service) {
       let providerStandReservations = this.getStandsReservationsByCustomerIdAndServiceId(service.customer_id, service.service_id);
@@ -216,5 +218,10 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px;
+}
+
+.table-image {
+  max-width: 100px;
+  height: auto;
 }
 </style>

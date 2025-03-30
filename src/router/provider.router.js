@@ -2,11 +2,12 @@ import ProviderDashboard from "@/views/prestataire/ProviderDashboard.vue";
 import ProviderDedicationManagement from "@/components/prestataire/dedications/ProviderDedicationManagement.vue";
 import ProviderAddDedication from "@/components/prestataire/dedications/ProviderAddDedication.vue";
 import ProviderDedicationReservation from "@/components/prestataire/dedications/ProviderDedicationReservation.vue";
-import GoodieSalesList from "@/components/prestataire/goodies/GoodieSalesList.vue";
+import ProviderGoodieSalesList from "@/components/prestataire/goodies/ProviderGoodieSalesList.vue";
 import ProviderchartView from "@/components/ProviderChartView.vue";
 import ProviderGuestbook from "@/components/prestataire/ProviderGuestbook.vue";
 import ProviderEditor from "@/components/prestataire/ProviderEditor.vue";
 import ProviderSchedule from "@/components/prestataire/ProviderSchedule.vue";
+import ProviderModifyGoodie from "@/components/prestataire/goodies/ProviderModifyGoodie.vue";
 
 export default [
     {
@@ -48,22 +49,26 @@ export default [
             {
                 path: 'provider-goodies',
                 name: 'provider-goodies',
-                component: GoodieSalesList,
+                component: ProviderGoodieSalesList,
                 meta: { requiresAuth: true, requiredPrivilege: "1" },
-                children: [
-                    {
-                        path: '/add-goodie',
-                        name: '/add-goodie',
-                        component: ProviderDedicationManagement,
-                        meta: { requiresAuth: true, requiredPrivilege: "1" },
-                    },
-                ],
             },
             {
-              path:'provider-guestbook',
-              name:'provider-guestbook',
-              component: ProviderGuestbook,
-              meta: { requiresAuth: true, requiredPrivilege: "1" },
+                path: 'add-goodie',
+                name: 'add-goodie',
+                component: ProviderDedicationManagement,
+                meta: { requiresAuth: true, requiredPrivilege: "1" },
+            },
+            {
+                path: 'modify-goodie/:item_id',
+                name: 'modify-goodie',
+                component: ProviderModifyGoodie,
+                meta: { requiresAuth: true, requiredPrivilege: "1" },
+            },
+            {
+                path:'provider-guestbook',
+                name:'provider-guestbook',
+                component: ProviderGuestbook,
+                meta: { requiresAuth: true, requiredPrivilege: "1" },
             },
             {
                 path:'chart',

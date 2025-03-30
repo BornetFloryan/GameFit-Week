@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <CartSidebar />
+    <CartSidebar :shop-id="providerServiceCategory._id" />
     <SizeSelectorModal
         :show="showSizeSelector"
         :sizes="availableSizes"
@@ -99,7 +99,8 @@ export default {
           variation_id: variation_id,
           size_id: size._id,
           size: size.size,
-          quantity: 1
+          quantity: 1,
+          shopId: this.providerServiceCategory._id
         };
         this.addItemToBasket(item);
         this.updateSessionStorage();

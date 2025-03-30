@@ -1,7 +1,7 @@
 const express = require("express");
 const contentHomeController = require("../controllers/content_home.controller");
 const checkSession = require('../middleware/auth');
-const upload = require('../middleware/multerConfig');
+const uploadImage = require('../middleware/multerConfig');
 
 var router = express.Router();
 
@@ -35,7 +35,7 @@ router.get("/", contentHomeController.getContentHome);
  *                   type: string
  *                   example: "Erreur lors de la récupération de la page principale"
  */
-router.put("/", checkSession, upload.single('file'), contentHomeController.modifyContentHome);
+router.put("/", checkSession, uploadImage('file'), contentHomeController.modifyContentHome);
 /**
  * @swagger
  * /content-home:

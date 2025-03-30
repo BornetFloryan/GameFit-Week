@@ -4,7 +4,6 @@
     <div v-if="!paymentSuccess">
       <div class="order-summary">
         <h4>Récapitulatif de la commande</h4>
-        {{basketItems}}
         <ul>
           <li v-for="(item, index) in basketItems" :key="index">{{ item.name }} - {{item.size}} - {{ item.price }} € x {{ item.quantity }}</li>
         </ul>
