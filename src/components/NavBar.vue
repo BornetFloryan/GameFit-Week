@@ -16,9 +16,7 @@
             <li><router-link :to="{ path: '/prestataire/list' }" class="link">Liste des prestataires</router-link></li>
             <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
             <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
-            <li><router-link :to="{ path: '/prestation/goodies' }" class="link">Goodies</router-link></li>
-<!--            <li><router-link :to="{ path: '/prestation/restaurations' }" class="link">Restaurations</router-link></li>-->
-<!--            <li><router-link :to="{ path: '/services/hotel' }" class="link">Hotels</router-link></li>-->
+            <li><router-link :to="{ path: '/services/goodies-seller' }" class="link">Goodies</router-link></li>
           </ul>
         </li>
         <li><router-link :to="{ path: '/services/stream' }" class="link">En direct</router-link></li>
@@ -28,6 +26,7 @@
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
           <ul v-show="showAccountDropdown" class="dropdown">
             <li><router-link :to="{ path: '/account/profil' }" class="link">Profil</router-link></li>
+            <li><router-link :to="{ path: '/account/order' }" class="link">Commandes</router-link></li>
             <li><router-link :to="{ path: '/account/reservation' }" class="link">Réservations</router-link></li>
             <li><router-link :to="{ path: '/account/ticket' }" class="link">Billets</router-link></li>
             <li v-if="getProviderRequestsByCustomerId(currentUser._id)">

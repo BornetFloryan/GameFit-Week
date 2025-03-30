@@ -10,7 +10,6 @@
       </div>
     </div>
     <button @click="saveDescription" class="save-button">Enregistrer</button>
-    <button @click="goBack" class="back-button">Retour à la liste des prestataires</button>
   </div>
 </template>
 
@@ -49,8 +48,6 @@ export default {
       handler(newVal) {
         if (newVal) {
           this.description = newVal.description || '';
-        } else {
-          console.error('Prestataire is undefined');
         }
       },
     },

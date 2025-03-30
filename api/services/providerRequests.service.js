@@ -106,12 +106,25 @@ async function modifyProviderRequest(request) {
         if (!request.state) {
             return {error: 1, status: 404, data: 'État manquant'};
         }
+
         const res = await client.query(
             'UPDATE provider_requests SET date = $1, state = $2, customer_id = $3 WHERE _id = $4 RETURNING *',
             [request.date, request.state, request.customer_id, request._id]
         );
         if (res.rowCount === 0) {
             return {error: 1, status: 404, data: 'Demande non trouvée'};
+        }
+        if(request.state !== res.rows[0].state && request.state === 1) {
+            let wasProvider = await client.query('SELECT * FROM provider_guestbook_status WHERE _id = $1', [request.customer_id]);
+            if (wasProvider.rowCount === 0) {
+                let maxIdResult = await client.query('SELECT MAX(_id) AS max_id FROM provider_guestbook_status');
+                let newId = maxIdResult.rows[0].max_id ? maxIdResult.rows[0].max_id + 1 : 1;
+                await client.query('INSERT INTO provider_guestbook_status (_id, guestbook_activated, customer_id) VALUES ($1, $2, $3)', [newId, false, request.customer_id]);
+
+                maxIdResult = await client.query('SELECT MAX(_id) AS max_id FROM provider_schedule_status');
+                newId = maxIdResult.rows[0].max_id ? maxIdResult.rows[0].max_id + 1 : 1;
+                await client.query('INSERT INTO provider_schedule_status (_id, schedule_activated, customer_id) VALUES ($1, $2, $3)', [newId, false, request.customer_id]);
+            }
         }
         return {error: 0, status: 200, data: res.rows[0]};
     } catch (error) {

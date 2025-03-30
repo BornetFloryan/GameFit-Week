@@ -56,7 +56,6 @@ export default {
     updateContent() {
       const session = this.currentUser.session;
       if (session) {
-        console.log(this.content)
         this.modifyContentHome({ data: this.content, session });
       } else {
         console.error('Session est indéfinie');

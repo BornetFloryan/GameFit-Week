@@ -2,7 +2,6 @@ import BasketService from "@/services/basket.service";
 
 const state = () => ({
     baskets: [],
-    customerBaskets: [],
     basketItems: []
 });
 
@@ -10,9 +9,6 @@ const state = () => ({
 const mutations = {
     updateBaskets(state, baskets) {
         state.baskets = baskets;
-    },
-    updateCustomerBaskets(state, customerBaskets) {
-        state.customerBaskets = customerBaskets;
     },
     addBasket(state, basket) {
         state.baskets.push(basket);
@@ -55,18 +51,6 @@ const actions = {
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des paniers:', error);
-        }
-    },
-    async getBasketsByCustomer({ commit }, customer_id) {
-        try {
-            let response = await BasketService.getBasketsByCustomer(customer_id);
-            if (response.error === 0) {
-                commit('updateCustomerBaskets', response.data);
-            } else {
-                console.error(response.data);
-            }
-        } catch (error) {
-            console.error(`Erreur lors de la récupération des paniers du client ${customer_id}:`, error);
         }
     },
     async createBasket({ commit }, data) {
@@ -113,6 +97,7 @@ const actions = {
             } else {
                 console.error(response.data);
             }
+            return response
         } catch (error) {
             console.error(`Erreur lors de la récupération des articles du panier ${basket_id}:`, error);
         }
@@ -152,12 +137,12 @@ const actions = {
             console.error('Erreur lors de la suppression de l’article du panier:', error);
             return { error: 1, data: 'Erreur lors de la suppression de l’article du panier' };
         }
-    }
+    },
 };
 
 export default {
     namespaced: true,
     state,
     mutations,
-    actions
+    actions,
 };

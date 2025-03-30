@@ -118,7 +118,7 @@ async function addGuestbookStatusFromApi(customer_id) {
 // }
 
 async function modifyGuestbookStatusFromApi(providerGuestbookStatus) {
-    return postRequest('guestbook-status', providerGuestbookStatus, 'ModifyGuestbookStatus');
+    return putRequest('guestbook-status', providerGuestbookStatus, 'ModifyGuestbookStatus');
 }
 
 // async function getProviderScheduleStatusFromLocalSource() {
@@ -334,7 +334,7 @@ async function modifyGuestbookStatus(providerGuestbookStatus) {
     } catch (err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de modifier le statut du livre d\' or'}
     }
-    return response
+    return response.data
 }
 
 async function getProviderScheduleStatus(){

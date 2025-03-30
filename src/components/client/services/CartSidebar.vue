@@ -20,6 +20,10 @@
 
       <div class="cart-footer">
         <h4>Total : {{ totalPrice }} €</h4>
+        <div class="form-group">
+          <label for="ticketId">Numéro de billet</label>
+          <input type="text" id="ticketId" v-model="ticketId" required />
+        </div>
         <button class="checkout-button" @click="checkout">Passer la commande</button>
       </div>
     </div>
@@ -30,109 +34,164 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import router from '@/router';
 
 export default {
   name: "CartSidebar",
+  data () {
+    return {
+      done: false,
+      ticketId: ""
+    };
+  },
   computed: {
-    ...mapState("basket", ["basketItems"]),
+    ...mapState("basket", ["basketItems", "baskets"]),
     ...mapState("account", ["currentUser"]),
     ...mapState("goodies", ["goodieVariations"]),
+    ...mapState("ticket", ["tickets"]),
 
     totalPrice() {
-      return this.basketItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+      return this.basketItems.reduce((total, item) => {
+        const price = parseFloat(item.price) || 0;
+        const quantity = parseInt(item.quantity, 10) || 0;
+        return total + price * quantity;
+      }, 0).toFixed(2);
     },
-    isLoggedIn() {
-      return this.currentUser;
-    }
   },
   methods: {
     ...mapMutations("basket", ["updateBasketItems", "deleteItemFromBasket", "updateBaskets"]),
     ...mapActions("goodies", ["getGoodieVariations"]),
-    ...mapActions("basket", ["createBasket", "addItemToBasket"]),
+    ...mapActions("basket", ["createBasket", "addItemToBasket", "getItemsByBasket", 'getAllBaskets']),
+    ...mapActions("ticket", ["getTickets"]),
     async updateQuantity(index, amount) {
       const item = this.basketItems[index];
       await this.getGoodieVariations(item._id);
-      let stock = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id).stock;
-      const newQuantity = item.quantity + amount;
-      if (newQuantity > 0 && newQuantity <= stock) {
-        item.quantity = newQuantity;
-        this.updateBasketItems([...this.basketItems]);
-        this.updateSessionStorage();
-        if (this.isLoggedIn) {
-          this.saveBasketToDatabase();
+      let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
+      if(variation) {
+        let stock = variation.stock
+        const newQuantity = item.quantity + amount;
+        if (newQuantity > 0 && newQuantity <= stock) {
+          item.quantity = newQuantity;
+          this.updateBasketItems([...this.basketItems]);
+          this.updateSessionStorage();
+        } else if (newQuantity < 1) {
+          this.removeFromBasket(index);
+        } else {
+          item.quantity = stock;
+          this.updateBasketItems([...this.basketItems]);
+          this.updateSessionStorage();
+          alert("La quantité demandée dépasse le stock disponible. La quantité a été ajustée au stock disponible.");
         }
-      } else if (newQuantity < 1) {
-        this.removeFromBasket(index);
-      } else {
-        item.quantity = stock;
-        this.updateBasketItems([...this.basketItems]);
-        this.updateSessionStorage();
-        alert("La quantité demandée dépasse le stock disponible. La quantité a été ajustée au stock disponible.");
       }
     },
     removeFromBasket(index) {
       this.basketItems.splice(index, 1);
       this.updateBasketItems([...this.basketItems]);
       this.updateSessionStorage();
-      if (this.isLoggedIn) {
-        this.saveBasketToDatabase();
-      }
     },
-    checkout() {
-      if (this.isLoggedIn) {
-        alert('Commande passée avec succès!');
+    async checkout() {
+
+      if (!this.ticketId) {
+        alert("Veuillez entrer un numéro de billet.");
+        return;
+      }
+      const ticket = this.tickets.find(ticket => ticket._id === this.ticketId);
+      if (ticket){
+        this.done = true;
+        try {
+          let response = await this.saveBasketToDatabase();
+          if (response.error === 0) {
+            let basket_id = response.data._id;
+            router.push({ name: 'payment', params: { ticketId: this.ticketId, basketId: basket_id, basketItems: response.data.storedBasketItems} });
+          } else {
+            console.error("Error saving basket:", response.data);
+          }
+        } catch(error) {
+          console.error("Error during checkout:", error);
+        }
       } else {
-        alert("Veuillez vous connecter pour passer la commande.");
+        alert("Veuillez entrer un numéro de billet valide.");
       }
     },
     updateSessionStorage() {
       sessionStorage.setItem("basketItems", JSON.stringify(this.basketItems));
     },
     async saveBasketToDatabase() {
-      if (this.currentUser) {
+      if (this.currentUser || this.done) {
         try {
           let basket_id = sessionStorage.getItem("basket_id");
           if (!basket_id) {
-            const response = await this.createBasket(this.currentUser._id);
+            const response = await this.createBasket({ ticket_id: this.ticketId });
             if (response.error === 0) {
               basket_id = response.data._id;
               sessionStorage.setItem("basket_id", basket_id);
-              console.log("Basket saved successfully:", response.data);
             } else {
-              console.error("Error saving basket:", response.data);
-            }
-          } else {
-            for (let item of this.basketItems) {
-              try {
-                await this.addItemToBasket({
-                  basket_id,
-                  item_id: item.variation_id,
-                  item_type: "goodie",
-                  quantity: item.quantity
-                });
-              } catch (error) {
-                console.error("Error adding item to basket:", error);
-              }
+              console.error(response.data);
+              return { error: response.error, data: response.data };
             }
           }
+
+          const itemsInBasket = await this.getItemsByBasket(basket_id);
+          const itemIdsInBasket = itemsInBasket.data.map(item => item.item_id);
+
+          const storedBasketItems = JSON.parse(sessionStorage.getItem("basketItems") || "[]");
+          if(storedBasketItems){
+            for (let item of storedBasketItems) {
+              if (!itemIdsInBasket.includes(item.variation_id)) {
+                try {
+
+                  let response = await this.addItemToBasket({
+                    basket_id,
+                    data: {
+                      item_id: item.variation_id,
+                      item_type: "goodie",
+                      quantity: item.quantity
+                    },
+                  });
+                  if(response.error > 0){
+                    return { error: 1, data: response.data };
+                  }
+                } catch (error) {
+                  console.error(error);
+                }
+              }
+            }
+            return { error: 0, data: { _id: basket_id, storedBasketItems: storedBasketItems } };
+          }
         } catch (error) {
-          console.error("Error saving basket to database:", error);
+          console.error(error);
+          return { error: 1, data: error };
         }
       }
     }
   },
   async mounted() {
-    const storedBasketItems = sessionStorage.getItem("basketItems");
-    if (storedBasketItems) {
-      this.updateBasketItems(JSON.parse(storedBasketItems));
+    await this.getTickets();
+    await this.getAllBaskets();
+    const basket_id = sessionStorage.getItem("basket_id");
+
+    if(this.baskets.includes(basket_id)){
+      const itemsInBasket = await this.getItemsByBasket(basket_id);
+      if (itemsInBasket.error === 0) {
+        this.updateBasketItems(itemsInBasket.data);
+      }
+    } else {
+      sessionStorage.removeItem("basket_id")
+      const storedBasketItems = sessionStorage.getItem("basketItems");
+      if (storedBasketItems) {
+        this.updateBasketItems(JSON.parse(storedBasketItems));
+      }
     }
     for (let item of this.basketItems) {
       await this.getGoodieVariations(item._id);
-      let stock = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id).stock;
-      if (item.quantity > stock) {
-        item.quantity = stock;
-        this.updateBasketItems([...this.basketItems]);
-        this.updateSessionStorage();
+      let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
+      if(variation){
+        let stock = variation.stock;
+        if (item.quantity > stock) {
+          item.quantity = stock;
+          this.updateBasketItems([...this.basketItems]);
+          this.updateSessionStorage();
+        }
       }
     }
   }

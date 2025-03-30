@@ -184,4 +184,78 @@ router.post('/variations', goodiesController.addGoodieVariation);
  *         description: Erreur serveur
  */
 
+router.get('/variations/:id', goodiesController.getGoodieVariationById);
+/**
+ * @swagger
+ * /goodies/variations/{id}:
+ *   get:
+ *     summary: Récupérer une variation de goodie par ID
+ *     tags: [Goodies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Détails de la variation de goodie
+ *       404:
+ *         description: Variation non trouvée
+ */
+
+router.put('/variations/:id', goodiesController.updateGoodieVariation);
+/**
+ * @swagger
+ * /goodies/variations/{id}:
+ *   put:
+ *     summary: Modifier une variation de goodie
+ *     tags: [Goodies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               goodie_id:
+ *                 type: integer
+ *               size_id:
+ *                 type: integer
+ *               price:
+ *                 type: number
+ *                 format: float
+ *     responses:
+ *       200:
+ *         description: Variation mise à jour avec succès
+ *       404:
+ *         description: Variation non trouvée
+ */
+
+router.delete('/variations/:id', goodiesController.deleteGoodieVariation);
+/**
+ * @swagger
+ * /goodies/variations/{id}:
+ *   delete:
+ *     summary: Supprimer une variation de goodie
+ *     tags: [Goodies]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Variation supprimée avec succès
+ *       404:
+ *         description: Variation non trouvée
+ */
+
 module.exports = router;

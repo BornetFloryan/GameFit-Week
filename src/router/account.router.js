@@ -6,6 +6,7 @@ import LoginFormView from "@/components/client/account/LoginForm.vue";
 import RegisterForm from "@/components/client/account/RegisterForm.vue";
 import ProviderRegister from "@/views/prestataire/ProviderRegister.vue";
 import ProviderRequestView from "@/components/client/account/ProviderRequestView.vue";
+import OrderView from "@/components/client/account/OrderView.vue";
 
 export default [
     {
@@ -52,7 +53,13 @@ export default [
                 name: "request",
                 component: ProviderRequestView,
                 meta: { requiresAuth: true, requiredPrivilege: "0" },
-            }
+            },
+            {
+                path: "order",
+                name: "order",
+                component: OrderView,
+                meta: { requiresAuth: true, requiredPrivilege: "0" },
+            },
         ]
     },
 ];

@@ -221,8 +221,8 @@ const insertData = async () => {
         for (const goodie of goodies) {
             await insertIfNotExists(
                 'SELECT _id FROM goodies WHERE _id = $1',
-                'INSERT INTO goodies (_id, name, image, price) VALUES ($1, $2, $3, $4)',
-                [goodie._id, goodie.name, goodie.image || '', goodie.price]
+                'INSERT INTO goodies (_id, name, image, price, provider_service_categories_id) VALUES ($1, $2, $3, $4, $5)',
+                [goodie._id, goodie.name, goodie.image || '', goodie.price, goodie.provider_service_categories_id]
             );
         }
 
@@ -237,8 +237,8 @@ const insertData = async () => {
         for (const basket of baskets) {
             await insertIfNotExists(
                 'SELECT _id FROM baskets WHERE _id = $1',
-                'INSERT INTO baskets (_id, date, state, is_order, customer_id) VALUES ($1, $2, $3, $4, $5)',
-                [basket._id, basket.date, basket.state, basket.is_order, basket.customer_id]
+                'INSERT INTO baskets (_id, date, state, is_order, ticket_id) VALUES ($1, $2, $3, $4, $5)',
+                [basket._id, basket.date, basket.state, basket.is_order, basket.ticket_id]
             );
         }
 

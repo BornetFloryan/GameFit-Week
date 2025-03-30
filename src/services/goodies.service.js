@@ -4,10 +4,6 @@ async function getAllGoodiesFromApi() {
     return getRequest('goodies/', 'GetAllGoodies');
 }
 
-async function getGoodieByIdFromApi(id) {
-    return getRequest(`goodies/${id}`, 'GetGoodieById');
-}
-
 async function addGoodieFromApi(data) {
     return postRequest('goodies/', data, 'AddGoodie');
 }
@@ -32,22 +28,24 @@ async function addGoodieVariationFromApi(data) {
     return postRequest('goodies/variations', data, 'AddGoodieVariation');
 }
 
-// Fonctions avec gestion des erreurs
+async function updateGoodieVariationFromApi(id, data) {
+    return putRequest(`goodies/variations/${id}`, data, 'UpdateGoodieVariation');
+}
+
+async function deleteGoodieVariationFromApi(id) {
+    return deleteRequest(`goodies/variations/${id}`, 'DeleteGoodieVariation');
+}
+
+async function getGoodieVariationByIdFromApi(id) {
+    return getRequest(`goodies/variations/${id}`, 'GetGoodieVariation');
+}
+
 async function getAllGoodies() {
     try {
         let response = await getAllGoodiesFromApi();
         return response.data;
     } catch (err) {
         return { error: 1, status: 404, data: 'Erreur: Impossible de récupérer les goodies' };
-    }
-}
-
-async function getGoodieById(id) {
-    try {
-        let response = await getGoodieByIdFromApi(id);
-        return response.data;
-    } catch (err) {
-        return { error: 1, status: 404, data: `Erreur: Impossible de récupérer le goodie ${id}` };
     }
 }
 
@@ -105,13 +103,42 @@ async function addGoodieVariation(data) {
     }
 }
 
+async function updateGoodieVariation(id, data) {
+    try {
+        let response = await updateGoodieVariationFromApi(id, data);
+        return response.data;
+    } catch (err) {
+        return { error: 1, status: 500, data: 'Erreur: Impossible de modifier la variation du goodie' };
+    }
+}
+
+async function deleteGoodieVariation(id) {
+    try {
+        let response = await deleteGoodieVariationFromApi(id);
+        return response.data;
+    } catch (err) {
+        return { error: 1, status: 500, data: 'Erreur: Impossible de supprimer la variation du goodie' };
+    }
+}
+
+async function getGoodieVariationById(id) {
+    try {
+        let response = await getGoodieVariationByIdFromApi(id);
+        return response.data;
+    } catch (err) {
+        return { error: 1, status: 404, data: 'Erreur: Impossible de récupérer la variation du goodie' };
+    }
+}
+
 export default {
     getAllGoodies,
-    getGoodieById,
     addGoodie,
     updateGoodie,
     deleteGoodie,
     getGoodieSizes,
     getGoodieVariations,
-    addGoodieVariation
+    addGoodieVariation,
+    updateGoodieVariation,
+    deleteGoodieVariation,
+    getGoodieVariationById
 };

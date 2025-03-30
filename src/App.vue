@@ -25,8 +25,4 @@ a {
   text-decoration: none;
 }
 
-h1 span, h2 span, p span {
-   color: #00afea;
-}
-
 </style>

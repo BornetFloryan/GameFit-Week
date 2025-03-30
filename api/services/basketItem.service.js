@@ -14,9 +14,12 @@ async function getItemsByBasket(basket_id) {
 async function addItemToBasket(basket_id, item_id, item_type, quantity) {
     const client = await pool.connect();
     try {
+        const maxIdRes = await client.query('SELECT COALESCE(MAX(_id), 0) + 1 AS new_id FROM basket_items');
+        const newId = maxIdRes.rows[0].new_id;
+
         const res = await client.query(
-            'INSERT INTO basket_items (basket_id, item_id, item_type, quantity) VALUES ($1, $2, $3, $4) RETURNING *',
-            [basket_id, item_id, item_type, quantity]
+            'INSERT INTO basket_items (_id, basket_id, item_id, item_type, quantity) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [newId, basket_id, item_id, item_type, quantity]
         );
         return { error: 0, status: 201, data: res.rows[0] };
     } finally {

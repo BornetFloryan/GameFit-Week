@@ -5,12 +5,12 @@ import TicketingView from "@/views/TicketingView.vue";
 import PrestataireView from '@/views/PrestataireView.vue';
 import PrestataireList from "@/components/PrestataireList.vue";
 import PrestataireInfo from "@/components/PrestataireInfo.vue";
+import PaymentComponent from "@/components/PaymentComponent.vue";
 
 import AccountRoutes from './account.router';
 import ServiceRoutes from './service.router';
 import AdminRoutes from './admin.router';
 import PrestataireRoutes from './provider.router';
-import PrestationRouter from "./prestation.router";
 
 import store from '@/store';
 
@@ -42,6 +42,12 @@ const routes = [
         name: 'prestataire-info',
         component: PrestataireInfo
       },
+      {
+        path: '/payment',
+        name: 'payment',
+        component: PaymentComponent,
+        props: route => ({ ticketId: route.params.ticketId, basketId: route.params.basketId, basketItems: route.params.basketItems })
+      },
     ]
   },
 
@@ -49,7 +55,6 @@ const routes = [
   ...ServiceRoutes,
   ...AdminRoutes,
   ...PrestataireRoutes,
-  ...PrestationRouter,
 ];
 
 const router = new VueRouter({

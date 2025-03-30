@@ -127,11 +127,11 @@ export default {
       }
     },
   },
-  created() {
-    this.getGuestbookEntries();
-    this.getProviderGuestbookStatus();
-    this.getStandsReservations();
-    this.getServiceReservations();
+  async created() {
+    await this.getGuestbookEntries();
+    await this.getProviderGuestbookStatus();
+    await this.getStandsReservations();
+    await this.getServiceReservations();
     const status = this.getProviderGuestbookStatusByCustomerId(this.currentUser._id);
     if (status) {
       this.serviceStatus = status.guestbook_activated;

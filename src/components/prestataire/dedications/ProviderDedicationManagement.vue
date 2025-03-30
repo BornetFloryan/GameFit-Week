@@ -55,7 +55,7 @@ export default {
       enableDelete: true,
       dataSource: [],
       providerServiceCategory: {},
-      serviceStatus: '1',
+      serviceStatus: '0',
     };
   },
   computed: {
@@ -90,7 +90,7 @@ export default {
     async toggleServiceStatus() {
       try {
         this.providerServiceCategory.state = this.serviceStatus;
-        await this.updateProviderServiceCategoryState({ customer_id: this.currentUser._id, status: this.serviceStatus });
+        await this.updateProviderServiceCategoryState(this.providerServiceCategory, this.currentUser.session);
         alert(`Service ${this.serviceStatus === '1' ? 'activé' : 'désactivé'} avec succès`);
       } catch (e) {
         alert('Erreur lors de la mise à jour du statut du service');

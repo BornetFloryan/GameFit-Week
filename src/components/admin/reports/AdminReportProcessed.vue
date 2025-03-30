@@ -46,10 +46,8 @@ export default {
       this.comment = this.entry.comment;
     },
     async submitModeration() {
-      console.log(this.entry);
       try{
         let response = await this.modifyGuestbookEntry(this.entry);
-        console.log(response);
         if(response.data.error === 0){
           const report = this.getReportsById(this.$route.query.report_id);
           report.state = '1';

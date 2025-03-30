@@ -11,25 +11,25 @@ class GoodiesService {
         return rows[0];
     }
 
-    async addGoodie(name, image, price,description) {
+    async addGoodie(name, image, price, provider_service_categories_id) {
         const { rows } = await pool.query(
-            'INSERT INTO goodies (name, image, description) VALUES ($1, $2, $3, $4) RETURNING *',
-            [name, image, price, description]
+            'INSERT INTO goodies (_id, name, image, price, provider_service_categories_id) VALUES (DEFAULT, $1, $2, $3, $4) RETURNING *',
+            [name, image, price, provider_service_categories_id]
         );
         return rows[0];
     }
 
-    async updateGoodie(id, name, image, description) {
+    async updateGoodie(id, name, image, price) {
         const { rows } = await pool.query(
-            'UPDATE goodies SET name = $1, image = $2, description = $3 WHERE _id = $4 RETURNING *',
-            [name, image, description, id]
+            'UPDATE goodies SET name = $1, image = $2, price = $3 WHERE _id = $4 RETURNING *',
+            [name, image, price, id]
         );
         return rows[0];
     }
 
     async deleteGoodie(id) {
-        await pool.query('DELETE FROM goodies WHERE _id = $1', [id]);
-        return { message: 'Goodie supprimé avec succès' };
+        const res = await pool.query('DELETE FROM goodies WHERE _id = $1 RETURNING *', [id]);
+        return res.rows[0];
     }
 
     async getGoodieSizes() {
@@ -45,13 +45,32 @@ class GoodiesService {
         return rows;
     }
 
-    async addGoodieVariation(goodie_id, size_id, price) {
+    async addGoodieVariation(goodie_id, size_id, stock) {
         const { rows } = await pool.query(
-            'INSERT INTO goodies_variations (goodie_id, size_id) VALUES ($1, $2) RETURNING *',
-            [goodie_id, size_id, price]
+            'INSERT INTO goodies_variations (_id, goodie_id, size_id, stock) VALUES (DEFAULT, $1, $2, $3) RETURNING *',
+            [goodie_id, size_id, stock]
         );
         return rows[0];
     }
+
+    async updateGoodieVariation(id, goodie_id, size_id, stock) {
+        const { rows } = await pool.query(
+            'UPDATE goodies_variations SET goodie_id = $1, size_id = $2, stock = $3 WHERE _id = $4 RETURNING *',
+            [goodie_id, size_id, stock, id]
+        );
+        return rows[0];
+    }
+
+    async deleteGoodieVariation(id) {
+        await pool.query('DELETE FROM goodies_variations WHERE _id = $1', [id]);
+        return { message: 'Goodie variation supprimée avec succès' };
+    }
+
+    async getGoodieVariationById(id) {
+        const { rows } = await pool.query('SELECT * FROM goodies_variations WHERE _id = $1', [id]);
+        return rows[0];
+    }
 }
+
 
 module.exports = new GoodiesService();

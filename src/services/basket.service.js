@@ -4,8 +4,8 @@ async function getAllBasketsFromApi() {
     return getRequest('baskets/', 'GetAllBaskets');
 }
 
-async function getBasketsByCustomerFromApi(customer_id) {
-    return getRequest(`baskets/${customer_id}`, 'GetBasketsByCustomer');
+async function getBasketsByTicketIdFromApi(ticket_id) {
+    return getRequest(`baskets/${ticket_id}`, 'GetBasketsByTicketId');
 }
 
 async function createBasketFromApi(data) {
@@ -47,12 +47,12 @@ async function getAllBaskets() {
     return response.data;
 }
 
-async function getBasketsByCustomer(customer_id) {
+async function getBasketsByTicketId({ ticket_id }) {
     let response = null;
     try {
-        response = await getBasketsByCustomerFromApi(customer_id);
+        response = await getBasketsByTicketIdFromApi(ticket_id);
     } catch (err) {
-        response = { error: 1, status: 404, data: `Erreur: Impossible de récupérer les paniers du client ${customer_id}` };
+        response = { error: 1, status: 404, data: `Erreur: Impossible de récupérer les paniers du ticket ${ticket_id}` };
     }
     return response.data;
 }
@@ -129,7 +129,7 @@ async function deleteItemFromBasket(basket_item_id) {
 
 export default {
     getAllBaskets,
-    getBasketsByCustomer,
+    getBasketsByTicketId,
     createBasket,
     updateBasketState,
     deleteBasket,

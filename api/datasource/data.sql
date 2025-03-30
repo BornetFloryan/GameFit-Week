@@ -182,7 +182,8 @@ CREATE TABLE IF NOT EXISTS goodies
     _id         SERIAL PRIMARY KEY,
     name       VARCHAR(255) NOT NULL,
     image      VARCHAR(255),
-    price       NUMERIC(10, 2) NOT NULL
+    price       NUMERIC(10, 2) NOT NULL,
+    provider_service_categories_id INT REFERENCES provider_service_categories(_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS goodies_variations
@@ -198,7 +199,7 @@ CREATE TABLE IF NOT EXISTS baskets (
     date TIMESTAMP DEFAULT NOW(),
     state INT NOT NULL,
     is_order BOOLEAN DEFAULT FALSE,
-    customer_id INT REFERENCES customer_accounts(_id) ON DELETE CASCADE
+    ticket_id INT REFERENCES tickets(_id) ON DELETE CASCADE
 );
 
 
@@ -206,7 +207,7 @@ CREATE TABLE IF NOT EXISTS baskets (
 CREATE TABLE basket_items (
     _id SERIAL PRIMARY KEY,
     basket_id INT REFERENCES baskets(_id) ON DELETE CASCADE,
-    item_id INT NOT NULL,
+    item_id INT REFERENCES goodies_variations(_id) ON DELETE CASCADE,
     item_type VARCHAR(50) NOT NULL,
     quantity INT NOT NULL
 );

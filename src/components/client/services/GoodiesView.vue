@@ -5,8 +5,8 @@
         <h2>Les Goodies Disponibles</h2>
       </div>
 
-      <div v-if="goodies.length > 0" class="goodie-cards-container">
-        <div class="goodie-card" v-for="goodie in goodies" :key="goodie._id">
+      <div v-if="providerGoodies.length > 0" class="goodie-cards-container">
+        <div class="goodie-card" v-for="goodie in providerGoodies" :key="goodie._id">
           <img :src="goodie.image ? require(`@/assets/img/goodies/${goodie.image}`) : require('@/assets/img/noteam.jpg')" alt="Goodie image" class="goodie-image"/>
           <div class="goodie-info">
             <h3>{{ goodie.name }}</h3>
@@ -35,24 +35,31 @@
 <script>
 import CartSidebar from "@/components/client/services/CartSidebar.vue";
 import SizeSelectorModal from "@/components/client/services/SizeSelectorModal.vue";
-import {mapState, mapMutations, mapActions} from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "GoodiesView",
   components: { CartSidebar, SizeSelectorModal },
   data() {
     return {
+      providerGoodies: [],
       showSizeSelector: false,
       selectedGoodie: null,
       availableSizes: [],
     };
   },
+  props: {
+    providerServiceCategory: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     ...mapState("goodies", ["goodies", "goodieVariations", "goodieSizes"]),
-    ...mapState("account", ["currentUser"]),
   },
   methods: {
     ...mapMutations("basket", ["addItemToBasket", "updateBasketItems"]),
+    ...mapMutations('goodies', ['updateGoodieVariations']),
     ...mapActions("goodies", ["getAllGoodies", "getGoodieVariations", "getGoodieSizes"]),
     ...mapActions("basket", ["createBasket"]),
 
@@ -63,7 +70,7 @@ export default {
           const stock = parseInt(variation.stock, 10);
           let size = this.goodieSizes.find(size => size._id === variation.size_id);
           if (size) {
-            stockBySize[size.size] = (stockBySize[size.size] || 0) + (isNaN(stock) ? 0 : stock);
+            stockBySize[size.size] = stock;
           }
         }
       }
@@ -86,21 +93,7 @@ export default {
 
     async addToBasketWithSize(size) {
       try {
-        if (this.currentUser) {
-          let basket_id = sessionStorage.getItem("basket_id");
-          if (!basket_id) {
-            const response = await this.createBasket(this.currentUser._id);
-            if (response.error === 0) {
-              basket_id = response.data._id;
-              sessionStorage.setItem("basket_id", basket_id);
-            } else {
-              console.error("Error creating basket:", response);
-              throw new Error("Error creating basket");
-            }
-          }
-        }
-        await this.getGoodieVariations(this.selectedGoodie._id);
-        let variation_id = this.goodieVariations.find(variation => variation.size_id === size._id)._id;
+        let variation_id = this.goodieVariations.find(variation => variation.goodie_id === this.selectedGoodie._id && variation.size_id === size._id)._id;
         const item = {
           ...this.selectedGoodie,
           variation_id: variation_id,
@@ -141,9 +134,18 @@ export default {
   async mounted() {
     await this.getAllGoodies();
     await this.getGoodieSizes();
-    for (let goodie of this.goodies) {
-      await this.getGoodieVariations(goodie._id);
+    this.updateGoodieVariations([]);
+
+    if (this.providerServiceCategory && this.goodies) {
+      this.providerGoodies = this.goodies.filter(goodie => goodie.provider_service_categories_id === this.providerServiceCategory._id);
+      for (let goodie of this.providerGoodies) {
+        const variations = await this.getGoodieVariations(goodie._id);
+        this.goodieVariations.push(...variations);
+      }
+    } else {
+      this.providerGoodies = [];
     }
+
     const storedBasketItems = sessionStorage.getItem("basketItems");
     if (storedBasketItems) {
       this.updateBasketItems(JSON.parse(storedBasketItems));
@@ -156,19 +158,32 @@ export default {
 .goodie-page {
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 
 .goodie-list {
-  width: 70%;
-}
-
-.goodie-list {
+  flex: 1;
   max-width: 1000px;
-  margin: 20px auto;
+  margin: 20px;
   padding: 20px;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   border-radius: 8px;
+  z-index: 1;
+}
+
+.cart-sidebar {
+  position: fixed;
+  right: 0;
+  top: 83px;
+  width: 350px;
+  height: calc(100vh - 60px);
+  background: rgba(44, 62, 80, 0.95);
+  color: white;
+  padding: 20px;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  overflow-y: auto;
 }
 
 h2 {

@@ -4,7 +4,8 @@ import DedicationHomeView from "@/components/client/services/DedicationHome.vue"
 import DedicationFormView from "@/components/client/services/DedicationForm.vue";
 import StreamView from "@/components/client/services/StreamView.vue";
 import BracketsDisplay from "@/components/client/services/BracketsDisplay.vue";
-import HotelsView from '@/components/client/services/Hotels.vue';
+import GoodiesView from "@/components/client/services/GoodiesView.vue";
+import GoodiesSellerView from "@/components/client/services/GoodiesSellerView.vue";
 
 export default [
     {
@@ -41,10 +42,17 @@ export default [
                 component: BracketsDisplay,
             },
             {
-              path: 'hotel',
-                name: 'hotel',
-                component: HotelsView,
+                path: "goodies-seller",
+                name: 'goodies-seller',
+                component: GoodiesSellerView,
             },
+            {
+                path: "goodies-view/:providerServiceCategory",
+                name: "goodies-view",
+                component: GoodiesView,
+                props: route => ({ providerServiceCategory: route.params.providerServiceCategory })
+            },
+
         ]
     },
 ];

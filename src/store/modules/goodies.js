@@ -27,6 +27,19 @@ const mutations = {
     },
     updateGoodieVariations(state, variations) {
         state.goodieVariations = variations;
+    },
+    addGoodieVariation(state, variation) {
+        state.goodieVariations.push(variation);
+    },
+    modifyGoodieVariation(state, variation) {
+        let index = state.goodieVariations.findIndex(e => e._id === variation._id);
+        if (index !== -1) {
+            state.goodieVariations[index] = variation;
+        }
+        console.log('state.goodieVariations', state.goodieVariations);
+    },
+    deleteGoodieVariation(state, variationId) {
+        state.goodieVariations = state.goodieVariations.filter(v => v._id !== variationId);
     }
 };
 
@@ -76,7 +89,11 @@ const actions = {
     async getGoodieVariations({ commit }, goodie_id) {
         try {
             let response = await GoodiesService.getGoodieVariations(goodie_id);
-            commit('updateGoodieVariations', response);
+            console.log('response', response);
+            if(response.error === 0) {
+                commit('updateGoodieVariations', response);
+            }
+            return response;
         } catch (error) {
             console.error('Erreur lors de la récupération des variations de goodies:', error);
         }
@@ -84,10 +101,28 @@ const actions = {
     async addGoodieVariation({ commit }, data) {
         try {
             let response = await GoodiesService.addGoodieVariation(data);
-            commit('updateGoodieVariations', response);
+            commit('addGoodieVariation', response);
             return response;
         } catch (error) {
             console.error('Erreur lors de l\'ajout d\'une variation de goodie:', error);
+        }
+    },
+    async modifyGoodieVariation({ commit }, data) {
+        try {
+            let response = await GoodiesService.updateGoodieVariation(data._id, data);
+            console.log('response', response);
+            commit('modifyGoodieVariation', response);
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de la modification de la variation de goodie:', error);
+        }
+    },
+    async deleteGoodieVariation({ commit }, goodieId) {
+        try {
+            await GoodiesService.deleteGoodieVariation(goodieId);
+            commit('deleteGoodieVariation', goodieId);
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la variation de goodie:', error);
         }
     }
 };

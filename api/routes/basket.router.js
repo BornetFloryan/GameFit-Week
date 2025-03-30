@@ -16,16 +16,16 @@ router.get('/', basketController.getAllBaskets);
  *         description: Erreur interne du serveur
  */
 
-router.get('/:customer_id', basketController.getBasketsByCustomer);
+router.get('/:ticket_id', basketController.getBasketsByTicketId);
 /**
  * @swagger
- * /baskets/{customer_id}:
+ * /baskets/{ticket_id}:
  *   get:
  *     summary: Récupérer les paniers d'un client
  *     tags: [Paniers]
  *     parameters:
  *       - in: path
- *         name: customer_id
+ *         name: ticket_id
  *         required: true
  *         schema:
  *           type: integer
@@ -51,7 +51,7 @@ router.post('/', basketController.createBasket);
  *           schema:
  *             type: object
  *             properties:
- *               customer_id:
+ *               ticket_id:
  *                 type: integer
  *     responses:
  *       201:

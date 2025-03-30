@@ -245,6 +245,17 @@ let customer_accounts = [
         "description": "Richard Tyler Blevins, dit Ninja, né le 5 juin 1991 à Detroit, est un joueur professionnel américain de jeux vidéo. Il est spécialisé dans les jeux Fortnite et Halo. Il est considéré comme l'un des meilleurs joueurs de jeux vidéo de tous les temps.",
         "privilege": "1",
         "session": ""
+    },
+    {
+        "_id": "19",
+        "name": "Nike",
+        "login": "nike",
+        "password": "nike",
+        "email": "nike@prestataire.com",
+        "picture": "nike.jpg",
+        "description": "Nike, Inc. est une entreprise multinationale américaine spécialisée dans la conception, la fabrication, la commercialisation et la vente de chaussures, de vêtements, d'équipements et d'accessoires de sport. Fondée en 1964 sous le nom de Blue Ribbon Sports, elle a été rebaptisée Nike en 1971, en référence à la déesse grecque de la victoire.",
+        "privilege": "1",
+        "session": ""
     }
 ];
 
@@ -351,6 +362,12 @@ let provider_requests = [
         "state": "1",
         "customer_id": "2",
     },
+    {
+        "_id": "17",
+        "date": "2025-10-30",
+        "state": "1",
+        "customer_id": "19",
+    },
 ];
 
 let service_categories = [
@@ -362,10 +379,6 @@ let service_categories = [
         "_id": "1",
         "name": "Goodies"
     },
-    {
-        "_id": "2",
-        "name": "Produits alimentaires"
-    }
 ]
 
 let provider_service_categories = [
@@ -475,6 +488,12 @@ let provider_service_categories = [
         "_id": "17",
         "state": "0",
         "customer_id": "2",
+        "service_id": "1",
+    },
+    {
+        "_id": "18",
+        "state": "1",
+        "customer_id": "19",
         "service_id": "1",
     }
 ];
@@ -1055,6 +1074,16 @@ let stands_reservations = [
         "service_id":"0",
         "stand_id": "19",
     },
+    {
+        "_id": "16",
+        "date": "2025-07-08",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
+        "customer_id":"19",
+        "service_id":"1",
+        "stand_id": "20",
+    },
 ];
 
 let pro_teams = [
@@ -1209,7 +1238,11 @@ let provider_guestbook_status = [
     {
         "customer_id": "18", // Ninja
         "guestbook_activated": false
-    }
+    },
+    {
+        "customer_id": "19",
+        "guestbook_activated": false
+    },
 ];
 
 let provider_schedule_status = [
@@ -1280,7 +1313,11 @@ let provider_schedule_status = [
     {
         "customer_id": "18", // Ninja
         "schedule_activated": false
-    }
+    },
+    {
+        "customer_id": "19",
+        "schedule_activated": false
+    },
 ];
 
 let guestbook_entries = [
@@ -1321,18 +1358,36 @@ let reports = [
 ]
 
 let goodies_sizes = [
-    { "_id": "0", "size": "S" },
-    { "_id": "1", "size": "M" },
-    { "_id": "2", "size": "L" },
-    { "_id": "3", "size": "Taille unique" },
+    { "_id": "0", "size": "XS" },
+    { "_id": "1", "size": "S" },
+    { "_id": "2", "size": "M" },
+    { "_id": "3", "size": "L" },
+    { "_id": "4", "size": "XL" },
+    { "_id": "5", "size": "XXL" },
+    { "_id": "6", "size": "Taille unique" },
 ]
 
 let goodies = [
     {
         "_id": "0",
-        "name": 'T-shirt GameFitWeek',
-        "image": "T-shirt GameFitWeek.webp",
+        "name": 'Maillot de France',
+        "image": "maillot_france_nike.jpg",
         "price": "19.99",
+        "provider_service_categories_id": "18",
+    },
+    {
+        "_id": "1",
+        "name": 'Porte clé Nike Premium rouge',
+        "image": "porte-cle-nike-premium-rouge.jpg",
+        "price": "4.99",
+        "provider_service_categories_id": "18",
+    },
+    {
+        "_id": "2",
+        "name": 'Mug Nike',
+        "image": "mug-nike.jpg",
+        "price": "9.99",
+        "provider_service_categories_id": "18",
     },
 ]
 
@@ -1340,6 +1395,8 @@ let goodies_variations = [
     { "_id": "0", "goodie_id": "0", "stock":"10", "size_id": "0" },
     { "_id": "1", "goodie_id": "0", "stock": "5", "size_id": "1" },
     { "_id": "2", "goodie_id": "0", "stock": "3", "size_id": "2" },
+    { "_id": "3", "goodie_id": "1", "stock": "4", "size_id": "6" },
+    { "_id": "4", "goodie_id": "2", "stock": "5", "size_id": "6" },
 ]
 
 let baskets = [
@@ -1348,7 +1405,7 @@ let baskets = [
         "date": "2025-03-18T15:00:00.000Z",
         "state": "0",
         "is_order": false,
-        "customer_id": "0"
+        "ticket_id": "0"
     }
 ];
 
