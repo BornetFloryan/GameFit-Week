@@ -215,7 +215,7 @@ router.post("/register", accountController.addCustomerAccount);
  *                   example: "Erreur du serveur"
  */
 
-router.put("/profil", checkSession, uploadImage('file'), accountController.modifyCustomerAccount);
+router.put("/profil", checkSession, accountController.modifyCustomerAccount);
 /**
  * @swagger
  * /accounts/profil:
@@ -563,6 +563,41 @@ router.get("/:id", accountController.getCustomerById);
  *                 error:
  *                   type: string
  *                   example: "Erreur du serveur"
+ */
+
+router.post('/upload', uploadImage('users'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('Aucun fichier téléchargé.');
+    }
+    res.send({ imageUrl: `/assets/img/goodies/${req.file.filename}` });
+});
+/**
+ * @swagger
+ * /accounts/upload:
+ *   post:
+ *     summary: Télécharger une image de compte
+ *     tags: [Comptes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Image téléchargée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 imageUrl:
+ *                   type: string
+ *                   example: "/assets/img/goodies/image.jpg"
  */
 
 module.exports = router;

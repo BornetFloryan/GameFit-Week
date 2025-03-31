@@ -401,6 +401,10 @@ const getters = {
         if (_id === null || _id === undefined) return null;
         return state.serviceCategories.find((sc) => sc._id === _id);
     },
+    getProviderServiceCategoriesById: (state) => (_id) => {
+        if (_id === null || _id === undefined) return null;
+        return state.providerServiceCategories.find((psc) => psc._id === _id);
+    },
     getProviderServiceCategoriesByCustomerId: (state) => (_id) => {
         if (_id === null || _id === undefined) return null;
         return state.providerServiceCategories.filter((psc) => psc.customer_id === _id);

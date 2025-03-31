@@ -1,6 +1,6 @@
 <template>
   <div class="modify-goodie-container">
-    <GoodieForm v-if="goodie" :goodie="goodie" @submit="handleSubmit" />
+    <GoodieForm v-if="goodie" :goodie="goodie" @submit="handleSubmit" :isEdit="true" />
     <p v-else>Chargement...</p>
   </div>
 </template>
@@ -27,10 +27,9 @@ export default {
       const goodieId = this.$route.params.item_id;
       const goodie = this.getGoodieById(goodieId);
       const variations = await goodiesService.getGoodieVariations(goodieId);
-      this.goodie = {...goodie, variations: variations || []};
+      this.goodie = {...goodie, variations: variations || [], price: goodie.price || 0};
     },
     async handleSubmit({ goodie }) {
-      console.log(goodie);
       try {
         const existingVariations = await goodiesService.getGoodieVariations(goodie._id);
         const updatedVariations = goodie.variations;
@@ -38,7 +37,6 @@ export default {
         for (const variation of updatedVariations) {
           const existingVariation = existingVariations.find(v => v.size_id === variation.size_id);
           if (existingVariation) {
-
             await this.modifyGoodieVariation({
               _id: existingVariation._id,
               goodie_id: goodie._id,
@@ -46,10 +44,6 @@ export default {
               stock: variation.stock,
             });
           } else {
-            console.log(variation)
-            console.log(goodie._id)
-            console.log(variation.size_id)
-            console.log(variation.stock)
             await this.addGoodieVariation({goodie_id: goodie._id, size_id: variation.size_id, stock: variation.stock});
           }
         }

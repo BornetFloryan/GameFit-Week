@@ -43,9 +43,9 @@ export default {
     ...mapActions('home', ['getContentHome']),
     getImageUrl(imageUrl) {
       try {
-        return require(`@/assets/img/${imageUrl}`);
+        return require(`@/assets/img/home/${imageUrl}`);
       } catch (e) {
-        console.error(`Cannot find module '@/assets/img/${imageUrl}'`);
+        console.error(`Cannot find module '@/assets/img/home/${imageUrl}'`);
         return '';
       }
     }

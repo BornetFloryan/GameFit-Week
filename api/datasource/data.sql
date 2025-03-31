@@ -199,7 +199,8 @@ CREATE TABLE IF NOT EXISTS baskets (
     date TIMESTAMP DEFAULT NOW(),
     state INT NOT NULL,
     is_order BOOLEAN DEFAULT FALSE,
-    ticket_id INT REFERENCES tickets(_id) ON DELETE CASCADE
+    ticket_id INT REFERENCES tickets(_id) ON DELETE CASCADE,
+    provider_service_categories_id INT REFERENCES provider_service_categories(_id) ON DELETE CASCADE
 );
 
 

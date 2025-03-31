@@ -137,7 +137,7 @@ async function getGoodieVariationById(id) {
 async function uploadImage(data) {
     try {
         let response = await uploadImageFromApi(data);
-        return response.data;
+        return response;
     } catch (err) {
         return { error: 1, status: 500, data: 'Erreur: Impossible de télécharger l’image' };
     }

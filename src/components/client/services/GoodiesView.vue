@@ -61,7 +61,6 @@ export default {
     ...mapMutations("basket", ["addItemToBasket", "updateBasketItems"]),
     ...mapMutations('goodies', ['updateGoodieVariations']),
     ...mapActions("goodies", ["getAllGoodies", "getGoodieVariations", "getGoodieSizes"]),
-    ...mapActions("basket", ["createBasket"]),
 
     goodieStock(goodie) {
       let stockBySize = {};
@@ -93,10 +92,14 @@ export default {
 
     async addToBasketWithSize(size) {
       try {
-        let variation_id = this.goodieVariations.find(variation => variation.goodie_id === this.selectedGoodie._id && variation.size_id === size._id)._id;
+        let variation = this.goodieVariations.find(variation => variation.goodie_id === this.selectedGoodie._id && variation.size_id === size._id);
+        if (variation.stock <= 0) {
+          alert("Ce produit est en rupture de stock.");
+          return;
+        }
         const item = {
           ...this.selectedGoodie,
-          variation_id: variation_id,
+          variation_id: variation._id,
           size_id: size._id,
           size: size.size,
           quantity: 1,

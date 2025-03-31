@@ -1,21 +1,43 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 
-const storage = multer.diskStorage({
+const createUploadDir = (dir) => {
+    if (!fs.existsSync(dir)) {
+        try {
+            fs.mkdirSync(dir, { recursive: true });
+        } catch (err) {
+            console.error('Erreur lors de la création du dossier :', err);
+        }
+    }
+};
+
+const storage = (uploadDir) => multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../src/assets/goodies'));
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
+        cb(null, file.originalname);
     }
 });
 
-const upload = multer({ storage: storage });
+const uploadImage = (folder) => {
+    const uploadDir = path.join(process.cwd(), `src/assets/img/${folder}`);
+    createUploadDir(uploadDir);
 
-const uploadImage = (uploadPath) => {
+    const upload = multer({ storage: storage(uploadDir) });
+
     return (req, res, next) => {
-        req.uploadPath = uploadPath;
-        upload.single('image')(req, res, next);
+        upload.single('image')(req, res, (err) => {
+            if (err) {
+                console.error('Erreur Multer :', err.message);
+                return res.status(500).json({ error: err.message });
+            }
+            if (!req.file) {
+                return res.status(400).json({ error: "Aucun fichier reçu" });
+            }
+            next();
+        });
     };
 };
 

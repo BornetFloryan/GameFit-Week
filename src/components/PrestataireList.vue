@@ -3,7 +3,7 @@
     <h2>Liste des Prestataires</h2>
     <div class="providers">
       <div v-for="prestataire in prestataires" :key="prestataire._id" class="provider">
-        <img :src="require('@/assets/img/' + prestataire.picture)" alt="Prestataire" class="provider-picture" v-if="prestataire.picture" />
+        <img :src="require('@/assets/img/users/' + prestataire.picture)" alt="Prestataire" class="provider-picture" v-if="prestataire.picture" />
         <div class="provider-details">
           <p><strong>Nom :</strong> {{ prestataire.name }}</p>
           <p><strong>Email :</strong> {{ prestataire.email }}</p>

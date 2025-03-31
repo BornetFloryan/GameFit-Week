@@ -2,12 +2,15 @@ import ProviderDashboard from "@/views/prestataire/ProviderDashboard.vue";
 import ProviderDedicationManagement from "@/components/prestataire/dedications/ProviderDedicationManagement.vue";
 import ProviderAddDedication from "@/components/prestataire/dedications/ProviderAddDedication.vue";
 import ProviderDedicationReservation from "@/components/prestataire/dedications/ProviderDedicationReservation.vue";
-import ProviderGoodieSalesList from "@/components/prestataire/goodies/ProviderGoodieSalesList.vue";
+import ProviderGoodieList from "@/components/prestataire/goodies/ProviderGoodieList.vue";
 import ProviderchartView from "@/components/ProviderChartView.vue";
 import ProviderGuestbook from "@/components/prestataire/ProviderGuestbook.vue";
 import ProviderEditor from "@/components/prestataire/ProviderEditor.vue";
 import ProviderSchedule from "@/components/prestataire/ProviderSchedule.vue";
 import ProviderModifyGoodie from "@/components/prestataire/goodies/ProviderModifyGoodie.vue";
+import ProviderAddGoodie from "@/components/prestataire/goodies/ProviderAddGoodie.vue";
+import ProviderOrderView from "@/components/prestataire/goodies/ProviderOrderView.vue";
+import OrderValidation from "@/components/prestataire/goodies/OrderValidation.vue";
 
 export default [
     {
@@ -49,19 +52,31 @@ export default [
             {
                 path: 'provider-goodies',
                 name: 'provider-goodies',
-                component: ProviderGoodieSalesList,
+                component: ProviderGoodieList,
                 meta: { requiresAuth: true, requiredPrivilege: "1" },
             },
             {
                 path: 'add-goodie',
                 name: 'add-goodie',
-                component: ProviderDedicationManagement,
+                component: ProviderAddGoodie,
                 meta: { requiresAuth: true, requiredPrivilege: "1" },
             },
             {
                 path: 'modify-goodie/:item_id',
                 name: 'modify-goodie',
                 component: ProviderModifyGoodie,
+                meta: { requiresAuth: true, requiredPrivilege: "1" },
+            },
+            {
+                path: 'provider-order-view',
+                name: 'provider-order-view',
+                component: ProviderOrderView,
+                meta: { requiresAuth: true, requiredPrivilege: "1" },
+            },
+            {
+                path: 'order-validation',
+                name: 'order-validation',
+                component: OrderValidation,
                 meta: { requiresAuth: true, requiredPrivilege: "1" },
             },
             {

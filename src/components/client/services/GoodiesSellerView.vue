@@ -43,7 +43,7 @@ export default {
         return {
           _id: category._id,
           name: account ? account.name : 'Unknown',
-          image: account ? require(`@/assets/img/${account.picture}`) : require('@/assets/img/noteam.jpg')
+          image: account ? require(`@/assets/img/users/${account.picture}`) : require('@/assets/img/noteam.jpg')
         };
       });
     }

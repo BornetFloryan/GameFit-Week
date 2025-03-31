@@ -94,4 +94,42 @@ router.put("/", checkSession, uploadImage('file'), contentHomeController.modifyC
  *                   type: string
  *                   example: "Erreur lors de la modification de la page principale"
  */
+
+router.post('/upload', uploadImage('home'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('Aucun fichier téléchargé.');
+    }
+    res.send({ imageUrl: `/assets/img/goodies/${req.file.filename}` });
+});
+/**
+ * @swagger
+ * /content-home/upload:
+ *   post:
+ *     summary: Télécharger une image de contenu
+ *     tags: [Content Home]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Image téléchargée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 imageUrl:
+ *                   type: string
+ *                   example: "/assets/img/goodies/image.jpg"
+ *       400:
+ *         description: Aucun fichier téléchargé
+ */
+
 module.exports = router;

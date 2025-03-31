@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       done: false,
-      ticketId: ""
+      ticketId: "",
     };
   },
   computed: {
@@ -98,16 +98,13 @@ export default {
       }
     },
     removeFromBasket(index) {
-      console.log("Removing item from basket at index:", index);
       const item = this.filteredBasketItems[index];
-      console.log("Removing item from basket:", item);
       this.filteredBasketItems.splice(index, 1);
-      this.basketItems = this.basketItems.filter(basketItem => basketItem._id !== item._id || basketItem.size_id !== item.size_id);
-      this.updateBasketItems([...this.basketItems]);
+      const updatedBasketItems = this.basketItems.filter(basketItem => basketItem._id !== item._id || basketItem.size_id !== item.size_id);
+      this.updateBasketItems(updatedBasketItems);
       this.updateSessionStorage();
     },
     updateSessionStorage() {
-      console.log("Updating session storage with basket items:", this.basketItems);
       sessionStorage.setItem("basketItems", JSON.stringify(this.basketItems));
     },
     async checkout() {
@@ -138,7 +135,7 @@ export default {
         try {
           let basket_id = sessionStorage.getItem("basket_id");
           if (!basket_id) {
-            const response = await this.createBasket({ ticket_id: this.ticketId });
+            const response = await this.createBasket({ ticket_id: this.ticketId, provider_service_categories_id: this.shopId });
             if (response.error === 0) {
               basket_id = response.data._id;
               sessionStorage.setItem("basket_id", basket_id);
@@ -186,33 +183,37 @@ export default {
     await this.getAllBaskets();
     const basket_id = sessionStorage.getItem("basket_id");
 
-    if(this.baskets.includes(basket_id)){
+    if (this.baskets.includes(basket_id)) {
       const itemsInBasket = await this.getItemsByBasket(basket_id);
       if (itemsInBasket.error === 0) {
         this.updateBasketItems(itemsInBasket.data);
       }
     } else {
-      sessionStorage.removeItem("basket_id")
+      sessionStorage.removeItem("basket_id");
       const storedBasketItems = sessionStorage.getItem("basketItems");
       if (storedBasketItems) {
         this.updateBasketItems(JSON.parse(storedBasketItems));
       }
     }
-    for (let item of this.basketItems) {
-      await this.getGoodieVariations(item._id);
-      let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
-      if(variation){
-        let stock = variation.stock;
-        if (item.quantity > stock) {
-          item.quantity = stock;
-          this.updateBasketItems([...this.basketItems]);
-          this.updateSessionStorage();
+
+    if (this.basketItems) {
+      for (let item of this.basketItems) {
+        await this.getGoodieVariations(item._id);
+        let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
+        if (variation) {
+          let stock = variation.stock;
+          if (item.quantity > stock) {
+            item.quantity = stock;
+            this.updateBasketItems([...this.basketItems]);
+            this.updateSessionStorage();
+          }
+        } else {
+          const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
+          if (index !== -1) {
+            this.removeFromBasket(index);
+            alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
+          }
         }
-      } else {
-        console.log('filteredBasketItems', this.filteredBasketItems);
-        const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === variation._id);
-        this.removeFromBasket(index);
-        alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
       }
     }
   }

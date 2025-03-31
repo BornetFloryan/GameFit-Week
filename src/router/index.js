@@ -63,10 +63,15 @@ const router = new VueRouter({
   routes
 });
 
+function redirectToLoginWithRedirectUrl(redirectUrl) {
+  localStorage.setItem('redirectUrl', redirectUrl);
+  router.push({ name: 'login' });
+}
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.state.account.currentUser) {
-      next({ name: 'login' });
+      redirectToLoginWithRedirectUrl(to.fullPath);
     } else if (to.matched.some(record => record.meta.requiredPrivilege)) {
       const userPrivilege = store.state.account.currentUser.privilege;
       const requiredPrivilege = to.meta.requiredPrivilege;
@@ -88,5 +93,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 
 export default router;

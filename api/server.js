@@ -1,4 +1,5 @@
 require('./utils/parser');
+const os = require('os');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -31,7 +32,13 @@ const PORT = 3000;
 app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: 'http://localhost:8080' }));
+
+const corsOptions = {
+    origin: ['http://localhost:8080', `http://${getLocalIp()}:8080`],
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(transformToInt);
 app.use(transformToString);
 
@@ -59,8 +66,29 @@ app.use('/baskets', basketRoutes);
 app.use('/goodies', goodiesRoutes);
 app.use('/content-home', contentHomeRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Serveur démarré sur http://localhost:${PORT}`);
+function getLocalIp() {
+    const interfaces = os.networkInterfaces();
+    for (let iface in interfaces) {
+        for (let alias of interfaces[iface]) {
+            if (alias.family === 'IPv4' && !alias.internal) {
+                return alias.address;
+            }
+        }
+    }
+    return '127.0.0.1';
+}
+
+app.get('/local-ip', (req, res) => {
+    const localIp = getLocalIp();
+    res.json({ localIp });
+});
+
+const LOCAL_IP = getLocalIp();
+
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Serveur démarré sur :`);
+    console.log(`- PC local     : http://localhost:${PORT}`);
+    console.log(`- Réseau local : http://${LOCAL_IP}:${PORT}`);
     pool.connect((err) => {
         if (err) {
             console.error('Erreur de connexion à la base de données :', err);

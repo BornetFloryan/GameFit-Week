@@ -42,10 +42,6 @@ exports.modifyCustomerAccount = async (req, res) => {
     try {
         let customer = req.body;
 
-        if (req.file) {
-            customer.file = req.file;
-        }
-
         let data = await accountService.modifyCustomerAccount(customer);
         return res.status(data.status).json({ data: data });
     } catch (error) {

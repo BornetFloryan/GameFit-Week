@@ -1,15 +1,20 @@
 <template>
   <div class="goodie-form">
-    <h2>Modifier le Goodie</h2>
+    <button class="btn-back" @click="goBack">Retour</button>
+    <h2>{{ isEdit ? 'Modifier le Goodie' : 'Ajouter un Goodie' }}</h2>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="name">Nom du Goodie:</label>
         <input type="text" v-model="localGoodie.name" id="name" required>
       </div>
       <div class="form-group">
+        <label for="price">Prix du Goodie:</label>
+        <input type="number" v-model="localGoodie.price" id="price" required>
+      </div>
+      <div class="form-group">
         <label for="image">Image du Goodie:</label>
-        <input type="file" @change="handleImageUpload" id="image">
-        <img v-if="localGoodie.image" :src="require(`@/assets/img/goodies/${localGoodie.image}`)" alt="Image du Goodie" class="goodie-image">
+        <input type="file" name="image" @change="handleImageUpload" id="image">
+        <img v-if="localGoodie.imagePreview" :src="localGoodie.imagePreview" alt="Image du Goodie" class="goodie-image">
       </div>
       <div v-if="goodieSizes && goodieSizes.length">
         <div v-for="(variation, index) in localGoodie.variations" :key="index" class="variation">
@@ -31,13 +36,13 @@
         </div>
       </div>
       <button type="button" class="btn-add" @click="addVariation" :disabled="isSingleSizeSelected">Ajouter une variation</button>
-      <button type="submit" class="btn-submit">Enregistrer les modifications</button>
+      <button type="submit" class="btn-submit" :disabled="localGoodie.variations.length === 0">{{ isEdit ? 'Enregistrer les modifications' : 'Ajouter le Goodie' }}</button>
     </form>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import goodiesService from "@/services/goodies.service";
 
 export default {
@@ -45,16 +50,31 @@ export default {
   props: {
     goodie: {
       type: Object,
-      required: true
+      default: () => ({
+        name: '',
+        price: 0,
+        image: '',
+        variations: [],
+        provider_service_categories_id: ''
+      })
     },
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
-      localGoodie: JSON.parse(JSON.stringify(this.goodie))
+      localGoodie: {
+        ...JSON.parse(JSON.stringify(this.goodie)),
+        imagePreview: this.goodie.image ? require(`@/assets/img/goodies/${this.goodie.image}`) : null
+      }
     };
   },
   computed: {
     ...mapState('goodies', ['goodieSizes']),
+    ...mapState('account', ['currentUser']),
+    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerIdAndServiceID']),
     isSingleSizeSelected() {
       return this.localGoodie.variations.some(variation => {
         const size = this.goodieSizes.find(size => size._id === variation.size_id);
@@ -75,8 +95,13 @@ export default {
       if (file) {
         this.localGoodie.image = file.name;
         this.localGoodie.imageFile = file;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.localGoodie.imagePreview = e.target.result;
+        };
+        reader.readAsDataURL(file);
       }
-      console.log(this.localGoodie.image);
     },
     addVariation() {
       if (!this.isSingleSizeSelected) {
@@ -96,6 +121,8 @@ export default {
     async handleSubmit() {
       const formData = new FormData();
       formData.append('name', this.localGoodie.name);
+      formData.append('price', this.localGoodie.price);
+      formData.append('provider_service_categories_id', this.localGoodie.provider_service_categories_id);
       if (this.localGoodie.imageFile) {
         formData.append('image', this.localGoodie.imageFile);
       }
@@ -104,13 +131,24 @@ export default {
       try {
         if (this.localGoodie.imageFile) {
           const result = await goodiesService.uploadImage(formData);
-          this.$emit('submit', {goodie: this.localGoodie, imageUrl: result.imageUrl});
+          if (result && result.imageUrl) {
+            if(this.currentUser){
+              this.providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '1')._id;
+              this.localGoodie.provider_service_categories_id = this.providerServiceCategory
+              this.$emit('submit', {goodie: this.localGoodie, imageUrl: result.imageUrl});
+            }
+          } else {
+            console.error('La réponse de l\'API ne contient pas imageUrl');
+          }
         } else {
           this.$emit('submit', {goodie: this.localGoodie});
         }
       } catch (error) {
         console.error('Erreur lors de l\'upload de l\'image:', error);
       }
+    },
+    goBack() {
+      this.$router.push({ name: 'provider-goodies' });
     }
   },
   mounted() {
@@ -217,5 +255,21 @@ button {
 
 .btn-submit:hover {
   background-color: #0056b3;
+}
+
+.btn-back {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  margin-bottom: 1em;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
 }
 </style>

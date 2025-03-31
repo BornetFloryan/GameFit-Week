@@ -10,7 +10,9 @@
     </div>
     <div v-if="serviceStatus === '1'">
       <h2>Liste des ventes de goodies</h2>
-      <button class="add-goodies">Ajouter un Goodies</button>
+      <button class="add-goodies" @click="goToAddGoodie">Ajouter un Goodies</button>
+      <button class="view-orders" @click="viewOrders">Voir les commandes réalisées</button>
+      <button class="view-orders" @click="viewValidation">Récupération d'une commande ?</button>
       <AdminTable
           :title="title"
           :headers="headers"
@@ -30,15 +32,17 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 import AdminTable from "@/components/admin/AdminTable.vue";
+import basketService from "@/services/basket.service";
+import goodiesService from "@/services/goodies.service";
 
 export default {
-  name: "ProviderGoodieSalesList",
+  name: "ProviderGoodieList",
   components: { AdminTable },
   data() {
     return {
       title: "Liste des ventes de goodies",
-      headers: ['Numéro', 'Goodie', 'Image', 'Tailles et Stocks'],
-      fields: ['_id', 'name', 'image', 'sizesAndStocks'],
+      headers: ['Numéro', 'Goodie', 'Image', 'Prix', 'Tailles et Stocks'],
+      fields: ['_id', 'name', 'image', 'price', 'sizesAndStocks'],
       sales: [],
       providerServiceCategory: {},
       serviceStatus: '1',
@@ -47,11 +51,13 @@ export default {
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapState('goodies', ['goodies', 'goodieVariations', 'goodieSizes']),
+    ...mapState('basket', ['baskets']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerIdAndServiceID']),
   },
   methods: {
     ...mapActions('prestation', ['updateProviderServiceCategoryState']),
     ...mapActions('goodies', ['getAllGoodies', 'getGoodieVariations', 'getGoodieSizes', 'deleteGoodie']),
+    ...mapActions('basket', ['getAllBaskets']),
 
     async toggleServiceStatus() {
       try {
@@ -78,23 +84,64 @@ export default {
           _id: goodie._id,
           name: goodie.name,
           image: require(`@/assets/img/goodies/${goodie.image}`),
+          price: goodie.price,
           sizesAndStocks: sizesAndStocks,
         });
       }
     },
-    handleDelete(itemId) {
+    async isGoodieInOrderedBasket(goodie_id) {
+      if (this.baskets) {
+        for (let basket of this.baskets) {
+          if (basket.is_order === true) {
+            let response = await basketService.getItemsByBasket(basket._id);
+            if (response.error === 0) {
+              let basketItems = response.data;
+              for (let item of basketItems) {
+                const variation = await goodiesService.getGoodieVariationById(item.item_id);
+                if (variation && variation.goodie_id === goodie_id) {
+                  return true;
+                }
+              }
+            }
+          }
+        }
+      }
+      return false;
+    },
+    async handleDelete(itemId) {
+      const isInOrderedBasket = await this.isGoodieInOrderedBasket(itemId);
+      if (isInOrderedBasket) {
+        alert('Ce goodie ne peut pas être supprimé car il est dans un panier avec une commande.');
+        return;
+      }
+
       if (confirm('Êtes-vous sûr de vouloir supprimer ce goodie ?')) {
         try {
-          this.deleteGoodie(itemId);
+          await this.deleteGoodie(itemId);
           this.sales = this.sales.filter(item => item._id !== itemId);
           alert('Goodie supprimé avec succès');
         } catch (e) {
           alert('Erreur lors de la suppression du goodie');
         }
       }
-    }
+    },
+    async viewOrders() {
+      const providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '1');
+      if (providerServiceCategory) {
+        this.$router.push({ name: 'provider-order-view'});
+      } else {
+        alert('Aucune catégorie de service trouvée pour cet utilisateur.');
+      }
+    },
+    goToAddGoodie() {
+      this.$router.push({ name: 'add-goodie' });
+    },
+    viewValidation() {
+      this.$router.push({ name: 'order-validation' });
+    },
   },
   async mounted() {
+    await this.getAllBaskets();
     this.providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '1');
     this.serviceStatus = this.providerServiceCategory.state;
     if (this.serviceStatus === '1') {
@@ -126,7 +173,7 @@ th {
   text-align: left;
 }
 
-button.add-goodies {
+button.add-goodies, button.view-orders {
   background-color: #007bff;
   color: white;
   padding: 10px 20px;

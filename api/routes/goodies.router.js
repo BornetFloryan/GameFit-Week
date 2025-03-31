@@ -263,7 +263,7 @@ router.post('/upload', uploadImage('goodies'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('Aucun fichier téléchargé.');
     }
-    res.send({ imageUrl: `/assets/goodies/${req.file.filename}` });
+    res.send({ imageUrl: `/assets/img/goodies/${req.file.filename}` });
 });
 
 /**

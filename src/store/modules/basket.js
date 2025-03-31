@@ -140,9 +140,20 @@ const actions = {
     },
 };
 
+const getters = {
+    getBasketById: (state) => (basket_id) => {
+        return state.baskets.find(basket => basket._id === basket_id);
+    },
+    getBasketsByProviderServiceCategoriesId: (state) => (provider_service_categories_id) => {
+        return state.baskets.filter(basket => basket.provider_service_categories_id === provider_service_categories_id);
+    }
+}
+
+
 export default {
     namespaced: true,
     state,
     mutations,
     actions,
+    getters
 };

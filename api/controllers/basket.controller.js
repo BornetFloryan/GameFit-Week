@@ -23,8 +23,8 @@ exports.getBasketsByTicketId = async (req, res) => {
 
 exports.createBasket = async (req, res) => {
     try {
-        let { ticket_id } = req.body;
-        let data = await basketService.createBasket(ticket_id);
+        let { ticket_id, provider_service_categories_id } = req.body;
+        let data = await basketService.createBasket(ticket_id, provider_service_categories_id);
         return res.status(data.status).json({ data: data });
     } catch (error) {
         console.error(error);

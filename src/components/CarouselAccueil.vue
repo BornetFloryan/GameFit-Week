@@ -42,21 +42,21 @@ export default {
     await this.getContentHome();
     this.slides = [
       {
-        imageSrc: require('@/assets/img/slide1.jpg'),
+        imageSrc: require('@/assets/img/home/slide1.jpg'),
         title: 'Réservation de Dédicaces',
         text: 'Rencontrez vos idoles de l’esport et du sport en personne ! ' +
             '\nRéservez une séance de dédicaces privée et repartez avec un souvenir personnalisé.',
         link: '/services/dedication/dedication-home',
       },
       {
-        imageSrc: require('@/assets/img/slide2.jpg'),
+        imageSrc: require('@/assets/img/home/slide2.jpg'),
         title: 'Diffusion en direct',
         text: 'Suivez GameFit Week en temps réel avec nos streams en haute définition. ' +
             '\nNe manquez aucune compétition, interview ou moment clé, où que vous soyez.',
         link: '/services/stream',
       },
       {
-        imageSrc: require('@/assets/img/slide3.jpg'),
+        imageSrc: require('@/assets/img/home/slide3.jpg'),
         title: 'Les Tournois',
         text: "Assistez aux matchs palpitants entre équipes sportives ou esportives lors de GameFit Week. " +
             "\nSuivez l'intensité de la compétition et soutenez vos équipes favorites dans des affrontements spectaculaires.",

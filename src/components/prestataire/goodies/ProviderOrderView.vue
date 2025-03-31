@@ -1,11 +1,11 @@
 <template>
   <div class="order-view">
     <div v-if="currentUser">
-      <table v-if="userOrders.length > 0">
+      <button @click="goBack">Retour</button>
+      <table v-if="providerOrders.length > 0">
         <thead>
         <tr>
           <th>Numéro de commande</th>
-          <th>Boutique</th>
           <th>Date</th>
           <th>Numéro de ticket</th>
           <th>État</th>
@@ -13,19 +13,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="order in userOrders" :key="order._id">
+        <tr v-for="order in providerOrders" :key="order._id">
           <td>{{ order._id }}</td>
-          <td>{{ order.customerName }}</td>
           <td>{{ formatDate(order.date) }}</td>
           <td>{{ order.ticket_id }}</td>
           <td>{{ orderState(order.state) }}</td>
           <td>
             <button @click="toggleOrderDetails(order._id)">Voir le détail</button>
-            <button v-if="order.state === '1'" @click="showQRCode(order._id)">Afficher QR Code</button>
+            <button v-if="order.state === '0'" @click="markOrderAsProcessed(order._id)">Commande traitée</button>
           </td>
-          <div v-if="order.showQRCode">
-            <qrcode-vue :value="generateQRCodeUrl(order._id)" :size="200" level="H" render-as="canvas" />
-          </div>
         </tr>
         <tr v-for="order in visibleOrders" :key="order._id + '-details'">
           <td colspan="5">
@@ -51,18 +47,12 @@
 import { mapActions, mapGetters, mapState } from 'vuex';
 import basketService from "@/services/basket.service";
 import goodiesService from "@/services/goodies.service";
-import QrcodeVue from "qrcode.vue";
-import {getLocalIp} from "@/services/axios.service";
 
 export default {
-  name: 'OrderView',
-  components: {
-    QrcodeVue,
-  },
+  name: 'ProviderOrderView',
   data() {
     return {
-      userOrders: [],
-      localIp: ''
+      providerOrders: [],
     };
   },
   computed: {
@@ -71,25 +61,27 @@ export default {
     ...mapState('goodies', ['goodieSizes', 'goodies']),
     ...mapGetters('ticket', ['getTicketsByCustomerId']),
     ...mapGetters('account', ['getCustomerById']),
-    ...mapGetters('prestation', ['getProviderServiceCategoriesById']),
+    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerIdAndServiceID']),
+    ...mapGetters('basket', ['getBasketsByProviderServiceCategoriesId']),
     visibleOrders() {
-      return this.userOrders.filter(order => order.visible);
+      return this.providerOrders.filter(order => order.visible);
     }
   },
   methods: {
     ...mapActions('ticket', ['getTickets']),
     ...mapActions('goodies', ['getGoodieVariations', 'getGoodieSizes', 'getAllGoodies']),
     ...mapActions('prestation', ['getProviderServiceCategories']),
+    ...mapActions('basket', ['getAllBaskets', 'updateBasketState']),
 
-    async fetchUserOrders() {
+    async fetchProviderOrders() {
       if (this.currentUser) {
-        let ticketIds = this.getTicketsByCustomerId(this.currentUser._id).map(ticket => ticket._id);
-        try {
-          for (let ticket_id of ticketIds) {
-            ticket_id = ticket_id.toString();
-            const response = await basketService.getBasketsByTicketId({ ticket_id });
-            if (response.error === 0) {
-              for (let order of response.data) {
+        let providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, "1");
+        if (providerServiceCategory) {
+          let categoryId = providerServiceCategory._id;
+          try {
+            const response = await this.getBasketsByProviderServiceCategoriesId(categoryId);
+            if (response) {
+              for (let order of response) {
                 if (order.is_order) {
                   const itemsResponse = await basketService.getItemsByBasket(order._id);
 
@@ -109,26 +101,16 @@ export default {
                   } else {
                     order.items = [];
                   }
-
-                  const providerServiceCategory = this.getProviderServiceCategoriesById(order.provider_service_categories_id);
-                  if (providerServiceCategory) {
-                    const customer = await this.getCustomerById(providerServiceCategory.customer_id);
-                    order.customerName = customer ? customer.name : 'Inconnu';
-                  } else {
-                    order.customerName = 'Inconnu';
-                  }
-
-                  order.visible = false;
-                  order.showQRCode = false;
-                  this.userOrders.push(order);
+                  this.$set(order, 'visible', false);
+                  this.providerOrders.push(order);
                 }
               }
             } else {
               console.error('Erreur lors de la récupération des commandes :', response.data);
             }
+          } catch (error) {
+            console.error('Erreur lors de la récupération des commandes :', error);
           }
-        } catch (error) {
-          console.error('Erreur lors de la récupération des commandes :', error);
         }
       }
     },
@@ -142,39 +124,41 @@ export default {
       return 'Inconnu';
     },
     toggleOrderDetails(orderId) {
-      const order = this.userOrders.find(order => order._id === orderId);
+      const order = this.providerOrders.find(order => order._id === orderId);
       if (order) {
-        order.visible = !order.visible;
+        this.$set(order, 'visible', !order.visible);
       }
     },
-    showQRCode(orderId) {
-      const order = this.userOrders.find(order => order._id === orderId);
+    async markOrderAsProcessed(orderId) {
+      const order = this.providerOrders.find(order => order._id === orderId);
       if (order) {
-        order.showQRCode = !order.showQRCode;
+        const confirmation = confirm('Êtes-vous sûr de vouloir marquer cette commande comme traitée ?');
+        if (confirmation) {
+          try {
+            order.state = '1';
+            await this.updateBasketState({ basket_id: orderId, data: { state: '1', is_order: true } });
+            alert('Commande marquée comme traitée');
+          } catch (error) {
+            console.error('Erreur lors de la mise à jour de l\'état de la commande :', error);
+            alert('Erreur lors de la mise à jour de l\'état de la commande');
+          }
+        }
       }
-    },
-    generateQRCodeUrl(orderId) {
-      return `http://${this.localIp}:8080/provider-dashboard/order-validation?basket_id=${orderId}`;
     },
     calculateTotal(items) {
       return items.reduce((total, item) => total + item.price * item.quantity, 0);
     },
-    async fetchLocalIp() {
-      try {
-        const response = await getLocalIp();
-        this.localIp = response.localIp;
-      } catch (error) {
-        console.error('Erreur lors de la récupération de l\'IP locale :', error);
-      }
+    goBack() {
+      this.$router.go(-1);
     }
   },
   async mounted() {
+    await this.getAllBaskets();
     await this.getTickets();
     await this.getAllGoodies();
     await this.getGoodieSizes();
     await this.getProviderServiceCategories();
-    await this.fetchLocalIp();
-    this.fetchUserOrders();
+    this.fetchProviderOrders();
   },
 };
 </script>

@@ -1084,6 +1084,46 @@ let stands_reservations = [
         "service_id":"1",
         "stand_id": "20",
     },
+    {
+        "_id": "17",
+        "date": "2025-07-09",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
+        "customer_id":"19",
+        "service_id":"1",
+        "stand_id": "20",
+    },
+    {
+        "_id": "18",
+        "date": "2025-07-10",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
+        "customer_id":"19",
+        "service_id":"1",
+        "stand_id": "20",
+    },
+    {
+        "_id": "19",
+        "date": "2025-07-11",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
+        "customer_id":"19",
+        "service_id":"1",
+        "stand_id": "20",
+    },
+    {
+        "_id": "20",
+        "date": "2025-07-12",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
+        "customer_id":"19",
+        "service_id":"1",
+        "stand_id": "20",
+    },
 ];
 
 let pro_teams = [
@@ -1404,8 +1444,9 @@ let baskets = [
         "_id": "0",
         "date": "2025-03-18T15:00:00.000Z",
         "state": "0",
-        "is_order": false,
-        "ticket_id": "0"
+        "is_order": true,
+        "ticket_id": "0",
+        "provider_service_categories_id": "18",
     }
 ];
 

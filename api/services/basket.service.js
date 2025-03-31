@@ -26,12 +26,12 @@ async function getBasketsByTicketId(ticket_id) {
     }
 }
 
-async function createBasket(ticket_id) {
+async function createBasket(ticket_id, provider_service_categories_id) {
     const client = await pool.connect();
     try {
         const res = await client.query(
-            'INSERT INTO baskets (date, state, is_order, ticket_id) VALUES (NOW(), 0, FALSE, $1) RETURNING *',
-            [ticket_id]
+            'INSERT INTO baskets (date, state, is_order, ticket_id, provider_service_categories_id) VALUES (NOW(), 0, FALSE, $1, $2) RETURNING *',
+            [ticket_id, provider_service_categories_id]
         );
         return { error: 0, status: 201, data: res.rows[0] };
     } finally {

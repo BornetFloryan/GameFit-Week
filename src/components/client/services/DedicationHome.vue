@@ -1,7 +1,7 @@
 <template>
   <div class="cover-page">
     <div class="hero">
-      <img class="hero-image" src="@/assets/img/Bugha.jpg" alt="Image Hero" />
+      <img class="hero-image" src="../../../assets/img/users/Bugha.jpg" alt="Image Hero" />
       <div class="hero-content">
         <h1>Bienvenue dans le système de dédicace</h1>
         <p>Réservez un créneau pour rencontrer votre animateur préféré et obtenir une dédicace personnalisée !</p>

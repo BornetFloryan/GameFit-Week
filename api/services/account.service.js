@@ -90,24 +90,9 @@ async function modifyCustomerAccount(customer) {
             return { error: 1, status: 400, data: 'ID client requis' };
         }
 
-        let pictureFileName = customer.picture;
-
-        if (customer.file) {
-            const uploadDir = path.join(__dirname, '../src/assets/img');
-
-            if (!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir, { recursive: true });
-            }
-
-            pictureFileName = `${Date.now()}_${customer.file.originalname}`;
-            const filePath = path.join(uploadDir, pictureFileName);
-
-            await fs.promises.writeFile(filePath, customer.file.buffer);
-        }
-
         const res = await client.query(
             'UPDATE customer_accounts SET name = $1, email = $2, password = $3, login = $4, picture = $5, description = $6, privilege = $7, session = $8 WHERE _id = $9 RETURNING *',
-            [customer.name, customer.email, customer.password || null, customer.login, pictureFileName, customer.description, customer.privilege, customer.session, customer._id]
+            [customer.name, customer.email, customer.password || null, customer.login, customer.picture, customer.description, customer.privilege, customer.session, customer._id]
         );
         if (res.rowCount === 0) {
             return { error: 1, status: 404, data: 'Utilisateur non trouvé' };

@@ -65,15 +65,22 @@ export default {
 
         if (response.error === 0) {
           const loggedUser = response.data;
-          switch (loggedUser.privilege) {
-            case "2":
-              await this.$router.push({ path: "/admin-dashboard" });
-              break;
-            case "1":
-              await this.$router.push({ path: "/provider-dashboard" });
-              break;
-            default:
-              await this.$router.push({ name: "home" });
+          const redirectUrl = localStorage.getItem('redirectUrl');
+          localStorage.removeItem('redirectUrl');
+
+          if (redirectUrl) {
+            await this.$router.push(redirectUrl);
+          } else {
+            switch (loggedUser.privilege) {
+              case "2":
+                await this.$router.push({ path: "/admin-dashboard" });
+                break;
+              case "1":
+                await this.$router.push({ path: "/provider-dashboard" });
+                break;
+              default:
+                await this.$router.push({ name: "home" });
+            }
           }
         } else {
           alert(response.data);
