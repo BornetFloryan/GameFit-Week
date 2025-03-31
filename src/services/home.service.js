@@ -1,4 +1,4 @@
-import {getRequest, putRequest} from "@/services/axios.service";
+import {getRequest, postRequest, putRequest} from "@/services/axios.service";
 
 
 async function getContentHomeFromApi(){
@@ -7,6 +7,10 @@ async function getContentHomeFromApi(){
 
 async function modifyContentHomeFromApi(data){
     return putRequest('content-home?session=' + data.session, data, 'ModifyContentHome');
+}
+
+async function uploadImageFromApi(data) {
+    return postRequest('content-home/upload', data, 'UploadImage');
 }
 
 async function getContentHome() {
@@ -37,7 +41,17 @@ async function modifyContentHome(data) {
     return response
 }
 
+async function uploadImage(data) {
+    try {
+        let response = await uploadImageFromApi(data);
+        return response;
+    } catch (err) {
+        return { error: 1, status: 500, data: 'Erreur: Impossible de télécharger l’image' };
+    }
+}
+
 export default {
     getContentHome,
     modifyContentHome,
+    uploadImage
 }

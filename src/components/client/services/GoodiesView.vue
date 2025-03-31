@@ -56,6 +56,7 @@ export default {
   },
   computed: {
     ...mapState("goodies", ["goodies", "goodieVariations", "goodieSizes"]),
+    ...mapState("basket", ["basketItems"]),
   },
   methods: {
     ...mapMutations("basket", ["addItemToBasket", "updateBasketItems"]),
@@ -97,15 +98,27 @@ export default {
           alert("Ce produit est en rupture de stock.");
           return;
         }
-        const item = {
-          ...this.selectedGoodie,
-          variation_id: variation._id,
-          size_id: size._id,
-          size: size.size,
-          quantity: 1,
-          shopId: this.providerServiceCategory._id
-        };
-        this.addItemToBasket(item);
+
+        if(this.basketItems.quantity === variation.stock){
+          alert("Vous ne pouvez pas ajouter plus de produits que le stock disponible.");
+          return;
+        }
+
+        const existingItem = this.basketItems.find(item => item.variation_id === variation._id);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          const item = {
+            ...this.selectedGoodie,
+            variation_id: variation._id,
+            size_id: size._id,
+            size: size.size,
+            quantity: 1,
+            shopId: this.providerServiceCategory._id
+          };
+          this.$store.state.basket.basketItems.push(item);
+        }
+        this.updateBasketItems([...this.$store.state.basket.basketItems]);
         this.updateSessionStorage();
         this.showSizeSelector = false;
       } catch (error) {
@@ -122,7 +135,9 @@ export default {
       immediate: true,
       handler(newGoodies) {
         newGoodies.forEach(goodie => {
-          this.getGoodieVariations(goodie._id);
+          if(goodie){
+            this.getGoodieVariations(goodie._id);
+          }
         });
       }
     },
@@ -142,9 +157,13 @@ export default {
 
     if (this.providerServiceCategory && this.goodies) {
       this.providerGoodies = this.goodies.filter(goodie => goodie.provider_service_categories_id === this.providerServiceCategory._id);
-      for (let goodie of this.providerGoodies) {
-        const variations = await this.getGoodieVariations(goodie._id);
-        this.goodieVariations.push(...variations);
+      if(this.providerGoodies){
+        for (let goodie of this.providerGoodies) {
+          if(goodie){
+            const variations = await this.getGoodieVariations(goodie._id);
+            this.goodieVariations.push(...variations);
+          }
+        }
       }
     } else {
       this.providerGoodies = [];

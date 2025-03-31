@@ -16,11 +16,12 @@
 
 <script>
 import AdminForm from "@/components/admin/AdminForm.vue";
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
+import accountService from "@/services/account.service";
 
 export default {
   name: "AdminModifyAccount",
-  components: {AdminForm},
+  components: { AdminForm },
   data() {
     return {
       id: "",
@@ -36,6 +37,8 @@ export default {
         session: "",
       },
       formFields: [],
+      imagePreview: null,
+      imageFile: null,
     };
   },
   computed: {
@@ -45,18 +48,18 @@ export default {
     ...mapGetters("prestation", ["getProviderServiceCategoriesByCustomerId"]),
     computedFormFields() {
       const fields = [
-        {id: "name", label: "Nom", type: "text", model: "name", props: {required: true}},
-        {id: "login", label: "Login", type: "text", model: "login", props: {required: true}},
-        {id: "password", label: "Mot de passe", type: "password", model: "password", props: {required: true}},
-        {id: "email", label: "Email", type: "email", model: "email", props: {required: true}},
-        {id: "picture", label: "Image", type: "text", model: "picture", props: {required: false}},
-        {id: "description", label: "Description", type: "textarea", model: "description", props: {required: false}},
+        { id: "name", label: "Nom", type: "text", model: "name", props: { required: true } },
+        { id: "login", label: "Login", type: "text", model: "login", props: { required: true } },
+        { id: "password", label: "Mot de passe", type: "password", model: "password", props: { required: true } },
+        { id: "email", label: "Email", type: "email", model: "email", props: { required: true } },
+        { id: "picture", label: "Image", type: "img", model: "picture", props: { required: false } },
+        { id: "description", label: "Description", type: "textarea", model: "description", props: { required: false } },
         {
           id: "privilege", label: "Privilège", type: "select", model: "privilege", options: [
-            {value: "0", text: "Client"},
-            {value: "1", text: "Prestataire"},
-            {value: "2", text: "Admin"},
-          ], props: {required: true}
+            { value: "0", text: "Client" },
+            { value: "1", text: "Prestataire" },
+            { value: "2", text: "Admin" },
+          ], props: { required: true }
         },
       ];
 
@@ -67,7 +70,7 @@ export default {
           type: "checkbox",
           model: "services",
           options: this.serviceOptions,
-          props: {required: true}
+          props: { required: true }
         });
       }
 
@@ -97,6 +100,15 @@ export default {
         session: data.session,
       };
 
+      if (data.imageFile) {
+        const formData = new FormData();
+        formData.append('image', data.imageFile);
+        const result = await accountService.uploadImage(formData);
+        if (result && result.imageUrl) {
+          updatedAccount.picture = data.imageName;
+        }
+      }
+
       let currentServices = this.getProviderServiceCategoriesByCustomerId(this.id).map(service => service._id);
 
       let servicesToRemove = currentServices.filter(service => !data.services.includes(service));
@@ -122,7 +134,7 @@ export default {
         for (const service of servicesToAdd) {
           try {
             let response = await this.addProviderServiceCategory({
-              user: {email: this.formData.email},
+              user: { email: this.formData.email },
               serviceCategory: service
             });
             if (response.error !== 0) {
@@ -139,8 +151,8 @@ export default {
       await this.$router.push("/admin-dashboard/admin-accounts");
     },
 
-    goBack() {
-      this.$router.go(-1);
+    async goBack() {
+      await this.$router.push("/admin-dashboard/admin-accounts");
     },
 
     async initializeFormFields() {
@@ -163,7 +175,7 @@ export default {
       const account = this.getCustomerById(this.$route.params.item_id);
       if (account) {
         this.id = account._id;
-        this.formData = {...account, services: account.services || []};
+        this.formData = { ...account, services: account.services || [] };
         this.savedServices = this.formData.services;
       }
     }
@@ -177,5 +189,11 @@ export default {
   margin-top: 20px;
   color: #666;
   line-height: 1.6;
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1em;
 }
 </style>

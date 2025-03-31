@@ -157,7 +157,7 @@ export default {
       return `http://${this.localIp}:8080/provider-dashboard/order-validation?basket_id=${orderId}`;
     },
     calculateTotal(items) {
-      return items.reduce((total, item) => total + item.price * item.quantity, 0);
+      return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     },
     async fetchLocalIp() {
       try {

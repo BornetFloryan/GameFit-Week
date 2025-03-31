@@ -2,7 +2,7 @@
   <div class="prestataire-page">
     <div class="header">
       <div class="image-container">
-        <img v-if="prestataire && prestataire.picture" :src="require('@/assets/img/' + prestataire.picture)" alt="Prestataire" class="provider-image" />
+        <img v-if="prestataire && prestataire.picture" :src="require('@/assets/img/users/' + prestataire.picture)" alt="Prestataire" class="provider-image" />
       </div>
       <div class="header-text">
         <h1 class="provider-name">{{ prestataire?.name }}</h1>

@@ -81,7 +81,7 @@ export default {
       }
     },
     calculateTotal(items) {
-      return items.reduce((total, item) => total + item.price * item.quantity, 0);
+      return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     },
     goBack() {
       this.$router.push({ name: 'provider-order-view' });

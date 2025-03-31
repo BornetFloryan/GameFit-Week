@@ -17,6 +17,7 @@
 <script>
 import AdminForm from "@/components/admin/AdminForm.vue";
 import { mapActions, mapState } from "vuex";
+import accountService from "@/services/account.service";
 
 export default {
   name: "AdminAddAccount",
@@ -36,6 +37,8 @@ export default {
       },
       formFields: [],
       savedServices: [],
+      imagePreview: null,
+      imageFile: null,
     };
   },
   computed: {
@@ -46,7 +49,7 @@ export default {
         { id: "login", label: "Login", type: "text", model: "login", props: { required: true } },
         { id: "password", label: "Mot de passe", type: "password", model: "password", props: { required: true } },
         { id: "email", label: "Email", type: "email", model: "email", props: { required: true } },
-        { id: "picture", label: "Image", type: "text", model: "picture", props: { required: false } },
+        { id: "picture", label: "Image", type: "img", model: "picture", props: { required: false } },
         { id: "description", label: "Description", type: "textarea", model: "description", props: { required: false } },
         {
           id: "privilege", label: "Privilège", type: "select", model: "privilege", options: [
@@ -94,6 +97,15 @@ export default {
         session: data.session,
       };
 
+      if (data.imageFile) {
+        const formData = new FormData();
+        formData.append('image', data.imageFile);
+        const result = await accountService.uploadImage(formData);
+        if (result && result.imageUrl) {
+          newAccount.picture = data.imageName;
+        }
+      }
+
       await this.addCustomerAccount(newAccount);
 
       if (data.privilege === "1" && data.services.length > 0) {
@@ -116,8 +128,8 @@ export default {
       await this.$router.push("/admin-dashboard/admin-accounts");
     },
 
-    goBack() {
-      this.$router.go(-1);
+    async goBack() {
+      await this.$router.push("/admin-dashboard/admin-accounts");
     },
 
     async initializeFormFields() {

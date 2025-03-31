@@ -9,7 +9,7 @@
       </div>
       <div class="form-group">
         <label for="price">Prix du Goodie:</label>
-        <input type="number" v-model="localGoodie.price" id="price" required>
+        <input type="number" v-model="localGoodie.price" id="price" step="0.01" required>
       </div>
       <div class="form-group">
         <label for="image">Image du Goodie:</label>

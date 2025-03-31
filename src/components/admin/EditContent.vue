@@ -64,6 +64,8 @@ export default {
     onFileChange(event, index) {
       const file = event.target.files[0];
       if (file) {
+        this.imageFile = file;
+        this.imageName = file.name;
         const reader = new FileReader();
         reader.onload = (e) => {
           this.content.cards[index].image_url = e.target.result;

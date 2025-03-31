@@ -41,7 +41,7 @@ export default {
     this.prestataires = this.providerRequests
         .filter(request => request.state === "1")
         .map(request => this.getCustomerById(request.customer_id));
-  }
+  },
 };
 </script>
 

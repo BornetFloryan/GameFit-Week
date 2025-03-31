@@ -87,14 +87,15 @@ export default {
   flex-direction: column;
   background: var(--background-gradient);
   color: var(--text-color);
-  width: 220px;
+  width: 250px;
   min-height: 100vh;
   padding: 1rem;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-  position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .header {

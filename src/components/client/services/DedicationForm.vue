@@ -347,7 +347,7 @@ export default {
     this.cards = this.animators.map((animator) => {
       let imageSrc;
       try {
-        imageSrc = require(`@/assets/img/${animator.name}.jpg`);
+        imageSrc = require(`@/assets/img/users/${animator.name}.jpg`);
       } catch (e) {
         imageSrc = null;
       }

@@ -31,8 +31,8 @@ async function addCustomerAccount(customer) {
         const hashedPassword = await bcrypt.hash(customer.password, 10);
 
         const res = await client.query(
-            'INSERT INTO customer_accounts (_id, name, login, password, email, privilege, session) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            [customer._id, customer.name, customer.login, hashedPassword, customer.email, customer.privilege || 0, customer.session]
+            'INSERT INTO customer_accounts (_id, name, login, password, email, picture, description, privilege, session) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+            [customer._id, customer.name, customer.login, hashedPassword, customer.email, customer.picture, customer.description, customer.privilege || 0, customer.session]
         );
         return { error: 0, status: 200, data: res.rows[0] };
     } catch (error) {

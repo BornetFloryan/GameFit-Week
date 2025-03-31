@@ -23,6 +23,11 @@
             </select>
           </div>
 
+          <div v-else-if="field.type === 'img' && field.model === 'picture'">
+            <input type="file" id="imageUpload" @change="handleImageUpload" />
+            <img v-if="imagePreview || formData[field.model]" :src="imagePreview || require(`@/assets/img/users/${formData[field.model]}`)" alt="Aperçu de l'image" class="image-preview" />
+          </div>
+
           <div v-else-if="field.type === 'textarea' && field.model === 'description'">
             <VueEditor
                 v-model="formData[field.model]"
@@ -109,6 +114,9 @@ export default {
     return {
       formData: {...this.initialFormData},
       savedServices: [],
+      imagePreview: null,
+      imageFile: null,
+      imageName: null,
     };
   },
   computed: {
@@ -131,7 +139,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.$emit("submit", this.formData);
+      this.$emit("submit", { ...this.formData, imageFile: this.imageFile, imageName: this.imageName });
     },
     goBack() {
       this.$emit("back");
@@ -172,6 +180,19 @@ export default {
         this.formData[model].splice(index, 1);
       } else {
         this.formData[model].push(value);
+      }
+    },
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.imageFile = file;
+        this.imageName = file.name;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imagePreview = e.target.result;
+        };
+        reader.readAsDataURL(file);
       }
     },
   },
@@ -301,5 +322,11 @@ input[type="time"]:disabled {
 
 .checkbox-group input {
   margin-right: 0.5em;
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1em;
 }
 </style>

@@ -90,6 +90,10 @@ async function getProviderSportsCategoriesFromApi(){
     return getRequest('sports-categories', 'GetProviderSportsCategories')
 }
 
+async function uploadImageFromApi(data) {
+    return postRequest('accounts/upload', data, 'UploadImage');
+}
+
 
 async function loginUser(data) {
     let response = null;
@@ -248,6 +252,15 @@ async function getProviderSportsCategories(){
     return response.data
 }
 
+async function uploadImage(data) {
+    try {
+        let response = await uploadImageFromApi(data);
+        return response;
+    } catch (err) {
+        return { error: 1, status: 500, data: 'Erreur: Impossible de télécharger l’image' };
+    }
+}
+
 
 
 export default {
@@ -262,5 +275,6 @@ export default {
     deleteProviderRequest,
     getSportsCategories,
     getProviderSportsCategories,
+    uploadImage,
 
 }

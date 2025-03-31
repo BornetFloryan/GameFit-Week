@@ -21,7 +21,6 @@ export default {
     setServerIP(ip) {
       this.serverIP = ip;
       localStorage.setItem('serverIP', ip);
-      console.log('Nouvelle IP du serveur:', ip);
     },
     showServerIpPrompt() {
       this.$refs.serverIpPrompt.showPrompt();
