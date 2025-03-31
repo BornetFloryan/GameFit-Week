@@ -20,7 +20,7 @@
         <VueEditor v-if="content" v-model="card.description" :id="'cardDescription' + index"/>
         <label :for="'cardImage' + index">Image carte:</label>
         <input type="file" :id="'cardImage' + index" @change="onFileChange($event, index)" />
-        <img :src="getImageUrl(card.image_url)" v-if="card.image_url" :alt="card.title" class="preview-image" />
+        <img :src="imagePreviews[index] || getImageUrl(card.image_url)" v-if="imagePreviews[index] || card.image_url" :alt="card.title" class="preview-image" />
       </div>
       <button type="submit" class="btn">Appliquer les changements</button>
     </form>
@@ -30,11 +30,18 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { VueEditor } from 'vue2-editor';
+import homeService from "@/services/home.service";
 
 export default {
   name: 'EditContent',
   components: {
     VueEditor
+  },
+  data(){
+    return {
+      imagePreviews: [],
+      imageFiles: []
+    };
   },
   computed: {
     ...mapState('home', ['content_home']),
@@ -53,10 +60,25 @@ export default {
   },
   methods: {
     ...mapActions('home', ['modifyContentHome', "getContentHome"]),
-    updateContent() {
+    async updateContent() {
       const session = this.currentUser.session;
       if (session) {
-        this.modifyContentHome({ data: this.content, session });
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(this.content));
+        formData.append('session', session);
+
+        this.imageFiles.forEach((file, index) => {
+          if (file) {
+            formData.append(`image_${index}`, file);
+          }
+        });
+
+        try {
+          await homeService.uploadImage(formData);
+          await this.modifyContentHome(formData);
+        } catch (error) {
+          console.error('Erreur lors de la modification du contenu:', error);
+        }
       } else {
         console.error('Session est indéfinie');
       }
@@ -64,11 +86,11 @@ export default {
     onFileChange(event, index) {
       const file = event.target.files[0];
       if (file) {
-        this.imageFile = file;
-        this.imageName = file.name;
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.content.cards[index].image_url = e.target.result;
+          this.$set(this.imagePreviews, index, e.target.result);
+          this.$set(this.imageFiles, index, file);
+          this.content.cards[index].image_url = file.name;
         };
         reader.readAsDataURL(file);
       }

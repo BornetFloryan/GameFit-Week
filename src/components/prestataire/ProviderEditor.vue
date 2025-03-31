@@ -1,351 +1,159 @@
 <template>
-  <div class="prestataire-page">
-    <div class="header">
-      <div class="image-container">
-        <img v-if="imagePreview" :src="imagePreview" alt="Aperçu de l'image" class="provider-image" />
-        <img v-else-if="prestataire && prestataire.picture" :src="require(`@/assets/img/users/${prestataire.picture}`)" alt="Prestataire" class="provider-image" />
+  <div class="edit-content">
+    <form @submit.prevent="updateContent">
+      <div class="form-group">
+        <label for="mainTitle">Titre principal:</label>
+        <VueEditor v-if="content" v-model="content.main.title" id="mainTitle" type="text" />
+        <label for="mainDescription">Description principale:</label>
+        <VueEditor v-if="content" v-model="content.main.description" id="mainDescription"/>
       </div>
-      <div class="header-text">
-        <h1 class="provider-name">{{ prestataire?.name }}</h1>
-        <VueEditor v-model="description" />
-        <input type="file" @change="handleImageUpload" />
+      <div class="form-group">
+        <label for="explainText">Titre d'explication:</label>
+        <VueEditor v-if="content" v-model="content.explain.title" id="explainText"/>
+        <label for="explainText">Texte d'explication:</label>
+        <VueEditor v-if="content" v-model="content.explain.description" id="explainText"/>
       </div>
-    </div>
-    <button @click="saveDescription" class="save-button">Enregistrer</button>
+      <div class="form-group" v-for="(card, index) in content.cards" :key="index">
+        <label :for="'cardTitle' + index">Titre carte:</label>
+        <VueEditor v-if="content" v-model="card.title" :id="'cardTitle' + index" type="text" />
+        <label :for="'cardDescription' + index">Description carte:</label>
+        <VueEditor v-if="content" v-model="card.description" :id="'cardDescription' + index"/>
+        <label :for="'cardImage' + index">Image carte:</label>
+        <input type="file" :id="'cardImage' + index" @change="onFileChange($event, index)" />
+        <img :src="imagePreviews[index] || getImageUrl(card.image_url)" v-if="imagePreviews[index] || card.image_url" :alt="card.title" class="preview-image" />
+      </div>
+      <button type="submit" class="btn">Appliquer les changements</button>
+    </form>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { VueEditor } from 'vue2-editor';
-import accountService from "@/services/account.service";
+import homeService from "@/services/home.service";
 
 export default {
-  name: 'ProviderEditor',
+  name: 'EditContent',
   components: {
-    VueEditor,
+    VueEditor
   },
-  data() {
+  data(){
     return {
-      description: '',
-      imagePreview: null,
-      imageFile: null,
+      imagePreviews: [],
+      imageFiles: []
     };
   },
   computed: {
+    ...mapState('home', ['content_home']),
     ...mapState('account', ['currentUser']),
-    ...mapGetters('account', ['getCustomerById']),
-    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getServiceCategoryById', 'getProviderGuestbookStatusByCustomerId']),
-    prestataire() {
-      return this.currentUser ? this.getCustomerById(this.currentUser._id) : null;
-    },
-    servicesPrestataires() {
-      if (!this.prestataire) return [];
-      const serviceCategories = this.getProviderServiceCategoriesByCustomerId(this.prestataire._id);
-      return serviceCategories
-          .filter(category => category.state === '1')
-          .map(category => this.getServiceCategoryById(category.service_id));
-    },
-  },
-  watch: {
-    prestataire: {
-      immediate: true,
-      handler(newVal) {
-        if (newVal) {
-          this.description = newVal.description || '';
-        }
-      },
-    },
+    content() {
+      const explain = this.content_home.find(item => item.section === 'explain') || { title: '', description: '' };
+      const main = this.content_home.find(item => item.section === 'main') || { title: '', description: '' };
+      const cards = this.content_home.filter(item => item.section === 'card').map(card => ({
+        ...card,
+        title: card.title || '',
+        description: card.description || '',
+        image_url: card.image_url || ''
+      }));
+      return { explain, main, cards };
+    }
   },
   methods: {
-    ...mapActions('account', ['getCustomersAccounts', 'modifyCustomerAccount']),
-    ...mapActions('prestation', ['getServiceCategories', 'getProviderServiceCategories', 'getProviderGuestbookStatus']),
-    handleImageUpload(event) {
+    ...mapActions('home', ['modifyContentHome', "getContentHome"]),
+    async updateContent() {
+      const session = this.currentUser.session;
+      if (session) {
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(this.content));
+        formData.append('session', session);
+
+        this.imageFiles.forEach((file, index) => {
+          if (file) {
+            formData.append(`image_${index}`, file);
+          }
+        });
+
+        try {
+          await homeService.modifyContentHome(formData);
+        } catch (error) {
+          console.error('Erreur lors de la modification du contenu:', error);
+        }
+      } else {
+        console.error('Session est indéfinie');
+      }
+    },
+    onFileChange(event, index) {
       const file = event.target.files[0];
       if (file) {
-        this.imageFile = file;
-        this.imageName = file.name;
-
         const reader = new FileReader();
         reader.onload = (e) => {
-          this.imagePreview = e.target.result;
+          this.$set(this.imagePreviews, index, e.target.result);
+          this.$set(this.imageFiles, index, file);
+          this.content.cards[index].image_url = file.name;
         };
         reader.readAsDataURL(file);
       }
     },
-    async saveDescription() {
-      if (this.prestataire) {
-        this.prestataire.description = this.description;
-        if (this.imageFile) {
-          const formData = new FormData();
-          formData.append('image', this.imageFile);
-          const result = await accountService.uploadImage(formData);
-          if (result && result.imageUrl) {
-            this.prestataire.picture = this.imageName;
-          }
-        }
-        await this.modifyCustomerAccount(this.prestataire, this.currentUser.session);
-      } else {
-        console.error('Prestataire is undefined');
+    getImageUrl(imageUrl) {
+      try {
+        return require(`@/assets/img/home/${imageUrl}`);
+      } catch (e) {
+        console.error(`Cannot find module '@/assets/img/home/${imageUrl}'`);
+        return '';
       }
-    },
-    goBack() {
-      this.$router.go(-1);
-    },
-  },
-  async created() {
-    await this.getServiceCategories();
-    await this.getProviderServiceCategories();
-    await this.getCustomersAccounts();
-
-    this.provider = this.getCustomerById(this.$route.params.id) || this.currentUser;
-    if (this.provider && this.provider._id) {
-      await this.getCustomerById(this.provider._id);
-    } else {
-      console.error('Provider or provider ID is undefined');
     }
+  },
+  async mounted() {
+    await this.getContentHome();
   },
 };
 </script>
 
 <style scoped>
-.prestataire-page {
+.edit-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
+  margin: 20px auto;
+  width: 70vw;
+  background-color: #f9f9f9;
   padding: 20px;
-  background-color: #f0f0f0;
-  min-height: 100vh;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin-bottom: 40px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.image-container {
-  flex: 0 0 200px;
-  height: 200px;
-  border: 4px solid #4caf50;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f5;
-  margin-right: 20px;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.provider-image {
-  max-width: 100%;
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+.preview-image {
+  width: 150px;
   height: auto;
-  object-fit: contain;
-  max-height: 200px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.header-text {
-  flex: 1;
-}
-
-.provider-name {
-  font-size: 36px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.content {
-  width: 100%;
-  max-width: 1200px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.services-section {
-  margin-top: 30px;
-}
-
-.section-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.service-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.service-item {
-  margin: 10px 0;
-}
-
-.service-link {
-  color: #1E90FF;
-  text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s ease;
-}
-
-.service-link:hover {
-  color: #4682B4;
-}
-
-.save-button, .back-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
+.btn {
+  margin: 20px auto 0;
+  padding: 12px 50px;
+  border-radius: 5px;
+  background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  font-size: 18px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.save-button {
-  background-color: #007bff;
-}
-
-.save-button:hover {
-  background-color: #0056b3;
-}
-
-.back-button {
-  background-color: #007bff;
-}
-
-.back-button:hover {
-  background-color: #0056b3;
-}
-</style>
-
-<style scoped>
-.prestataire-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f0f0f0;
-  min-height: 100vh;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin-bottom: 40px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.image-container {
-  flex: 0 0 200px;
-  height: 200px;
-  border: 4px solid #4caf50;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f5;
-  margin-right: 20px;
-}
-
-.provider-image {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  max-height: 200px;
-}
-
-.header-text {
-  flex: 1;
-}
-
-.provider-name {
-  font-size: 36px;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.content {
-  width: 100%;
-  max-width: 1200px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.services-section {
-  margin-top: 30px;
-}
-
-.section-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.service-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.service-item {
-  margin: 10px 0;
-}
-
-.service-link {
-  color: #1E90FF;
-  text-decoration: none;
-  font-size: 18px;
-  transition: color 0.3s ease;
-}
-
-.service-link:hover {
-  color: #4682B4;
-}
-
-.save-button, .back-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.save-button {
-  background-color: #007bff;
-}
-
-.save-button:hover {
-  background-color: #0056b3;
-}
-
-.back-button {
-  background-color: #007bff;
-}
-
-.back-button:hover {
+.btn:hover {
   background-color: #0056b3;
 }
 </style>

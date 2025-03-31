@@ -35,7 +35,7 @@ router.get("/", contentHomeController.getContentHome);
  *                   type: string
  *                   example: "Erreur lors de la récupération de la page principale"
  */
-router.put("/", checkSession, uploadImage('file'), contentHomeController.modifyContentHome);
+router.put("/", checkSession, contentHomeController.modifyContentHome);
 /**
  * @swagger
  * /content-home:
