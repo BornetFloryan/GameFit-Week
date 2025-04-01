@@ -225,7 +225,6 @@ async function getServiceReservations() {
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des réservations de services' }
     }
-    console.log('getServiceReservations', response)
     return response
 }
 

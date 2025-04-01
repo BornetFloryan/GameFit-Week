@@ -80,8 +80,6 @@ export default {
           }
         }
 
-        console.log("this.sizes:", this.sizes);
-
         let salesBySize = [];
         for (const size of this.sizes) {
           let totalSales = 0;
@@ -90,16 +88,13 @@ export default {
               for (const basket of baskets) {
                 let basketItems = (await basketService.getItemsByBasket(basket._id)).data;
                 totalSales += basketItems.reduce((itemSum, item) => {
-                  console.log("item:", item);
                   return itemSum + Number((item.item_id === variation._id ? item.quantity : 0));
                 }, 0);
               }
             }
           }
-          console.log("Total sales for size", size, ":", totalSales);
           salesBySize.push(totalSales);
         }
-        console.log("Sales by size:", salesBySize);
 
         this.chart = new Chart(this.$refs.goodiesSizeChart, {
           type: "bar",

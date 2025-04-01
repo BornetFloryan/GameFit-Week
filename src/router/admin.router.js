@@ -149,8 +149,8 @@ export default [
                 meta: { requiresAuth: true, requiredPrivilege: "2"},
             },
             {
-                path: 'testChartadmin',
-                name: 'testChartadmin',
+                path: 'admin-chart',
+                name: 'admin-chart',
                 component: AdminChartView,
                 meta: { requiresAuth: true, requiredPrivilege: "2" },
             },

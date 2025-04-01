@@ -39,7 +39,7 @@
         <router-link to="/admin-dashboard/admin-reports" class="button">
           <span class="material-icons">Signalement</span>
         </router-link>
-        <router-link to="/admin-dashboard/testChartadmin" class="button">
+        <router-link to="/admin-dashboard/admin-chart" class="button">
           <span class="material-icons">Graphique</span>
         </router-link>
       </div>

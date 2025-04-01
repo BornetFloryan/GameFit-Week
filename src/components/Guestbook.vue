@@ -63,10 +63,11 @@ export default {
   computed: {
     ...mapState('account', ['currentUser']),
     ...mapState('prestation', ['guestbookEntries']),
+    ...mapState('basket', ['baskets']),
     ...mapGetters('prestation', ['getServiceReservationsById']),
     ...mapGetters('ticket', ['getTicketById', 'getTicketsByCustomerId']),
     ...mapGetters('account', ['getCustomerById']),
-    ...mapGetters('prestation', ['getServiceReservationsByTicketId', 'getGuestbookEntriesByCustomerId']),
+    ...mapGetters('prestation', ['getServiceReservationsByTicketId', 'getGuestbookEntriesByCustomerId', 'getProviderServiceCategoriesByCustomerId']),
     ...mapGetters('stands', ['getStandReservationById']),
 
     prestataire(){
@@ -84,9 +85,18 @@ export default {
       if (tickets.length === 0) return false;
 
       let serviceReservations = [];
+      let customerBasket = [];
 
-      for(const ticket of tickets) {
-        serviceReservations = this.getServiceReservationsByTicketId(ticket._id);
+      for (const ticket of tickets) {
+        const reservations = this.getServiceReservationsByTicketId(ticket._id);
+        if (reservations.length > 0) {
+          serviceReservations.push(...reservations);
+        }
+
+        const baskets = this.baskets.filter(basket => basket.ticket_id === ticket._id && basket.is_order === true);
+        if (baskets.length > 0) {
+          customerBasket.push(...baskets);
+        }
       }
 
       if (serviceReservations.length > 0){
@@ -97,6 +107,16 @@ export default {
           }
         }
       }
+
+      if (customerBasket.length > 0){
+        for(const basket of customerBasket){
+          let provider_service_categories_id = this.getProviderServiceCategoriesByCustomerId(this.prestataire._id);
+          if(basket.provider_service_categories_id === provider_service_categories_id[0]._id){
+            return true;
+          }
+        }
+      }
+
       return false;
     },
 
@@ -109,6 +129,7 @@ export default {
     ...mapActions('account', ['getCustomersAccounts']),
     ...mapActions('ticket', ['getTickets']),
     ...mapActions('stands', ['getStandsReservations']),
+    ...mapActions('basket', ['getAllBaskets']),
     async addEntry() {
       const newEntry = { ...this.newEntry };
       try{
@@ -165,6 +186,7 @@ export default {
     await this.getCustomersAccounts();
     await this.getTickets();
     await this.getStandsReservations();
+    await this.getAllBaskets();
   }
 };
 </script>

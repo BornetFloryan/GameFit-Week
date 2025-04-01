@@ -1294,6 +1294,46 @@ let service_reservations = [
         "service_id": "0",
         "stand_reservation_id": "1",
     },
+    {
+        "_id": "2",
+        "date": "2025-07-07",
+        "time": "11:00",
+        "ticket_id": "0",
+        "service_id": "0",
+        "stand_reservation_id": "2",
+    },
+    {
+        "_id": "3",
+        "date": "2025-07-07",
+        "time": "13:15",
+        "ticket_id": "0",
+        "service_id": "0",
+        "stand_reservation_id": "3",
+    },
+    {
+        "_id": "4",
+        "date": "2025-07-07",
+        "time": "14:10",
+        "ticket_id": "0",
+        "service_id": "0",
+        "stand_reservation_id": "4",
+    },
+    {
+        "_id": "5",
+        "date": "2025-07-07",
+        "time": "15:30",
+        "ticket_id": "0",
+        "service_id": "0",
+        "stand_reservation_id": "5",
+    },
+    {
+        "_id": "6",
+        "date": "2025-07-07",
+        "time": "16:05",
+        "ticket_id": "0",
+        "service_id": "0",
+        "stand_reservation_id": "6",
+    },
 ];
 
 let provider_guestbook_status = [
