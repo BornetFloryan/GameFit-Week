@@ -10,11 +10,11 @@
           <p>Prix: {{ item.price ? item.price : 'N/A' }} €</p>
           <p>Taille: {{ item.size }}</p>
           <div class="quantity-controls">
-            <button @click="updateQuantity(index, -1)" :disabled="loadingVariations">-</button>
+            <button @click="updateQuantity(index, -1)">-</button>
             <span>{{ item.quantity }}</span>
-            <button @click="updateQuantity(index, 1)" :disabled="loadingVariations">+</button>
+            <button @click="updateQuantity(index, 1)">+</button>
           </div>
-          <button class="remove-item" @click="removeFromBasket(index)" :disabled="loadingVariations">Supprimer</button>
+          <button class="remove-item" @click="removeFromBasket(index)">Supprimer</button>
         </div>
       </div>
 
@@ -24,7 +24,7 @@
           <label for="ticketId">Numéro de billet</label>
           <input type="text" id="ticketId" v-model="ticketId" required />
         </div>
-        <button class="checkout-button" @click="checkout" :disabled="loadingVariations">Passer la commande</button>
+        <button class="checkout-button" @click="checkout">Passer la commande</button>
       </div>
     </div>
 
@@ -48,7 +48,6 @@ export default {
     return {
       done: false,
       ticketId: "",
-      loadingVariations: false,
     };
   },
   computed: {
@@ -74,54 +73,30 @@ export default {
     ...mapActions("goodies", ["getGoodieVariations"]),
     ...mapActions("basket", ["createBasket", "addItemToBasket", "getItemsByBasket", 'getAllBaskets']),
     ...mapActions("ticket", ["getTickets"]),
-
-    async addItemToBasket(item) {
-      const existingItem = this.basketItems.find(basketItem => basketItem._id === item._id && basketItem.size_id === item.size_id);
-      if (existingItem) {
-        existingItem.quantity += item.quantity;
-      } else {
-        this.basketItems.push(item);
-      }
-      this.updateBasketItems([...this.basketItems]);
-      this.updateSessionStorage();
-    },
-
     async updateQuantity(index, amount) {
       const item = this.filteredBasketItems[index];
-      if (item && item._id) {
-        this.loadingVariations = true;
-        try {
-          await this.getGoodieVariations(item._id);
-          this.loadingVariations = false;
-          let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
-          if (variation) {
-            let stock = variation.stock;
-            const newQuantity = item.quantity + amount;
-            if (newQuantity > 0 && newQuantity <= stock) {
-              item.quantity = newQuantity;
-              this.updateBasketItems([...this.basketItems]);
-              this.updateSessionStorage();
-            } else if (newQuantity < 1) {
-              this.removeFromBasket(index);
-            } else {
-              item.quantity = stock;
-              this.updateBasketItems([...this.basketItems]);
-              this.updateSessionStorage();
-              alert("La quantité demandée dépasse le stock disponible. La quantité a été ajustée au stock disponible.");
-            }
-          } else {
-            this.removeFromBasket(index);
-            alert("Cet article n'est plus disponible à l'achat et a été retiré de votre panier.");
-          }
-        } catch (error) {
-          console.error("Erreur lors de la récupération des variations:", error);
-          this.loadingVariations = false;
+      await this.getGoodieVariations(item._id);
+      let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
+      if(variation) {
+        let stock = variation.stock;
+        const newQuantity = item.quantity + amount;
+        if (newQuantity > 0 && newQuantity <= stock) {
+          item.quantity = newQuantity;
+          this.updateBasketItems([...this.basketItems]);
+          this.updateSessionStorage();
+        } else if (newQuantity < 1) {
+          this.removeFromBasket(index);
+        } else {
+          item.quantity = stock;
+          this.updateBasketItems([...this.basketItems]);
+          this.updateSessionStorage();
+          alert("La quantité demandée dépasse le stock disponible. La quantité a été ajustée au stock disponible.");
         }
       } else {
-        console.error("L'ID du goodie est indéfini ou l'article est introuvable.");
+        this.removeFromBasket(index);
+        alert("Cet article n'est plus disponible à l'achat et a été retiré de votre panier.");
       }
     },
-
     removeFromBasket(index) {
       const item = this.filteredBasketItems[index];
       this.filteredBasketItems.splice(index, 1);
@@ -129,35 +104,32 @@ export default {
       this.updateBasketItems(updatedBasketItems);
       this.updateSessionStorage();
     },
-
     updateSessionStorage() {
       sessionStorage.setItem("basketItems", JSON.stringify(this.basketItems));
     },
-
     async checkout() {
       if (!this.ticketId) {
         alert("Veuillez entrer un numéro de billet.");
         return;
       }
       const ticket = this.tickets.find(ticket => ticket._id === this.ticketId);
-      if (ticket) {
+      if (ticket){
         this.done = true;
         try {
           let response = await this.saveBasketToDatabase();
           if (response.error === 0) {
             let basket_id = response.data._id;
-            router.push({ name: 'payment', params: { ticketId: this.ticketId, basketId: basket_id, basketItems: response.data.storedBasketItems } });
+            router.push({ name: 'payment', params: { ticketId: this.ticketId, basketId: basket_id, basketItems: response.data.storedBasketItems} });
           } else {
             console.error("Error saving basket:", response.data);
           }
-        } catch (error) {
+        } catch(error) {
           console.error("Error during checkout:", error);
         }
       } else {
         alert("Veuillez entrer un numéro de billet valide.");
       }
     },
-
     async saveBasketToDatabase() {
       if (this.currentUser || this.done) {
         try {
@@ -177,7 +149,7 @@ export default {
           const itemIdsInBasket = itemsInBasket.data.map(item => item.item_id);
 
           const storedBasketItems = JSON.parse(sessionStorage.getItem("basketItems") || "[]");
-          if (storedBasketItems) {
+          if(storedBasketItems){
             for (let item of storedBasketItems) {
               if (!itemIdsInBasket.includes(item.variation_id)) {
                 try {
@@ -189,7 +161,7 @@ export default {
                       quantity: item.quantity
                     },
                   });
-                  if (response.error > 0) {
+                  if(response.error > 0){
                     return { error: 1, data: response.data };
                   }
                 } catch (error) {
@@ -226,24 +198,20 @@ export default {
 
     if (this.basketItems) {
       for (let item of this.basketItems) {
-        if(item) {
-          this.loadingVariations = true;
-          await this.getGoodieVariations(item._id);
-          this.loadingVariations = false;
-          let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
-          if (variation) {
-            let stock = variation.stock;
-            if (item.quantity > stock) {
-              item.quantity = stock;
-              this.updateBasketItems([...this.basketItems]);
-              this.updateSessionStorage();
-            }
-          } else {
-            const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
-            if (index !== -1) {
-              this.removeFromBasket(index);
-              alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
-            }
+        await this.getGoodieVariations(item._id);
+        let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
+        if (variation) {
+          let stock = variation.stock;
+          if (item.quantity > stock) {
+            item.quantity = stock;
+            this.updateBasketItems([...this.basketItems]);
+            this.updateSessionStorage();
+          }
+        } else {
+          const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
+          if (index !== -1) {
+            this.removeFromBasket(index);
+            alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
           }
         }
       }
