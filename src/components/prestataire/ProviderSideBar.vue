@@ -33,9 +33,6 @@
         <router-link :to="{ path: '/provider-dashboard/provider-guestbook' }" class="button">
           <span class="material-icons">Livre d'Or</span>
         </router-link>
-        <router-link :to="{ path: '/provider-dashboard/chart' }" class="button">
-          <span class="material-icons">Graphique</span>
-        </router-link>
       </div>
     </aside>
     <div class="main-content">

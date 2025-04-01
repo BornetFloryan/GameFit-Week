@@ -11,7 +11,6 @@
             v-model="formData.email"
             required
             placeholder="Entrez votre e-mail"
-            value="email"
         />
       </div>
 
@@ -53,13 +52,27 @@
         <label for="payment">Méthode de paiement:</label>
         <select v-model="formData.paymentMethod" required>
           <option value="creditCard">Carte de crédit</option>
-          <option value="paypal">PayPal</option>
         </select>
       </div>
+
+      <div v-if="formData.paymentMethod === 'creditCard'">
+        <div class="form-group">
+          <label for="cardNumber">Numéro de carte</label>
+          <input type="text" id="cardNumber" v-model="formData.cardNumber" required maxlength="16" inputmode="numeric" pattern="\d{16}" />
+        </div>
+        <div class="form-group">
+          <label for="expiryDate">Date d'expiration</label>
+          <input type="date" id="expiryDate" v-model="formData.expiryDate" required />
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" v-model="formData.cvv" required maxlength="3" inputmode="numeric" pattern="\d{3}" />
+        </div>
+      </div>
+
       <div class="form-button">
         <button type="submit" class="buy-button">Acheter</button>
       </div>
-
     </form>
 
     <div v-if="submissionSuccess">
@@ -97,6 +110,9 @@ export default {
         _idTicketAgeCategories: '',
         ticketCount: 1,
         paymentMethod: 'creditCard',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: ''
       },
       submissionSuccess: false,
     };
@@ -135,6 +151,9 @@ export default {
         _idTicketAgeCategories: '',
         ticketCount: 1,
         paymentMethod: 'creditCard',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: ''
       };
     },
     updateTicketPrice(_idTicketsAgeCategories) {
@@ -166,11 +185,12 @@ export default {
   height: 80vh;
   background-color: #f3f4f6;
   text-align: center;
+  overflow-y: auto; /* Ajouté pour permettre le défilement */
 }
 
 form {
   background: white;
-  padding: 2em;
+  padding: 1em; /* Réduit pour compacter le formulaire */
   border-radius: 8px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -179,13 +199,13 @@ form {
 }
 
 h2 {
-  margin-bottom: 1.5em;
+  margin-bottom: 1em; /* Réduit pour compacter le formulaire */
   color: #333;
   font-size: 1.5em;
 }
 
 .form-group {
-  margin-bottom: 1.5em;
+  margin-bottom: 1em; /* Réduit pour compacter le formulaire */
   text-align: left;
 }
 
@@ -200,9 +220,10 @@ input[type="text"],
 input[type="email"],
 input[type="number"],
 input[type="password"],
+input[type="date"],
 select {
   width: 100%;
-  padding: 0.75em;
+  padding: 0.5em; /* Réduit pour compacter le formulaire */
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -214,6 +235,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus,
+input[type="date"]:focus,
 select:focus {
   border-color: #007bff;
 }
@@ -227,7 +249,7 @@ select:focus {
 .buy-button {
   background-color: #28a745;
   color: white;
-  padding: 0.75em;
+  padding: 0.5em;
   border: none;
   border-radius: 4px;
   font-size: 1em;
@@ -249,17 +271,17 @@ select:focus {
 .ticket-button, .home-button {
   background-color: #007bff;
   color: white;
-  padding: 0.75em;
+  padding: 0.5em;
   border: none;
   border-radius: 4px;
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
   margin-bottom: 10px;
-  width: 200px; /* Set a fixed width */
+  width: 200px;
 }
 
 .ticket-button:hover, .home-button:hover {
   background-color: #0056b3;
 }
-</style>
+</style>>

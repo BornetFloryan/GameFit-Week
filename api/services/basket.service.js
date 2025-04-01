@@ -29,9 +29,13 @@ async function getBasketsByTicketId(ticket_id) {
 async function createBasket(ticket_id, provider_service_categories_id) {
     const client = await pool.connect();
     try {
+        const lastIdRes = await client.query('SELECT MAX(_id) as last_id FROM baskets');
+        const lastId = lastIdRes.rows[0].last_id || 0;
+        const newId = lastId + 1;
+
         const res = await client.query(
-            'INSERT INTO baskets (date, state, is_order, ticket_id, provider_service_categories_id) VALUES (NOW(), 0, FALSE, $1, $2) RETURNING *',
-            [ticket_id, provider_service_categories_id]
+            'INSERT INTO baskets (_id, date, state, is_order, ticket_id, provider_service_categories_id) VALUES ($1, NOW(), 0, FALSE, $2, $3) RETURNING *',
+            [newId, ticket_id, provider_service_categories_id]
         );
         return { error: 0, status: 201, data: res.rows[0] };
     } finally {

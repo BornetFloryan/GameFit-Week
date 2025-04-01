@@ -52,7 +52,6 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import basketService from "@/services/basket.service";
 import goodiesService from "@/services/goodies.service";
 import QrcodeVue from "qrcode.vue";
-import {getLocalIp} from "@/services/axios.service";
 
 export default {
   name: 'OrderView',
@@ -69,6 +68,7 @@ export default {
     ...mapState('account', ['currentUser']),
     ...mapState('ticket', ['tickets']),
     ...mapState('goodies', ['goodieSizes', 'goodies']),
+    ...mapState('basket', ['baskets']),
     ...mapGetters('ticket', ['getTicketsByCustomerId']),
     ...mapGetters('account', ['getCustomerById']),
     ...mapGetters('prestation', ['getProviderServiceCategoriesById']),
@@ -80,10 +80,17 @@ export default {
     ...mapActions('ticket', ['getTickets']),
     ...mapActions('goodies', ['getGoodieVariations', 'getGoodieSizes', 'getAllGoodies']),
     ...mapActions('prestation', ['getProviderServiceCategories']),
+    ...mapActions('basket', ['getAllBaskets']),
 
     async fetchUserOrders() {
       if (this.currentUser) {
-        let ticketIds = this.getTicketsByCustomerId(this.currentUser._id).map(ticket => ticket._id);
+        let customerTicketIds = this.getTicketsByCustomerId(this.currentUser._id).map(ticket => ticket._id);
+        let ticketIds = [];
+        for (let basket of this.baskets) {
+          if (customerTicketIds.includes(basket.ticket_id) && !ticketIds.includes(basket.ticket_id)) {
+            ticketIds.push(basket.ticket_id);
+          }
+        }
         try {
           for (let ticket_id of ticketIds) {
             ticket_id = ticket_id.toString();
@@ -123,6 +130,8 @@ export default {
                   this.userOrders.push(order);
                 }
               }
+            } else if (response.status === 404) {
+              console.warn(`Aucun panier trouvé pour le ticket_id: ${ticket_id}`);
             } else {
               console.error('Erreur lors de la récupération des commandes :', response.data);
             }
@@ -159,21 +168,13 @@ export default {
     calculateTotal(items) {
       return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     },
-    async fetchLocalIp() {
-      try {
-        const response = await getLocalIp();
-        this.localIp = response.localIp;
-      } catch (error) {
-        console.error('Erreur lors de la récupération de l\'IP locale :', error);
-      }
-    }
   },
   async mounted() {
     await this.getTickets();
     await this.getAllGoodies();
+    await this.getAllBaskets();
     await this.getGoodieSizes();
     await this.getProviderServiceCategories();
-    await this.fetchLocalIp();
     this.fetchUserOrders();
   },
 };

@@ -292,7 +292,7 @@ const actions = {
             if (response.error === 0) {
                 commit('addGuestbookStatus', response.data);
             }
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout du statut du livre d\'or:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout du statut du livre d\'or' };
@@ -326,9 +326,9 @@ const actions = {
         try {
             let response = await PrestationService.addProviderScheduleStatus(user);
             if (response.error === 0) {
-                commit('addProviderScheduleStatus', response.data);
+                commit('addProviderScheduleStatus', response);
             }
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout d\'un statut de planning:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout d\'un statut de planning' };

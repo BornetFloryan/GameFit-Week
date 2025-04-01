@@ -1,4 +1,5 @@
 const pool = require('../database/db');
+const bcrypt = require('bcrypt');
 
 async function getProviderRequests() {
     const client = await pool.connect();
@@ -28,9 +29,6 @@ async function addProviderRequest(user) {
         if (!user.prestationServices) {
             return {error: 1, status: 404, data: 'Services de prestation manquants'};
         }
-        if (!user.login) {
-            return {error: 1, status: 404, data: 'Login manquant'};
-        }
         if (!user.password) {
             return {error: 1, status: 404, data: 'Mot de passe manquant'};
         }
@@ -48,7 +46,8 @@ async function addProviderRequest(user) {
             user = addUser.rows[0];
         } else {
             existingUser = existingUser.rows[0];
-            if (existingUser.password !== user.password) {
+            const match = await bcrypt.compare(user.password, existingUser.password);
+            if (!match) {
                 return {error: 1, status: 404, data: 'Mot de passe incorrect'};
             }
             user = existingUser;

@@ -145,7 +145,7 @@ const actions = {
         try {
             let response = await AccountService.addProviderRequest(user);
             if (response.error === 0) {
-                commit('addProviderRequest', response.data);
+                commit('addProviderRequest', response.data.data);
             }
             return response.data;
         } catch (error) {
@@ -172,7 +172,7 @@ const actions = {
             if (response.error === 0) {
                 commit('modifyProviderRequest', response.data);
             }
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'approbation de la demande:', error);
             return { error: 1, data: 'Erreur lors de l\'approbation de la demande' };

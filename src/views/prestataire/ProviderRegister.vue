@@ -156,6 +156,8 @@ export default {
     async submitRegistration() {
       try {
         let response = await this.addProviderRequest(this.user);
+        await this.getCustomersAccounts();
+
         if (response.error === 0) {
           this.user = this.getCustomerByEmail(this.user.email);
           if (!this.user) {
@@ -197,7 +199,6 @@ export default {
 </script>
 
 <style scoped>
-/* Votre style pour le formulaire */
 .register-container {
   display: flex;
   justify-content: center;

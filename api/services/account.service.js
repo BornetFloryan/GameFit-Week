@@ -19,8 +19,15 @@ async function addCustomerAccount(customer) {
     const client = await pool.connect();
     try {
         const existingCustomer = await client.query('SELECT * FROM customer_accounts WHERE email = $1', [customer.email]);
-        if (existingCustomer.rows.length > 0) {
+        if (existingCustomer.rows.length > 0 && existingCustomer.rows[0].password) {
             return { error: 1, status: 404, data: 'Adresse email déjà utilisée' };
+        }
+
+        if(existingCustomer.rows.length > 0 && existingCustomer.rows[0].password === null){
+            const res = await client.query('UPDATE customer_accounts SET name = $1, login = $2, password = $3, email = $4, picture = $5, description = $6, privilege = $7, session = $8 WHERE _id = $9 RETURNING *',
+                [customer.name, customer.login, customer.password, customer.email, customer.picture, customer.description, customer.privilege || 0, customer.session, existingCustomer.rows[0]._id]
+            );
+            return { error: 0, status: 200, data: res.rows[0] };
         }
 
         const _id = await client.query('SELECT MAX(_id) FROM customer_accounts');
