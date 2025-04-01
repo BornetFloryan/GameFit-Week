@@ -65,8 +65,8 @@ export default {
 
         if (response.error === 0) {
           const loggedUser = response.data;
-          const redirectUrl = localStorage.getItem('redirectUrl');
-          localStorage.removeItem('redirectUrl');
+          const redirectUrl = sessionStorage.getItem('redirectUrl');
+          sessionStorage.removeItem('redirectUrl');
 
           if (redirectUrl) {
             await this.$router.push(redirectUrl);

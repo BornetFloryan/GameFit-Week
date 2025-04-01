@@ -64,7 +64,7 @@ const router = new VueRouter({
 });
 
 function redirectToLoginWithRedirectUrl(redirectUrl) {
-  localStorage.setItem('redirectUrl', redirectUrl);
+  sessionStorage.setItem('redirectUrl', redirectUrl);
   router.push({ name: 'login' });
 }
 
@@ -93,6 +93,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 
 export default router;

@@ -20,8 +20,8 @@
             <div class="calendar-cell">{{ hour }}</div>
             <div class="calendar-cell" v-for="day in days" :key="day">
               <div v-for="event in getEventsForDayAndHour(day, hour)" :key="event.id" class="event" @mouseover="showTooltip" @mouseout="hideTooltip" @click="navigateToService()">
-                <div>{{ event.description }}</div>
-                <div>{{ serviceName(event.service) }}</div>
+                <p v-html="event.description"></p>
+                <p>{{ serviceName(event.service) }}</p>
               </div>
             </div>
           </div>
@@ -101,7 +101,13 @@ export default {
     getEventsForDayAndHour(day, hour) {
       const daySchedule = this.schedule.find(d => d.date === day);
       if (!daySchedule) return [];
-      return daySchedule.events.filter(event => event.start_time.startsWith(hour));
+      return daySchedule.events.filter(event => this.isEventInHour(event, hour));
+    },
+    isEventInHour(event, hour) {
+      const eventStart = new Date(`1970-01-01T${event.start_time}`);
+      const eventEnd = new Date(`1970-01-01T${event.end_time}`);
+      const currentHour = new Date(`1970-01-01T${hour}:00`);
+      return currentHour >= eventStart && currentHour < eventEnd;
     },
     showTooltip(event) {
       this.tooltipVisible = true;
@@ -143,7 +149,6 @@ export default {
         }
       }
     }
-
 
     this.initializeSchedule();
   },

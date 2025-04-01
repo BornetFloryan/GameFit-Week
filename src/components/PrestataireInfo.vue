@@ -14,7 +14,7 @@
         <h2 class="section-title">Services Proposés</h2>
         <ul class="service-list">
           <li v-for="service in servicesPrestataires" :key="service._id" class="service-item">
-            <router-link :to="{ name: 'dedication-home', query: { prestataireId: prestataire._id } }" class="service-link">{{ service.name }}</router-link>
+            <router-link :to="getServicePath(service._id, prestataire._id)" class="service-link">{{ service.name }}</router-link>
           </li>
         </ul>
       </div>
@@ -73,6 +73,17 @@ export default {
         this.guestbookActivated = status.guestbook_activated;
       }
     },
+    getServicePath(serviceId, customerId) {
+      if (serviceId === '0') {
+        return { name: 'dedication-home', query: { prestataireId: customerId } };
+      } else if (serviceId === '1') {
+        let providerServiceCategory = this.getProviderServiceCategoriesByCustomerId(customerId);
+        if (providerServiceCategory.length !== 0) {
+          return { name: 'goodies-seller', query: { providerServiceCategory: providerServiceCategory[0]._id } };
+        }
+      }
+      return '';
+    }
   },
   async created() {
     await this.getServiceCategories();

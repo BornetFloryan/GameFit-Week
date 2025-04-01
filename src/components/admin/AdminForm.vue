@@ -33,6 +33,7 @@
                 v-model="formData[field.model]"
                 :id="field._id"
                 v-bind="field.props"
+                required
                 @change="handleFieldChange(field)"
             />
           </div>
@@ -139,10 +140,18 @@ export default {
   },
   methods: {
     handleSubmit() {
-      this.$emit("submit", { ...this.formData, imageFile: this.imageFile, imageName: this.imageName });
+      if (this.isValidDate(this.formData.date) && this.isValidTime(this.formData.start_time) && this.isValidTime(this.formData.end_time)) {
+        this.$emit("submit", { ...this.formData, imageFile: this.imageFile, imageName: this.imageName });
+      } else {
+        console.error("Invalid date or time value");
+      }
     },
-    goBack() {
-      this.$emit("back");
+    isValidDate(date) {
+      return !isNaN(Date.parse(date));
+    },
+    isValidTime(time) {
+      const timePattern = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      return timePattern.test(time);
     },
     handleFieldChange(field) {
       if (field.id === "privilege") {
@@ -202,6 +211,9 @@ export default {
         console.error('Image not found:', picture);
         return '';
       }
+    },
+    goBack() {
+      this.$emit("back");
     },
   },
 };

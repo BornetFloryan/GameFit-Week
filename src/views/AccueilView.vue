@@ -26,14 +26,13 @@
 
     <div v-if="showModal" class="modal-overlay" @click="closeModal">
       <div class="modal-content" @click.stop>
-        <StandInfo :stand="this.stand"/>
+        <StandInfo :stand="this.stand" :selectedDate="this.selectedDate"/>
         <button @click="closeModal" class="btn-close">Fermer</button>
       </div>
     </div>
   </div>
 </template>
 
-// src/views/AccueilView.vue
 <script>
 import NavView from "@/components/NavBar.vue";
 import CarouselAccueil from "@/components/CarouselAccueil.vue";
@@ -95,14 +94,16 @@ export default {
         standReservations = this.getStandsReservationsByStandIdAndDate(this.stand._id, this.selectedDate);
         if (standReservations.length > 0 && standReservations[0] && standReservations[0].customer_id) {
           let provider_requests = this.getProviderRequestsByCustomerId(standReservations[0].customer_id);
-          prestataire = this.getCustomerById(provider_requests.customer_id);
+          if (provider_requests && provider_requests.customer_id) {
+            prestataire = this.getCustomerById(provider_requests.customer_id);
+          }
         }
       }
 
       const descriptions = standReservations.map(reservation => reservation.description).join('<br>');
       this.selectedZone = {
         name: this.stand ? this.stand.name : `${zoneId}`,
-        description: descriptions || "Pour l'instant aucune prestation n'est prévue pour ce stand",
+        description: descriptions || (prestataire ? prestataire.name : "Pour l'instant aucune prestation n'est prévue pour ce stand"),
         prestataire: prestataire ? prestataire : null,
       };
 

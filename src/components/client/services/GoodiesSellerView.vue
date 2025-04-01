@@ -47,6 +47,9 @@ export default {
         };
       });
     }
+    if(this.$route.query.providerServiceCategory){
+      this.goToShop(this.$route.query.providerServiceCategory);
+    }
   }
 };
 </script>

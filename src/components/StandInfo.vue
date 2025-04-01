@@ -7,7 +7,7 @@
           <span class="schedule-time">{{ reservation.start_time }}h - {{ reservation.end_time }}h</span>
           <p>
             Prestation :
-            <router-link :to="{path: 'services/dedication/dedication-home', query: { prestataireId: reservation.customer_id }}" class="schedule-service">
+            <router-link :to="getServicePath(reservation.service_id, reservation.customer_id)" class="schedule-service">
               {{ getServiceCategoryById(reservation.service_id)?.name || 'Unknown' }}
             </router-link>
           </p>
@@ -33,6 +33,10 @@ export default {
       type: Object,
       required: true,
     },
+    selectedDate: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -44,7 +48,7 @@ export default {
     ...mapState("prestation", ["serviceCategories"]),
     ...mapState("account", ["customersAccounts"]),
     ...mapGetters('account', ['getCustomerById']),
-    ...mapGetters('prestation', ['getServiceCategoryById']),
+    ...mapGetters('prestation', ['getServiceCategoryById', 'getProviderServiceCategoriesByCustomerId']),
     ...mapGetters('stands', ['getStandReservationsByStandId']),
 
     sortedStandReservations() {
@@ -53,22 +57,37 @@ export default {
   },
   methods: {
     ...mapActions("stands", ["getStandsReservations"]),
-    ...mapActions("prestation", ["getServiceCategories"]),
+    ...mapActions("prestation", ["getServiceCategories", 'getProviderServiceCategories']),
     ...mapActions("account", ["getCustomersAccounts"]),
 
     getSortedStandReservations() {
-      return this.standReservations.slice().sort((a, b) => {
-        const dateA = new Date(`${a.date}T${a.start_time}:00`);
-        const dateB = new Date(`${b.date}T${b.start_time}:00`);
-        return dateA - dateB;
-      });
+      return this.standReservations
+          .filter(reservation => reservation.date === this.selectedDate)
+          .slice()
+          .sort((a, b) => {
+            const dateA = new Date(`${a.date}T${a.start_time}:00`);
+            const dateB = new Date(`${b.date}T${b.start_time}:00`);
+            return dateA - dateB;
+          });
     },
+    getServicePath(serviceId, customerId) {
+      if (serviceId === '0') {
+        return { name: 'dedication-home', query: { prestataireId: customerId } };
+      } else if (serviceId === '1') {
+        let providerServiceCategory = this.getProviderServiceCategoriesByCustomerId(customerId);
+        if (providerServiceCategory.length !== 0) {
+          return { name: 'goodies-seller', query: { providerServiceCategory: providerServiceCategory[0]._id } };
+        }
+      }
+      return '';
+    }
   },
   async mounted() {
     await this.getStandsReservations();
     this.standReservations = this.getStandReservationsByStandId(this.stand._id);
     await this.getCustomersAccounts();
     await this.getServiceCategories();
+    await this.getProviderServiceCategories();
   },
 };
 </script>

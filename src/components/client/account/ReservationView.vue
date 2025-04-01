@@ -5,6 +5,7 @@
       <tr>
         <th>Numéro</th>
         <th>Animateur</th>
+        <th>Stand</th>
         <th>Service</th>
         <th>Date</th>
         <th>Horaire</th>
@@ -17,6 +18,11 @@
         <td>
           {{
             getCustomerById(getStandReservationById(customerServiceReservation.stand_reservation_id)?.customer_id)?.name
+          }}
+        </td>
+        <td>
+          Stand {{
+            Number(getStandReservationById(customerServiceReservation.stand_reservation_id)?.stand_id) + 1
           }}
         </td>
         <td>

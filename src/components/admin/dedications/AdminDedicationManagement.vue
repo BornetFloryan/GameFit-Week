@@ -45,6 +45,7 @@ export default {
   },
   computed: {
     ...mapState('stands', ['standsReservations']),
+    ...mapState('account', ['currentUser']),
     ...mapGetters('stands', ['getStandReservationsByStandId', 'getStandsReservationsByServiceId']),
   },
   methods: {
@@ -54,7 +55,7 @@ export default {
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
-        await this.deleteStandReservation(id);
+        await this.deleteStandReservation({ _id: id, session: this.currentUser.session });
         this.filterReservations();
       }
     },

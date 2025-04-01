@@ -1,8 +1,6 @@
 const pool = require('../database/db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const fs = require('fs');
-const path = require('path');
 
 async function getCustomersAccounts() {
     const client = await pool.connect();
@@ -69,7 +67,7 @@ async function loginUser(data) {
             return { error: 1, status: 404, data: 'login/pass incorrect' };
         }
 
-        const token = jwt.sign({ id: user._id, role: user.privilege }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id, role: user.privilege }, 'secret', { expiresIn: '1h' });
         await client.query('UPDATE customer_accounts SET session = $1 WHERE _id = $2', [token, user._id]);
 
         user.session = token;

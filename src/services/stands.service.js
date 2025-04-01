@@ -53,8 +53,8 @@ async function addStandReservationFromApi(standReservation, session){
 //     return LocalSource.deleteStandReservation(_id);
 // }
 
-async function deleteStandReservationFromApi(_id){
-    return deleteRequest('stands-reservations/' + _id, 'DeleteStandReservation');
+async function deleteStandReservationFromApi(_id, session){
+    return deleteRequest('stands/reservations/' + _id + '?session=' + session, 'DeleteStandReservation');
 }
 
 // async function deleteStandFromLocalSource(_id) {
@@ -149,12 +149,12 @@ async function addStandReservation(standReservation, session) {
     return response
 }
 
-async function deleteStandReservation(_id) {
+async function deleteStandReservation(_id, session) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await deleteStandReservationFromLocalSource(_id);
-        response = await deleteStandReservationFromApi(_id);
+        response = await deleteStandReservationFromApi(_id, session);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {

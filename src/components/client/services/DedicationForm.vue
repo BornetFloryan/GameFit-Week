@@ -115,6 +115,7 @@
         </p>
         <p>Date : {{ formatDate(date) }}</p>
         <p>Heure : {{ time }}</p>
+        <p>Stand : {{ stand }}</p>
 
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-btn">
@@ -148,6 +149,7 @@ export default {
       date: "",
       availableTimes: [],
       time: "",
+      stand: "", // Ajout de la propriété stand
     };
   },
   computed: {
@@ -207,6 +209,10 @@ export default {
       for (let animator of this.animators) {
         if (animator.name === card.name) {
           this.selectedAnimator = animator;
+          const standReservation = this.getStandsReservationsByCustomerIdAndServiceId(animator._id, '0')[0];
+          if (standReservation) {
+            this.stand = Number(standReservation.stand_id) + 1;
+          }
         }
       }
       this.date = "";
@@ -351,6 +357,10 @@ export default {
       const selectedAnimator = this.getCustomerById(prestataireId);
       if (selectedAnimator) {
         this.selectedAnimator = selectedAnimator;
+        const standReservation = this.getStandsReservationsByCustomerIdAndServiceId(selectedAnimator._id, '0')[0];
+        if (standReservation) {
+          this.stand = Number(standReservation.stand_id) + 1;
+        }
       }
     }
   },

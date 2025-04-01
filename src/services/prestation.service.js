@@ -142,7 +142,7 @@ async function addProviderScheduleStatusFromApi(user) {
 // }
 
 async function modifyProviderScheduleStatusFromApi(providerScheduleStatus) {
-    return postRequest('provider-schedule-status', providerScheduleStatus, 'ModifyProviderScheduleStatus');
+    return putRequest('provider-schedule-status', providerScheduleStatus, 'ModifyProviderScheduleStatus');
 }
 
 async function getReportsFromApi() {

@@ -123,9 +123,9 @@ const actions = {
             console.error('Erreur lors de la suppression des stands:', error);
         }
     },
-    async deleteStandReservation({ commit }, _id) {
+    async deleteStandReservation({ commit }, { _id, session }) {
         try {
-            let response = await StandsService.deleteStandReservation(_id);
+            let response = await StandsService.deleteStandReservation(_id, session);
             if (response.error === 0) {
                 commit('deleteStandReservation', response.data);
             } else {
@@ -148,9 +148,9 @@ const getters = {
         return state.standsReservations.filter(reservation => reservation.stand_id === stand_id);
     },
     getStandsReservationsByStandIdAndDate: (state) => (stand_id, date) => {
-        const targetDate = new Date(date).toISOString().split('T')[0];
+        const targetDate = date.split('T')[0];
         return state.standsReservations.filter((reservation) => {
-            const reservationDate = new Date(reservation.date).toISOString().split('T')[0];
+            const reservationDate = reservation.date.split('T')[0];
             return reservation.stand_id === stand_id && reservationDate === targetDate;
         });
     },
@@ -164,9 +164,9 @@ const getters = {
         return state.standsReservations.filter((reservation) => reservation.customer_id === customer_id && reservation.service_id === service_id);
     },
     getStandsReservationsByCustomerIdAndServiceIdAndDate: (state) => (customer_id, service_id, date) => {
-        const targetDate = new Date(date).toISOString().split('T')[0];
+        const targetDate = date.split('T')[0];
         return state.standsReservations.filter((reservation) => {
-            const reservationDate = new Date(reservation.date).toISOString().split('T')[0];
+            const reservationDate = reservation.date.split('T')[0];
             return reservation.customer_id === customer_id && reservation.service_id === service_id && reservationDate === targetDate;
         });
     },

@@ -1076,7 +1076,7 @@ let stands_reservations = [
     },
     {
         "_id": "16",
-        "date": "2025-07-08",
+        "date": "2025-07-07",
         "start_time": "09:00",
         "end_time": "18:00",
         "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
@@ -1086,7 +1086,7 @@ let stands_reservations = [
     },
     {
         "_id": "17",
-        "date": "2025-07-09",
+        "date": "2025-07-08",
         "start_time": "09:00",
         "end_time": "18:00",
         "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
@@ -1096,7 +1096,7 @@ let stands_reservations = [
     },
     {
         "_id": "18",
-        "date": "2025-07-10",
+        "date": "2025-07-09",
         "start_time": "09:00",
         "end_time": "18:00",
         "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
@@ -1106,7 +1106,7 @@ let stands_reservations = [
     },
     {
         "_id": "19",
-        "date": "2025-07-11",
+        "date": "2025-07-10",
         "start_time": "09:00",
         "end_time": "18:00",
         "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
@@ -1116,6 +1116,16 @@ let stands_reservations = [
     },
     {
         "_id": "20",
+        "date": "2025-07-11",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Nike !",
+        "customer_id":"19",
+        "service_id":"1",
+        "stand_id": "20",
+    },
+    {
+        "_id": "21",
         "date": "2025-07-12",
         "start_time": "09:00",
         "end_time": "18:00",

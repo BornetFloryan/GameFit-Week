@@ -179,7 +179,11 @@ export default {
       this.formData.start_time = start_time;
       const availableTimes = this.generateAvailableTimes();
       const reservations = this.getStandsReservationsByStandIdAndDate(this.formData.stand_id, this.formData.date);
-      const nextReservation = reservations
+      const customerReservations = this.getStandsReservationsByCustomerIdAndDateAndExcludingStandId(
+          this.formData.customer_id, this.formData.date, this.formData.stand_id
+      );
+      const allReservations = [...reservations, ...customerReservations];
+      const nextReservation = allReservations
           .map((res) => res.start_time)
           .sort()
           .find((time) => time > start_time);
