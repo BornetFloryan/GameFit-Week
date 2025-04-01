@@ -27,9 +27,9 @@ const actions = {
             console.error('Erreur lors de la récupération de la page principale:', error);
         }
     },
-    async modifyContentHome({commit}, data) {
+    async modifyContentHome({commit}, { data, session }) {
         try {
-            let response = await HomeService.modifyContentHome(data);
+            let response = await HomeService.modifyContentHome(data, session);
 
             if (response.error === 0) {
                 commit('updateContentHome', response.data);

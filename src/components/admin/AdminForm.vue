@@ -25,7 +25,7 @@
 
           <div v-else-if="field.type === 'img' && field.model === 'picture'">
             <input type="file" id="imageUpload" @change="handleImageUpload" />
-            <img v-if="imagePreview || formData[field.model]" :src="imagePreview || require(`@/assets/img/users/${formData[field.model]}`)" alt="Aperçu de l'image" class="image-preview" />
+            <img v-if="imagePreview || formData[field.model]" :src="imagePreview || getImageUrl(formData[field.model])" alt="Aperçu de l'image" class="image-preview" />
           </div>
 
           <div v-else-if="field.type === 'textarea' && field.model === 'description'">
@@ -193,6 +193,14 @@ export default {
           this.imagePreview = e.target.result;
         };
         reader.readAsDataURL(file);
+      }
+    },
+    getImageUrl(picture) {
+      try {
+        return require(`@/assets/img/users/${picture}`);
+      } catch (e) {
+        console.error('Image not found:', picture);
+        return '';
       }
     },
   },

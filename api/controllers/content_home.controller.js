@@ -14,10 +14,6 @@ exports.modifyContentHome = async (req, res) => {
     try {
         let content_home = req.body;
 
-        if (req.file) {
-            content_home.file = req.file;
-        }
-
         let data = await contentHomeService.modifyContentHome(content_home);
         return res.status(data.status).json({ data: data });
     } catch (error) {

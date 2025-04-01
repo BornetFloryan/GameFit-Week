@@ -15,7 +15,7 @@ async function getContentHome() {
 async function modifyContentHome(data) {
     const client = await pool.connect();
     try {
-        const contentData = data.data;
+        const contentData = data;
 
         if (contentData.explain && contentData.explain._id) {
             let explainImageUrl = contentData.explain.image_url;

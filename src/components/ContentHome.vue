@@ -9,7 +9,7 @@
       <div class="card" v-for="(card, index) in content.cards" :key="index">
         <div class="card-content">
           <div v-if="card" class="card-content-text">
-            <h3>{{ card.title }}</h3>
+            <h3 v-html="card.title"></h3>
             <p v-html="card.description"></p>
           </div>
           <img :src="getImageUrl(card.image_url)" :alt="card.title">

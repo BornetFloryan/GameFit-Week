@@ -63,19 +63,21 @@ export default {
     async updateContent() {
       const session = this.currentUser.session;
       if (session) {
-        const formData = new FormData();
-        formData.append('data', JSON.stringify(this.content));
-        formData.append('session', session);
 
-        this.imageFiles.forEach((file, index) => {
+        for (const file of this.imageFiles) {
           if (file) {
-            formData.append(`image_${index}`, file);
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+              await homeService.uploadImage(formData);
+            } catch (error) {
+              console.error('Erreur lors de l\'upload de l\'image:', error);
+            }
           }
-        });
+        }
 
         try {
-          await homeService.uploadImage(formData);
-          await this.modifyContentHome(formData);
+          await this.modifyContentHome({data: this.content, session: this.currentUser.session});
         } catch (error) {
           console.error('Erreur lors de la modification du contenu:', error);
         }

@@ -5,8 +5,8 @@ async function getContentHomeFromApi(){
     return getRequest('content-home', 'GetContentHome');
 }
 
-async function modifyContentHomeFromApi(data){
-    return putRequest('content-home?session=' + data.session, data, 'ModifyContentHome');
+async function modifyContentHomeFromApi(data, session){
+    return putRequest('content-home?session=' + session, data, 'ModifyContentHome');
 }
 
 async function uploadImageFromApi(data) {
@@ -27,12 +27,12 @@ async function getContentHome() {
     return response.data
 }
 
-async function modifyContentHome(data) {
+async function modifyContentHome(data, session) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await getStandsFromLocalSource();
-        response = await modifyContentHomeFromApi(data);
+        response = await modifyContentHomeFromApi(data, session);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
