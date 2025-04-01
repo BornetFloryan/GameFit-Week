@@ -256,6 +256,17 @@ let customer_accounts = [
         "description": "Nike, Inc. est une entreprise multinationale américaine spécialisée dans la conception, la fabrication, la commercialisation et la vente de chaussures, de vêtements, d'équipements et d'accessoires de sport. Fondée en 1964 sous le nom de Blue Ribbon Sports, elle a été rebaptisée Nike en 1971, en référence à la déesse grecque de la victoire.",
         "privilege": "1",
         "session": ""
+    },
+    {
+        "_id": "20",
+        "name": "MAXESPORT",
+        "login": "maxesport",
+        "password": "maxesport",
+        "email": "maxesport@prestataire.com",
+        "picture": "maxesport.jpg",
+        "description": "MAXESPORT est une entreprise spécialisée dans la vente de produits et d'équipements sportifs. Elle propose une large gamme de produits allant des vêtements aux accessoires pour les passionnés de sport.",
+        "privilege": "1",
+        "session": ""
     }
 ];
 
@@ -367,6 +378,12 @@ let provider_requests = [
         "date": "2025-10-30",
         "state": "1",
         "customer_id": "19",
+    },
+    {
+        "_id": "18",
+        "date": "2025-10-30",
+        "state": "1",
+        "customer_id": "20",
     },
 ];
 
@@ -485,15 +502,15 @@ let provider_service_categories = [
         "service_id": "0",
     },
     {
-        "_id": "17",
-        "state": "0",
-        "customer_id": "2",
-        "service_id": "1",
-    },
-    {
         "_id": "18",
         "state": "1",
         "customer_id": "19",
+        "service_id": "1",
+    },
+    {
+        "_id": "19",
+        "state": "1",
+        "customer_id": "20",
         "service_id": "1",
     }
 ];
@@ -670,6 +687,20 @@ let tickets = [
         "time": "07:00",
         "customer_id": "0",
         "price_id": "0",
+    },
+    {
+        "_id": "1",
+        "date": "2024-10-30",
+        "time": "07:35",
+        "customer_id": "0",
+        "price_id": "1",
+    },
+    {
+        "_id": "2",
+        "date": "2024-10-30",
+        "time": "07:45",
+        "customer_id": "0",
+        "price_id": "2",
     },
 ];
 
@@ -1134,6 +1165,66 @@ let stands_reservations = [
         "service_id":"1",
         "stand_id": "20",
     },
+    {
+        "_id": "22",
+        "date": "2025-07-07",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Le Maillot Esport !",
+        "customer_id":"20",
+        "service_id":"1",
+        "stand_id": "21",
+    },
+    {
+        "_id": "23",
+        "date": "2025-07-08",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Le Maillot Esport !",
+        "customer_id":"20",
+        "service_id":"1",
+        "stand_id": "21",
+    },
+    {
+        "_id": "24",
+        "date": "2025-07-09",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Le Maillot Esport !",
+        "customer_id":"20",
+        "service_id":"1",
+        "stand_id": "21",
+    },
+    {
+        "_id": "25",
+        "date": "2025-07-10",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Le Maillot Esport !",
+        "customer_id":"20",
+        "service_id":"1",
+        "stand_id": "21",
+    },
+    {
+        "_id": "26",
+        "date": "2025-07-11",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Le Maillot Esport !",
+        "customer_id":"20",
+        "service_id":"1",
+        "stand_id": "21",
+    },
+    {
+        "_id": "27",
+        "date": "2025-07-12",
+        "start_time": "09:00",
+        "end_time": "18:00",
+        "description": "Ici vous pouvez acheter des goodies de la marque Le Maillot Esport !",
+        "customer_id":"20",
+        "service_id":"1",
+        "stand_id": "21",
+    },
 ];
 
 let pro_teams = [
@@ -1278,6 +1369,10 @@ let provider_guestbook_status = [
         "customer_id": "19",
         "guestbook_activated": false
     },
+    {
+        "customer_id": "20",
+        "guestbook_activated": true
+    },
 ];
 
 let provider_schedule_status = [
@@ -1353,6 +1448,10 @@ let provider_schedule_status = [
         "customer_id": "19",
         "schedule_activated": false
     },
+    {
+        "customer_id": "20",
+        "schedule_activated": true
+    },
 ];
 
 let guestbook_entries = [
@@ -1369,17 +1468,6 @@ let guestbook_entries = [
         "comment": "Très bonne organisation !",
         "service_reservations_id": "1",
     },
-];
-
-
-let dailyTickets = [
-    { date: "2025-01-01", tickets: 12 },
-    { date: "2025-01-02", tickets: 18 },
-    { date: "2025-01-03", tickets: 15 },
-    { date: "2025-01-04", tickets: 20 },
-    { date: "2025-01-05", tickets: 22 },
-    { date: "2025-01-06", tickets: 17 },
-    { date: "2025-01-07", tickets: 25 }
 ];
 
 let reports = [
@@ -1424,14 +1512,49 @@ let goodies = [
         "price": "9.99",
         "provider_service_categories_id": "18",
     },
+    {
+        "_id": "3",
+        "name": 'Fnatic Maillot Pro 2025',
+        "image": "fnatic_maillot_pro.webp",
+        "price": "69.90",
+        "provider_service_categories_id": "19",
+    },
+    {
+        "_id": "4",
+        "name": 'G2 Esports Essentials Snapback Flat',
+        "image": "g2_esports_essentials_snapback_flat.webp",
+        "price": "19.99",
+        "provider_service_categories_id": "19",
+    },
+    {
+        "_id": "5",
+        "name": 'Rogue T-shirt Box Manches courtes Noir',
+        "image": "rogue_t-shirt_box_manches_courtes_noir.webp",
+        "price": "24.90",
+        "provider_service_categories_id": "19",
+    },
 ]
 
 let goodies_variations = [
     { "_id": "0", "goodie_id": "0", "stock":"10", "size_id": "0" },
     { "_id": "1", "goodie_id": "0", "stock": "5", "size_id": "1" },
     { "_id": "2", "goodie_id": "0", "stock": "3", "size_id": "2" },
+
     { "_id": "3", "goodie_id": "1", "stock": "4", "size_id": "6" },
+
     { "_id": "4", "goodie_id": "2", "stock": "5", "size_id": "6" },
+
+    { "_id": "5", "goodie_id": "3", "stock": "15", "size_id": "1" },
+    { "_id": "6", "goodie_id": "3", "stock": "20", "size_id": "2" },
+    { "_id": "7", "goodie_id": "3", "stock": "10", "size_id": "3" },
+    { "_id": "8", "goodie_id": "3", "stock": "15", "size_id": "4" },
+
+    { "_id": "9", "goodie_id": "4", "stock": "5", "size_id": "1" },
+    { "_id": "10", "goodie_id": "4", "stock": "9", "size_id": "2" },
+    { "_id": "11", "goodie_id": "4", "stock": "2", "size_id": "3" },
+    { "_id": "12", "goodie_id": "4", "stock": "15", "size_id": "4" },
+
+    { "_id": "13", "goodie_id": "5", "stock": "10", "size_id": "6" },
 ]
 
 let baskets = [
@@ -1442,12 +1565,46 @@ let baskets = [
         "is_order": true,
         "ticket_id": "0",
         "provider_service_categories_id": "18",
-    }
+    },
+    {
+        "_id": "1",
+        "date": "2025-03-18",
+        "state": "0",
+        "is_order": true,
+        "ticket_id": "0",
+        "provider_service_categories_id": "18",
+    },
+    {
+        "_id": "2",
+        "date": "2025-03-18",
+        "state": "0",
+        "is_order": true,
+        "ticket_id": "0",
+        "provider_service_categories_id": "19",
+    },
+    {
+        "_id": "3",
+        "date": "2025-03-18",
+        "state": "0",
+        "is_order": true,
+        "ticket_id": "0",
+        "provider_service_categories_id": "19",
+    },
+
 ];
 
 let basket_items = [
     { "_id": "0", "basket_id": "0", "item_id": "0", "item_type": "goodie", "quantity": "2" },
-    { "_id": "1", "basket_id": "0", "item_id": "2", "item_type": "goodie", "quantity": "1" }
+    { "_id": "1", "basket_id": "0", "item_id": "2", "item_type": "goodie", "quantity": "1" },
+
+    { "_id": "2", "basket_id": "1", "item_id": "3", "item_type": "goodie", "quantity": "3" },
+    { "_id": "3", "basket_id": "1", "item_id": "4", "item_type": "goodie", "quantity": "5" },
+
+    { "_id": "4", "basket_id": "2", "item_id": "6", "item_type": "goodie", "quantity": "1" },
+    { "_id": "5", "basket_id": "2", "item_id": "11", "item_type": "goodie", "quantity": "2" },
+
+    { "_id": "6", "basket_id": "3", "item_id": "7", "item_type": "goodie", "quantity": "1" },
+    { "_id": "7", "basket_id": "3", "item_id": "13", "item_type": "goodie", "quantity": "3" },
 ];
 
 
@@ -1470,7 +1627,6 @@ module.exports = {
     service_reservations,
     provider_guestbook_status,
     guestbook_entries,
-    dailyTickets,
     provider_schedule_status,
     reports,
 

@@ -72,7 +72,11 @@ export default {
       await this.getAllGoodies();
       await this.getGoodieSizes();
 
-      for (let goodie of this.goodies) {
+      let providerGoodies = this.goodies.filter(goodie => {
+        return goodie.provider_service_categories_id === this.providerServiceCategory._id;
+      });
+
+      for (let goodie of providerGoodies) {
         const variations = await this.getGoodieVariations(goodie._id);
         const sizesAndStocks = variations.map(variation => {
           const size = this.goodieSizes.find(size => size._id === variation.size_id);

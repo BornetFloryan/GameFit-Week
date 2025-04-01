@@ -15,10 +15,11 @@ import AdminDedicationReservation from "@/components/admin/dedications/AdminDedi
 import AdminModifyDedicationReservation from "@/components/admin/dedications/AdminModifyDedicationReservation.vue";
 import AdminAddDedicationReservation from "@/components/admin/dedications/AdminAddDedicationReservation.vue";
 import AdminBracket from "@/components/admin/AdminBracket.vue";
-import AdminchartView from "@/components/admin/AdminChartView.vue";
+import AdminChartView from "@/components/admin/AdminChartView.vue";
 import AdminReportsManagement from "@/components/admin/reports/AdminReportsManagement.vue";
 import AdminReportProcessed from "@/components/admin/reports/AdminReportProcessed.vue";
 import EditContent from "@/components/admin/EditContent.vue";
+import AdminTicketsView from "@/components/admin/AdminTicketsView.vue";
 
 export default [
     {
@@ -49,6 +50,12 @@ export default [
                 path: 'admin-accounts-add',
                 name: 'admin-accounts-add',
                 component: AdminAddAccount,
+                meta: { requiresAuth: true, requiredPrivilege: "2"},
+            },
+            {
+                path: 'admin-tickets',
+                name: 'admin-tickets',
+                component: AdminTicketsView,
                 meta: { requiresAuth: true, requiredPrivilege: "2"},
             },
             {
@@ -144,7 +151,7 @@ export default [
             {
                 path: 'testChartadmin',
                 name: 'testChartadmin',
-                component: AdminchartView,
+                component: AdminChartView,
                 meta: { requiresAuth: true, requiredPrivilege: "2" },
             },
             {

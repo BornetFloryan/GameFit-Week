@@ -24,6 +24,9 @@
         <router-link to="/admin-dashboard/admin-accounts" class="button">
           <span class="material-icons">Comptes</span>
         </router-link>
+        <router-link to="/admin-dashboard/admin-tickets" class="button">
+          <span class="material-icons">Tickets</span>
+        </router-link>
         <router-link to="/admin-dashboard/admin-stand-management" class="button">
           <span class="material-icons">Stands</span>
         </router-link>

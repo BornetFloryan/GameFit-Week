@@ -3,7 +3,6 @@ import ProviderDedicationManagement from "@/components/prestataire/dedications/P
 import ProviderAddDedication from "@/components/prestataire/dedications/ProviderAddDedication.vue";
 import ProviderDedicationReservation from "@/components/prestataire/dedications/ProviderDedicationReservation.vue";
 import ProviderGoodieList from "@/components/prestataire/goodies/ProviderGoodieList.vue";
-import ProviderchartView from "@/components/ProviderChartView.vue";
 import ProviderGuestbook from "@/components/prestataire/ProviderGuestbook.vue";
 import ProviderEditor from "@/components/prestataire/ProviderEditor.vue";
 import ProviderSchedule from "@/components/prestataire/ProviderSchedule.vue";
@@ -85,12 +84,6 @@ export default [
                 component: ProviderGuestbook,
                 meta: { requiresAuth: true, requiredPrivilege: "1" },
             },
-            {
-                path:'chart',
-                name:'chart',
-                component: ProviderchartView,
-                meta: { requiresAuth: true, requiredPrivilege: "1" },
-            }
         ],
     },
 ];

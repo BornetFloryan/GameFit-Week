@@ -5,7 +5,7 @@
       <thead>
       <tr>
         <th v-for="header in headers" :key="header">{{ header }}</th>
-        <th>Actions</th>
+        <th v-if="showModifyButton || showReservationsButton || showDeleteButton">Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -40,7 +40,7 @@
             {{ item[field] }}
           </p>
         </td>
-        <td>
+        <td v-if="showModifyButton || showReservationsButton || showDeleteButton">
           <div class="actions-container">
             <router-link :to="{ name: modifyName, params: { item_id: item._id.toString() } }">
               <button v-if="showModifyButton" class="btn-action">{{ modifyButtonText }}</button>

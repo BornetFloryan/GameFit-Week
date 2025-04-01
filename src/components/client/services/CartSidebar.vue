@@ -198,20 +198,26 @@ export default {
 
     if (this.basketItems) {
       for (let item of this.basketItems) {
-        await this.getGoodieVariations(item._id);
-        let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
-        if (variation) {
-          let stock = variation.stock;
-          if (item.quantity > stock) {
-            item.quantity = stock;
-            this.updateBasketItems([...this.basketItems]);
-            this.updateSessionStorage();
-          }
-        } else {
-          const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
-          if (index !== -1) {
-            this.removeFromBasket(index);
-            alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
+        if(item) {
+          await this.getGoodieVariations(item._id);
+          if(this.goodieVariations){
+            let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
+            if (variation) {
+              let stock = variation.stock;
+              if (item.quantity > stock) {
+                item.quantity = stock;
+                this.updateBasketItems([...this.basketItems]);
+                this.updateSessionStorage();
+              }
+            } else {
+              if (this.filteredBasketItems.length > 0) {
+                const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
+                if (index !== -1) {
+                  this.removeFromBasket(index);
+                  alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
+                }
+              }
+            }
           }
         }
       }
