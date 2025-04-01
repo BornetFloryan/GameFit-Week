@@ -35,7 +35,7 @@
           <div v-if="dropdownOpen" class="dropdown-content">
             <div v-for="service in serviceCategories" :key="service._id" class="checkbox-group">
               <input
-                  type="checkbox"
+                  type="radio"
                   :id="service._id"
                   :value="service._id"
                   v-model="user.prestationServices"
@@ -132,13 +132,14 @@ export default {
   methods: {
     ...mapActions("account", ['getCustomersAccounts', 'getProviderRequests', "addProviderRequest"]),
     ...mapActions("prestation", [
-        "getServiceCategories",
+      "getServiceCategories",
       'getProviderGuestbookStatus',
       'getProviderScheduleStatus',
       'getProviderServiceCategories',
       'addProviderServiceCategory',
       'addProviderGuestbookStatus',
-      'addProviderScheduleStatus']),
+      'addProviderScheduleStatus'
+    ]),
 
     toggleDropdown() {
       this.dropdownOpen = !this.dropdownOpen;
@@ -156,38 +157,27 @@ export default {
       try {
         let response = await this.addProviderRequest(this.user);
         if (response.error === 0) {
-          for (let service of this.user.prestationServices) {
-            try {
-              let response = await this.addProviderServiceCategory({
-                user: this.user,
-                serviceCategory: service,
-              });
-              if(response.error !== 0){
-                alert(response.data);
-                return;
-              }
-
-              this.user = this.getCustomerByEmail(this.user.email);
-
-              response = await this.addProviderGuestbookStatus(this.user._id);
-              if(response.error !== 0){
-                alert(response.data);
-                return;
-              }
-
-              response = await this.addProviderScheduleStatus(this.user);
-              if(response.error !== 0){
-                alert(response.data);
-                return;
-              }
-              alert("Votre demande a été envoyée à l'administrateur. Vous pouvez la consulter en vous connectant puis dans la section demande sur votre compte.");
-              this.$router.push({name: "login"});
-            } catch (error) {
-              console.error("Erreur lors de l'ajout de la catégorie de service:", error);
-            }
+          this.user = this.getCustomerByEmail(this.user.email);
+          if (!this.user) {
+            throw new Error("Utilisateur non trouvé après l'ajout de la demande");
           }
+
+          response = await this.addProviderGuestbookStatus(this.user._id);
+          if (response.error !== 0) {
+            alert('addProviderGuestbookStatus :' + response.data);
+            return;
+          }
+
+          response = await this.addProviderScheduleStatus(this.user);
+          if (response.error !== 0) {
+            alert('addProviderScheduleStatus : ' + response.data);
+            return;
+          }
+
+          alert("Votre demande a été envoyée à l'administrateur. Vous pouvez la consulter en vous connectant puis dans la section demande sur votre compte.");
+          this.$router.push({ name: "login" });
         } else {
-          alert(response.data);
+          alert('addProviderRequest: ' + response.data);
         }
       } catch (error) {
         console.error("Erreur lors de l'enregistrement:", error);

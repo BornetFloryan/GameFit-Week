@@ -1,5 +1,4 @@
 const pool = require('../database/db');
-const {v4: uuidv4} = require('uuid');
 
 async function getProviderRequests() {
     const client = await pool.connect();
@@ -44,7 +43,7 @@ async function addProviderRequest(user) {
             user._id = parseInt(_id.rows[0].max) + 1;
             let addUser = await client.query(
                 'INSERT INTO customer_accounts (_id, name, login, password, email, privilege, session) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-                [user._id, user.name, user.login, user.password, user.email, user.privilege || 0, uuidv4()]
+                [user._id, user.name, user.login, user.password, user.email, user.privilege || 0, user.session]
             );
             user = addUser.rows[0];
         } else {

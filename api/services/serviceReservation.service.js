@@ -43,9 +43,12 @@ async function addServiceReservation(serviceReservation) {
         const lastIdRes = await client.query('SELECT MAX(_id) AS last_id FROM service_reservations');
         const newId = (lastIdRes.rows[0].last_id || 0) + 1;
 
+        const dateObj = new Date(serviceReservation.date);
+        dateObj.setDate(dateObj.getDate());
+
         const res = await client.query(
             'INSERT INTO service_reservations (_id, date, time, ticket_id, service_id, stand_reservation_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [newId, serviceReservation.date, serviceReservation.time, serviceReservation.ticket_id, serviceReservation.service_id, serviceReservation.stand_reservation_id]
+            [newId, dateObj, serviceReservation.time, serviceReservation.ticket_id, serviceReservation.service_id, serviceReservation.stand_reservation_id]
         );
         return { error: 0, status: 200, data: res.rows[0] };
     } catch (error) {
@@ -83,7 +86,6 @@ async function modifyServiceReservation(serviceReservation) {
         client.release();
     }
 }
-
 
 async function deleteServiceReservation(id) {
     const client = await pool.connect();
@@ -163,7 +165,8 @@ async function getServiceReservationsByStandsReservationsIdAndServiceId(standsRe
 async function getServiceReservationsByTicketIdAndDate(ticket_id, date) {
     const client = await pool.connect();
     try {
-        const dateObj = date instanceof Date ? date : new Date(date);
+        const dateObj = new Date(date);
+        dateObj.setDate(dateObj.getDate() + 1);
         const res = await client.query('SELECT * FROM service_reservations WHERE ticket_id = $1 AND date = $2', [ticket_id, dateObj]);
         return { error: 0, data: res.rows };
     } catch (error) {
@@ -177,7 +180,8 @@ async function getServiceReservationsByTicketIdAndDate(ticket_id, date) {
 async function getServiceReservationsByDate(date) {
     const client = await pool.connect();
     try {
-        const dateObj = date instanceof Date ? date : new Date(date);
+        const dateObj = new Date(date);
+        dateObj.setDate(dateObj.getDate() + 1);
         const res = await client.query('SELECT * FROM service_reservations WHERE date = $1', [dateObj]);
         return { error: 0, data: res.rows };
     } catch (error) {

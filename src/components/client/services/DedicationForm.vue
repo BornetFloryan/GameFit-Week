@@ -15,17 +15,6 @@
               class="search-bar"
           />
 
-          <select v-model="selectedCategory">
-            <option value="">Sélectionnez une catégorie</option>
-            <option
-                v-for="category in sportsCategories"
-                :key="category._id"
-                :value="category"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-
           <div class="scroll-container">
             <div class="grid">
               <div
@@ -190,7 +179,7 @@ export default {
         const matchesCategory =
             this.selectedCategory === "" ||
             (animator && providerSportCategories.some(
-                (category) => category.sport_id.includes(this.selectedCategory._id)
+                (category) => category.sport_id === this.selectedCategory._id
             ));
 
         return matchesQuery && matchesCategory;

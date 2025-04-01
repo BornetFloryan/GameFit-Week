@@ -33,6 +33,12 @@ const executeSQLFile = async (filePath) => {
     await pool.query(sql);
 };
 
+const adjustDateToUTC = (date) => {
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(adjustedDate.getHours() + 1);
+    return adjustedDate.toISOString();
+};
+
 const insertData = async () => {
     try {
         await executeSQLFile(path.join(__dirname, '..', 'datasource', 'data.sql'));
@@ -67,7 +73,7 @@ const insertData = async () => {
             await insertIfNotExists(
                 'SELECT _id FROM provider_requests WHERE _id = $1',
                 'INSERT INTO provider_requests (_id, date, state, customer_id) VALUES ($1, $2, $3, $4)',
-                [_id, date, state, customer_id]
+                [_id, adjustDateToUTC(date), state, customer_id]
             );
         }
 
@@ -130,7 +136,7 @@ const insertData = async () => {
             await insertIfNotExists(
                 'SELECT _id FROM tickets WHERE _id = $1',
                 'INSERT INTO tickets (_id, date, time, customer_id, price_id) VALUES ($1, $2, $3, $4, $5)',
-                [_id, date, time, customer_id || 0, price_id || 0]
+                [_id, adjustDateToUTC(date), time, customer_id || 0, price_id || 0]
             );
         }
 
@@ -154,23 +160,19 @@ const insertData = async () => {
 
         for (const reservation of stands_reservations) {
             const { _id, date, start_time, end_time, description, customer_id, service_id, stand_id } = reservation;
-            const adjustedDate = new Date(date);
-            adjustedDate.setDate(adjustedDate.getDate() + 1);
             await insertIfNotExists(
                 'SELECT _id FROM stands_reservations WHERE _id = $1',
                 'INSERT INTO stands_reservations (_id, date, start_time, end_time, description, customer_id, service_id, stand_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-                [_id, adjustedDate.toISOString(), start_time, end_time, description, customer_id, service_id, stand_id]
+                [_id, adjustDateToUTC(date), start_time, end_time, description, customer_id, service_id, stand_id]
             );
         }
 
         for (const reservation of service_reservations) {
             const { _id, date, time, ticket_id, service_id, stand_reservation_id } = reservation;
-            const adjustedDate = new Date(date);
-            adjustedDate.setDate(adjustedDate.getDate() + 1);
             await insertIfNotExists(
                 'SELECT _id FROM service_reservations WHERE _id = $1',
                 'INSERT INTO service_reservations (_id, date, time, ticket_id, service_id, stand_reservation_id) VALUES ($1, $2, $3, $4, $5, $6)',
-                [_id, adjustedDate.toISOString(), time, ticket_id, service_id, stand_reservation_id]
+                [_id, adjustDateToUTC(date), time, ticket_id, service_id, stand_reservation_id]
             );
         }
 
@@ -197,7 +199,7 @@ const insertData = async () => {
             await insertIfNotExists(
                 'SELECT _id FROM guestbook_entries WHERE _id = $1',
                 'INSERT INTO guestbook_entries (_id, date, rating, comment, service_reservations_id) VALUES ($1, $2, $3, $4, $5)',
-                [_id, date, rating, comment, service_reservations_id]
+                [_id, adjustDateToUTC(date), rating, comment, service_reservations_id]
             );
         }
 
@@ -206,7 +208,7 @@ const insertData = async () => {
             await insertIfNotExists(
                 'SELECT _id FROM reports WHERE _id = $1',
                 'INSERT INTO reports (_id, date, reason, state, guestbook_entry_id) VALUES ($1, $2, $3, $4, $5)',
-                [_id, date, reason, state, guestbook_entry_id]
+                [_id, adjustDateToUTC(date), reason, state, guestbook_entry_id]
             );
         }
 
@@ -238,7 +240,7 @@ const insertData = async () => {
             await insertIfNotExists(
                 'SELECT _id FROM baskets WHERE _id = $1',
                 'INSERT INTO baskets (_id, date, state, is_order, ticket_id, provider_service_categories_id) VALUES ($1, $2, $3, $4, $5, $6)',
-                [basket._id, basket.date, basket.state, basket.is_order, basket.ticket_id, basket.provider_service_categories_id]
+                [basket._id, adjustDateToUTC(basket.date), basket.state, basket.is_order, basket.ticket_id, basket.provider_service_categories_id]
             );
         }
 

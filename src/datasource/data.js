@@ -666,7 +666,7 @@ let ticket_prices = [
 let tickets = [
     {
         "_id": "0",
-        "date": "2024/10/30",
+        "date": "2024-10-30",
         "time": "07:00",
         "customer_id": "0",
         "price_id": "0",
@@ -1177,21 +1177,6 @@ let pro_teams = [
     }   
 ]
 
-let food_items = [
-    { _id: 1, food: { _id: 201, name: 'Pizza GameFit', img: "", price: 10 }, quantity: 20, date: '2025-01-01' },
-    { _id: 2, food: { _id: 202, name: 'Burger Gourmet', img: "", price: 8 }, quantity: 15, date: '2025-01-02' },
-    { _id: 3, food: { _id: 203, name: 'Salade César', img: "", price: 6 }, quantity: 10, date: '2025-01-03' },
-    { _id: 4, food: { _id: 204, name: 'Sushi Set', img: "", price: 12 }, quantity: 5, date: '2025-01-04' },
-    { _id: 5, food: { _id: 205, name: 'Pâtes Carbonara', img: "", price: 9 }, quantity: 25, date: '2025-01-05' },
-    { _id: 6, food: { _id: 206, name: 'Tacos Mexicain', img: "", price: 7 }, quantity: 18, date: '2025-01-06' },
-    { _id: 7, food: { _id: 207, name: 'Curry Indien', img: "", price: 11 }, quantity: 7, date: '2025-01-07' },
-    { _id: 8, food: { _id: 208, name: 'Cheesecake', img: "", price: 5 }, quantity: 30, date: '2025-01-08' },
-    { _id: 9, food: { _id: 209, name: 'Glace Vanille', img: "", price: 4 }, quantity: 50, date: '2025-01-09' },
-    { _id: 10, food: { _id: 210, name: 'Tarte Tatin', img: "", price: 6 }, quantity: 15, date: '2025-01-10' },
-    { _id: 11, food: { _id: 211, name: 'Croissant au Beurre', img: "", price: 2 }, quantity: 40, date: '2025-01-11' },
-    { _id: 12, food: { _id: 212, name: 'Brioche au Chocolat', img: "", price: 3 }, quantity: 35, date: '2025-01-12' },
-];
-
 let service_reservations = [
     {
         "_id": "0",
@@ -1363,13 +1348,13 @@ let provider_schedule_status = [
 let guestbook_entries = [
     {
         "_id": "0",
-        "date": "2025-07-07T14:00:00.000Z",
+        "date": "2025-07-07",
         "rating": "5",
         "comment": "Super événement, j'ai adoré !",
         "service_reservations_id": "0",
     },{
         "_id": "1",
-        "date": "2025-07-07T15:00:00.000Z",
+        "date": "2025-07-07",
         "rating": "4",
         "comment": "Très bonne organisation !",
         "service_reservations_id": "1",
@@ -1442,7 +1427,7 @@ let goodies_variations = [
 let baskets = [
     {
         "_id": "0",
-        "date": "2025-03-18T15:00:00.000Z",
+        "date": "2025-03-18",
         "state": "0",
         "is_order": true,
         "ticket_id": "0",
@@ -1472,7 +1457,6 @@ module.exports = {
     stands,
     stands_reservations,
     pro_teams,
-    food_items,
     service_reservations,
     provider_guestbook_status,
     guestbook_entries,

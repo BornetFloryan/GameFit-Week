@@ -147,7 +147,7 @@ const actions = {
             if (response.error === 0) {
                 commit('addProviderRequest', response.data);
             }
-            return response;
+            return response.data;
         } catch (error) {
             console.error('Erreur lors de l\'ajout de la demande:', error);
             return { error: 1, data: 'Erreur lors de l\'ajout de la demande' };
