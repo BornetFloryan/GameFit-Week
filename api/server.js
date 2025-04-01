@@ -25,6 +25,9 @@ const reportsRoutes = require('./routes/reports.router');
 const basketRoutes = require('./routes/basket.router');
 const goodiesRoutes = require('./routes/goodies.router');
 const contentHomeRoutes = require('./routes/content_home.router');
+const teamsRoutes = require('./routes/teams.router');
+const roundsRoutes = require('./routes/rounds.router');
+const matchsRoutes = require('./routes/matchs.router');
 
 const app = express();
 const PORT = 3000;
@@ -65,6 +68,10 @@ app.use('/reports', reportsRoutes);
 app.use('/baskets', basketRoutes);
 app.use('/goodies', goodiesRoutes);
 app.use('/content-home', contentHomeRoutes);
+
+app.use('/teams',teamsRoutes);
+app.use('/rounds',roundsRoutes);
+app.use('/matchs',matchsRoutes);
 
 function getLocalIp() {
     const interfaces = os.networkInterfaces();
