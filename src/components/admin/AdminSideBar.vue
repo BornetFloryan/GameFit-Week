@@ -78,9 +78,7 @@ export default {
   --background-gradient: linear-gradient(135deg, #2c3e50, #34495e);
 }
 
-.admin-layout {
-  display: flex;
-}
+
 
 .modern-sidebar {
   display: flex;
