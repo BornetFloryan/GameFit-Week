@@ -7,6 +7,7 @@ import prestation from './modules/prestation';
 import basket from './modules/basket';
 import goodies from './modules/goodies';
 import home from "@/store/modules/home";
+import tournament from './modules/tournament'
 
 Vue.use(Vuex);
 
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     prestation,
     basket,
     goodies,
+    tournament
   },
 });
