@@ -21,6 +21,10 @@ DROP TABLE IF EXISTS service_categories CASCADE;
 DROP TABLE IF EXISTS provider_requests CASCADE;
 DROP TABLE IF EXISTS customer_accounts CASCADE;
 DROP TABLE IF EXISTS content_home CASCADE;
+DROP TABLE IF EXISTS matchs_tournament CASCADE;
+DROP TABLE IF EXISTS rounds_tournament CASCADE;
+DROP TABLE IF EXISTS teams_tournament;
+
 
 CREATE TABLE IF NOT EXISTS content_home (
     _id         SERIAL PRIMARY KEY,
@@ -211,4 +215,29 @@ CREATE TABLE basket_items (
     item_id INT REFERENCES goodies_variations(_id) ON DELETE CASCADE,
     item_type VARCHAR(50) NOT NULL,
     quantity INT NOT NULL
+);
+
+CREATE TABLE teams_tournament
+(
+    _id         SERIAL PRIMARY KEY,
+    name        VARCHAR(50) NOT NULL,
+    description VARCHAR(255)
+);
+
+CREATE TABLE rounds_tournament
+(
+    _id     SERIAL PRIMARY KEY,
+    name    VARCHAR(50)
+);
+
+CREATE TABLE matchs_tournament
+(
+    _id            SERIAL PRIMARY KEY,
+    round_id      SERIAL REFERENCES rounds_tournament (_id) ON DELETE CASCADE,
+    equipe1_id    INTEGER REFERENCES teams_tournament (_id) ON DELETE SET NULL,
+    equipe2_id    INTEGER REFERENCES teams_tournament (_id) ON DELETE SET NULL,
+    score_equipe1 INT,
+    score_equipe2 INT,
+    gagnant_id    INT REFERENCES teams_tournament (_id),
+    date_match    TIMESTAMP
 );
