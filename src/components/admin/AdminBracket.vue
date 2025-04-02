@@ -567,7 +567,7 @@ export default {
     getTeamImage(img) {
       let name = img.toUpperCase();
       try {
-        return require(`@/assets/img/${name}.jpg`);
+        return require(`@/assets/img/${name}_Logo.jpg`);
       } catch (e) {
         return require('@/assets/img/noteam.jpg');
       }
