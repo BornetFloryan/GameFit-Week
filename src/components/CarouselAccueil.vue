@@ -5,10 +5,10 @@
       <p class="subtitle" v-if="content" v-html="content.description"></p>
     </div>
     <div class="carousel-items" v-if="slides.length > 0">
-      <h2>{{ slides[currentIndex].title }}</h2>
-      <p v-html="formattedText"></p>
-      <router-link :to="{ path: slides[currentIndex].link }">
-        <p class="router-link">Voir plus</p>
+      <h2>{{ currentSlide.title }}</h2>
+      <p v-html="currentSlide.text"></p>
+      <router-link :to="{ path: currentSlide.link }">
+        <p class="router-link">{{ currentSlide.linkText }}</p>
       </router-link>
     </div>
 
@@ -27,7 +27,6 @@ export default {
   data: () => ({
     currentIndex: 0,
     slides: [],
-    routes: [],
   }),
   methods: {
     ...mapActions('home', ['getContentHome']),
@@ -37,32 +36,35 @@ export default {
     prevSlide() {
       this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
     },
+    updateSlides() {
+      this.slides = [
+        {
+          imageSrc: require('@/assets/img/home/slide1.jpg'),
+          title: this.$t('home.carousel.slides.slide1.title'),
+          text: this.$t('home.carousel.slides.slide1.text'),
+          link: '/services/dedication/dedication-home',
+          linkText: this.$t('home.carousel.slides.slide1.link'),
+        },
+        {
+          imageSrc: require('@/assets/img/home/slide2.jpg'),
+          title: this.$t('home.carousel.slides.slide2.title'),
+          text: this.$t('home.carousel.slides.slide2.text'),
+          link: '/services/stream',
+          linkText: this.$t('home.carousel.slides.slide2.link'),
+        },
+        {
+          imageSrc: require('@/assets/img/home/slide3.jpg'),
+          title: this.$t('home.carousel.slides.slide3.title'),
+          text: this.$t('home.carousel.slides.slide3.text'),
+          link: '/services/brackets',
+          linkText: this.$t('home.carousel.slides.slide3.link'),
+        }
+      ];
+    }
   },
   async mounted() {
     await this.getContentHome();
-    this.slides = [
-      {
-        imageSrc: require('@/assets/img/home/slide1.jpg'),
-        title: 'Réservation de Dédicaces',
-        text: 'Rencontrez vos idoles de l’esport et du sport en personne ! ' +
-            '\nRéservez une séance de dédicaces privée et repartez avec un souvenir personnalisé.',
-        link: '/services/dedication/dedication-home',
-      },
-      {
-        imageSrc: require('@/assets/img/home/slide2.jpg'),
-        title: 'Diffusion en direct',
-        text: 'Suivez GameFit Week en temps réel avec nos streams en haute définition. ' +
-            '\nNe manquez aucune compétition, interview ou moment clé, où que vous soyez.',
-        link: '/services/stream',
-      },
-      {
-        imageSrc: require('@/assets/img/home/slide3.jpg'),
-        title: 'Les Tournois',
-        text: "Assistez aux matchs palpitants entre équipes sportives ou esportives lors de GameFit Week. " +
-            "\nSuivez l'intensité de la compétition et soutenez vos équipes favorites dans des affrontements spectaculaires.",
-        link: '/services/brackets',
-      }
-    ];
+    this.updateSlides();
     setInterval(() => {
       this.nextSlide();
     }, 8000);
@@ -82,15 +84,19 @@ export default {
           height: '86vh'
         };
       }
-
       return {
         backgroundColor: '#f1f1f1',
         width: '100%',
         height: '86vh'
       };
     },
-    formattedText() {
-      return this.slides[this.currentIndex].text.replace(/\n/g, '<br>');
+    currentSlide() {
+      return this.slides[this.currentIndex] || {};
+    }
+  },
+  watch: {
+    '$i18n.locale'() {
+      this.updateSlides();
     }
   }
 }
