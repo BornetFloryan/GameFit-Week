@@ -1,37 +1,37 @@
 <template>
   <div class="login-container">
     <form @submit.prevent="loggedUser">
-      <h2>Connexion</h2>
+      <h2>{{ $t('login.title') }}</h2>
 
       <div class="form-group">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">{{ $t('login.username') }}</label>
         <input
-            type="text"
-            id="username"
-            v-model="user.login"
-            required
-            placeholder="Entrez votre nom d'utilisateur"
+          type="text"
+          id="username"
+          v-model="user.login"
+          required
+          :placeholder="$t('login.username_placeholder')"
         />
       </div>
 
       <div class="form-group">
-        <label for="password">Mot de passe</label>
+        <label for="password">{{ $t('login.password') }}</label>
         <input
-            type="password"
-            id="password"
-            v-model="user.password"
-            required
-            placeholder="Entrez votre mot de passe"
+          type="password"
+          id="password"
+          v-model="user.password"
+          required
+          :placeholder="$t('login.password_placeholder')"
         />
       </div>
 
       <div class="form-button">
-        <button type="submit" class="login-button">Se connecter</button>
+        <button type="submit" class="login-button">{{ $t('login.login_button') }}</button>
         <router-link :to="{ name: 'register' }">
-          <button type="button" class="register-button">Créer un compte</button>
+          <button type="button" class="register-button">{{ $t('login.register_button') }}</button>
         </router-link>
         <router-link :to="{ name: 'register-provider' }">
-          <button type="button" class="provider-button">Devenir Prestataire</button>
+          <button type="button" class="provider-button">{{ $t('login.provider_button') }}</button>
         </router-link>
       </div>
     </form>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "LoginFormView",
@@ -53,11 +53,11 @@ export default {
   },
   computed: {
     ...mapState("account", ["providerRequests"]),
-    ...mapState('prestation', ['providerServiceCategories'])
+    ...mapState("prestation", ["providerServiceCategories"]),
   },
   methods: {
-    ...mapActions("account", ["loginUser", 'getProviderRequests']),
-    ...mapActions('prestation', ['getProviderServiceCategories']),
+    ...mapActions("account", ["loginUser", "getProviderRequests"]),
+    ...mapActions("prestation", ["getProviderServiceCategories"]),
 
     async loggedUser() {
       try {
@@ -65,8 +65,8 @@ export default {
 
         if (response.error === 0) {
           const loggedUser = response.data;
-          const redirectUrl = sessionStorage.getItem('redirectUrl');
-          sessionStorage.removeItem('redirectUrl');
+          const redirectUrl = sessionStorage.getItem("redirectUrl");
+          sessionStorage.removeItem("redirectUrl");
 
           if (redirectUrl) {
             await this.$router.push(redirectUrl);
@@ -86,13 +86,12 @@ export default {
           alert(response.data);
         }
       } catch (error) {
-        console.error("Erreur lors de la connexion:", error);
-        alert("Une erreur est survenue lors de la connexion.");
+        console.error("Login error:", error);
+        alert(this.$t("login.error_message"));
       }
     },
   },
-  mounted() {
-  }
+  mounted() {},
 };
 </script>
 
@@ -155,49 +154,44 @@ input[type="password"]:focus {
   align-items: flex-end;
 }
 
-.login-button {
-  background-color: #007bff;
-  color: white;
+.login-button,
+.register-button,
+.provider-button {
+  height: 100%;
   padding: 0.75em;
   border: none;
   border-radius: 4px;
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.login-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.register-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.provider-button {
+  background-color: #ff9800;
+  color: white;
 }
 
 .login-button:hover {
   background-color: #0056b3;
 }
 
-.register-button {
-  background-color: #28a745;
-  color: white;
-  padding: 0.75em;
-  border: none;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1em;
-}
-
 .register-button:hover {
   background-color: #218838;
-}
-
-.provider-button {
-  background-color: #ff9800;
-  color: white;
-  padding: 0.75em;
-  border: none;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .provider-button:hover {
   background-color: #e68900;
 }
 </style>
+
+
