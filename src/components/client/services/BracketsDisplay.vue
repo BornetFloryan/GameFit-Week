@@ -56,15 +56,13 @@ export default {
     ...mapState("tournament", ["teams","tournamentStarted","matchs"]),
   },
   methods: {
-    ...mapActions('tournament',['getTeams','getMatchs']),
+    ...mapActions('tournament',['getTeams','getMatchs','startTournament']),
     async setupTournament() {
       await this.getTeams();
       await this.getMatchs();
-      console.log("mes équipes l'équipe :",this.teams)
 
-      this.createRounds();
-      this.tournamentStarted = true;
-      console.log("rounds",this.rounds)
+      await this.createRounds();
+      this.startTournament(true);
     },
 
     createRounds() {
@@ -129,7 +127,6 @@ export default {
   },
   async mounted() {
     await this.setupTournament();
-    console.log("rounds", this.rounds[1][0].teams[1].score)
   }
 };
 </script>
