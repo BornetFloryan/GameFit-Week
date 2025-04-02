@@ -68,6 +68,7 @@ const mutations = {
     },
 
 
+
 };
 const actions = {
     async getTeams({commit}){
@@ -130,6 +131,11 @@ const actions = {
 
         }
     },
+    async setTeams({commit},data){
+        commit('setTeams', data);
+
+    },
+
 
     async saveEnoughTeamsBYID({commit},_id){
         try {
@@ -243,7 +249,9 @@ const actions = {
         }
     },
 
-
+    async startTournament({ commit },bool) {
+        commit('setupTournamentState', bool);
+    }
 
 };
 
