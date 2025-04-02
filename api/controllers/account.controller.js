@@ -98,3 +98,17 @@ exports.getCustomerByName = async (req, res) => {
         return res.status(500).send("Erreur lors de la récupération du client par nom");
     }
 }
+
+exports.refreshToken = async (req, res) => {
+    const { refreshToken: requestToken } = req.body;
+    if (!requestToken) {
+        return res.status(403).send({ message: "Refresh token est requis!" });
+    }
+
+    try {
+        const response = await accountService.refreshToken(requestToken);
+        return res.status(response.status).json(response.data);
+    } catch (err) {
+        return res.status(500).send({ message: err.message });
+    }
+};

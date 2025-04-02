@@ -117,7 +117,7 @@ export default {
         for (const service of servicesToRemove) {
           let serviceToDelete = providerServices.find(providerService => providerService._id === service);
           try {
-            let response = await this.deleteProviderServiceCategory(serviceToDelete._id, this.currentUser.session);
+            let response = await this.deleteProviderServiceCategory(serviceToDelete._id);
             if (response.error !== 0) {
               alert(response.data);
               return;
@@ -147,7 +147,7 @@ export default {
         }
       }
 
-      await this.modifyCustomerAccount(updatedAccount, this.currentUser.session);
+      await this.modifyCustomerAccount(updatedAccount);
       await this.$router.push("/admin-dashboard/admin-accounts");
     },
 

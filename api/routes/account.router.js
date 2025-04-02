@@ -1,6 +1,6 @@
 const express = require("express");
 const accountController = require("../controllers/account.controller");
-const checkSession = require('../middleware/auth');
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 const uploadImage = require('../middleware/multerConfig');
 
 var router = express.Router();
@@ -215,7 +215,7 @@ router.post("/register", accountController.addCustomerAccount);
  *                   example: "Erreur du serveur"
  */
 
-router.put("/profil", checkSession, accountController.modifyCustomerAccount);
+router.put("/profil", [verifyToken, hasRole([0, 1, 2])], accountController.modifyCustomerAccount);
 /**
  * @swagger
  * /accounts/profil:
@@ -327,7 +327,7 @@ router.put("/profil", checkSession, accountController.modifyCustomerAccount);
  *                   example: "Erreur du serveur"
  */
 
-router.delete("/profil/:id", checkSession, accountController.deleteCustomerAccount);
+router.delete("/profil/:id", [verifyToken, hasRole([2])], accountController.deleteCustomerAccount);
 /**
  * @swagger
  * /accounts/profil/{id}:
@@ -598,6 +598,36 @@ router.post('/upload', uploadImage('users'), (req, res) => {
  *                 imageUrl:
  *                   type: string
  *                   example: "/assets/img/goodies/image.jpg"
+ */
+
+router.post("/accounts/refreshtoken", accountController.refreshToken);
+/**
+ * @swagger
+ * /auth/refreshtoken:
+ *   post:
+ *     description: Utilisé pour rafraîchir le token
+ *     tags:
+ *       - Utilisateurs
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 minLength: 1
+ *                 maxLength: 100
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       '200':
+ *         description: Ressource ajoutée avec succès
+ *       '500':
+ *         description: Erreur interne du serveur
+ *       '400':
+ *         description: Mauvaise requête
  */
 
 module.exports = router;

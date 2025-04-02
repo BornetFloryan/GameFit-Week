@@ -85,7 +85,7 @@ export default {
             this.prestataire.picture = this.imageName;
           }
         }
-        await this.modifyCustomerAccount(this.prestataire, this.currentUser.session);
+        await this.modifyCustomerAccount(this.prestataire);
       } else {
         console.error('Prestataire is undefined');
       }

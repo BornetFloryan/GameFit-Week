@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const guestbookEntriesController = require('../controllers/guestbookEntries.controller');
+const {verifyToken, hasRole} = require("../middleware/authJWT");
 
 router.get('/', guestbookEntriesController.getGuestbookEntries);
 /**
@@ -47,7 +48,7 @@ router.get('/', guestbookEntriesController.getGuestbookEntries);
  *                   example: "Erreur du serveur"
  */
 
-router.post('/', guestbookEntriesController.addGuestbookEntry);
+router.post('/', [verifyToken, hasRole([0])], guestbookEntriesController.addGuestbookEntry);
 /**
  * @swagger
  * /guestbook-entries:
@@ -134,7 +135,7 @@ router.post('/', guestbookEntriesController.addGuestbookEntry);
  *                   example: "Erreur du serveur"
  */
 
-router.put('/', guestbookEntriesController.updateGuestbookEntry);
+router.put('/', [verifyToken, hasRole([2])], guestbookEntriesController.updateGuestbookEntry);
 /**
  * @swagger
  * /guestbook-entries:
@@ -231,7 +232,7 @@ router.put('/', guestbookEntriesController.updateGuestbookEntry);
  *                   example: "Erreur du serveur"
  */
 
-router.delete('/:_id', guestbookEntriesController.deleteGuestbookEntry);
+router.delete('/:_id', [verifyToken, hasRole([2])], guestbookEntriesController.deleteGuestbookEntry);
 /**
  * @swagger
  * /guestbook-entries/{_id}:

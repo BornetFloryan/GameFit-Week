@@ -5,7 +5,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require('./utils/swaggerConfig');
-const pool = require('./database/db');
+const pool = require('./config/db.config');
 const cors = require('cors');
 const transformToInt = require('./middleware/transformToInt');
 const transformToString = require('./middleware/transformToString');
@@ -72,6 +72,13 @@ app.use('/content-home', contentHomeRoutes);
 app.use('/teams',teamsRoutes);
 app.use('/rounds',roundsRoutes);
 app.use('/matchs',matchsRoutes);
+
+app.use(function(req, res, next) {
+    res.header(
+        "Access-Control-Allow-Headers",
+    );
+    next();
+});
 
 function getLocalIp() {
     const interfaces = os.networkInterfaces();

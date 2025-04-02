@@ -1,7 +1,6 @@
 const ticketController = require('../controllers/ticket.controller');
 const router = require('express').Router();
-const checkSession = require("../middleware/auth");
-
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 
 router.get('/prices', ticketController.getTicketPrices);
 /**
@@ -208,7 +207,7 @@ router.get('/:id', ticketController.getTicketById);
  *         description: Erreur serveur
  */
 
-router.delete('/:id', checkSession, ticketController.deleteTicket);
+router.delete('/:id', [verifyToken, hasRole([0, 1, 2])], ticketController.deleteTicket);
 /**
  * @swagger
  * /Tickets/{id}:

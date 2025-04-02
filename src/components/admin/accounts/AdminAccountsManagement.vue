@@ -54,7 +54,7 @@ export default {
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer ce compte ?')) {
-        await this.deleteCustomerAccount(id, this.currentUser.session);
+        await this.deleteCustomerAccount(id);
         await this.getCustomersAccounts();
         this.filterAccounts();
       }
@@ -68,7 +68,7 @@ export default {
       });
     },
     async handleToggleServiceState({ service }) {
-      await this.modifyProviderServiceCategory(service , this.currentUser.session);
+      await this.modifyProviderServiceCategory(service);
     },
   },
   async mounted() {

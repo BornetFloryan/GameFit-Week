@@ -55,7 +55,7 @@ export default {
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
-        await this.deleteStandReservation({ _id: id, session: this.currentUser.session });
+        await this.deleteStandReservation({ _id: id});
         this.filterReservations();
       }
     },

@@ -9,11 +9,11 @@ router.get("/", sportsCategoriesController.getSportsCategories);
  * @swagger
  * /sports-categories:
  *   get:
- *     summary: Retrieve all sports categories
- *     tags: [Sports Categories]
+ *     summary: Récupérer toutes les catégories de sports
+ *     tags: [Catégories de sports]
  *     responses:
  *       200:
- *         description: A list of sports categories
+ *         description: Une liste de catégories de sports
  *         content:
  *           application/json:
  *             schema:
@@ -28,7 +28,7 @@ router.get("/", sportsCategoriesController.getSportsCategories);
  *                     type: string
  *                     example: "Football"
  *       500:
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  *         content:
  *           application/json:
  *             schema:
@@ -36,7 +36,7 @@ router.get("/", sportsCategoriesController.getSportsCategories);
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Server error"
+ *                   example: "Erreur du serveur"
  */
 
 module.exports = router;

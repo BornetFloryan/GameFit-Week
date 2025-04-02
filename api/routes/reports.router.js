@@ -1,6 +1,6 @@
 const express = require("express");
 const reportsController = require("../controllers/reports.controller");
-// const checkSession = require('../middleware/auth');
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 
 var router = express.Router();
 
@@ -112,7 +112,7 @@ router.post("/", reportsController.addReport);
  *                   example: "Erreur du serveur"
  */
 
-router.put("/", reportsController.updateReport);
+router.put("/", [verifyToken, hasRole([2])], reportsController.updateReport);
 /**
  * @swagger
  * /reports:
@@ -178,7 +178,7 @@ router.put("/", reportsController.updateReport);
  *                   example: "Erreur du serveur"
  */
 
-router.delete("/:id", reportsController.deleteReport);
+router.delete("/:id", [verifyToken, hasRole([2])], reportsController.deleteReport);
 /**
  * @swagger
  * /reports/{id}:

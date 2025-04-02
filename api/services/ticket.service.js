@@ -1,4 +1,4 @@
-const pool = require('../database/db');
+const pool = require('../config/db.config');
 
 // Ticketing
 async function getTickets() {

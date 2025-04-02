@@ -47,7 +47,7 @@ export default {
         ...this.stand,
         price: formData.price,
       };
-      await this.modifyStand(updatedStand, this.currentUser.session);
+      await this.modifyStand(updatedStand);
 
       await this.$router.push('/admin-dashboard/admin-stand-management/');
     },

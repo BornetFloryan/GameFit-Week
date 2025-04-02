@@ -1,6 +1,6 @@
 const express = require('express');
 const providerServiceCategoriesController = require('../controllers/providerServiceCategories.controller');
-const checkSession = require('../middleware/auth');
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 
 var router = express.Router();
 
@@ -100,7 +100,7 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  *                   example: "Erreur du serveur"
  */
 
-router.put('/', checkSession, providerServiceCategoriesController.modifyProviderServiceCategory);
+router.put('/', [verifyToken, hasRole([1, 2])], providerServiceCategoriesController.modifyProviderServiceCategory);
 /**
  * @swagger
  * /provider-service-categories:
@@ -166,7 +166,7 @@ router.put('/', checkSession, providerServiceCategoriesController.modifyProvider
  *                   example: "Erreur du serveur"
  */
 
-router.delete('/:id', checkSession, providerServiceCategoriesController.deleteProviderServiceCategory);
+router.delete('/:id', [verifyToken, hasRole([1, 2])], providerServiceCategoriesController.deleteProviderServiceCategory);
 /**
  * @swagger
  * /provider-service-categories/{id}:
@@ -252,7 +252,7 @@ router.get('/customer/:customer_id', providerServiceCategoriesController.getProv
  *         description: Erreur interne du serveur
  */
 
-router.get('/customer/:customer_id/service/:service_id', checkSession, providerServiceCategoriesController.getProviderServiceCategoriesByCustomerIdAndServiceID);
+router.get('/customer/:customer_id/service/:service_id', providerServiceCategoriesController.getProviderServiceCategoriesByCustomerIdAndServiceID);
 /**
  * @swagger
  * /provider-service-categories/customer/{customer_id}/service/{service_id}:
@@ -307,7 +307,7 @@ router.get('/customer/:customer_id/service/:service_id', checkSession, providerS
  *         description: Erreur interne du serveur
  */
 
-router.get('/customer-ids', checkSession, providerServiceCategoriesController.getProviderServiceCategoriesCustomerId);
+router.get('/customer-ids', providerServiceCategoriesController.getProviderServiceCategoriesCustomerId);
 /**
  * @swagger
  * /provider-service-categories/customer-ids:
@@ -336,7 +336,7 @@ router.get('/customer-ids', checkSession, providerServiceCategoriesController.ge
  *         description: Erreur interne du serveur
  */
 
-router.get('/provider-offering-services', checkSession, providerServiceCategoriesController.getProviderOfferingServices);
+router.get('/provider-offering-services', providerServiceCategoriesController.getProviderOfferingServices);
 /**
  * @swagger
  * /provider-service-categories/provider-offering-services:

@@ -12,7 +12,20 @@ const swaggerOptions = {
         servers: [
             {
                 url: "http://localhost:3000/",
-                description: "Local server",
+            },
+        ],
+        components: {
+            securitySchemes: {
+                jwt: {
+                    type: "http",
+                    scheme: "bearer",
+                    in: "header",
+                },
+            },
+        },
+        security: [
+            {
+                jwt: [],
             },
         ],
     },

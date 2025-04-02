@@ -19,11 +19,12 @@ DROP TABLE IF EXISTS sports_categories CASCADE;
 DROP TABLE IF EXISTS provider_service_categories CASCADE;
 DROP TABLE IF EXISTS service_categories CASCADE;
 DROP TABLE IF EXISTS provider_requests CASCADE;
+DROP TABLE IF EXISTS refresh_tokens CASCADE;
 DROP TABLE IF EXISTS customer_accounts CASCADE;
 DROP TABLE IF EXISTS content_home CASCADE;
 DROP TABLE IF EXISTS matchs_tournament CASCADE;
 DROP TABLE IF EXISTS rounds_tournament CASCADE;
-DROP TABLE IF EXISTS teams_tournament;
+DROP TABLE IF EXISTS teams_tournament CASCADE;
 
 
 CREATE TABLE IF NOT EXISTS content_home (
@@ -45,6 +46,13 @@ CREATE TABLE IF NOT EXISTS customer_accounts
     description TEXT,
     privilege   INT,
     session     VARCHAR(255)
+);
+
+CREATE TABLE refresh_tokens (
+    id SERIAL PRIMARY KEY,
+    token VARCHAR(255) NOT NULL,
+    expiry_date TIMESTAMP NOT NULL,
+    user_id INT REFERENCES customer_accounts(_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS provider_requests

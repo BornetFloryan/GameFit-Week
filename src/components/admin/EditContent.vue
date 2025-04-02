@@ -77,7 +77,7 @@ export default {
         }
 
         try {
-          await this.modifyContentHome({data: this.content, session: this.currentUser.session});
+          await this.modifyContentHome({data: this.content});
         } catch (error) {
           console.error('Erreur lors de la modification du contenu:', error);
         }

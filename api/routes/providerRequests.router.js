@@ -1,6 +1,6 @@
 const express = require("express");
 const providerRequestsController = require("../controllers/providerRequests.controller");
-const checkSession = require('../middleware/auth');
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 
 const router = express.Router();
 
@@ -124,7 +124,7 @@ router.post("/", providerRequestsController.addProviderRequest);
  *                   example: "Erreur du serveur"
  */
 
-router.put("/", checkSession, providerRequestsController.modifyProviderRequest);
+router.put("/", [verifyToken, hasRole([2])], providerRequestsController.modifyProviderRequest);
 /**
  * @swagger
  * /provider-requests:
@@ -208,7 +208,7 @@ router.put("/", checkSession, providerRequestsController.modifyProviderRequest);
  *                   example: "Erreur du serveur"
  */
 
-router.delete("/:id", checkSession, providerRequestsController.deleteProviderRequest);
+router.delete("/:id", [verifyToken, hasRole([2])], providerRequestsController.deleteProviderRequest);
 /**
  * @swagger
  * /provider-requests/{id}:

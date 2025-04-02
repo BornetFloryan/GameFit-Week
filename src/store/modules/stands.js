@@ -74,9 +74,9 @@ const actions = {
             console.error('Erreur lors de la récupération des réservations des stands:', error);
         }
     },
-    async addStandReservation({ commit }, standReservation, session) {
+    async addStandReservation({ commit }, standReservation) {
         try {
-            let response = await StandsService.addStandReservation(standReservation, session);
+            let response = await StandsService.addStandReservation(standReservation);
             if (response.error === 0) {
                 commit('addStandReservation', standReservation);
             } else {
@@ -86,9 +86,9 @@ const actions = {
             console.error('Erreur lors de l\'ajout de la réservation des stands:', error);
         }
     },
-    async modifyStand({ commit }, stand, session) {
+    async modifyStand({ commit }, stand) {
         try {
-            let response = await StandsService.modifyStand(stand, session);
+            let response = await StandsService.modifyStand(stand);
             if (response.error === 0) {
                 commit('modifyStand', stand);
             } else {
@@ -98,9 +98,9 @@ const actions = {
             console.error('Erreur lors de la modification des stands:', error);
         }
     },
-    async modifyStandsReservations({ commit }, standReservation, session) {
+    async modifyStandsReservations({ commit }, standReservation) {
         try {
-            let response = await StandsService.modifyStandsReservations(standReservation, session);
+            let response = await StandsService.modifyStandsReservations(standReservation);
             if (response.error === 0) {
                 commit('modifyStandsReservations', response.data);
                 return response;
@@ -123,9 +123,9 @@ const actions = {
             console.error('Erreur lors de la suppression des stands:', error);
         }
     },
-    async deleteStandReservation({ commit }, { _id, session }) {
+    async deleteStandReservation({ commit }, { _id }) {
         try {
-            let response = await StandsService.deleteStandReservation(_id, session);
+            let response = await StandsService.deleteStandReservation(_id);
             if (response.error === 0) {
                 commit('deleteStandReservation', response.data);
             } else {

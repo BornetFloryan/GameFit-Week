@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const goodiesController = require('../controllers/goodies.controller');
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 const uploadImage = require('../middleware/multerConfig');
 
 router.get('/', goodiesController.getAllGoodies);
@@ -53,7 +54,7 @@ router.get('/:id', goodiesController.getGoodieById);
  *         description: Erreur serveur
  */
 
-router.post('/', goodiesController.addGoodie);
+router.post('/', [verifyToken, hasRole([1])], goodiesController.addGoodie);
 /**
  * @swagger
  * /goodies:
@@ -71,8 +72,12 @@ router.post('/', goodiesController.addGoodie);
  *                 type: string
  *               image:
  *                 type: string
- *               description:
- *                 type: string
+ *               price:
+ *                  type: number
+ *                  format: float
+ *               provider_service_categories_id:
+ *                  type: integer
+ *
  *     responses:
  *       201:
  *         description: Goodie ajouté
@@ -80,7 +85,7 @@ router.post('/', goodiesController.addGoodie);
  *         description: Erreur serveur
  */
 
-router.put('/:id', goodiesController.updateGoodie);
+router.put('/:id', [verifyToken, hasRole([1])], goodiesController.updateGoodie);
 /**
  * @swagger
  * /goodies/{id}:
@@ -115,7 +120,7 @@ router.put('/:id', goodiesController.updateGoodie);
  *         description: Erreur serveur
  */
 
-router.delete('/:id', goodiesController.deleteGoodie);
+router.delete('/:id', [verifyToken, hasRole([1])], goodiesController.deleteGoodie);
 /**
  * @swagger
  * /goodies/{id}:
@@ -157,7 +162,7 @@ router.get('/:goodie_id/variations', goodiesController.getGoodieVariations);
  *         description: Erreur serveur
  */
 
-router.post('/variations', goodiesController.addGoodieVariation);
+router.post('/variations', [verifyToken, hasRole([1])], goodiesController.addGoodieVariation);
 /**
  * @swagger
  * /goodies/variations:
@@ -205,7 +210,7 @@ router.get('/variations/:id', goodiesController.getGoodieVariationById);
  *         description: Variation non trouvée
  */
 
-router.put('/variations/:id', goodiesController.updateGoodieVariation);
+router.put('/variations/:id', [verifyToken, hasRole([1])], goodiesController.updateGoodieVariation);
 /**
  * @swagger
  * /goodies/variations/{id}:
@@ -239,7 +244,7 @@ router.put('/variations/:id', goodiesController.updateGoodieVariation);
  *         description: Variation non trouvée
  */
 
-router.delete('/variations/:id', goodiesController.deleteGoodieVariation);
+router.delete('/variations/:id', [verifyToken, hasRole([1])], goodiesController.deleteGoodieVariation);
 /**
  * @swagger
  * /goodies/variations/{id}:

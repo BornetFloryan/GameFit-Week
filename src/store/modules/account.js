@@ -3,7 +3,7 @@ import AccountService from '../../services/account.service';
 const state = () => ({
     // state = les données centralisées
     customersAccounts: [],
-    currentUser: null,
+    currentUser: JSON.parse(localStorage.getItem('user')) || null,
     providerRequests: [],
     sportsCategories: [],
     provider_sport_categories: [],
@@ -19,12 +19,13 @@ const mutations = {
     },
     updateCurrentUser(state, user) {
         state.currentUser = user;
-        localStorage.setItem('currentUser', user);
+        localStorage.setItem('user', JSON.stringify(user));
     },
     logout(state) {
         state.currentUser = null;
         state.token = null;
         state.refreshToken = null;
+        localStorage.removeItem('user');
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
     },
@@ -90,9 +91,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de l\'utilisateur' };
         }
     },
-    async modifyCustomerAccount({ commit }, customer, session) {
+    async modifyCustomerAccount({ commit }, customer) {
         try {
-            let response = await AccountService.modifyCustomerAccount(customer, session);
+            let response = await AccountService.modifyCustomerAccount(customer);
             if (response.error === 0) {
                 commit('modifyCustomerAccount', response.data);
             }
@@ -102,9 +103,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la modification de l\'utilisateur' };
         }
     },
-    async deleteCustomerAccount({ commit }, customer, session) {
+    async deleteCustomerAccount({ commit }, customer) {
         try {
-            let response = await AccountService.deleteCustomerAccount(customer, session);
+            let response = await AccountService.deleteCustomerAccount(customer);
             if (response.error === 0) {
                 commit('deleteCustomerAccount', response.data);
             }
@@ -118,6 +119,9 @@ const actions = {
         try {
             let response = await AccountService.loginUser(data);
             if (response.error === 0) {
+                if (response.data.accessToken && response.data.refreshToken) {
+                    localStorage.setItem('user', JSON.stringify(response.data));
+                }
                 commit('updateCurrentUser', response.data);
             }
             return response;
@@ -127,6 +131,7 @@ const actions = {
         }
     },
     async logoutUser({ commit }) {
+        localStorage.removeItem('user');
         commit('logout');
     },
     async getProviderRequests({ commit }) {
@@ -153,9 +158,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout de la demande' };
         }
     },
-    async deleteProviderRequest({ commit }, request, session) {
+    async deleteProviderRequest({ commit }, request) {
         try {
-            let response = await AccountService.deleteProviderRequest(request, session);
+            let response = await AccountService.deleteProviderRequest(request);
             if (response.error === 0) {
                 commit('deleteProviderRequest', response.data);
             }
@@ -165,10 +170,10 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la suppression de la demande' };
         }
     },
-    async approveProviderRequest({ commit }, request, session) {
+    async approveProviderRequest({ commit }, request) {
         try {
             request.state = '1';
-            let response = await AccountService.modifyProviderRequest(request, session);
+            let response = await AccountService.modifyProviderRequest(request);
             if (response.error === 0) {
                 commit('modifyProviderRequest', response.data);
             }
@@ -214,6 +219,34 @@ const actions = {
         } catch (error) {
             console.error('Erreur lors de la récupération des catégories de sports des fournisseurs:', error);
         }
+    },
+    getUser() {
+        return JSON.parse(localStorage.getItem('user'));
+    },
+    getAccessToken() {
+        const user = this.getUser();
+        return user ? user.accessToken : null;
+    },
+    getRefreshToken() {
+        const user = this.getUser();
+        return user ? user.refreshToken : null;
+    },
+    async refreshToken() {
+        const refreshToken = this.getRefreshToken();
+        if (refreshToken) {
+            try {
+                const response = await AccountService.refreshtoken({ refreshToken });
+                if (response.data.accessToken) {
+                    const user = this.getUser();
+                    user.accessToken = response.data.accessToken;
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+                return response.data.accessToken;
+            } catch (error) {
+                console.error('Erreur lors de la récupération du refresh token:', error);
+            }
+        }
+        return null;
     }
 };
 

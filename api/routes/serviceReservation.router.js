@@ -1,6 +1,6 @@
 const express = require('express');
 const serviceReservationController = require('../controllers/serviceReservation.controller');
-const checkSession = require("../middleware/auth");
+const { verifyToken, hasRole } = require('../middleware/authJWT');
 
 var router = express.Router();
 
@@ -118,7 +118,7 @@ router.post('/', serviceReservationController.addServiceReservation);
  *                   example: "Erreur du serveur"
  */
 
-router.put('/', checkSession, serviceReservationController.modifyServiceReservation);
+router.put('/', [verifyToken, hasRole([2])], serviceReservationController.modifyServiceReservation);
 /**
  * @swagger
  * /service-reservations:
@@ -196,7 +196,7 @@ router.put('/', checkSession, serviceReservationController.modifyServiceReservat
  *                   example: "Erreur du serveur"
  */
 
-router.delete('/:id', checkSession, serviceReservationController.deleteServiceReservation);
+router.delete('/:id', [verifyToken, hasRole([0, 1, 2])], serviceReservationController.deleteServiceReservation);
 /**
  * @swagger
  * /service-reservations/{id}:
@@ -241,7 +241,7 @@ router.delete('/:id', checkSession, serviceReservationController.deleteServiceRe
  *                   example: "Erreur du serveur"
  */
 
-router.get('/:id', checkSession, serviceReservationController.getServiceReservationsById);
+router.get('/:id', serviceReservationController.getServiceReservationsById);
 /**
  * @swagger
  * /service-reservations/{id}:
@@ -342,7 +342,7 @@ router.get('/ticket/:ticket_id', serviceReservationController.getServiceReservat
  *         description: Erreur interne du serveur
  */
 
-router.get('/service/:service_id', checkSession, serviceReservationController.getServiceReservationByServiceId);
+router.get('/service/:service_id', serviceReservationController.getServiceReservationByServiceId);
 /**
  * @swagger
  * /service-reservations/service/{service_id}:
@@ -396,7 +396,7 @@ router.get('/service/:service_id', checkSession, serviceReservationController.ge
  *         description: Erreur interne du serveur
  */
 
-router.get('/stand/:standsReservationsId/service/:service_id', checkSession, serviceReservationController.getServiceReservationsByStandsReservationsIdAndServiceId);
+router.get('/stand/:standsReservationsId/service/:service_id', serviceReservationController.getServiceReservationsByStandsReservationsIdAndServiceId);
 /**
  * @swagger
  * /service-reservations/stand/{standsReservationsId}/service/{service_id}:

@@ -52,7 +52,7 @@ export default {
     ...mapActions("prestation", ["getProviderServiceCategories"]),
 
     async handleAddStandReservation(data) {
-      await this.addStandReservation({ ...this.formData, ...data }, this.currentUser.session);
+      await this.addStandReservation({ ...this.formData, ...data });
       await this.$router.push("/admin-dashboard/admin-dedication");
     },
 

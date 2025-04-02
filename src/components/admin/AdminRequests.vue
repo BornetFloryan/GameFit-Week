@@ -72,12 +72,12 @@ export default {
     async approveRequest(request) {
       if (confirm("Êtes-vous sûr de vouloir approuver cette demande ?")) {
         try {
-          let response = await this.approveProviderRequest(request, this.currentUser.session);
+          let response = await this.approveProviderRequest(request);
           if (response.error === 0) {
             let user = this.getCustomerById(request.customer_id);
             if (user) {
               user.privilege = '1';
-              response = await this.modifyCustomerAccount(user, this.currentUser.session);
+              response = await this.modifyCustomerAccount(user);
               if (response.error !== 0) {
                 alert(response.data);
               }
@@ -98,7 +98,7 @@ export default {
           if (response.error === 0) {
             for (let category of this.getProviderServiceCategoriesByCustomerId(request.customer_id)) {
               try {
-                response = await this.deleteProviderServiceCategory(category, this.currentUser.session);
+                response = await this.deleteProviderServiceCategory(category);
                 if (response.error !== 0) {
                   alert(response.data);
                 }
@@ -124,7 +124,7 @@ export default {
       }
       if (confirm("Êtes-vous sûr de vouloir supprimer cette demande ?")) {
         try {
-          let response = await this.deleteProviderRequest(request._id, this.currentUser.session);
+          let response = await this.deleteProviderRequest(request._id);
           if (response.error !== 0) {
             alert(response.data);
           }

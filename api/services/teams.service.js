@@ -1,4 +1,4 @@
-const pool = require('../database/db');
+const pool = require('../config/db.config');
 // const { v4: uuidv4 } = require('uuid');
 
 async function getTeams() {

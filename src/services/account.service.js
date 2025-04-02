@@ -29,17 +29,17 @@ async function addCustomerAccountFromApi(customer) {
 //     return LocalSource.modifyCustomerAccount(customer)
 // }
 
-async function ModifyCustomerAccountFromApi(customer, session) {
+async function ModifyCustomerAccountFromApi(customer) {
 
-    return putRequest('accounts/profil/?session=' + session, {... customer, file: customer.file}, 'ModifyCustomerAccount')
+    return putRequest('accounts/profil', {... customer, file: customer.file}, 'ModifyCustomerAccount')
 }
 
 // async function deleteCustomerAccountFromLocalSource(customer) {
 //     return LocalSource.deleteCustomerAccount(customer)
 // }
 
-async function deleteCustomerAccountFromApi(customer, session) {
-    return deleteRequest('accounts/profil/' + customer + '?session=' + session, 'DeleteCustomerAccount');
+async function deleteCustomerAccountFromApi(customer) {
+    return deleteRequest('accounts/profil/' + customer, 'DeleteCustomerAccount');
 }
 
 // async function getProviderRequestsFromLocalSource() {
@@ -62,16 +62,16 @@ async function addProviderRequestFromApi(user) {
 //     return LocalSource.modifyProviderRequest(request)
 // }
 
-async function modifyProviderRequestFromApi(request, session) {
-    return putRequest('provider-requests/?session=' + session, request, 'ModifyProviderRequest')
+async function modifyProviderRequestFromApi(request) {
+    return putRequest('provider-requests', request, 'ModifyProviderRequest')
 }
 
 // async function deleteProviderRequestFromLocalSource(request) {
 //     return LocalSource.deleteProviderRequest(request)
 // }
 
-async function deleteProviderRequestFromApi(request, session) {
-    return deleteRequest('provider-requests/' + request+ '?session=' + session, 'DeleteProviderRequest')
+async function deleteProviderRequestFromApi(request) {
+    return deleteRequest('provider-requests/' + request, 'DeleteProviderRequest')
 }
 
 // async function getSportsCategoriesFromLocalSource(){
@@ -92,6 +92,10 @@ async function getProviderSportsCategoriesFromApi(){
 
 async function uploadImageFromApi(data) {
     return postRequest('accounts/upload', data, 'UploadImage');
+}
+
+async function refreshtokenFromApi(data) {
+    return postRequest('accounts/refreshtoken', data, 'Refreshtoken');
 }
 
 
@@ -140,12 +144,12 @@ async function addCustomerAccount(customer) {
     return response.data
 }
 
-async function modifyCustomerAccount(customer, session) {
+async function modifyCustomerAccount(customer) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await ModifyCustomerAccountFromLocalSource(customer)
-        response = await ModifyCustomerAccountFromApi(customer, session)
+        response = await ModifyCustomerAccountFromApi(customer)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -154,12 +158,12 @@ async function modifyCustomerAccount(customer, session) {
     return response.data
 }
 
-async function deleteCustomerAccount(customer, session) {
+async function deleteCustomerAccount(customer) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await deleteCustomerAccountFromLocalSource(customer)
-        response = await deleteCustomerAccountFromApi(customer, session)
+        response = await deleteCustomerAccountFromApi(customer)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -196,12 +200,12 @@ async function addProviderRequest(user) {
     return response
 }
 
-async function modifyProviderRequest(request, session) {
+async function modifyProviderRequest(request) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await modifyProviderRequestFromLocalSource(request)
-        response = await modifyProviderRequestFromApi(request, session)
+        response = await modifyProviderRequestFromApi(request)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -210,12 +214,12 @@ async function modifyProviderRequest(request, session) {
     return response
 }
 
-async function deleteProviderRequest(request, session) {
+async function deleteProviderRequest(request) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await deleteProviderRequestFromLocalSource(request)
-        response = await deleteProviderRequestFromApi(request, session)
+        response = await deleteProviderRequestFromApi(request)
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -261,6 +265,14 @@ async function uploadImage(data) {
     }
 }
 
+async function refreshtoken(data) {
+    try {
+        let response = await refreshtokenFromApi(data);
+        return response;
+    } catch (err) {
+        return { error: 1, status: 500, data: 'Erreur: Impossible de télécharger l’image' };
+    }
+}
 
 
 export default {
@@ -276,5 +288,5 @@ export default {
     getSportsCategories,
     getProviderSportsCategories,
     uploadImage,
-
+    refreshtoken
 }

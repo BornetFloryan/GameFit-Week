@@ -1,6 +1,6 @@
 const express = require("express");
 const standsController = require("../controllers/stands.controller");
-const checkSession = require("../middleware/auth");
+const { verifyToken, hasRole } = require("../middleware/authJWT");
 
 var router = express.Router();
 
@@ -120,7 +120,7 @@ router.get("/reservations", standsController.getStandsReservations);
  *         description: Erreur interne du serveur
  */
 
-router.post("/reservations", checkSession, standsController.addStandReservation);
+router.post("/reservations", [verifyToken, hasRole([0, 1, 2])], standsController.addStandReservation);
 /**
  * @swagger
  * /stands/reservations:
@@ -201,7 +201,7 @@ router.post("/reservations", checkSession, standsController.addStandReservation)
  *         description: Erreur interne du serveur
  */
 
-router.put("/", checkSession, standsController.modifyStand);
+router.put("/", [verifyToken, hasRole([2])], standsController.modifyStand);
 /**
  * @swagger
  * /stands:
@@ -263,7 +263,7 @@ router.put("/", checkSession, standsController.modifyStand);
  *         description: Erreur interne du serveur
  */
 
-router.put("/reservations", checkSession, standsController.modifyStandsReservations);
+router.put("/reservations", [verifyToken, hasRole([1, 2])], standsController.modifyStandsReservations);
 /**
  * @swagger
  * /stands/reservations:
@@ -349,7 +349,7 @@ router.put("/reservations", checkSession, standsController.modifyStandsReservati
  *         description: Erreur interne du serveur
  */
 
-router.delete("/reservations/:id", checkSession, standsController.deleteStandReservation);
+router.delete("/reservations/:id", [verifyToken, hasRole([1, 2])], standsController.deleteStandReservation);
 /**
  * @swagger
  * /stands/reservations/{id}:
@@ -388,7 +388,7 @@ router.delete("/reservations/:id", checkSession, standsController.deleteStandRes
  *         description: Erreur interne du serveur
  */
 
-router.delete("/:id", checkSession, standsController.deleteStand);
+router.delete("/:id", [verifyToken, hasRole([2])], standsController.deleteStand);
 /**
  * @swagger
  * /stands/{id}:
@@ -597,7 +597,7 @@ router.get("/stand/:stand_id/reservations/:date", standsController.getStandsRese
  *         description: Erreur interne du serveur
  */
 
-router.get("/customer/:customer_id/reservations", checkSession, standsController.getStandsReservationsByCustomerId);
+router.get("/customer/:customer_id/reservations", standsController.getStandsReservationsByCustomerId);
 /**
  * @swagger
  * /stands/customer/{customer_id}/reservations:
@@ -842,7 +842,7 @@ router.get("/customer/:customer_id/service/:service_id/date/:date/reservations",
  *         description: Erreur interne du serveur
  */
 
-router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservations", checkSession, standsController.getStandsReservationsByCustomerIdAndDateAndExcludingStandId);
+router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservations", standsController.getStandsReservationsByCustomerIdAndDateAndExcludingStandId);
 /**
  * @swagger
  * /stands/customer/{customer_id}/date/{date}/excluding-stand/{stand_id}/reservations:

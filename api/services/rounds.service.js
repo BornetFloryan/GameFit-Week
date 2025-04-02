@@ -1,4 +1,4 @@
-const pool = require('../database/db');
+const pool = require('../config/db.config');
 
 async function getRounds(){
     const client = await pool.connect();

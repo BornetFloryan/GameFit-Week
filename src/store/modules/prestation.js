@@ -142,9 +142,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de l\'ajout d\'un service prestataire' };
         }
     },
-    async modifyProviderServiceCategory({ commit }, providerServiceCategory, session) {
+    async modifyProviderServiceCategory({ commit }, providerServiceCategory) {
         try {
-            let response = await PrestationService.modifyProviderServiceCategory(providerServiceCategory, session);
+            let response = await PrestationService.modifyProviderServiceCategory(providerServiceCategory);
             if (response.error === 0) {
                 commit('modifyProviderServiceCategorytegory', response.data);
             }
@@ -154,9 +154,9 @@ const actions = {
             return { error: 1, data: 'Erreur lors de la modification d\'un service prestataire' };
         }
     },
-    async deleteProviderServiceCategory({ commit }, providerServiceCategory, session) {
+    async deleteProviderServiceCategory({ commit }, providerServiceCategory) {
         try {
-            let response = await PrestationService.deleteProviderServiceCategory(providerServiceCategory, session);
+            let response = await PrestationService.deleteProviderServiceCategory(providerServiceCategory);
             if (response.error === 0) {
                 commit('deleteProviderServiceCategory', response.data);
             }

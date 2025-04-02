@@ -29,16 +29,16 @@ async function addProviderServiceCategoryFromApi(providerServiceCategory) {
 //     return LocalSource.modifyProviderServiceCategory(providerServiceCategory);
 // }
 
-async function modifyProviderServiceCategoryFromApi(providerServiceCategory, session) {
-    return putRequest('provider-service-categories/?session=' + session, providerServiceCategory, 'ModifyProviderServiceCategory')
+async function modifyProviderServiceCategoryFromApi(providerServiceCategory) {
+    return putRequest('provider-service-categories', providerServiceCategory, 'ModifyProviderServiceCategory')
 }
 
 // async function deleteProviderServiceCategoryFromLocalSource(providerServiceCategory) {
 //     return LocalSource.deleteProviderServiceCategory(providerServiceCategory);
 // }
 
-async function deleteProviderServiceCategoryFromApi(providerServiceCategory, session) {
-    return deleteRequest('provider-service-categories/' + providerServiceCategory + '?session=' + session, 'DeleteProviderServiceCategory')
+async function deleteProviderServiceCategoryFromApi(providerServiceCategory) {
+    return deleteRequest('provider-service-categories/' + providerServiceCategory, 'DeleteProviderServiceCategory')
 }
 
 // async function getServiceReservationsFromLocalSource() {
@@ -195,10 +195,10 @@ async function addProviderServiceCategory(providerServiceCategory) {
     return response
 }
 
-async function modifyProviderServiceCategory(providerServiceCategory, session) {
+async function modifyProviderServiceCategory(providerServiceCategory) {
     let response = null;
     try {
-        response = await modifyProviderServiceCategoryFromApi(providerServiceCategory, session);
+        response = await modifyProviderServiceCategoryFromApi(providerServiceCategory);
     }
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de modifier un prestataire à un service' }
@@ -206,10 +206,10 @@ async function modifyProviderServiceCategory(providerServiceCategory, session) {
     return response
 }
 
-async function deleteProviderServiceCategory(providerServiceCategory, session) {
+async function deleteProviderServiceCategory(providerServiceCategory) {
     let response = null;
     try {
-        response = await deleteProviderServiceCategoryFromApi(providerServiceCategory, session);
+        response = await deleteProviderServiceCategoryFromApi(providerServiceCategory);
     }
     catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de supprimer un prestataire à un service' }

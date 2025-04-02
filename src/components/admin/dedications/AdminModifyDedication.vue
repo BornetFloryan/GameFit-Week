@@ -68,7 +68,7 @@ export default {
 
       if(updatedReservation){
         try {
-          let response = await this.modifyStandsReservations(updatedReservation, this.currentUser.session);
+          let response = await this.modifyStandsReservations(updatedReservation);
           if (response.error !== 0) {
             alert(response.data);
             return;

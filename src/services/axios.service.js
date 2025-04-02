@@ -28,6 +28,36 @@ let axiosAgent = axios.create({
     baseURL: localStorage.getItem('serverIP') ? `http://${localStorage.getItem('serverIP')}:3000/` : 'http://localhost:3000/'
 })
 
+axiosAgent.interceptors.request.use(
+    async config => {
+        let user = localStorage.getItem('user');
+        let token = user ? JSON.parse(user).accessToken : null;
+        if (token) {
+            config.headers['authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
+axiosAgent.interceptors.response.use(
+    response => response,
+    async error => {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const newToken = await this.$store.account.refreshToken();
+            if (newToken) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+                return axiosAgent(originalRequest);
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
 /* Pour la démonstration, décommenter l'instruction suivante.
   Cela permet d'ajouter à toutes les requêtes une entête api-key.
   Malheureusement, cette entête n'est pas autorisée par l'API

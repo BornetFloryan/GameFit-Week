@@ -29,32 +29,32 @@ async function getStandsReservationsFromApi(){
 //     return LocalSource.modifyStand(stand);
 // }
 
-async function modifyStandFromApi(stand, session){
-    return putRequest('stands?session=' + session, stand, 'ModifyStand');
+async function modifyStandFromApi(stand){
+    return putRequest('stands', stand, 'ModifyStand');
 }
 
 // async function modifyStandsReservationsFromLocalSource(standReservation) {
 //     return LocalSource.modifyStandsReservations(standReservation);
 // }
 
-async function modifyStandsReservationsFromApi(standReservation, session){
-    return putRequest('stands/reservations?session=' + session, standReservation, 'ModifyStandsReservations');
+async function modifyStandsReservationsFromApi(standReservation){
+    return putRequest('stands/reservations' , standReservation, 'ModifyStandsReservations');
 }
 
 // async function addStandReservationFromLocalSource(standReservation) {
 //     return LocalSource.addStandReservation(standReservation);
 // }
 
-async function addStandReservationFromApi(standReservation, session){
-    return postRequest('stands/reservations?session=' + session, standReservation, 'AddStandReservation');
+async function addStandReservationFromApi(standReservation){
+    return postRequest('stands/reservations' , standReservation, 'AddStandReservation');
 }
 
 // async function deleteStandReservationFromLocalSource(_id) {
 //     return LocalSource.deleteStandReservation(_id);
 // }
 
-async function deleteStandReservationFromApi(_id, session){
-    return deleteRequest('stands/reservations/' + _id + '?session=' + session, 'DeleteStandReservation');
+async function deleteStandReservationFromApi(_id, ){
+    return deleteRequest('stands/reservations/' + _id, 'DeleteStandReservation');
 }
 
 // async function deleteStandFromLocalSource(_id) {
@@ -107,12 +107,12 @@ async function getStandsReservations() {
     return response
 }
 
-async function modifyStand(stand, session) {
+async function modifyStand(stand) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await modifyStandFromLocalSource(stand);
-        response = await modifyStandFromApi(stand, session);
+        response = await modifyStandFromApi(stand);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -121,12 +121,12 @@ async function modifyStand(stand, session) {
     return response
 }
 
-async function modifyStandsReservations(standReservation, session) {
+async function modifyStandsReservations(standReservation) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await modifyStandsReservationsFromLocalSource(standReservation);
-        response = await modifyStandsReservationsFromApi(standReservation, session);
+        response = await modifyStandsReservationsFromApi(standReservation);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -135,12 +135,12 @@ async function modifyStandsReservations(standReservation, session) {
     return response
 }
 
-async function addStandReservation(standReservation, session) {
+async function addStandReservation(standReservation) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await addStandReservationFromLocalSource(standReservation);
-        response = await addStandReservationFromApi(standReservation, session);
+        response = await addStandReservationFromApi(standReservation);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {
@@ -149,12 +149,12 @@ async function addStandReservation(standReservation, session) {
     return response
 }
 
-async function deleteStandReservation(_id, session) {
+async function deleteStandReservation(_id) {
     let response = null;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         // response = await deleteStandReservationFromLocalSource(_id);
-        response = await deleteStandReservationFromApi(_id, session);
+        response = await deleteStandReservationFromApi(_id);
     }
         // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
     catch(err) {

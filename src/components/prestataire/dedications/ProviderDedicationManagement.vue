@@ -72,7 +72,7 @@ export default {
 
     async handleDeleteButton(id) {
       if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
-        await this.deleteStandReservation({ _id: id, session: this.currentUser.session });
+        await this.deleteStandReservation({ _id: id });
         this.filterReservations();
       }
     },
@@ -88,7 +88,7 @@ export default {
     async toggleServiceStatus() {
       try {
         this.providerServiceCategory.state = this.serviceStatus;
-        await this.updateProviderServiceCategoryState(this.providerServiceCategory, this.currentUser.session);
+        await this.updateProviderServiceCategoryState(this.providerServiceCategory);
         alert(`Service ${this.serviceStatus === '1' ? 'activé' : 'désactivé'} avec succès`);
       } catch (e) {
         alert('Erreur lors de la mise à jour du statut du service');
