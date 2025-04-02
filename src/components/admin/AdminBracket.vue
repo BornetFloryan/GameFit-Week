@@ -21,6 +21,7 @@
             <div class="team" v-for="(team, teamIndex) in match.teams" :key="teamIndex">
 
               <div class="team-actions" v-if="!tournamentStarted">
+                {{team._id}}
                 <button v-if="team.name !== '????' && team.name !== '????'" @click="showEditDialog(team)">Edit</button>
                 <button v-if="team.name !== '????' && team.name !== '????'" @click="deleteTeam(team._id)">Delete</button>
               </div>
@@ -91,7 +92,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 export default {
   data() {
     return {
@@ -114,8 +115,7 @@ export default {
       }
   },
   methods: {
-    ...mapMutations('tournament', ['setupTournamentState']),
-    ...mapActions('tournament', ['getTeams', 'addTeam', 'deleteTeamByID', 'editTeam', 'getMatchs', 'addRound', 'editRound', 'addMatch', 'editMatch', 'getRounds', 'saveEnoughTeamsBYID', 'deleteMatchByID']),
+    ...mapActions('tournament', ['setTeams','startTournament','getTeams', 'addTeam', 'deleteTeamByID', 'editTeam', 'getMatchs', 'addRound', 'editRound', 'addMatch', 'editMatch', 'getRounds', 'saveEnoughTeamsBYID', 'deleteMatchByID']),
 
     async swapTeamWithAnotherMatch(direction, roundIndex, matchIndex, teamIndex) {
       const round = this.rounds[roundIndex];
@@ -159,10 +159,11 @@ export default {
         await this.getMatchs();
 
         this.teamCount = this.teams.length;
-
+        let data;
+        let setTeams = this.teams;
         while (this.teams.length < 8) {
-          this.setupTournamentState(false);
-          this.teams.push({
+          await this.startTournament(false);
+          setTeams.push({
             name: "????",
             img: '',
             description: 'No description available',
@@ -170,8 +171,8 @@ export default {
             score: 0
           });
         }
-
-        this.teams = this.teams.map(team => ({ ...team, score: 0 }));
+        data = setTeams.map(team => ({ ...team, score: 0 }));
+        await this.setTeams(data);
 
         let firstRoundMatches = { 1: [] };
 
@@ -253,12 +254,19 @@ export default {
           }
 
           const matchFound = this.matchs.find(m => m._id === obj.match_id);
-          matchFound
-              ? await this.editMatch({ ...obj, id: obj.match_id })
-              : (console.warn("Ce Match doit être ajouté à l'API", obj), await this.addMatch(obj));
+
+
+
+          if (matchFound) {
+            await this.editMatch({ ...obj, id: obj.match_id });
+          } else {
+
+
+            console.warn("Ce Match doit être ajouté à l'API", obj);
+            await this.addMatch(obj);
+          }
         }
 
-        console.log("setup");
       } catch (e) {
         console.error("setup tournament", e);
       }
@@ -272,13 +280,13 @@ export default {
         alert("Il faut maximum 8 équipes pour lancer le tournois")
       } else {
         alert("Le tournois est lancée !")
-        this.setupTournamentState(true);
+        await this.startTournament(true);
       }
     },
     async restartTournament(){
       try {
         await this.remakeTournament();
-        this.setupTournamentState(false);
+        await this.startTournament(false);
         await this.setupTournament();
       } catch (e) {
         console.error("restartTournament",e)
@@ -435,7 +443,6 @@ export default {
       }
 
       const existingRound = roundFromAPI.find(r => r._id === RoundToAPI.id);
-      console.log("update")
       if (existingRound) {
         await this.editRound(RoundToAPI);
       } else {
@@ -491,10 +498,19 @@ export default {
             score_equipe2: score2B,
             gagnant_id: score2A > score2B ? team2A._id : (score2B > score2A ? team2B._id : null)
           };
-          await this.editMatch(editMatch1)
-          await this.editMatch(editMatch2)
-          await this.addMatch(matchData);
+          await this.editMatch(editMatch1);
+          await this.editMatch(editMatch2);
 
+          await this.getMatchs();
+          const matchsExistants = this.matchs;
+          const nouveauMatch = matchData;
+          const matchExistant = matchsExistants.find(m =>
+              (m.equipe1_id === nouveauMatch.equipe1_id && m.equipe2_id === nouveauMatch.equipe2_id) ||
+              (m.equipe1_id === nouveauMatch.equipe2_id && m.equipe2_id === nouveauMatch.equipe1_id)
+          );
+          if(!matchExistant){
+            await this.addMatch(matchData);
+          }
         }
       }
     },
@@ -523,7 +539,7 @@ export default {
       await this.editMatch(editFinal);
 
       alert(`Le tournoi est terminé ! L'équipe gagnante est : ${winner.name}`);
-      this.tournamentStarted = false;
+      await this.startTournament(false);
       this.rounds[roundIndex][matchIndex].buttonClicked = true;
       this.$forceUpdate();
     },
@@ -665,12 +681,14 @@ export default {
   border: 1px solid gray;
   border-radius: 15px;
   cursor: pointer;
+
 }
 
 .bracket-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 80vw;
   font-family: Arial, sans-serif;
 }
 .setup-container input,
