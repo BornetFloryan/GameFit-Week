@@ -12,12 +12,13 @@
             <h3 v-html="card.title"></h3>
             <p v-html="card.description"></p>
           </div>
-          <img :src="getImageUrl(card.image_url)" :alt="card.title">
+          <img v-if="card.image_url" :src="getImageUrl(card.image_url)" :alt="card.title">
+          <p v-else>Aucune image disponible</p>
         </div>
       </div>
     </div>
 
-    <router-link :to="{ name: 'ticketing' }" class="btn">Rejoignez-nous</router-link>
+    <router-link :to="{ name: 'ticketing' }" class="btn">{{ $t('home.join_button') }}</router-link>
   </div>
 </template>
 
@@ -29,13 +30,19 @@ export default {
   computed: {
     ...mapState('home', ['content_home']),
     content() {
-      const explain = this.content_home.find(item => item.section === 'explain') || { title: '', description: '' };
-      const cards = this.content_home.filter(item => item.section === 'card').map(card => ({
-        ...card,
-        title: card.title || '',
-        description: card.description || '',
-        image_url: card.image_url || ''
-      }));
+      const explain = {
+        title: this.$t('home.explain.title'),
+        description: this.$t('home.explain.description'),
+      };
+      
+      const cards = this.content_home
+        .filter(item => item.section === 'card')
+        .map((card, index) => ({
+          title: this.$t(`home.cards[${index}].title`),
+          description: this.$t(`home.cards[${index}].description`),
+          image_url: card.image_url || null,
+        }));
+
       return { explain, cards };
     }
   },
