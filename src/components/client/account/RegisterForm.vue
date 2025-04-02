@@ -1,55 +1,56 @@
 <template>
   <div class="register-container">
     <form @submit.prevent="addUser">
-      <h2>Enregistrement</h2>
+      <h2>{{ $t('register.title') }}</h2>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ $t('register.email') }}</label>
         <input
             type="email"
             id="email"
             v-model="newUser.email"
             required
-            placeholder="Entrez votre email"
+            :placeholder="$t('register.email_placeholder')"
         />
       </div>
 
       <div class="form-group">
-        <label for="name">NOM Prénom</label>
+        <label for="name">{{ $t('register.name') }}</label>
         <input
             type="text"
             id="name"
             v-model="newUser.name"
             required
-            placeholder="Entrez votre NOM Prénom"
+            :placeholder="$t('register.name_placeholder')"
         />
       </div>
 
       <div class="form-group">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">{{ $t('register.username') }}</label>
         <input
             type="text"
             id="username"
             v-model="newUser.login"
             required
-            placeholder="Entrez votre nom d'utilisateur"
+            :placeholder="$t('register.username_placeholder')"
         />
       </div>
 
       <div class="form-group">
-        <label for="password">Mot de passe</label>
+        <label for="password">{{ $t('register.password') }}</label>
         <input
             type="password"
             id="password"
             v-model="newUser.password"
             required
-            placeholder="Entrez votre mot de passe"
+            :placeholder="$t('register.password_placeholder')"
         />
       </div>
+
       <div class="form-button">
-        <button type="submit" class="register-button">S'enregistrer</button>
+        <button type="submit" class="register-button">{{ $t('register.register_button') }}</button>
         <router-link :to="{ name: 'login' }">
-          <button type="button" class="cancel-button">Annuler</button>
+          <button type="button" class="cancel-button">{{ $t('register.cancel_button') }}</button>
         </router-link>
       </div>
     </form>
@@ -57,13 +58,10 @@
 </template>
 
 <script>
-
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: 'RegisterFormView',
-  components: {
-  },
   data() {
     return {
       newUser: {
@@ -74,30 +72,24 @@ export default {
       }
     };
   },
-  computed: {
-
-  },
-  watch: {
-  },
   methods: {
     ...mapActions('account', ['addCustomerAccount']),
     async addUser() {
       try {
         let response = await this.addCustomerAccount(this.newUser);
         if (response.error === 0) {
-          this.$router.push({name: 'login'});
+          this.$router.push({ name: 'login' });
         } else {
-          alert(response.data);
+          alert(this.$t('register.error_message'));
         }
       } catch (error) {
-        console.error('Erreur lors de l\'ajout de l\'utilisateur:', error);
+        console.error(this.$t('register.error_message'), error);
       }
     },
   },
-  mounted() {
-  },
 };
 </script>
+
 
 <style scoped>
 .register-container {
