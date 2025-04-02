@@ -155,6 +155,53 @@ async function deleteCustomerAccount(customer) {
     }
 }
 
+async function refreshToken(requestToken) {
+    const client = await pool.connect();
+
+    if (!requestToken) {
+        return { status: 403, data: { message: "Le jeton d'actualisation est requis!" } };
+    }
+
+    try {
+        const res = await client.query("SELECT * FROM refresh_tokens WHERE token = $1", [requestToken]);
+        if (res.rows.length === 0) {
+            return { status: 403, data: { message: "Jeton d'actualisation invalide !" } };
+        }
+
+        const refreshToken = res.rows[0];
+
+        if (new Date(refreshToken.expiry_date).getTime() < new Date().getTime()) {
+            await client.query("DELETE FROM refresh_tokens WHERE id = $1", [refreshToken.id]);
+            return { status: 403, data: { message: "Le jeton d'actualisation a expiré. Veuillez vous reconnecter." } };
+        }
+
+        const userRes = await client.query("SELECT * FROM customer_accounts WHERE _id = $1", [refreshToken.user_id]);
+        if (userRes.rows.length === 0) {
+            return { status: 404, data: { message: "Utilisateur non trouvé" } };
+        }
+
+        const user = userRes.rows[0];
+
+        const newAccessToken = jwt.sign({ id: user._id }, config.secret, {
+            expiresIn: config.jwtExpiration || 86400,
+        });
+
+        const newRefreshToken = uuidv4();
+
+        const expiryDate = new Date();
+        expiryDate.setSeconds(expiryDate.getSeconds() + config.jwtRefreshExpiration);
+
+        await client.query("DELETE FROM refresh_tokens WHERE id = $1", [refreshToken.id]);
+        await client.query("INSERT INTO refresh_tokens (token, user_id, expiry_date) VALUES ($1, $2, $3)", [newRefreshToken, user._id, expiryDate]);
+
+        return { status: 200, data: { accessToken: newAccessToken, refreshToken: newRefreshToken } };
+    } catch (err) {
+        return { status: 500, data: { message: err.message } };
+    } finally {
+        client.release();
+    }
+}
+
 async function getCustomerById(_id) {
     const client = await pool.connect();
     try {
@@ -203,46 +250,9 @@ async function getCustomerByName(name) {
     }
 }
 
-async function refreshToken(requestToken) {
-    const client = await pool.connect();
-    if (!requestToken) {
-        return { status: 403, data: { message: "Le jeton d'actualisation est requis!" } };
-    }
-
-    try {
-        const res = await client.query('SELECT * FROM refresh_tokens WHERE token = $1', [requestToken]);
-        if (res.rows.length === 0) {
-            return { status: 403, data: { message: "Le jeton d'actualisation n'est pas dans la base de données!" } };
-        }
-
-        const refreshToken = res.rows[0];
-        if (new Date(refreshToken.expiry_date).getTime() < new Date().getTime()) {
-            await client.query('DELETE FROM refresh_tokens WHERE id = $1', [refreshToken.id]);
-            return { status: 403, data: { message: "Le jeton d'actualisation a expiré. Veuillez faire une nouvelle demande de connexion" } };
-        }
-
-        const userRes = await client.query('SELECT * FROM customer_accounts WHERE _id = $1', [refreshToken.user_id]);
-        if (userRes.rows.length === 0) {
-            return { status: 404, data: { message: "Utilisateur non trouvé" } };
-        }
-
-        const user = userRes.rows[0];
-        let newAccessToken = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: config.jwtExpiration,
-        });
-
-        return { status: 200, data: { accessToken: newAccessToken, refreshToken: refreshToken.token } };
-    } catch (err) {
-        return { status: 500, data: { message: err.message } };
-    } finally {
-        client.release();
-    }
-}
-
-
-
 module.exports = {
     getCustomersAccounts,
+    refreshToken,
     getCustomerById,
     getCustomerByEmail,
     getCustomerByName,
@@ -250,5 +260,5 @@ module.exports = {
     modifyCustomerAccount,
     deleteCustomerAccount,
     loginUser,
-    refreshToken,
+
 };

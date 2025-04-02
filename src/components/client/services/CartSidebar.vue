@@ -113,17 +113,19 @@ export default {
         return;
       }
       const ticket = this.tickets.find(ticket => ticket._id === this.ticketId);
-      if (ticket){
+      if (ticket) {
         this.done = true;
         try {
           let response = await this.saveBasketToDatabase();
           if (response.error === 0) {
             let basket_id = response.data._id;
-            router.push({ name: 'payment', params: { ticketId: this.ticketId, basketId: basket_id, basketItems: response.data.storedBasketItems} });
+            const remainingItems = this.basketItems.filter(item => item.shopId !== this.shopId);
+            sessionStorage.setItem("basketItems", JSON.stringify(remainingItems));
+            router.push({ name: 'payment', params: { ticketId: this.ticketId, basketId: basket_id, basketItems: response.data.storedBasketItems } });
           } else {
             console.error("Error saving basket:", response.data);
           }
-        } catch(error) {
+        } catch (error) {
           console.error("Error during checkout:", error);
         }
       } else {
@@ -149,8 +151,11 @@ export default {
           const itemIdsInBasket = itemsInBasket.data.map(item => item.item_id);
 
           const storedBasketItems = JSON.parse(sessionStorage.getItem("basketItems") || "[]");
-          if(storedBasketItems){
-            for (let item of storedBasketItems) {
+          if (storedBasketItems) {
+            const itemsToSave = storedBasketItems.filter(item => item.shopId === this.shopId);
+            const remainingItems = storedBasketItems.filter(item => item.shopId !== this.shopId);
+
+            for (let item of itemsToSave) {
               if (!itemIdsInBasket.includes(item.variation_id)) {
                 try {
                   let response = await this.addItemToBasket({
@@ -161,7 +166,7 @@ export default {
                       quantity: item.quantity
                     },
                   });
-                  if(response.error > 0){
+                  if (response.error > 0) {
                     return { error: 1, data: response.data };
                   }
                 } catch (error) {
@@ -169,7 +174,10 @@ export default {
                 }
               }
             }
-            return { error: 0, data: { _id: basket_id, storedBasketItems: storedBasketItems } };
+
+            sessionStorage.setItem("basketItems", JSON.stringify(remainingItems));
+
+            return { error: 0, data: { _id: basket_id, storedBasketItems: itemsToSave } };
           }
         } catch (error) {
           console.error(error);
@@ -199,22 +207,24 @@ export default {
     if (this.basketItems) {
       for (let item of this.basketItems) {
         if(item) {
-          await this.getGoodieVariations(item._id);
-          if(this.goodieVariations){
-            let variation = this.goodieVariations.find(variation => variation.goodie_id === item._id && variation.size_id === item.size_id);
-            if (variation) {
-              let stock = variation.stock;
-              if (item.quantity > stock) {
-                item.quantity = stock;
-                this.updateBasketItems([...this.basketItems]);
-                this.updateSessionStorage();
-              }
-            } else {
-              if (this.filteredBasketItems.length > 0) {
-                const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
-                if (index !== -1) {
-                  this.removeFromBasket(index);
-                  alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
+          let response = await this.getGoodieVariations(item._id);
+          if(response){
+            if(this.goodieVariations && this.item && this.item.variation_id){
+              let variation = this.goodieVariations.find(variation => variation._id === item.variation_id);
+              if (variation) {
+                let stock = variation.stock;
+                if (item.quantity > stock) {
+                  item.quantity = stock;
+                  this.updateBasketItems([...this.basketItems]);
+                  this.updateSessionStorage();
+                }
+              } else {
+                if (this.filteredBasketItems.length > 0) {
+                  const index = this.filteredBasketItems.findIndex(basketItem => basketItem.variation_id === item.variation_id);
+                  if (index !== -1) {
+                    this.removeFromBasket(index);
+                    alert(`L'article ${item.name} n'est plus disponible à l'achat et a été retiré de votre panier.`);
+                  }
                 }
               }
             }

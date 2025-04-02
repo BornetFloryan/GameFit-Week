@@ -13,13 +13,12 @@
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
           <router-link to="" class="link">{{ $t('nav.services') }}</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
-            <li><router-link :to="{ name: 'home' }" class="link">{{ $t('nav.home') }}</router-link></li>
-            <li><router-link :to="{ name: 'ticketing' }" class="link">{{ $t('nav.ticketing') }}</router-link></li>
+            <li><router-link :to="{ name: 'dedication-home' }" class="link">{{ $t('nav.dedicaces') }}</router-link></li>
             <li><router-link :to="{ path: '/services/brackets' }" class="link">{{ $t('nav.tournaments') }}</router-link></li>
             <li><router-link :to="{ path: '/services/goodies-seller' }" class="link">{{ $t('nav.goodies') }}</router-link></li>
-            <li><router-link :to="{ path: '/services/stream' }" class="link">{{ $t('nav.stream') }}</router-link></li>
           </ul>
         </li>
+        <li><router-link :to="{ path: '/prestataire/list' }" class="link">{{ $t('nav.providerList') }}</router-link></li>
         <li><router-link :to="{ path: '/services/stream' }" class="link">{{ $t('nav.live') }}</router-link></li>
 
         <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">{{ $t('nav.login') }}</router-link></li>

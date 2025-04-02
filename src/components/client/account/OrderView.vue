@@ -52,6 +52,7 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import basketService from "@/services/basket.service";
 import goodiesService from "@/services/goodies.service";
 import QrcodeVue from "qrcode.vue";
+import { getLocalIp } from "@/services/axios.service";
 
 export default {
   name: 'OrderView',
@@ -175,6 +176,14 @@ export default {
     await this.getAllBaskets();
     await this.getGoodieSizes();
     await this.getProviderServiceCategories();
+    try{
+      let reponse = await getLocalIp();
+      if(reponse.localIp){
+        this.localIp = reponse.localIp;
+      }
+    } catch (error){
+      console.error("Erreur lors de la récupération de l'IP locale:", error);
+    }
     this.fetchUserOrders();
   },
 };

@@ -8,7 +8,6 @@
         <th>Adresse e-mail</th>
         <th>Catégorie d'âge</th>
         <th>Prix</th>
-        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -18,9 +17,6 @@
         <td>{{ currentUser.email }}</td>
         <td>{{ ticketAgeCategory(customerTicket)?.name }}</td>
         <td>{{ price(customerTicket)?.price }}</td>
-        <td>
-          <button @click="deleteTicketAction(customerTicket)">Supprimer</button>
-        </td>
       </tr>
       </tbody>
     </table>

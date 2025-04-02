@@ -95,7 +95,7 @@ async function uploadImageFromApi(data) {
 }
 
 async function refreshtokenFromApi(data) {
-    return postRequest('accounts/refreshtoken', data, 'Refreshtoken');
+    return postRequest('accounts/token/refreshtoken', data, 'Refreshtoken');
 }
 
 

@@ -24,6 +24,7 @@ export default {
     return {
       entry: null,
       comment: '',
+      reportId: null,
     };
   },
   computed: {
@@ -60,7 +61,7 @@ export default {
     },
     async deleteEntry() {
       await this.deleteGuestbookEntry(this.entry._id);
-      await this.deleteReport(this.$route.query.report_id);
+      await this.deleteReport(this.reportId);
       this.$router.push({name: 'admin-reports'});
     },
     confirmSubmitModeration() {
@@ -90,6 +91,9 @@ export default {
   },
   async created() {
     await this.fetchGuestbookEntry();
+    if(this.$route.query.report_id) {
+      this.reportId = this.$route.query.report_id;
+    }
   },
 };
 </script>

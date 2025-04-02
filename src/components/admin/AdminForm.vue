@@ -140,11 +140,16 @@ export default {
   },
   methods: {
     handleSubmit() {
-      if (this.isValidDate(this.formData.date) && this.isValidTime(this.formData.start_time) && this.isValidTime(this.formData.end_time)) {
-        this.$emit("submit", { ...this.formData, imageFile: this.imageFile, imageName: this.imageName });
-      } else {
+      const { date, start_time, end_time } = this.formData;
+
+      if ((date && !this.isValidDate(date)) ||
+          (start_time && !this.isValidTime(start_time)) ||
+          (end_time && !this.isValidTime(end_time))) {
         console.error("Invalid date or time value");
+        return;
       }
+
+      this.$emit("submit", { ...this.formData, imageFile: this.imageFile, imageName: this.imageName });
     },
     isValidDate(date) {
       return !isNaN(Date.parse(date));

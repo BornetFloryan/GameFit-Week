@@ -107,7 +107,7 @@ exports.refreshToken = async (req, res) => {
 
     try {
         const response = await accountService.refreshToken(requestToken);
-        return res.status(response.status).json(response.data);
+        return res.status(response.status).json(response);
     } catch (err) {
         return res.status(500).send({ message: err.message });
     }

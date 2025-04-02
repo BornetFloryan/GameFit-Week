@@ -43,6 +43,34 @@ router.get("/", accountController.getCustomersAccounts);
  *                   example: "Erreur du serveur"
  */
 
+router.post("/token/refreshtoken", accountController.refreshToken);
+/**
+ * @swagger
+ * /accounts/token/refreshtoken:
+ *   post:
+ *     description: Utilisé pour rafraîchir le token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 minLength: 1
+ *                 maxLength: 100
+ *     security:
+ *       - jwt: []
+ *     responses:
+ *       '200':
+ *         description: Ressource ajoutée avec succès
+ *       '500':
+ *         description: Erreur interne du serveur
+ *       '400':
+ *         description: Mauvaise requête
+ */
+
 router.post("/login", accountController.loginUser);
 /**
  * @swagger
@@ -505,7 +533,7 @@ router.get("/name/:name", accountController.getCustomerByName);
  *                   example: "Erreur du serveur"
  */
 
-router.get("/:id", accountController.getCustomerById);
+router.get("/:id(\\d+)", accountController.getCustomerById);
 /**
  * @swagger
  * /accounts/{id}:
@@ -598,36 +626,6 @@ router.post('/upload', uploadImage('users'), (req, res) => {
  *                 imageUrl:
  *                   type: string
  *                   example: "/assets/img/goodies/image.jpg"
- */
-
-router.post("/accounts/refreshtoken", accountController.refreshToken);
-/**
- * @swagger
- * /auth/refreshtoken:
- *   post:
- *     description: Utilisé pour rafraîchir le token
- *     tags:
- *       - Utilisateurs
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               refreshToken:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 100
- *     security:
- *       - jwt: []
- *     responses:
- *       '200':
- *         description: Ressource ajoutée avec succès
- *       '500':
- *         description: Erreur interne du serveur
- *       '400':
- *         description: Mauvaise requête
  */
 
 module.exports = router;

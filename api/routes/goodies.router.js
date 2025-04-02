@@ -210,7 +210,7 @@ router.get('/variations/:id', goodiesController.getGoodieVariationById);
  *         description: Variation non trouvée
  */
 
-router.put('/variations/:id', [verifyToken, hasRole([1])], goodiesController.updateGoodieVariation);
+router.put('/variations/:id', goodiesController.updateGoodieVariation);
 /**
  * @swagger
  * /goodies/variations/{id}:

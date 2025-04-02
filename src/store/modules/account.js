@@ -220,34 +220,40 @@ const actions = {
             console.error('Erreur lors de la récupération des catégories de sports des fournisseurs:', error);
         }
     },
-    getUser() {
-        return JSON.parse(localStorage.getItem('user'));
-    },
-    getAccessToken() {
-        const user = this.getUser();
-        return user ? user.accessToken : null;
-    },
-    getRefreshToken() {
-        const user = this.getUser();
-        return user ? user.refreshToken : null;
-    },
-    async refreshToken() {
-        const refreshToken = this.getRefreshToken();
-        if (refreshToken) {
-            try {
-                const response = await AccountService.refreshtoken({ refreshToken });
-                if (response.data.accessToken) {
-                    const user = this.getUser();
-                    user.accessToken = response.data.accessToken;
-                    localStorage.setItem('user', JSON.stringify(user));
-                }
-                return response.data.accessToken;
-            } catch (error) {
-                console.error('Erreur lors de la récupération du refresh token:', error);
-            }
+    async refreshToken({ commit, getters }) {
+        console.log("Tentative de rafraîchissement du token...");
+
+        const refreshToken = getters.getRefreshToken;
+        if (!refreshToken) {
+            console.log("Aucun refresh token trouvé");
+            return null;
         }
-        return null;
-    }
+
+        try {
+            const response = await AccountService.refreshtoken({ refreshToken });
+
+            if (response.data.accessToken && response.data.refreshToken) {
+                const newUser = {
+                    ...getters.getUser,
+                    accessToken: response.data.accessToken,
+                    refreshToken: response.data.refreshToken,
+                };
+
+                commit("updateCurrentUser", newUser);
+
+
+                return response.data.accessToken;
+            } else {
+                console.error("Erreur: le token n'a pas été rafraîchi");
+                commit("logout");
+                return null;
+            }
+        } catch (error) {
+            console.error("Erreur lors du rafraîchissement du token:", error);
+            commit("logout");
+            return null;
+        }
+    },
 };
 
 const getters = {
@@ -273,6 +279,17 @@ const getters = {
         } else {
             return requests;
         }
+    },
+    getUser: (state) => state.currentUser,
+
+    getAccessToken: (state) => {
+        const user = state.currentUser;
+        return user ? user.accessToken : null;
+    },
+
+    getRefreshToken: (state) => {
+        const user = state.currentUser;
+        return user ? user.refreshToken : null;
     },
 };
 
