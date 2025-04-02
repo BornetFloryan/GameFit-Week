@@ -8,41 +8,47 @@
       </div>
 
       <ul class="navigation">
-        <li><router-link :to="{ name: 'home' }" class="link">Accueil</router-link></li>
-        <li><router-link :to="{ name: 'ticketing' }" class="link">Billetterie</router-link></li>
+        <li><router-link :to="{ name: 'home' }" class="link">{{ $t('nav.home') }}</router-link></li>
+        <li><router-link :to="{ name: 'ticketing' }" class="link">{{ $t('nav.ticketing') }}</router-link></li>
         <li class="services" @mouseenter="showServicesDropdown = true" @mouseleave="showServicesDropdown = false">
-          <router-link to="" class="link">Prestations</router-link>
+          <router-link to="" class="link">{{ $t('nav.services') }}</router-link>
           <ul v-show="showServicesDropdown" class="dropdown">
-            <li><router-link :to="{ path: '/prestataire/list' }" class="link">Liste des prestataires</router-link></li>
-            <li><router-link :to="{ path: '/services/dedication/dedication-home' }" class="link">Dédicaces</router-link></li>
-            <li><router-link :to="{ path: '/services/brackets' }" class="link">Tournois</router-link></li>
-            <li><router-link :to="{ path: '/services/goodies-seller' }" class="link">Goodies</router-link></li>
+            <li><router-link :to="{ name: 'home' }" class="link">{{ $t('nav.home') }}</router-link></li>
+            <li><router-link :to="{ name: 'ticketing' }" class="link">{{ $t('nav.ticketing') }}</router-link></li>
+            <li><router-link :to="{ path: '/services/brackets' }" class="link">{{ $t('nav.tournaments') }}</router-link></li>
+            <li><router-link :to="{ path: '/services/goodies-seller' }" class="link">{{ $t('nav.goodies') }}</router-link></li>
+            <li><router-link :to="{ path: '/services/stream' }" class="link">{{ $t('nav.stream') }}</router-link></li>
           </ul>
         </li>
-        <li><router-link :to="{ path: '/services/stream' }" class="link">En direct</router-link></li>
+        <li><router-link :to="{ path: '/services/stream' }" class="link">{{ $t('nav.live') }}</router-link></li>
 
-        <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">Se connecter</router-link></li>
+        <li v-if="!currentUser"><router-link :to="{ name: 'login' }" class="link login">{{ $t('nav.login') }}</router-link></li>
         <li v-if="currentUser" class="account" @mouseenter="showAccountDropdown = true" @mouseleave="showAccountDropdown = false">
           <router-link to="" class="link">{{ currentUser.login }}</router-link>
           <ul v-show="showAccountDropdown" class="dropdown">
-            <li><router-link :to="{ path: '/account/profil' }" class="link">Profil</router-link></li>
-            <li><router-link :to="{ path: '/account/order' }" class="link">Commandes</router-link></li>
-            <li><router-link :to="{ path: '/account/reservation' }" class="link">Réservations</router-link></li>
-            <li><router-link :to="{ path: '/account/ticket' }" class="link">Billets</router-link></li>
+            <li><router-link :to="{ path: '/account/profil' }" class="link">{{ $t('nav.profile') }}</router-link></li>
+            <li><router-link :to="{ path: '/account/order' }" class="link">{{ $t('nav.orders') }}</router-link></li>
+            <li><router-link :to="{ path: '/account/reservation' }" class="link">{{ $t('nav.reservations') }}</router-link></li>
+            <li><router-link :to="{ path: '/account/ticket' }" class="link">{{ $t('nav.tickets') }}</router-link></li>
             <li v-if="getProviderRequestsByCustomerId(currentUser._id)">
-              <router-link :to="{ path: '/account/request' }" class="link">Demande</router-link>
+              <router-link :to="{ path: '/account/request' }" class="link">{{ $t('nav.request') }}</router-link>
             </li>
             <li v-if="dashboardPath">
-              <router-link :to="{ path: dashboardPath }" class="link">Tableau de bord</router-link>
+              <router-link :to="{ path: dashboardPath }" class="link">{{ $t('nav.dashboard') }}</router-link>
             </li>
-            <li @click="disconnected" class="link disconnect">Déconnexion</li>
+            <li @click="disconnected" class="link disconnect">{{ $t('nav.logout') }}</li>
           </ul>
+        </li>
+
+        <!-- Ajouter le sélecteur de langue ici -->
+        <li class="language-selector">
+          <button @click="changeLanguage('fr')" class="lang-button" :class="{ active: $i18n.locale === 'fr' }">FR</button>
+          <button @click="changeLanguage('en')" class="lang-button" :class="{ active: $i18n.locale === 'en' }">EN</button>
         </li>
       </ul>
     </nav>
   </header>
 </template>
-
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
@@ -79,6 +85,13 @@ export default {
     updateScroll() {
       const scroll = window.scrollY;
       this.scrollPosition = scroll > 50;
+    },
+
+    isKeyExist(key) {
+      return this.$te(key); // Vérifie si la clé existe
+    },
+    changeLanguage(language) {
+      this.$i18n.locale = language;
     },
     async disconnected() {
       await this.logoutUser();
@@ -232,6 +245,33 @@ nav .navigation {
 .services:hover .dropdown,
 .account:hover .dropdown {
   display: block;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.lang-button {
+  background: none;
+  border: 2px solid #fff;
+  padding: 8px 16px;
+  margin: 0 5px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.lang-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.lang-button.active {
+  background-color: #00afea;
+  color: #fff;
 }
 
 .services .dropdown li,
