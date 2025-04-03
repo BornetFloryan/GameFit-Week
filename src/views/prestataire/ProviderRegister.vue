@@ -27,23 +27,13 @@
       </div>
 
       <div class="form-group">
-        <label>{{ $t('registerProvider.serviceType') }}</label>
-        <div class="dropdown">
-          <button type="button" class="dropdown-button" @click="toggleDropdown" :disabled="!isEmailValid">
-            {{ $t('registerProvider.chooseServiceType') }}
-          </button>
-          <div v-if="dropdownOpen" class="dropdown-content">
-            <div v-for="service in serviceCategories" :key="service._id" class="checkbox-group">
-              <input
-                  type="radio"
-                  :id="service._id"
-                  :value="service._id"
-                  v-model="user.prestationServices"
-              />
-              <label :for="service._id">{{ $t(`service_categories.${service.name.toLowerCase()}`) }}</label>
-            </div>
-          </div>
-        </div>
+        <label for="serviceType">{{ $t('registerProvider.serviceType') }}</label>
+        <select id="serviceType" v-model="user.prestationServices" :disabled="!isEmailValid" required>
+          <option value="" disabled selected>{{ $t('registerProvider.chooseServiceType') }}</option>
+          <option v-for="service in serviceCategories" :key="service._id" :value="service._id">
+            {{ $t(`service_categories.${service.name.toLowerCase()}`) }}
+          </option>
+        </select>
       </div>
 
       <div class="form-group" v-if="!isCustomerFound">
