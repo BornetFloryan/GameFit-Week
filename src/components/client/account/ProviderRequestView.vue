@@ -1,13 +1,13 @@
 <template>
   <div class="provider-request-view">
-    <h2>Demande pour devenir prestataire</h2>
+    <h2>{{ $t('providerRequestView.title') }}</h2>
     <table v-if="requests.length">
       <thead>
       <tr>
-        <th>Numéro</th>
-        <th>Date</th>
-        <th>Services</th>
-        <th>Status</th>
+        <th>{{ $t('providerRequestView.number') }}</th>
+        <th>{{ $t('providerRequestView.date') }}</th>
+        <th>{{ $t('providerRequestView.services') }}</th>
+        <th>{{ $t('providerRequestView.status') }}</th>
       </tr>
       </thead>
       <tbody>
@@ -17,7 +17,7 @@
         <td>
           <ul>
             <li v-for="service in services" :key="service._id">
-              {{ getServiceCategoryById(service.service_id)?.name || 'Unknown' }}
+              {{ getServiceCategoryById(service.service_id)?.name || $t('providerRequestView.unknown') }}
             </li>
           </ul>
         </td>
@@ -69,13 +69,13 @@ export default {
     getStatusText(state) {
       switch (state) {
         case '0':
-          return 'en attente';
+          return this.$t('providerRequestView.statusTexts.pending');
         case '1':
-          return 'validé';
+          return this.$t('providerRequestView.statusTexts.approved');
         case '2':
-          return 'refusé';
+          return this.$t('providerRequestView.statusTexts.rejected');
         default:
-          return 'inconnu';
+          return this.$t('providerRequestView.statusTexts.unknown');
       }
     }
   },

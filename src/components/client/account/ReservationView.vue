@@ -3,13 +3,13 @@
     <table>
       <thead>
       <tr>
-        <th>Numéro</th>
-        <th>Animateur</th>
-        <th>Stand</th>
-        <th>Service</th>
-        <th>Date</th>
-        <th>Horaire</th>
-        <th>Opération</th>
+        <th>{{ $t('reservationView.number') }}</th>
+        <th>{{ $t('reservationView.host') }}</th>
+        <th>{{ $t('reservationView.stand') }}</th>
+        <th>{{ $t('reservationView.service') }}</th>
+        <th>{{ $t('reservationView.date') }}</th>
+        <th>{{ $t('reservationView.time') }}</th>
+        <th>{{ $t('reservationView.operation') }}</th>
       </tr>
       </thead>
       <tbody>
@@ -27,14 +27,16 @@
         </td>
         <td>
           {{
-            getServiceCategoryById(customerServiceReservation.service_id)?.name
+            getServiceCategoryById(customerServiceReservation.service_id)
+                ? $t(`service_categories.${getServiceCategoryById(customerServiceReservation.service_id).name.toLowerCase()}`)
+                : 'Unknown'
           }}
         </td>
         <td>{{ customerServiceReservation.date }}</td>
         <td>{{ customerServiceReservation.time }}</td>
         <td>
           <button @click="cancelServiceReservation(customerServiceReservation._id)">
-            Annuler
+            {{ $t('reservationView.cancel') }}
           </button>
         </td>
       </tr>

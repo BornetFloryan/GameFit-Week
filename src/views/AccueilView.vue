@@ -21,13 +21,13 @@
       <img v-if="selectedZone.picture" :src="selectedZone.picture" alt="Prestataire" class="zone-image"/>
       <p v-html="selectedZone.description"></p>
       <button v-if="selectedZone.description !== 'Pour l\'instant aucune prestation n\'est prévue pour ce stand'"
-              @click="showStandInfo()" class="btn-more-info">En savoir plus</button>
+              @click="showStandInfo()" class="btn-more-info">{{ localizedMoreInfoButton }}</button>
     </div>
 
     <div v-if="showModal" class="modal-overlay" @click="closeModal">
       <div class="modal-content" @click.stop>
         <StandInfo :stand="this.stand" :selectedDate="this.selectedDate"/>
-        <button @click="closeModal" class="btn-close">Fermer</button>
+        <button @click="closeModal" class="btn-close">{{ localizedCloseButton }}</button>
       </div>
     </div>
   </div>
@@ -68,6 +68,13 @@ export default {
     ...mapState('account', ['customersAccounts']),
     ...mapGetters('stands', ['getStandById', 'getStandsReservationsByStandIdAndDate']),
     ...mapGetters('account', ['getCustomerById', 'getProviderRequestsByCustomerId']),
+    localizedMoreInfoButton() {
+      return this.$i18n.locale === 'en' ? this.$t('interactive_map.more_info') : "En savoir plus";
+    },
+    localizedCloseButton() {
+      return this.$i18n.locale === 'en' ? this.$t('interactive_map.close') : "Fermer";
+    }
+
   },
   methods: {
     ...mapActions('stands', ['getStands', 'getStandsReservations']),

@@ -1,18 +1,18 @@
 <template>
   <div class="stand-info">
     <div class="stand-card">
-      <h3>Planning du stand : {{ Number(stand._id) + 1 }}</h3>
+      <h3>{{ localizedStandTitle }}</h3>
       <ul class="stand-schedule">
         <li v-for="reservation in sortedStandReservations" :key="reservation._id" class="schedule-item">
           <span class="schedule-time">{{ reservation.start_time }}h - {{ reservation.end_time }}h</span>
           <p>
-            Prestation :
+            {{ localizedServiceLabel }} :
             <router-link :to="getServicePath(reservation.service_id, reservation.customer_id)" class="schedule-service">
-              {{ getServiceCategoryById(reservation.service_id)?.name || 'Unknown' }}
+              {{ getLocalizedServiceCategoryName(reservation.service_id) }}
             </router-link>
           </p>
           <p>
-            Prestataire :
+            {{ localizedProviderLabel }} :
             <router-link :to="{ name: 'prestataire-info', params: { id: reservation.customer_id } }" class="schedule-prestataire">
               {{ getCustomerById(reservation.customer_id)?.name || 'Unknown' }}
             </router-link>
@@ -54,6 +54,15 @@ export default {
     sortedStandReservations() {
       return this.getSortedStandReservations();
     },
+    localizedStandTitle() {
+      return this.$i18n.locale === 'en' ? `Stand Schedule: ${Number(this.stand._id) + 1}` : `Planning du stand : ${Number(this.stand._id) + 1}`;
+    },
+    localizedServiceLabel() {
+      return this.$i18n.locale === 'en' ? 'Service' : 'Prestation';
+    },
+    localizedProviderLabel() {
+      return this.$i18n.locale === 'en' ? 'Provider' : 'Prestataire';
+    },
   },
   methods: {
     ...mapActions("stands", ["getStandsReservations"]),
@@ -80,6 +89,13 @@ export default {
         }
       }
       return '';
+    },
+    getLocalizedServiceCategoryName(serviceId) {
+      const serviceCategory = this.getServiceCategoryById(serviceId);
+      if (serviceCategory) {
+        return this.$i18n.t(`service_categories.${serviceCategory.name.toLowerCase()}`) || serviceCategory.name;
+      }
+      return 'Unknown';
     }
   },
   async mounted() {

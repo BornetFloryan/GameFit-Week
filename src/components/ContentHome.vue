@@ -1,49 +1,51 @@
 <template>
   <div class="content-accueil">
     <div class="explain">
-      <h2 v-if="content.explain" v-html="content.explain.title"></h2>
-      <p v-if="content.explain" v-html="content.explain.description"></p>
+      <h2 v-if="content.explain" v-html="localizedExplainTitle"></h2>
+      <p v-if="content.explain" v-html="localizedExplainDescription"></p>
     </div>
 
     <div class="card-container">
       <div class="card" v-for="(card, index) in content.cards" :key="index">
         <div class="card-content">
           <div v-if="card" class="card-content-text">
-            <h3 v-html="card.title"></h3>
-            <p v-html="card.description"></p>
+            <h3 v-html="localizedCardTitle(card, index)"></h3>
+            <p v-html="localizedCardDescription(card, index)"></p>
           </div>
-          <img v-if="card.image_url" :src="getImageUrl(card.image_url)" :alt="card.title">
-          <p v-else>Aucune image disponible</p>
+          <img :src="getImageUrl(card.image_url)" :alt="card.title">
         </div>
       </div>
     </div>
 
-    <router-link :to="{ name: 'ticketing' }" class="btn">{{ $t('home.join_button') }}</router-link>
+    <router-link :to="{ name: 'ticketing' }" class="btn">{{ localizedJoinButton }}</router-link>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import {mapState, mapActions} from 'vuex';
 
 export default {
   name: 'ContentHome',
   computed: {
     ...mapState('home', ['content_home']),
     content() {
-      const explain = {
-        title: this.$t('home.explain.title'),
-        description: this.$t('home.explain.description'),
-      };
-      
-      const cards = this.content_home
-        .filter(item => item.section === 'card')
-        .map((card, index) => ({
-          title: this.$t(`home.cards[${index}].title`),
-          description: this.$t(`home.cards[${index}].description`),
-          image_url: card.image_url || null,
-        }));
-
-      return { explain, cards };
+      const explain = this.content_home.find(item => item.section === 'explain') || {title: '', description: ''};
+      const cards = this.content_home.filter(item => item.section === 'card').map(card => ({
+        ...card,
+        title: card.title || '',
+        description: card.description || '',
+        image_url: card.image_url || ''
+      }));
+      return {explain, cards};
+    },
+    localizedExplainTitle() {
+      return this.$i18n.locale === 'en' ? this.$t('home.explain.title') : this.content.explain.title;
+    },
+    localizedExplainDescription() {
+      return this.$i18n.locale === 'en' ? this.$t('home.explain.description') : this.content.explain.description;
+    },
+    localizedJoinButton() {
+      return this.$i18n.locale === 'en' ? this.$t('home.join_button') : 'Rejoignez-nous';
     }
   },
   methods: {
@@ -55,6 +57,12 @@ export default {
         console.error(`Cannot find module '@/assets/img/home/${imageUrl}'`);
         return '';
       }
+    },
+    localizedCardTitle(card, index) {
+      return this.$i18n.locale === 'en' ? this.$t(`home.cards[${index}].title`) : card.title;
+    },
+    localizedCardDescription(card, index) {
+      return this.$i18n.locale === 'en' ? this.$t(`home.cards[${index}].description`) : card.description;
     }
   },
   async mounted() {

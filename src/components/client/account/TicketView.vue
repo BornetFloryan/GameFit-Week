@@ -3,11 +3,11 @@
     <table v-if="currentUser">
       <thead>
       <tr>
-        <th>Numéro</th>
-        <th>Date</th>
-        <th>Adresse e-mail</th>
-        <th>Catégorie d'âge</th>
-        <th>Prix</th>
+        <th>{{ $t('reservationView.number') }}</th>
+        <th>{{ $t('reservationView.date') }}</th>
+        <th>{{ $t('reservationView.email') }}</th>
+        <th>{{ $t('reservationView.ageCategory') }}</th>
+        <th>{{ $t('reservationView.price') }}</th>
       </tr>
       </thead>
       <tbody>
@@ -15,7 +15,7 @@
         <td>{{ customerTicket._id }}</td>
         <td>{{ customerTicket.date }}</td>
         <td>{{ currentUser.email }}</td>
-        <td>{{ ticketAgeCategory(customerTicket)?.name }}</td>
+        <td>{{ getLocalizedAgeCategoryName(ticketAgeCategory(customerTicket)?.name) }}</td>
         <td>{{ price(customerTicket)?.price }}</td>
       </tr>
       </tbody>
@@ -64,8 +64,13 @@ export default {
       } catch (error){
         console.error('error', error);
       }
-
     },
+    getLocalizedAgeCategoryName(name) {
+      if (this.$i18n.locale === 'en') {
+        return this.$t(`ticketing.ageCategories.${name.toLowerCase()}`) || name;
+      }
+      return name;
+    }
   },
   mounted() {
     this.getTickets()

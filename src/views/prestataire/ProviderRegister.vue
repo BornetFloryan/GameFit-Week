@@ -1,36 +1,36 @@
 <template>
   <div class="register-container">
     <form @submit.prevent="submitRegistration">
-      <h2>Devenir prestataire</h2>
+      <h2>{{ $t('registerProvider.title') }}</h2>
 
       <div class="form-group">
-        <label for="email">Adresse email</label>
+        <label for="email">{{ $t('registerProvider.email') }}</label>
         <input
             type="email"
             id="email"
             v-model="user.email"
             required
-            placeholder="Entrez une adresse email"
+            :placeholder="$t('registerProvider.email')"
         />
       </div>
 
       <div class="form-group">
-        <label for="name">Nom de l'entreprise ou NOM Prénom</label>
+        <label for="name">{{ $t('registerProvider.name') }}</label>
         <input
             type="text"
             id="name"
             v-model="user.name"
             :disabled="!isEmailValid || isCustomerFound"
             required
-            placeholder="Entrez le nom de votre entreprise ou NOM Prénom"
+            :placeholder="$t('registerProvider.name')"
         />
       </div>
 
       <div class="form-group">
-        <label>Type de prestation</label>
+        <label>{{ $t('registerProvider.serviceType') }}</label>
         <div class="dropdown">
           <button type="button" class="dropdown-button" @click="toggleDropdown" :disabled="!isEmailValid">
-            Choisissez votre type de prestation
+            {{ $t('registerProvider.chooseServiceType') }}
           </button>
           <div v-if="dropdownOpen" class="dropdown-content">
             <div v-for="service in serviceCategories" :key="service._id" class="checkbox-group">
@@ -40,37 +40,37 @@
                   :value="service._id"
                   v-model="user.prestationServices"
               />
-              <label :for="service._id">{{ service.name }}</label>
+              <label :for="service._id">{{ $t(`service_categories.${service.name.toLowerCase()}`) }}</label>
             </div>
           </div>
         </div>
       </div>
 
       <div class="form-group" v-if="!isCustomerFound">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">{{ $t('registerProvider.username') }}</label>
         <input
             type="text"
             id="username"
             v-model="user.login"
             :disabled="!isEmailValid"
             required
-            placeholder="Entrez un nom d'utilisateur"
+            :placeholder="$t('registerProvider.username')"
         />
       </div>
 
       <div class="form-group">
-        <label for="password">Mot de passe</label>
+        <label for="password">{{ $t('registerProvider.password') }}</label>
         <input
             type="password"
             id="password"
             v-model="user.password"
             :disabled="!isEmailValid"
             required
-            placeholder="Entrez votre mot de passe"
+            :placeholder="$t('registerProvider.password')"
         />
       </div>
       <div class="form-button">
-        <button type="submit" class="submit-button">S'inscrire</button>
+        <button type="submit" class="submit-button">{{ $t('registerProvider.submit') }}</button>
       </div>
     </form>
   </div>

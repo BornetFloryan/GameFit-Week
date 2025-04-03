@@ -1,14 +1,14 @@
 <template>
   <div :style="carouselBackground" class="container-carousel">
     <div class="carousel-items" v-if="slides.length > 0">
-      <h1 v-if="content" v-html="content.title"></h1>
-      <p class="subtitle" v-if="content" v-html="content.description"></p>
+      <h1 v-if="content" v-html="localizedContentTitle"></h1>
+      <p class="subtitle" v-if="content" v-html="localizedContentDescription"></p>
     </div>
     <div class="carousel-items" v-if="slides.length > 0">
-      <h2>{{ currentSlide.title }}</h2>
-      <p v-html="currentSlide.text"></p>
+      <h2>{{ localizedCurrentSlideTitle }}</h2>
+      <p v-html="localizedCurrentSlideText"></p>
       <router-link :to="{ path: currentSlide.link }">
-        <p class="router-link">{{ currentSlide.linkText }}</p>
+        <p class="router-link">{{ localizedCurrentSlideLinkText }}</p>
       </router-link>
     </div>
 
@@ -92,6 +92,21 @@ export default {
     },
     currentSlide() {
       return this.slides[this.currentIndex] || {};
+    },
+    localizedContentTitle() {
+      return this.$i18n.locale === 'en' ? this.$t('home.main.title') : this.content.title;
+    },
+    localizedContentDescription() {
+      return this.$i18n.locale === 'en' ? this.$t('home.main.description') : this.content.description;
+    },
+    localizedCurrentSlideTitle() {
+      return this.$i18n.locale === 'en' ? this.currentSlide.title : this.currentSlide.title;
+    },
+    localizedCurrentSlideText() {
+      return this.$i18n.locale === 'en' ? this.currentSlide.text : this.currentSlide.text;
+    },
+    localizedCurrentSlideLinkText() {
+      return this.$i18n.locale === 'en' ? this.currentSlide.linkText : this.currentSlide.linkText;
     }
   },
   watch: {

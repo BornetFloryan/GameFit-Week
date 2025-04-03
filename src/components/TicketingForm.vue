@@ -6,11 +6,11 @@
       <div class="form-group">
         <label for="email">{{ $t('ticketing.emailLabel') }}:</label>
         <input
-          type="email"
-          id="email"
-          v-model="formData.email"
-          required
-          :placeholder="$t('ticketing.emailLabel')"
+            type="email"
+            id="email"
+            v-model="formData.email"
+            required
+            :placeholder="$t('ticketing.emailLabel')"
         />
       </div>
 
@@ -19,7 +19,7 @@
         <select v-model="formData._idTicketAgeCategories" required>
           <option value="" disabled>{{ $t('ticketing.selectAgeCategory') }}</option>
           <option v-for="age in ticketsAgeCategories" :value="age._id" :key="age._id">
-            {{ age.name }}
+            {{ getLocalizedAgeCategoryName(age.name) }}
           </option>
         </select>
       </div>
@@ -27,22 +27,22 @@
       <div v-if="formData._idTicketAgeCategories" class="form-group">
         <label for="ticketCount">{{ $t('ticketing.ticketCountLabel') }}:</label>
         <input
-          type="number"
-          id="ticketCount"
-          v-model.number="formData.ticketCount"
-          min="1"
-          required
-          :placeholder="$t('ticketing.ticketCountLabel')"
+            type="number"
+            id="ticketCount"
+            v-model.number="formData.ticketCount"
+            min="1"
+            required
+            :placeholder="$t('ticketing.ticketCountLabel')"
         />
       </div>
 
       <div v-if="formData._idTicketAgeCategories" class="form-group">
         <label for="price">{{ $t('ticketing.priceLabel') }}:</label>
         <input
-          type="number"
-          id="price"
-          v-model="formData.price"
-          disabled
+            type="number"
+            id="price"
+            v-model="formData.price"
+            disabled
         />
       </div>
 
@@ -137,7 +137,7 @@ export default {
     async submitForm() {
       this.formData.date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
-      
+
       try {
         const response = await this.addTickets(this.formData);
         this.ticket = response.data;
@@ -170,6 +170,12 @@ export default {
         cvv: ''
       };
     },
+    getLocalizedAgeCategoryName(name) {
+      if (this.$i18n.locale === 'en') {
+        return this.$t(`ticketing.ageCategories.${name.toLowerCase()}`) || name;
+      }
+      return name;
+    }
   },
   mounted() {
     if (this.currentUser) {
@@ -190,12 +196,12 @@ export default {
   height: 80vh;
   background-color: #f3f4f6;
   text-align: center;
-  overflow-y: auto; /* Ajouté pour permettre le défilement */
+  overflow-y: auto;
 }
 
 form {
   background: white;
-  padding: 1em; /* Réduit pour compacter le formulaire */
+  padding: 1em;
   border-radius: 8px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -204,13 +210,13 @@ form {
 }
 
 h2 {
-  margin-bottom: 1em; /* Réduit pour compacter le formulaire */
+  margin-bottom: 1em;
   color: #333;
   font-size: 1.5em;
 }
 
 .form-group {
-  margin-bottom: 1em; /* Réduit pour compacter le formulaire */
+  margin-bottom: 1em;
   text-align: left;
 }
 
@@ -228,7 +234,7 @@ input[type="password"],
 input[type="date"],
 select {
   width: 100%;
-  padding: 0.5em; /* Réduit pour compacter le formulaire */
+  padding: 0.5em;
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -289,4 +295,4 @@ select:focus {
 .ticket-button:hover, .home-button:hover {
   background-color: #0056b3;
 }
-</style>>
+</style>

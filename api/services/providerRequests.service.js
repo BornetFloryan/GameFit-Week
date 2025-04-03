@@ -26,7 +26,7 @@ async function addProviderRequest(user) {
         if (!user.name) {
             return {error: 1, status: 404, data: 'Nom manquant'};
         }
-        if (!user.prestationServices) {
+        if (user.prestationServices === undefined || user.prestationServices === null) {
             return {error: 1, status: 404, data: 'Services de prestation manquants'};
         }
         if (!user.password) {

@@ -102,7 +102,7 @@ async function loginUser(data) {
 async function modifyCustomerAccount(customer) {
     const client = await pool.connect();
     try {
-        if (!customer._id) {
+        if (customer._id === undefined || customer._id === null) {
             return { error: 1, status: 400, data: 'ID client requis' };
         }
 

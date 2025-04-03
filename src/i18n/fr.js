@@ -159,25 +159,30 @@ export default {
       unknown: "Inconnu",
     },
 
-    ticketing: {
-      title: "Achat de Billet",
-      emailLabel: "Adresse e-mail",
-      ageCategoryLabel: "Catégorie d'âge",
-      selectAgeCategory: "Choisissez votre catégorie d'âge",
-      ticketCountLabel: "Nombre de billets",
-      priceLabel: "Tarif",
-      paymentMethodLabel: "Méthode de paiement",
-      creditCard: "Carte de crédit",
-      cardNumber: "Numéro de carte",
-      expiryDate: "Date d'expiration",
-      cvv: "CVV",
-      buyButton: "Acheter",
-      successTitle: "Merci pour votre réservation !",
-      successMessage: "Un e-mail de confirmation a été envoyé.",
-      ticketNumber: "Votre billet numéro",
-      viewTickets: "Voir les tickets",
-      homeButton: "Retour à la page d'accueil",
-    },
+  ticketing: {
+    title: "Billetterie",
+    emailLabel: "Email",
+    ageCategoryLabel: "Catégorie d'âge",
+    selectAgeCategory: "Sélectionnez la catégorie d'âge",
+    ticketCountLabel: "Nombre de billets",
+    priceLabel: "Prix",
+    paymentMethodLabel: "Méthode de paiement",
+    creditCard: "Carte de crédit",
+    cardNumber: "Numéro de carte",
+    expiryDate: "Date d'expiration",
+    cvv: "CVV",
+    buyButton: "Acheter le billet",
+    successTitle: "Achat réussi",
+    successMessage: "Merci pour votre achat!",
+    ticketNumber: "Numéro de billet",
+    viewTickets: "Voir les billets",
+    homeButton: "Accueil",
+    ageCategories: {
+      enfant: "Enfant",
+      etudiant: "Étudiant",
+      adulte: "Adulte"
+    }
+  },
 
     guestbook: {
       title: "Livre d'Or",
@@ -250,18 +255,72 @@ export default {
       cancel_button: "Retour",
       modify_success: "Les informations ont été mises à jour avec succès.",
       modify_error: "Erreur lors de la modification des informations",
+    },
+
+  stand_info: {
+    stand_title: "Planning du stand : ",
+    service_label: "Prestation",
+    provider_label: "Prestataire"
+  },
+
+  service_categories: {
+    dédicace: "Dédicace",
+    goodies: "Goodies"
+  },
+
+  reservationView: {
+    number: "Numéro",
+    host: "Animateur",
+    stand: "Stand",
+    service: "Service",
+    date: "Date",
+    time: "Horaire",
+    operation: "Opération",
+    cancel: "Annuler",
+    email: "Adresse e-mail",
+    ageCategory: "Catégorie d'âge",
+    price: "Prix"
+  },
+
+  orderView: {
+    orderNumber: "Numéro de commande",
+    shop: "Boutique",
+    date: "Date",
+    ticketNumber: "Numéro de ticket",
+    state: "État",
+    actions: "Actions",
+    viewDetails: "Voir le détail",
+    showQRCode: "Afficher QR Code",
+    orderDetails: "Détails de la commande",
+    total: "Total",
+    noOrders: "Aucune commande"
+  },
+
+  registerProvider: {
+    title: "Devenir prestataire",
+    email: "Adresse email",
+    name: "Nom de l'entreprise ou NOM Prénom",
+    serviceType: "Type de prestation",
+    chooseServiceType: "Choisissez votre type de prestation",
+    username: "Nom d'utilisateur",
+    password: "Mot de passe",
+    submit: "S'inscrire"
+  },
+
+  providerRequestView: {
+    title: "Demande pour devenir prestataire",
+    number: "Numéro",
+    date: "Date",
+    services: "Services",
+    status: "Statut",
+    unknown: "Inconnu",
+    statusTexts: {
+      pending: "en attente",
+      approved: "validé",
+      rejected: "refusé",
+      unknown: "inconnu"
     }
-    
-    
-
- 
-    
-
-
-    
-
-   
-
+  },
     
   };
   

@@ -4,12 +4,12 @@
       <table v-if="userOrders.length > 0">
         <thead>
         <tr>
-          <th>Numéro de commande</th>
-          <th>Boutique</th>
-          <th>Date</th>
-          <th>Numéro de ticket</th>
-          <th>État</th>
-          <th>Actions</th>
+          <th>{{ $t('orderView.orderNumber') }}</th>
+          <th>{{ $t('orderView.shop') }}</th>
+          <th>{{ $t('orderView.date') }}</th>
+          <th>{{ $t('orderView.ticketNumber') }}</th>
+          <th>{{ $t('orderView.state') }}</th>
+          <th>{{ $t('orderView.actions') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -20,8 +20,8 @@
           <td>{{ order.ticket_id }}</td>
           <td>{{ orderState(order.state) }}</td>
           <td>
-            <button @click="toggleOrderDetails(order._id)">Voir le détail</button>
-            <button v-if="order.state === '1'" @click="showQRCode(order._id)">Afficher QR Code</button>
+            <button @click="toggleOrderDetails(order._id)">{{ $t('orderView.viewDetails') }}</button>
+            <button v-if="order.state === '1'" @click="showQRCode(order._id)">{{ $t('orderView.showQRCode') }}</button>
           </td>
           <div v-if="order.showQRCode">
             <qrcode-vue :value="generateQRCodeUrl(order._id)" :size="200" level="H" render-as="canvas" />
@@ -30,19 +30,19 @@
         <tr v-for="order in visibleOrders" :key="order._id + '-details'">
           <td colspan="5">
             <div class="order-details">
-              <h4>Détails de la commande</h4>
+              <h4>{{ $t('orderView.orderDetails') }}</h4>
               <ul>
                 <li v-for="item in order.items" :key="item._id">
                   {{ item.name }} - {{ item.size }} - {{ item.price }} € x {{ item.quantity }}
                 </li>
               </ul>
-              <p><strong>Total:</strong> {{ calculateTotal(order.items) }} €</p>
+              <p><strong>{{ $t('orderView.total') }}:</strong> {{ calculateTotal(order.items) }} €</p>
             </div>
           </td>
         </tr>
         </tbody>
       </table>
-      <p v-else>Aucune commande</p>
+      <p v-else>{{ $t('orderView.noOrders') }}</p>
     </div>
   </div>
 </template>

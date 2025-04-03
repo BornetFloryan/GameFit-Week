@@ -39,7 +39,7 @@
           </ul>
         </li>
 
-        <!-- Ajouter le sélecteur de langue ici -->
+        <!-- Sélecteur de langue ici -->
         <li class="language-selector">
           <button @click="changeLanguage('fr')" class="lang-button" :class="{ active: $i18n.locale === 'fr' }">FR</button>
           <button @click="changeLanguage('en')" class="lang-button" :class="{ active: $i18n.locale === 'en' }">EN</button>
@@ -87,7 +87,7 @@ export default {
     },
 
     isKeyExist(key) {
-      return this.$te(key); // Vérifie si la clé existe
+      return this.$te(key);
     },
     changeLanguage(language) {
       this.$i18n.locale = language;

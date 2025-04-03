@@ -1,8 +1,8 @@
 <template>
   <div class="interactive-map" @mousemove="updateTooltipPosition">
-    <h2>{{ title }}</h2>
+    <h2>{{ localizedTitle }}</h2>
     <div class="date-picker-container">
-      <label for="reservation-date">{{ dateTitle }}</label>
+      <label for="reservation-date">{{ localizedDateTitle }}</label>
       <br>
       <input @change="updateSelectedDate" type="date" id="reservation-date" v-model="selectedDate" :min="minDate"
              :max="maxDate"/>
@@ -28,6 +28,14 @@ export default {
     dateTitle: {
       type: String,
     },
+  },
+  computed: {
+    localizedTitle() {
+      return this.$i18n.locale === 'en' ? this.$t('interactive_map.title') : this.title;
+    },
+    localizedDateTitle() {
+      return this.$i18n.locale === 'en' ? this.$t('interactive_map.dateTitle') : this.dateTitle;
+    }
   },
   data() {
     return {
@@ -93,7 +101,6 @@ export default {
       this.$emit("update-selected-date", this.selectedDate);
     },
   },
-  computed: {},
   mounted() {
     this.fetchSvgContent();
   },
