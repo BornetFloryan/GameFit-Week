@@ -1,92 +1,90 @@
 <template>
   <div class="ticketing-container">
     <form v-if="!submissionSuccess" @submit.prevent="submitForm">
-      <h2>Achat de Billet</h2>
+      <h2>{{ $t('ticketing.title') }}</h2>
 
       <div class="form-group">
-        <label for="email">Adresse e-mail:</label>
+        <label for="email">{{ $t('ticketing.emailLabel') }}:</label>
         <input
-            type="email"
-            id="email"
-            v-model="formData.email"
-            required
-            placeholder="Entrez votre e-mail"
+          type="email"
+          id="email"
+          v-model="formData.email"
+          required
+          :placeholder="$t('ticketing.emailLabel')"
         />
       </div>
 
       <div v-if="ticketsAgeCategories.length" class="form-group">
-        <label for="event">Catégorie d'âge:</label>
+        <label for="event">{{ $t('ticketing.ageCategoryLabel') }}:</label>
         <select v-model="formData._idTicketAgeCategories" required>
-          <option value="" disabled>Choisissez votre catégorie d'âge</option>
-          <option v-for="age in ticketsAgeCategories"
-                  :value="age._id"
-                  :key="age._id">
+          <option value="" disabled>{{ $t('ticketing.selectAgeCategory') }}</option>
+          <option v-for="age in ticketsAgeCategories" :value="age._id" :key="age._id">
             {{ age.name }}
           </option>
         </select>
       </div>
 
       <div v-if="formData._idTicketAgeCategories" class="form-group">
-        <label for="ticketCount">Nombre de billets:</label>
+        <label for="ticketCount">{{ $t('ticketing.ticketCountLabel') }}:</label>
         <input
-            type="number"
-            id="ticketCount"
-            v-model.number="formData.ticketCount"
-            min="1"
-            required
-            placeholder="Nombre de billets"
+          type="number"
+          id="ticketCount"
+          v-model.number="formData.ticketCount"
+          min="1"
+          required
+          :placeholder="$t('ticketing.ticketCountLabel')"
         />
       </div>
 
       <div v-if="formData._idTicketAgeCategories" class="form-group">
-        <label for="price">Tarif:</label>
+        <label for="price">{{ $t('ticketing.priceLabel') }}:</label>
         <input
-            type="number"
-            id="price"
-            v-model="formData.price"
-            disabled
+          type="number"
+          id="price"
+          v-model="formData.price"
+          disabled
         />
       </div>
 
       <div class="form-group">
-        <label for="payment">Méthode de paiement:</label>
+        <label for="payment">{{ $t('ticketing.paymentMethodLabel') }}:</label>
         <select v-model="formData.paymentMethod" required>
-          <option value="creditCard">Carte de crédit</option>
+          <option value="creditCard">{{ $t('ticketing.creditCard') }}</option>
         </select>
       </div>
 
       <div v-if="formData.paymentMethod === 'creditCard'">
         <div class="form-group">
-          <label for="cardNumber">Numéro de carte</label>
+          <label for="cardNumber">{{ $t('ticketing.cardNumber') }}</label>
           <input type="text" id="cardNumber" v-model="formData.cardNumber" required maxlength="16" inputmode="numeric" pattern="\d{16}" />
         </div>
         <div class="form-group">
-          <label for="expiryDate">Date d'expiration</label>
+          <label for="expiryDate">{{ $t('ticketing.expiryDate') }}</label>
           <input type="date" id="expiryDate" v-model="formData.expiryDate" required />
         </div>
         <div class="form-group">
-          <label for="cvv">CVV</label>
+          <label for="cvv">{{ $t('ticketing.cvv') }}</label>
           <input type="text" id="cvv" v-model="formData.cvv" required maxlength="3" inputmode="numeric" pattern="\d{3}" />
         </div>
       </div>
 
       <div class="form-button">
-        <button type="submit" class="buy-button">Acheter</button>
+        <button type="submit" class="buy-button">{{ $t('ticketing.buyButton') }}</button>
       </div>
     </form>
 
     <div v-if="submissionSuccess">
-      <h2>Merci pour votre réservation !</h2>
-      <p>Un e-mail de confirmation a été envoyé.</p>
+      <h2>{{ $t('ticketing.successTitle') }}</h2>
+      <p>{{ $t('ticketing.successMessage') }}</p>
       <br>
-      <p>Votre billet numéro {{ticket[0]._id}}</p>
+      <p>{{ $t('ticketing.ticketNumber') }}: {{ ticket[0]._id }}</p>
       <br>
       <div class="home-button-container">
         <router-link v-if="currentUser" :to="{ name: 'ticket' }">
-          <button type="button" class="ticket-button">Voir les tickets</button>
+          <button type="button" class="ticket-button">{{ $t('ticketing.viewTickets') }}</button>
         </router-link>
         <router-link :to="{ name: 'home' }">
-          <button type="button" class="home-button">Retour à la page d'accueil</button>
+          <button type="button" class="home-button">{{ $t('ticketing.homeButton') }}</button>
         </router-link>
       </div>
     </div>
@@ -94,7 +92,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: 'TicketingFormView',
@@ -119,30 +117,46 @@ export default {
   },
   computed: {
     ...mapState('account', ['currentUser']),
-    ...mapState('ticket', ['ticketsAgeCategories', "ticketPrices", "tickets"]),
+    ...mapState('ticket', ['ticketsAgeCategories', 'ticketPrices', 'tickets']),
     ...mapGetters('ticket', ['getTicketPriceByCategories']),
   },
   watch: {
     'formData._idTicketAgeCategories': function () {
-      if (this.submissionSuccess === false) {
+      if (!this.submissionSuccess) {
         this.updateTicketPrice(this.formData._idTicketAgeCategories);
       }
     },
     'formData.ticketCount': function () {
-      if (this.submissionSuccess === false) {
+      if (!this.submissionSuccess) {
         this.updateTicketPrice(this.formData._idTicketAgeCategories);
       }
     },
   },
   methods: {
-    ...mapActions('ticket', ['getTickets', 'getTicketsAgeCategories', 'getTicketPrices', "addTickets"]),
+    ...mapActions('ticket', ['getTickets', 'getTicketsAgeCategories', 'getTicketPrices', 'addTickets']),
     async submitForm() {
       this.formData.date = new Date().toLocaleDateString();
       this.formData.time = new Date().toLocaleTimeString();
+      
+      try {
+        const response = await this.addTickets(this.formData);
+        this.ticket = response.data;
+        this.submissionSuccess = true;
+      } catch (error) {
+        console.error("Erreur lors de l'achat de billet :", error);
+      }
 
-      this.ticket = (await this.addTickets(this.formData)).data;
-      this.submissionSuccess = true;
-
+      this.resetFormData();
+    },
+    updateTicketPrice(id) {
+      const price = this.getTicketPriceByCategories(id);
+      if (price) {
+        this.formData.price = price.price * this.formData.ticketCount;
+      } else {
+        this.formData.price = 0;
+      }
+    },
+    resetFormData() {
       this.formData = {
         price: '',
         date: '',
@@ -156,22 +170,13 @@ export default {
         cvv: ''
       };
     },
-    updateTicketPrice(_idTicketsAgeCategories) {
-      const price = this.getTicketPriceByCategories(_idTicketsAgeCategories);
-      if (price) {
-        this.formData.price = price.price * this.formData.ticketCount;
-      } else {
-        this.formData.price = 0;
-      }
-    },
   },
   mounted() {
     if (this.currentUser) {
-      this.formData.name = this.currentUser.name;
       this.formData.email = this.currentUser.email;
     }
     this.getTicketsAgeCategories();
-    this.getTicketPrices()
+    this.getTicketPrices();
     this.getTickets();
   },
 };
