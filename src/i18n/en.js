@@ -159,5 +159,105 @@ export default {
       collected: "Collected",
       unknown: "Unknown",
     },
+
+    ticketing: {
+      title: "Ticket Purchase",
+      emailLabel: "Email Address",
+      ageCategoryLabel: "Age Category",
+      selectAgeCategory: "Choose your age category",
+      ticketCountLabel: "Number of Tickets",
+      priceLabel: "Price",
+      paymentMethodLabel: "Payment Method",
+      creditCard: "Credit Card",
+      cardNumber: "Card Number",
+      expiryDate: "Expiry Date",
+      cvv: "CVV",
+      buyButton: "Buy",
+      successTitle: "Thank you for your purchase!",
+      successMessage: "A confirmation email has been sent.",
+      ticketNumber: "Your ticket number",
+      viewTickets: "View Tickets",
+      homeButton: "Back to Home",
+    },
+    guestbook: {
+      title: "Guestbook",
+      rating: "Rating",
+      comment: "Comment",
+      add_entry: "Add Entry",
+      service_required: "You must have used a service provided by the provider to add an entry.",
+      login_required: "You must be logged in to add an entry.",
+      date: "Date",
+      user: "User",
+      report: "Report",
+      report_title: "Report Entry",
+      report_reason: "Reason",
+      submit: "Submit",
+    },
+
+    provider_list: {
+      title: "Provider List",
+      search_placeholder: "Search for a provider...",
+      all_services: "All services",
+      guestbook: "Guestbook",
+      calendar: "Calendar",
+      name: "Name",
+      email: "Email",
+      description: "Description",
+      info_button: "Access provider space",
+      provider_image: "Provider image",
+      unknown_service: "Unknown service",
+      unknown_name: "Unknown name",
+      unknown_email: "Unknown email",
+      no_description: "No description available",
+      load_error: "Error loading providers",
+    },
+
+    signature: {
+      reservation_title: "Signature Slot Reservation",
+      reservation_success: "Reservation successful!",
+      select_animator: "Select your host",
+      your_animator: "Your host",
+      search_animator: "Search for a host...",
+      animator_image: "Host image",
+      book: "Book",
+      change_animator: "Change host",
+      select_time_slot: "Select your time slot",
+      time: "Time",
+      select_time: "Select a time",
+      cancel: "Cancel",
+    },
+
+    dedication_home: {
+      title: "Welcome to the Dedication System",
+      description: "Book a slot to meet your favorite host and get a personalized dedication!",
+      search_placeholder: "Enter your ticket number",
+      reserve_button: "Book Now",
+      feature_simple: "Easy to Use",
+      feature_simple_desc: "An intuitive interface to choose your host and book a time slot quickly.",
+      feature_anytime: "Available Anytime",
+      feature_anytime_desc: "Book your time slot 24/7 based on host availability.",
+      feature_custom: "Personalized Dedications",
+      feature_custom_desc: "Get a unique and memorable dedication for yourself or loved ones.",
+      ticket_invalid: "Invalid ticket number",
+    },
+
+    profile: {
+      personal_info: "Personal Information",
+      email: "Email",
+      name: "Full Name",
+      username: "Username",
+      modify_button: "Modify",
+      cancel_button: "Back",
+      modify_success: "Information updated successfully.",
+      modify_error: "Error updating information",
+    }
+    
+
+    
+    
+
+    
+
+    
   };
   
