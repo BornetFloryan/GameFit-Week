@@ -184,20 +184,21 @@ export default {
     }
   },
 
-    guestbook: {
-      title: "Livre d'Or",
-      rating: "Note",
-      comment: "Commentaire",
-      add_entry: "Ajouter une Entrée",
-      service_required: "Vous devez avoir utilisé un service proposé par le prestataire pour pouvoir ajouter une entrée.",
-      login_required: "Vous devez être connecté pour ajouter une entrée.",
-      date: "Date",
-      user: "Utilisateur",
-      report: "Signaler",
-      report_title: "Signaler une entrée",
-      report_reason: "Raison",
-      submit: "Valider",
-    },
+  guestbook: {
+    title: "Livre d'Or",
+    rating: "Note",
+    comment: "Commentaire",
+    addEntry: "Ajouter une Entrée",
+    mustUseService: "Vous devez avoir utilisé un service proposé par le prestataire pour pouvoir ajouter une entrée.",
+    mustBeLoggedIn: "Vous devez être connecté pour ajouter une entrée.",
+    date: "Date",
+    user: "Utilisateur",
+    report: "Signaler",
+    reportEntry: "Signaler une entrée",
+    reason: "Raison",
+    submit: "Valider",
+    reportSuccess: "Votre signalement a bien été pris en compte."
+  },
 
     provider_list: {
       title: "Liste des prestataires",
@@ -321,6 +322,24 @@ export default {
       unknown: "inconnu"
     }
   },
+
+  prestataireInfo: {
+    servicesOffered: "Services Proposés",
+    guestbookNotActivated: "Le livre d'or n'est pas activé.",
+    back: "Retour"
+  },
+
+  providerSchedule: {
+    activateService: "Activer le service",
+    deactivateService: "Désactiver le service",
+    scheduleTitle: "Planning du Prestataire pour la Semaine de l'Événement",
+    scheduleDisabled: "L'emploi du temps est désactivé",
+    tooltip: "En savoir plus",
+    serviceActivated: "Service activé avec succès",
+    serviceDeactivated: "Service désactivé avec succès",
+    updateError: "Erreur lors de la mise à jour du statut du service",
+    statusNotFound: "Erreur: Statut du planning non trouvé pour ce prestataire"
+  }
     
   };
   

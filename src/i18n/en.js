@@ -185,20 +185,20 @@ export default {
     }
   },
 
-
     guestbook: {
         title: "Guestbook",
         rating: "Rating",
         comment: "Comment",
-        add_entry: "Add Entry",
-        service_required: "You must have used a service provided by the provider to add an entry.",
-        login_required: "You must be logged in to add an entry.",
+        addEntry: "Add Entry",
+        mustUseService: "You must have used a service offered by the provider to add an entry.",
+        mustBeLoggedIn: "You must be logged in to add an entry.",
         date: "Date",
         user: "User",
         report: "Report",
-        report_title: "Report Entry",
-        report_reason: "Reason",
+        reportEntry: "Report an entry",
+        reason: "Reason",
         submit: "Submit",
+        reportSuccess: "Your report has been successfully submitted."
     },
 
     provider_list: {
@@ -330,6 +330,25 @@ export default {
       unknown: "unknown"
     }
   },
+
+  prestataireInfo: {
+    servicesOffered: "Services Offered",
+    guestbookNotActivated: "The guestbook is not activated.",
+    back: "Back"
+   },
+
+    providerSchedule: {
+        activateService: "Activate service",
+        deactivateService: "Deactivate service",
+        scheduleTitle: "Provider's Schedule for the Event Week",
+        scheduleDisabled: "The schedule is disabled",
+        tooltip: "Learn more",
+        serviceActivated: "Service activated successfully",
+        serviceDeactivated: "Service deactivated successfully",
+        updateError: "Error updating service status",
+        statusNotFound: "Error: Schedule status not found for this provider"
+    }
+
 
 
 

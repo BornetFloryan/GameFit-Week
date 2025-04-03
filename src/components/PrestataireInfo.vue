@@ -11,7 +11,7 @@
     </div>
     <div class="content">
       <div class="services-section">
-        <h2 class="section-title">Services Proposés</h2>
+        <h2 class="section-title">{{ $t('prestataireInfo.servicesOffered') }}</h2>
         <ul class="service-list">
           <li v-for="service in servicesPrestataires" :key="service._id" class="service-item">
             <router-link :to="getServicePath(service._id, prestataire._id)" class="service-link">{{ service.name }}</router-link>
@@ -23,8 +23,8 @@
     <div class="guestbook-section" v-if="guestbookActivated">
       <Guestbook />
     </div>
-    <p v-else>Le livre d'or n'est pas activé.</p>
-    <button @click="goBack" class="back-button">Retour</button>
+    <p v-else>{{ $t('prestataireInfo.guestbookNotActivated') }}</p>
+    <button @click="goBack" class="back-button">{{ $t('prestataireInfo.back') }}</button>
   </div>
 </template>
 
@@ -75,11 +75,11 @@ export default {
     },
     getServicePath(serviceId, customerId) {
       if (serviceId === '0') {
-        return { name: 'dedication-home', query: { prestataireId: customerId } };
+        return {name: 'dedication-home', query: {prestataireId: customerId}};
       } else if (serviceId === '1') {
         let providerServiceCategory = this.getProviderServiceCategoriesByCustomerId(customerId);
         if (providerServiceCategory.length !== 0) {
-          return { name: 'goodies-seller', query: { providerServiceCategory: providerServiceCategory[0]._id } };
+          return {name: 'goodies-seller', query: {providerServiceCategory: providerServiceCategory[0]._id}};
         }
       }
       return '';

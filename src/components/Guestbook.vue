@@ -1,9 +1,9 @@
 <template>
   <div class="guestbook-container">
-    <h2 class="section-title">Livre d'Or</h2>
+    <h2 class="section-title">{{ $t('guestbook.title') }}</h2>
     <form v-if="isAuthenticated && hasUsedService" @submit.prevent="addEntry">
       <div class="form-group">
-        <label for="rating">Note</label>
+        <label for="rating">{{ $t('guestbook.rating') }}</label>
         <div class="star-rating">
           <span v-for="star in 5" :key="star" class="star" @click="setRating(star)">
             <i :class="star <= newEntry.rating ? 'fas fa-star' : 'far fa-star'"></i>
@@ -11,33 +11,33 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="comment">Commentaire</label>
+        <label for="comment">{{ $t('guestbook.comment') }}</label>
         <textarea v-model="newEntry.comment" id="comment" required></textarea>
       </div>
-      <button type="submit" class="form-submit-button">Ajouter une Entrée</button>
+      <button type="submit" class="form-submit-button">{{ $t('guestbook.addEntry') }}</button>
     </form>
-    <p v-else-if="isAuthenticated">Vous devez avoir utilisé un service proposé par le prestataire pour pouvoir ajouter une entrée.</p>
-    <p v-else>Vous devez être connecté pour ajouter une entrée.</p>
+    <p v-else-if="isAuthenticated">{{ $t('guestbook.mustUseService') }}</p>
+    <p v-else>{{ $t('guestbook.mustBeLoggedIn') }}</p>
     <div class="entries">
       <div v-for="entry in entries" :key="entry._id" class="entry">
-        <p><strong>Date :</strong> {{ formatDate(entry.date) }}</p>
-        <p><strong>Note :</strong> <span v-html="getStars(entry.rating)"></span></p>
-        <p><strong>Commentaire :</strong> {{ entry.comment }}</p>
-        <p><strong>Utilisateur :</strong> {{ getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name }}</p>
-        <button class="report-button" @click="openReportModal(entry._id)">Signaler</button>
+        <p><strong>{{ $t('guestbook.date') }} :</strong> {{ formatDate(entry.date) }}</p>
+        <p><strong>{{ $t('guestbook.rating') }} :</strong> <span v-html="getStars(entry.rating)"></span></p>
+        <p><strong>{{ $t('guestbook.comment') }} :</strong> {{ entry.comment }}</p>
+        <p><strong>{{ $t('guestbook.user') }} :</strong> {{ getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name }}</p>
+        <button class="report-button" @click="openReportModal(entry._id)">{{ $t('guestbook.report') }}</button>
       </div>
     </div>
 
     <div v-if="showReportModal" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeReportModal">&times;</span>
-        <h2>Signaler une entrée</h2>
+        <h2>{{ $t('guestbook.reportEntry') }}</h2>
         <form @submit.prevent="submitReport">
           <div class="form-group">
-            <label for="reason">Raison</label>
+            <label for="reason">{{ $t('guestbook.reason') }}</label>
             <textarea v-model="reportReason" id="reason" required></textarea>
           </div>
-          <button type="submit" class="form-submit-button">Valider</button>
+          <button type="submit" class="form-submit-button">{{ $t('guestbook.submit') }}</button>
         </form>
       </div>
     </div>
@@ -174,7 +174,7 @@ export default {
         if(response.error !== 0) {
           alert(response.data);
         } else {
-          alert(`Votre signalement a bien été pris en compte.`);
+          alert(this.$t('guestbook.reportSuccess'));
           this.closeReportModal();
         }
       }

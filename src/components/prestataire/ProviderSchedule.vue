@@ -2,14 +2,14 @@
   <div>
     <div v-if="isProvider">
       <label>
-        <input type="radio" v-model="serviceStatus" :value="true" @change="toggleServiceStatus"> Activer le service
+        <input type="radio" v-model="serviceStatus" :value="true" @change="toggleServiceStatus"> {{ $t('providerSchedule.activateService') }}
       </label>
       <label>
-        <input type="radio" v-model="serviceStatus" :value="false" @change="toggleServiceStatus"> Désactiver le service
+        <input type="radio" v-model="serviceStatus" :value="false" @change="toggleServiceStatus"> {{ $t('providerSchedule.deactivateService') }}
       </label>
     </div>
     <div v-if="serviceStatus">
-      <h1>Planning du Prestataire pour la Semaine de l'Événement</h1>
+      <h1>{{ $t('providerSchedule.scheduleTitle') }}</h1>
       <div class="calendar">
         <div class="calendar-header">
           <div class="calendar-cell"></div>
@@ -29,9 +29,9 @@
       </div>
     </div>
     <div v-else>
-      <p>L'emploi du temps est désactivé</p>
+      <p>{{ $t('providerSchedule.scheduleDisabled') }}</p>
     </div>
-    <div v-if="tooltipVisible" :style="tooltipStyle" class="tooltip">En savoir plus</div>
+    <div v-if="tooltipVisible" :style="tooltipStyle" class="tooltip">{{ $t('providerSchedule.tooltip') }}</div>
   </div>
 </template>
 
@@ -85,7 +85,7 @@ export default {
       this.standsReservations.forEach(reservation => {
         const date = reservation.date.split('T')[0];
         if (!scheduleMap[date]) {
-          scheduleMap[date] = { date, events: [] };
+          scheduleMap[date] = {date, events: []};
         }
         scheduleMap[date].events.push({
           id: reservation._id,
@@ -124,14 +124,14 @@ export default {
       try {
         const providerScheduleStatus = await this.getProviderScheduleStatusByCustomerId(this.currentUser._id);
         if (!providerScheduleStatus) {
-          alert('Erreur: Statut du planning non trouvé pour ce prestataire');
+          alert(this.$t('providerSchedule.statusNotFound'));
           return;
         }
         providerScheduleStatus.schedule_activated = this.serviceStatus;
         await this.modifyProviderScheduleStatus(providerScheduleStatus);
-        alert(`Service ${this.serviceStatus ? 'activé' : 'désactivé'} avec succès`);
+        alert(this.$t(this.serviceStatus ? 'providerSchedule.serviceActivated' : 'providerSchedule.serviceDeactivated'));
       } catch (e) {
-        alert('Erreur lors de la mise à jour du statut du service');
+        alert(this.$t('providerSchedule.updateError'));
       }
     }
   },
@@ -141,7 +141,7 @@ export default {
       await this.getStandsReservations();
       await this.getServiceCategories();
       this.standsReservations = await this.getStandsReservationsByCustomerId(this.provider._id) || [];
-      if(this.provider){
+      if (this.provider) {
         await this.getProviderScheduleStatus()
         const providerScheduleStatus = await this.getProviderScheduleStatusByCustomerId(this.provider._id);
         if (providerScheduleStatus) {
