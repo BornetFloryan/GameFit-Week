@@ -10,7 +10,6 @@ L'API renvoie toujours des données sous la forme : { error, stats, data }
 const API_PORT = 3000;
 const MAX_REFRESH_ATTEMPTS = 3;
 let refreshAttempts = 0;
-let errorCount = 0;
 
 function getAccessToken() {
     return store.getters['account/getAccessToken'];
@@ -111,19 +110,6 @@ async function handleError(serviceName, err) {
         return { data: { error: 1, data: err.response.data } };
     } else if (err.request) {
         console.log("NETWORK ERROR in SERVICE " + serviceName + ": " + JSON.stringify(err.request));
-
-        if (err.code.includes('ERR_NETWORK')) {
-            errorCount++;
-            if (errorCount >= 3) {
-                window.showServerIpPrompt();
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                const serverIP = localStorage.getItem('serverIP');
-                axiosAgent = axios.create({ baseURL: `http://${serverIP}:${API_PORT}/` });
-                console.log('Nouvelle IP du serveur:', serverIP);
-                errorCount = 0;
-            }
-        }
-
         return { data: { error: 1, data: 'Le serveur est injoignable ou l\'URL demandée n\'existe pas' } };
     } else {
         console.log("UNKNOWN ERROR in SERVICE " + serviceName);

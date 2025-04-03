@@ -1275,7 +1275,7 @@ let pro_teams = [
         "name": "100 Thieves",
         "img": "../assets/img/100T_Logo.jpg",
         "description": "100 Thieves est une organisation jeune et dynamique qui a rapidement gagné en popularité grâce à son approche novatrice de l’e-sport. Fondée par l’ancien joueur professionnel Matthew 'Nadeshot' Haag, 100 Thieves a su se démarquer à la fois sur le terrain, dans des jeux comme Valorant et League of Legends, et en dehors grâce à son identité de marque unique. Ils combinent une stratégie de jeu efficace avec une communication de marque axée sur le lifestyle, attirant une audience qui dépasse le simple cadre des compétitions. En compétition, 100 Thieves est reconnue pour ses stratégies bien pensées, ses joueurs talentueux et son esprit d’équipe inébranlable, qui leur permettent de s’imposer comme un sérieux concurrent dans les tournois internationaux.",
-    }   
+    }
 ]
 
 let service_reservations = [
@@ -1504,20 +1504,13 @@ let guestbook_entries = [
     },{
         "_id": "1",
         "date": "2025-07-07",
-        "rating": "4",
-        "comment": "Très bonne organisation !",
+        "rating": "1",
+        "comment": "Ce prestataire est nul ! Il est toujours en retard et ne prend même pas le temps de signer correctement. Vraiment déçu, je ne recommande pas du tout !",
         "service_reservations_id": "1",
     },
 ];
 
 let reports = [
-    {
-        "_id": "0",
-        "date": "2025-01-01",
-        "reason": "Problème technique",
-        "state": "0",
-        "guestbook_entry_id": "0",
-    }
 ]
 
 let goodies_sizes = [

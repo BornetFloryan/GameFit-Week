@@ -1,33 +1,23 @@
 <template>
   <div id="app">
-    <ServerIpPrompt ref="serverIpPrompt" @ip-submitted="setServerIP" />
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import ServerIpPrompt from './views/ServerIpPrompt.vue';
 
 export default {
-  components: {
-    ServerIpPrompt
-  },
   data() {
     return {
       serverIP: ''
     };
   },
-  methods: {
-    setServerIP(ip) {
-      this.serverIP = ip;
-      localStorage.setItem('serverIP', ip);
-    },
-    showServerIpPrompt() {
-      this.$refs.serverIpPrompt.showPrompt();
-    }
-  },
   mounted() {
     window.showServerIpPrompt = this.showServerIpPrompt;
+    let currentUrl = window.location.href;
+    let url = new URL(currentUrl);
+    let urlWithoutPort = `${url.hostname}`;
+    localStorage.setItem('serverIP', urlWithoutPort);
   }
 };
 </script>
