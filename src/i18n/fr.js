@@ -157,7 +157,110 @@ export default {
       to_collect: "À venir récupérer",
       collected: "Récupérée",
       unknown: "Inconnu",
+    },
+
+    ticketing: {
+      title: "Achat de Billet",
+      emailLabel: "Adresse e-mail",
+      ageCategoryLabel: "Catégorie d'âge",
+      selectAgeCategory: "Choisissez votre catégorie d'âge",
+      ticketCountLabel: "Nombre de billets",
+      priceLabel: "Tarif",
+      paymentMethodLabel: "Méthode de paiement",
+      creditCard: "Carte de crédit",
+      cardNumber: "Numéro de carte",
+      expiryDate: "Date d'expiration",
+      cvv: "CVV",
+      buyButton: "Acheter",
+      successTitle: "Merci pour votre réservation !",
+      successMessage: "Un e-mail de confirmation a été envoyé.",
+      ticketNumber: "Votre billet numéro",
+      viewTickets: "Voir les tickets",
+      homeButton: "Retour à la page d'accueil",
+    },
+
+    guestbook: {
+      title: "Livre d'Or",
+      rating: "Note",
+      comment: "Commentaire",
+      add_entry: "Ajouter une Entrée",
+      service_required: "Vous devez avoir utilisé un service proposé par le prestataire pour pouvoir ajouter une entrée.",
+      login_required: "Vous devez être connecté pour ajouter une entrée.",
+      date: "Date",
+      user: "Utilisateur",
+      report: "Signaler",
+      report_title: "Signaler une entrée",
+      report_reason: "Raison",
+      submit: "Valider",
+    },
+
+    provider_list: {
+      title: "Liste des prestataires",
+      search_placeholder: "Rechercher un prestataire...",
+      all_services: "Tous les services",
+      guestbook: "Livre d'or",
+      calendar: "Calendrier",
+      name: "Nom",
+      email: "Email",
+      description: "Description",
+      info_button: "Accéder à l'espace du prestataire",
+      provider_image: "Image du prestataire",
+      unknown_service: "Service inconnu",
+      unknown_name: "Nom inconnu",
+      unknown_email: "Email inconnu",
+      no_description: "Aucune description",
+      load_error: "Erreur lors du chargement des prestataires",
+    },
+
+    signature: {
+      reservation_title: "Réservation de créneau de signature",
+      reservation_success: "Réservation effectuée !",
+      select_animator: "Sélectionnez votre animateur",
+      your_animator: "Votre animateur",
+      search_animator: "Rechercher un animateur...",
+      animator_image: "Image de l'animateur",
+      book: "Réserver",
+      change_animator: "Changer d'animateur",
+      select_time_slot: "Sélectionnez votre créneau horaire",
+      time: "Heure",
+      select_time: "Sélectionnez une heure",
+      cancel: "Annuler",
+    },
+
+    dedication_home: {
+      title: "Bienvenue dans le système de dédicace",
+      description: "Réservez un créneau pour rencontrer votre animateur préféré et obtenir une dédicace personnalisée !",
+      search_placeholder: "Entrez votre numéro de billet",
+      reserve_button: "Réservez maintenant",
+      feature_simple: "Simple à utiliser",
+      feature_simple_desc: "Une interface intuitive pour choisir votre animateur et réserver un créneau horaire rapidement.",
+      feature_anytime: "Disponible à tout moment",
+      feature_anytime_desc: "Réservez votre créneau horaire 24h/24, 7j/7 selon les disponibilités des animateurs.",
+      feature_custom: "Dédicaces personnalisées",
+      feature_custom_desc: "Obtenez une dédicace unique et mémorable pour vous ou vos proches.",
+      ticket_invalid: "Numéro de billet invalide",
+    },
+
+    profile: {
+      personal_info: "Informations Personnelles",
+      email: "Email",
+      name: "Nom Prénom",
+      username: "Nom d'utilisateur",
+      modify_button: "Modifier",
+      cancel_button: "Retour",
+      modify_success: "Les informations ont été mises à jour avec succès.",
+      modify_error: "Erreur lors de la modification des informations",
     }
+    
+    
+
+ 
+    
+
+
+    
+
+   
 
     
   };
