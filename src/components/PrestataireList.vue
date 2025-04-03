@@ -1,36 +1,44 @@
 <template>
   <div class="provider-list-container">
-    <h2>Liste des Prestataires</h2>
+    <h2>{{ $t('provider_list.title') }}</h2>
+
     <div class="search-filter-container">
-      <input type="text" v-model="searchTerm" placeholder="Rechercher un prestataire..." class="search-bar" />
+      <input type="text" v-model="searchTerm" :placeholder="$t('provider_list.search_placeholder')" class="search-bar" />
       <select v-model="selectedService" class="filter-dropdown">
-        <option value="">Tous les services</option>
+        <option value="">{{ $t('provider_list.all_services') }}</option>
         <option v-for="service in uniqueServices" :key="service" :value="service">{{ service }}</option>
       </select>
       <div class="checkbox-group">
         <label>
           <input type="checkbox" v-model="selectedGuestbook" true-value="true" false-value="" />
-          Livre d'or
+          {{ $t('provider_list.guestbook') }}
         </label>
         <label>
           <input type="checkbox" v-model="selectedCalendar" true-value="true" false-value="" />
-          Calendrier
+          {{ $t('provider_list.calendar') }}
         </label>
       </div>
     </div>
+
     <div class="providers">
       <div v-for="prestataire in filteredPrestataires" :key="prestataire._id" class="provider">
-        <img :src="require('@/assets/img/users/' + prestataire.picture)" alt="Prestataire" class="provider-picture" v-if="prestataire.picture" />
+        <img v-if="prestataire.picture" 
+             :src="require('@/assets/img/users/' + prestataire.picture)" 
+             :alt="$t('provider_list.provider_image')" 
+             class="provider-picture" />
         <div class="provider-details">
-          <p><strong>Nom :</strong> {{ prestataire.name }}</p>
-          <p><strong>Email :</strong> {{ prestataire.email }}</p>
-          <p><strong>Description :</strong> <span v-html="prestataire.description"></span></p>
-          <button @click="goToProviderInfo(prestataire._id)" class="info-button">Accéder à l'espace du prestataire</button>
+          <p><strong>{{ $t('provider_list.name') }} :</strong> {{ prestataire.name }}</p>
+          <p><strong>{{ $t('provider_list.email') }} :</strong> {{ prestataire.email }}</p>
+          <p><strong>{{ $t('provider_list.description') }} :</strong> <span v-html="prestataire.description"></span></p>
+          <button @click="goToProviderInfo(prestataire._id)" class="info-button">
+            {{ $t('provider_list.info_button') }}
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
@@ -49,62 +57,94 @@ export default {
   computed: {
     ...mapState('account', ['providerRequests']),
     ...mapGetters('account', ['getCustomerById']),
-    ...mapGetters('prestation', ['getProviderServiceCategoriesByCustomerId', 'getServiceCategoryById', 'getProviderGuestbookStatusByCustomerId', 'getProviderScheduleStatusByCustomerId']),
+    ...mapGetters('prestation', [
+      'getProviderServiceCategoriesByCustomerId',
+      'getServiceCategoryById',
+      'getProviderGuestbookStatusByCustomerId',
+      'getProviderScheduleStatusByCustomerId'
+    ]),
 
     filteredPrestataires() {
       return this.prestataires.filter(prestataire => {
-        const matchesSearchTerm = prestataire.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-        const matchesService = this.selectedService ? prestataire.services.some(service => service.name === this.selectedService) : true;
-        const hasValidService = prestataire.services.some(service => service.state === "1");
-        const matchesGuestbook = this.selectedGuestbook ? prestataire.guestbook === (this.selectedGuestbook === 'true') : true;
-        const matchesCalendar = this.selectedCalendar ? prestataire.calendar === (this.selectedCalendar === 'true') : true;
-        return matchesSearchTerm && matchesService && hasValidService && matchesGuestbook && matchesCalendar;
+        const matchesSearch = prestataire.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+        const matchesService = this.selectedService 
+          ? prestataire.services.some(service => service.name === this.selectedService) 
+          : true;
+        const validService = prestataire.services.some(service => service.state === "1");
+        const matchesGuestbook = this.selectedGuestbook 
+          ? prestataire.guestbook === (this.selectedGuestbook === 'true') 
+          : true;
+        const matchesCalendar = this.selectedCalendar 
+          ? prestataire.calendar === (this.selectedCalendar === 'true') 
+          : true;
+
+        return matchesSearch && matchesService && validService && matchesGuestbook && matchesCalendar;
       });
     },
+
     uniqueServices() {
-      const services = this.prestataires.flatMap(prestataire => prestataire.services.map(service => service.name));
+      const services = this.prestataires.flatMap(prestataire => 
+        prestataire.services.map(service => service.name)
+      );
       return [...new Set(services)];
     },
   },
   methods: {
     ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
-    ...mapActions('prestation', ['getProviderServiceCategories', 'getServiceCategories', 'getProviderGuestbookStatus', 'getProviderScheduleStatus']),
+    ...mapActions('prestation', [
+      'getProviderServiceCategories',
+      'getServiceCategories',
+      'getProviderGuestbookStatus',
+      'getProviderScheduleStatus'
+    ]),
+
     goToProviderInfo(providerId) {
       this.$router.push({ name: 'prestataire-info', params: { id: providerId } });
     },
+
+    async loadProviders() {
+      try {
+        await this.getCustomersAccounts();
+        await this.getProviderRequests();
+        await this.getProviderServiceCategories();
+        await this.getServiceCategories();
+        await this.getProviderGuestbookStatus();
+        await this.getProviderScheduleStatus();
+
+        this.prestataires = this.providerRequests
+          .filter(request => request.state === "1")
+          .map(request => {
+            const customer = this.getCustomerById(request.customer_id);
+            const services = this.getProviderServiceCategoriesByCustomerId(request.customer_id);
+            const serviceNames = services.map(service => ({
+              name: this.getServiceCategoryById(service.service_id)?.name || this.$t('provider_list.unknown_service'),
+              state: service.state
+            }));
+            const guestbook = this.getProviderGuestbookStatusByCustomerId(request.customer_id);
+            const calendar = this.getProviderScheduleStatusByCustomerId(request.customer_id);
+
+            return {
+              _id: request.customer_id,
+              name: customer?.name || this.$t('provider_list.unknown_name'),
+              email: customer?.email || this.$t('provider_list.unknown_email'),
+              description: customer?.description || this.$t('provider_list.no_description'),
+              picture: customer?.picture || '',
+              services: serviceNames,
+              guestbook: guestbook?.guestbook_activated || false,
+              calendar: calendar?.schedule_activated || false,
+            };
+          });
+      } catch (error) {
+        console.error(this.$t('provider_list.load_error'), error);
+      }
+    },
   },
   async created() {
-    await this.getCustomersAccounts();
-    await this.getProviderRequests();
-    await this.getProviderServiceCategories();
-    await this.getServiceCategories();
-    await this.getProviderGuestbookStatus();
-    await this.getProviderScheduleStatus();
-    this.prestataires = this.providerRequests
-        .filter(request => request.state === "1")
-        .map(request => {
-          const customer = this.getCustomerById(request.customer_id);
-          const services = this.getProviderServiceCategoriesByCustomerId(request.customer_id);
-          const serviceNames = services.map(service => ({
-            name: this.getServiceCategoryById(service.service_id).name,
-            state: service.state
-          }));
-          const guestbook = this.getProviderGuestbookStatusByCustomerId(request.customer_id);
-          const calendar = this.getProviderScheduleStatusByCustomerId(request.customer_id);
-          return {
-            _id: request.customer_id,
-            name: customer.name,
-            email: customer.email,
-            description: customer.description,
-            picture: customer.picture,
-            services: serviceNames,
-            guestbook: guestbook.guestbook_activated,
-            calendar: calendar.schedule_activated,
-          };
-        });
+    await this.loadProviders();
   },
 };
 </script>
+
 
 <style scoped>
 .checkbox-group {
