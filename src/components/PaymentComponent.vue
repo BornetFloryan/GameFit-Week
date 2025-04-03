@@ -1,46 +1,46 @@
 <template>
   <div class="payment-component">
-    <h3>Paiement</h3>
+    <h3>{{ $t('paymentComponent.payment') }}</h3>
     <div v-if="!paymentSuccess">
       <div class="order-summary">
-        <h4>Récapitulatif de la commande</h4>
+        <h4>{{ $t('paymentComponent.orderSummary') }}</h4>
         <ul>
           <li v-for="(item, index) in basketItems" :key="index">{{ item.name }} - {{item.size}} - {{ item.price }} € x {{ item.quantity }}</li>
         </ul>
-        <h4>Total : {{ totalPrice }} €</h4>
+        <h4>{{ $t('paymentComponent.total') }} : {{ totalPrice }} €</h4>
       </div>
       <form @submit.prevent="processPayment">
         <div class="form-group">
-          <label for="ticketNumber">Numéro de billet</label>
+          <label for="ticketNumber">{{ $t('paymentComponent.ticketNumber') }}</label>
           <p>{{ ticketId }}</p>
         </div>
         <div class="form-group">
-          <label for="cardNumber">Numéro de carte</label>
+          <label for="cardNumber">{{ $t('paymentComponent.cardNumber') }}</label>
           <input type="text" id="cardNumber" v-model="cardNumber" required maxlength="16" inputmode="numeric" pattern="\d{16}" />
         </div>
         <div class="form-group">
-          <label for="expiryDate">Date d'expiration</label>
+          <label for="expiryDate">{{ $t('paymentComponent.expiryDate') }}</label>
           <input type="date" id="expiryDate" v-model="expiryDate" required />
         </div>
         <div class="form-group">
-          <label for="cvv">CVV</label>
+          <label for="cvv">{{ $t('paymentComponent.cvv') }}</label>
           <input type="text" id="cvv" v-model="cvv" required maxlength="3" inputmode="numeric" pattern="\d{3}" />
         </div>
-        <button type="submit" class="pay-button">Payer</button>
+        <button type="submit" class="pay-button">{{ $t('paymentComponent.pay') }}</button>
       </form>
     </div>
     <div v-else class="confirmation">
-      <h4>Commande effectuée</h4>
-      <p>Un email de confirmation vous a été envoyé.</p>
-      <p>Vous pouvez retrouver votre commande via le compte associé à l'adresse mail du ticket ou en créant un compte avec cette adresse mail.</p>
-      <p>Votre commande numéro {{ orderNumber }}</p>
-      <button @click="goToHomePage" class="pay-button">Retourner à la page principale</button>
+      <h4>{{ $t('paymentComponent.orderPlaced') }}</h4>
+      <p>{{ $t('paymentComponent.confirmationEmail') }}</p>
+      <p>{{ $t('paymentComponent.findOrder') }}</p>
+      <p>{{ $t('paymentComponent.orderNumber') }} {{ orderNumber }}</p>
+      <button @click="goToHomePage" class="pay-button">{{ $t('paymentComponent.returnHome') }}</button>
       <div class="order-summary">
-        <h4>Récapitulatif de la commande</h4>
+        <h4>{{ $t('paymentComponent.orderSummary') }}</h4>
         <ul>
           <li v-for="(item, index) in basketItems" :key="index">{{ item.name }} - {{ item.price }} € x {{ item.quantity }}</li>
         </ul>
-        <h4>Total : {{ totalPrice }} €</h4>
+        <h4>{{ $t('paymentComponent.total') }} : {{ totalPrice }} €</h4>
       </div>
     </div>
   </div>

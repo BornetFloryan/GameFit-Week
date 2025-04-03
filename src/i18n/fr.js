@@ -339,7 +339,80 @@ export default {
     serviceDeactivated: "Service désactivé avec succès",
     updateError: "Erreur lors de la mise à jour du statut du service",
     statusNotFound: "Erreur: Statut du planning non trouvé pour ce prestataire"
-  }
+  },
+
+  goodiesSellerView: {
+    title: "Vendeurs de Goodies",
+    accessShop: "Accéder à la boutique"
+  },
+
+  goodiesView: {
+    availableGoodies: "Les Goodies Disponibles",
+    price: "Prix",
+    stock: "Stock",
+    addToBasket: "Ajouter au Panier",
+    noGoodies: "Aucun goodie disponible pour le moment."
+  },
+
+  sizeSelectorModal: {
+    selectSize: "Sélectionnez la taille",
+    close: "Fermer"
+  },
+
+  cartSidebar: {
+    myCart: "🛍️ Mon Panier",
+    price: "Prix",
+    size: "Taille",
+    remove: "Supprimer",
+    total: "Total",
+    ticketNumber: "Numéro de billet",
+    checkout: "Passer la commande",
+    emptyCart: "Votre panier est vide."
+  },
+
+  paymentComponent: {
+    payment: "Paiement",
+    orderSummary: "Récapitulatif de la commande",
+    total: "Total",
+    ticketNumber: "Numéro de billet",
+    cardNumber: "Numéro de carte",
+    expiryDate: "Date d'expiration",
+    cvv: "CVV",
+    pay: "Payer",
+    orderPlaced: "Commande effectuée",
+    confirmationEmail: "Un email de confirmation vous a été envoyé.",
+    findOrder: "Vous pouvez retrouver votre commande via le compte associé à l'adresse mail du ticket ou en créant un compte avec cette adresse mail.",
+    orderNumber: "Votre commande numéro",
+    returnHome: "Retourner à la page principale"
+  },
+
+  dedicationForm: {
+    reservationSlot: "Réservation de créneau de dédicaces",
+    reservationDone: "Réservation effectuée !",
+    selectAnimator: "Sélectionnez votre animateur",
+    yourAnimator: "Votre animateur",
+    searchAnimator: "Rechercher un animateur...",
+    reserve: "Réserver",
+    changeAnimator: "Changer d'animateur",
+    selectTimeSlot: "Sélectionnez votre créneau horaire",
+    time: "Heure",
+    selectTime: "Sélectionnez une heure",
+    confirmEmail: "Un mail de confirmation vous a été envoyé",
+    findReservation: "Vous pouvez retrouver votre réservation de dédicace via le compte associé à l'adresse mail du ticket ou en créant un compte avec cette adresse mail.",
+    reservationNumber: "Votre réservation numéro",
+    reservedSlot: "Vous avez réservé un créneau de dédicace avec",
+    date: "Date",
+    stand: "Stand",
+    returnHome: "Retour à la page principale",
+    viewReservations: "Voir vos réservations",
+    cancel: "Annuler",
+    cardImageAlt: "Image de la carte",
+    book: "Réserver",
+    confirmationEmail: "Un email de confirmation vous a été envoyé.",
+    bookedSlot: "Vous avez réservé un créneau avec",
+  },
+
+
     
   };
   

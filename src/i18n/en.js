@@ -347,7 +347,81 @@ export default {
         serviceDeactivated: "Service deactivated successfully",
         updateError: "Error updating service status",
         statusNotFound: "Error: Schedule status not found for this provider"
-    }
+    },
+
+    goodiesSellerView: {
+        title: "Goodies Sellers",
+        accessShop: "Access the shop"
+    },
+
+    goodiesView: {
+        availableGoodies: "Available Goodies",
+        price: "Price",
+        stock: "Stock",
+        addToBasket: "Add to Basket",
+        noGoodies: "No goodies available at the moment."
+    },
+
+    sizeSelectorModal: {
+        selectSize: "Select Size",
+        close: "Close"
+    },
+
+    cartSidebar: {
+        myCart: "🛍️ My Cart",
+        price: "Price",
+        size: "Size",
+        remove: "Remove",
+        total: "Total",
+        ticketNumber: "Ticket Number",
+        checkout: "Checkout",
+        emptyCart: "Your cart is empty."
+    },
+
+    paymentComponent: {
+        payment: "Payment",
+        orderSummary: "Order Summary",
+        total: "Total",
+        ticketNumber: "Ticket Number",
+        cardNumber: "Card Number",
+        expiryDate: "Expiry Date",
+        cvv: "CVV",
+        pay: "Pay",
+        orderPlaced: "Order Placed",
+        confirmationEmail: "A confirmation email has been sent to you.",
+        findOrder: "You can find your order via the account associated with the ticket email or by creating an account with this email address.",
+        orderNumber: "Your order number",
+        returnHome: "Return to the main page"
+    },
+
+    dedicationForm: {
+        reservationSlot: "Dedication Slot Reservation",
+        reservationDone: "Reservation Done!",
+        selectAnimator: "Select your animator",
+        yourAnimator: "Your animator",
+        searchAnimator: "Search for an animator...",
+        reserve: "Reserve",
+        changeAnimator: "Change animator",
+        selectTimeSlot: "Select your time slot",
+        time: "Time",
+        selectTime: "Select a time",
+        confirmEmail: "A confirmation email has been sent to you",
+        findReservation: "You can find your dedication reservation via the account associated with the ticket email or by creating an account with this email address.",
+        reservationNumber: "Your reservation number",
+        reservedSlot: "You have reserved a dedication slot with",
+        date: "Date",
+        stand: "Stand",
+        returnHome: "Return to the main page",
+        viewReservations: "View your reservations",
+        cancel: "Cancel",
+        cardImageAlt: "Card Image",
+        book: "Book",
+        confirmationEmail: "A confirmation email has been sent to you.",
+        bookedSlot: "You have booked a slot with",
+    },
+
+
+
 
 
 

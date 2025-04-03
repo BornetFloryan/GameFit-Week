@@ -1,11 +1,11 @@
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal">
-      <h3>Sélectionnez la taille</h3>
+      <h3>{{ $t('sizeSelectorModal.selectSize') }}</h3>
       <div v-for="size in sizes" :key="size._id" class="size-option">
         <button @click="selectSize(size)">{{ size.size }}</button>
       </div>
-      <button class="close-modal" @click="closeModal">Fermer</button>
+      <button class="close-modal" @click="closeModal">{{ $t('sizeSelectorModal.close') }}</button>
     </div>
   </div>
 </template>

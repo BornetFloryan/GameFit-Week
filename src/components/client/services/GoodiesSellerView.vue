@@ -1,11 +1,11 @@
 <template>
   <div class="goodies-seller-view">
-    <h1>Vendeurs de Goodies</h1>
+    <h1>{{ $t('goodiesSellerView.title') }}</h1>
     <div class="sellers">
       <div v-for="seller in sellers" :key="seller._id" class="seller-card">
         <img :src="seller.image" :alt="seller.name" class="seller-image" />
         <h2>{{ seller.name }}</h2>
-        <button @click="goToShop(seller._id)">Accéder à la boutique</button>
+        <button @click="goToShop(seller._id)">{{ $t('goodiesSellerView.accessShop') }}</button>
       </div>
     </div>
   </div>

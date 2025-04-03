@@ -2,23 +2,23 @@
   <div class="goodie-page">
     <div class="goodie-list">
       <div class="head-goodies">
-        <h2>Les Goodies Disponibles</h2>
+        <h2>{{ $t('goodiesView.availableGoodies') }}</h2>
       </div>
 
       <div v-if="providerGoodies.length > 0" class="goodie-cards-container">
         <div class="goodie-card" v-for="goodie in providerGoodies" :key="goodie._id">
-          <img :src="goodie.image ? require(`@/assets/img/goodies/${goodie.image}`) : require('@/assets/img/noteam.jpg')" alt="Goodie image" class="goodie-image"/>
+          <img :src="goodie.image ? require(`@/assets/img/goodies/${goodie.image}`) : require('@/assets/img/noteam.jpg')" :alt="goodie.name" class="goodie-image"/>
           <div class="goodie-info">
             <h3>{{ goodie.name }}</h3>
-            <p><strong>Prix : {{ goodie.price ? goodie.price : 'N/A' }} €</strong></p>
-            <p v-for="(stock, size) in goodieStock(goodie)" :key="size">Stock ({{ size }}): {{ stock }}</p>
-            <button class="add-basket" @click="openSizeSelector(goodie)">Ajouter au Panier</button>
+            <p><strong>{{ $t('goodiesView.price') }} : {{ goodie.price ? goodie.price : 'N/A' }} €</strong></p>
+            <p v-for="(stock, size) in goodieStock(goodie)" :key="size">{{ $t('goodiesView.stock') }} ({{ size }}): {{ stock }}</p>
+            <button class="add-basket" @click="openSizeSelector(goodie)">{{ $t('goodiesView.addToBasket') }}</button>
           </div>
         </div>
       </div>
 
       <div v-else class="no-goodies">
-        <p>Aucun goodie disponible pour le moment.</p>
+        <p>{{ $t('goodiesView.noGoodies') }}</p>
       </div>
     </div>
 

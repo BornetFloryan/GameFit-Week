@@ -1,17 +1,17 @@
 <template>
   <div class="form-container">
-    <h1 v-if="!reservation">Réservation de créneau de dédicaces</h1>
-    <h1 v-if="reservation">Réservation effectuée !</h1>
+    <h1 v-if="!reservation">{{ $t('dedicationForm.reservationSlot') }}</h1>
+    <h1 v-if="reservation">{{ $t('dedicationForm.reservationDone') }}</h1>
     <form>
       <div v-if="!reservation" class="animator-selection">
-        <h2 v-if="!selectedAnimator">Sélectionnez votre animateur</h2>
-        <h2 v-if="selectedAnimator">Votre animateur</h2>
+        <h2 v-if="!selectedAnimator">{{ $t('dedicationForm.selectAnimator') }}</h2>
+        <h2 v-if="selectedAnimator">{{ $t('dedicationForm.yourAnimator') }}</h2>
 
         <div v-if="!selectedAnimator">
           <input
               type="text"
               v-model="searchQuery"
-              placeholder="Rechercher un animateur..."
+              :placeholder="$t('dedicationForm.searchAnimator')"
               class="search-bar"
           />
 
@@ -22,14 +22,14 @@
                   :key="index"
                   class="card"
               >
-                <img v-if="card.imageSrc" :src="card.imageSrc" alt="Image de la carte" />
+                <img v-if="card.imageSrc" :src="card.imageSrc" :alt="$t('dedicationForm.cardImageAlt')" />
                 <h2>{{ card.name }}</h2>
                 <button
                     v-if="!card.empty"
                     type="button"
                     @click="selectAnimator(card)"
                 >
-                  Réserver
+                  {{ $t('dedicationForm.book') }}
                 </button>
               </div>
             </div>
@@ -43,12 +43,12 @@
             class="reset-btn"
             @click.prevent="resetForm"
         >
-          Changer d'animateur
+          {{ $t('dedicationForm.changeAnimator') }}
         </button>
       </div>
 
       <div class="time-slot-selection" v-if="selectedAnimator && !reservation">
-        <h2>Sélectionnez votre créneau horaire</h2>
+        <h2>{{ $t('dedicationForm.selectTimeSlot') }}</h2>
         <input
             required
             type="date"
@@ -61,14 +61,14 @@
         />
 
         <div class="form-group" v-if="date">
-          <label for="time">Heure :</label>
+          <label for="time">{{ $t('dedicationForm.time') }} :</label>
           <select
               required
               v-model="time"
               :id="time"
               :disabled="!selectedAnimator"
           >
-            <option value="" disabled>Sélectionnez une heure</option>
+            <option value="" disabled>{{ $t('dedicationForm.selectTime') }}</option>
             <option
                 v-for="option in availableTimes"
                 :key="option.value"
@@ -86,7 +86,7 @@
               class="submit-btn"
               @click.prevent="submitForm"
           >
-            Réserver
+            {{ $t('dedicationForm.book') }}
           </button>
 
           <button
@@ -95,37 +95,35 @@
               class="reset-btn"
               @click.prevent="resetForm"
           >
-            Annuler
+            {{ $t('dedicationForm.cancel') }}
           </button>
         </div>
       </div>
 
       <div v-if="reservation && reservation">
-        <h3>Un mail de confirmation vous a été envoyé</h3>
+        <h3>{{ $t('dedicationForm.confirmationEmail') }}</h3>
         <p v-if="!currentUser">
-          Vous pouvez retrouver votre réservation de dédicace via le compte
-          associé à l'adresse mail du ticket ou en créant un compte avec cette
-          adresse mail.
+          {{ $t('dedicationForm.findReservation') }}
         </p>
         <br />
-        <p>Votre réservation numéro {{ reservation._id }}</p>
+        <p>{{ $t('dedicationForm.reservationNumber') }} {{ reservation._id }}</p>
         <p>
-          Vous avez réservé un créneau de dédicace avec
+          {{ $t('dedicationForm.bookedSlot') }}
           <b>{{ selectedAnimator.name }} !</b>
         </p>
-        <p>Date : {{ formatDate(date) }}</p>
-        <p>Heure : {{ time }}</p>
-        <p>Stand : {{ stand }}</p>
+        <p>{{ $t('dedicationForm.date') }} : {{ formatDate(date) }}</p>
+        <p>{{ $t('dedicationForm.time') }} : {{ time }}</p>
+        <p>{{ $t('dedicationForm.stand') }} : {{ stand }}</p>
 
         <router-link :to="{ name: 'home' }">
           <button type="button" class="home-btn">
-            Retour à la page principale
+            {{ $t('dedicationForm.returnHome') }}
           </button>
         </router-link>
         <br />
         <router-link v-if="currentUser" :to="{ name: 'reservation' }">
           <button type="button" class="home-btn">
-            Voir vos réservations
+            {{ $t('dedicationForm.viewReservations') }}
           </button>
         </router-link>
       </div>
@@ -149,7 +147,7 @@ export default {
       date: "",
       availableTimes: [],
       time: "",
-      stand: "", // Ajout de la propriété stand
+      stand: "",
     };
   },
   computed: {
@@ -222,7 +220,10 @@ export default {
     updateAvailableTimes(date) {
       this.date = date;
       const availableTimes = this.filterAvailableTimes(date, this.selectedAnimator._id);
-      this.availableTimes = availableTimes.filter((time) => time !== "18:00").map((time) => ({value: time, text: time}));
+      this.availableTimes = availableTimes.filter((time) => time !== "18:00").map((time) => ({
+        value: time,
+        text: time
+      }));
       if (availableTimes.length === 0) {
         this.date = "";
         alert("Aucun créneau disponible pour cette date");

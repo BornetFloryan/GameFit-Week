@@ -1,34 +1,34 @@
 <template>
   <div class="cart-sidebar">
-    <h3>🛍️ Mon Panier</h3>
+    <h3>{{ $t('cartSidebar.myCart') }}</h3>
 
     <div v-if="filteredBasketItems.length > 0">
       <div v-for="(item, index) in filteredBasketItems" :key="item._id + '-' + index" class="cart-item">
-        <img :src="item.image ? require(`@/assets/img/goodies/${item.image}`) : require('@/assets/img/noteam.jpg')" alt="Goodie" class="cart-item-image"/>
+        <img :src="item.image ? require(`@/assets/img/goodies/${item.image}`) : require('@/assets/img/noteam.jpg')" :alt="item.name" class="cart-item-image"/>
         <div class="cart-item-info">
           <h4>{{ item.name }}</h4>
-          <p>Prix: {{ item.price ? item.price : 'N/A' }} €</p>
-          <p>Taille: {{ item.size }}</p>
+          <p>{{ $t('cartSidebar.price') }}: {{ item.price ? item.price : 'N/A' }} €</p>
+          <p>{{ $t('cartSidebar.size') }}: {{ item.size }}</p>
           <div class="quantity-controls">
             <button @click="updateQuantity(index, -1)">-</button>
             <span>{{ item.quantity }}</span>
             <button @click="updateQuantity(index, 1)">+</button>
           </div>
-          <button class="remove-item" @click="removeFromBasket(index)">Supprimer</button>
+          <button class="remove-item" @click="removeFromBasket(index)">{{ $t('cartSidebar.remove') }}</button>
         </div>
       </div>
 
       <div class="cart-footer">
-        <h4>Total : {{ totalPrice }} €</h4>
+        <h4>{{ $t('cartSidebar.total') }} : {{ totalPrice }} €</h4>
         <div class="form-group">
-          <label for="ticketId">Numéro de billet</label>
+          <label for="ticketId">{{ $t('cartSidebar.ticketNumber') }}</label>
           <input type="text" id="ticketId" v-model="ticketId" required />
         </div>
-        <button class="checkout-button" @click="checkout">Passer la commande</button>
+        <button class="checkout-button" @click="checkout">{{ $t('cartSidebar.checkout') }}</button>
       </div>
     </div>
 
-    <p v-else class="empty-cart">Votre panier est vide.</p>
+    <p v-else class="empty-cart">{{ $t('cartSidebar.emptyCart') }}</p>
   </div>
 </template>
 
@@ -137,13 +137,16 @@ export default {
         try {
           let basket_id = sessionStorage.getItem("basket_id");
           if (!basket_id) {
-            const response = await this.createBasket({ ticket_id: this.ticketId, provider_service_categories_id: this.shopId });
+            const response = await this.createBasket({
+              ticket_id: this.ticketId,
+              provider_service_categories_id: this.shopId
+            });
             if (response.error === 0) {
               basket_id = response.data._id;
               sessionStorage.setItem("basket_id", basket_id);
             } else {
               console.error(response.data);
-              return { error: response.error, data: response.data };
+              return {error: response.error, data: response.data};
             }
           }
 
@@ -167,7 +170,7 @@ export default {
                     },
                   });
                   if (response.error > 0) {
-                    return { error: 1, data: response.data };
+                    return {error: 1, data: response.data};
                   }
                 } catch (error) {
                   console.error(error);
@@ -177,11 +180,11 @@ export default {
 
             sessionStorage.setItem("basketItems", JSON.stringify(remainingItems));
 
-            return { error: 0, data: { _id: basket_id, storedBasketItems: itemsToSave } };
+            return {error: 0, data: {_id: basket_id, storedBasketItems: itemsToSave}};
           }
         } catch (error) {
           console.error(error);
-          return { error: 1, data: error };
+          return {error: 1, data: error};
         }
       }
     }
@@ -206,10 +209,10 @@ export default {
 
     if (this.basketItems) {
       for (let item of this.basketItems) {
-        if(item) {
+        if (item) {
           let response = await this.getGoodieVariations(item._id);
-          if(response){
-            if(this.goodieVariations && this.item && this.item.variation_id){
+          if (response) {
+            if (this.goodieVariations && this.item && this.item.variation_id) {
               let variation = this.goodieVariations.find(variation => variation._id === item.variation_id);
               if (variation) {
                 let stock = variation.stock;
