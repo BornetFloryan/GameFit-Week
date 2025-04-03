@@ -1,9 +1,9 @@
 <template>
   <div class="profil-container">
     <form @submit.prevent="ModifyCustomer">
-      <h2>Informations Personnelles</h2>
+      <h2>{{ $t('profile.personal_info') }}</h2>
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ $t('profile.email') }}</label>
         <input
             type="email"
             id="email"
@@ -13,7 +13,7 @@
       </div>
 
       <div class="form-group">
-        <label for="name">NOM Prénom</label>
+        <label for="name">{{ $t('profile.name') }}</label>
         <input
             type="text"
             id="name"
@@ -23,7 +23,7 @@
       </div>
 
       <div class="form-group">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">{{ $t('profile.username') }}</label>
         <input
             type="text"
             id="username"
@@ -33,9 +33,9 @@
       </div>
 
       <div class="form-button">
-        <button type="submit" class="register-button">Modifier</button>
+        <button type="submit" class="register-button">{{ $t('profile.modify_button') }}</button>
         <router-link :to="{ name: 'home' }">
-          <button type="button" class="cancel-button">Retour</button>
+          <button type="button" class="cancel-button">{{ $t('profile.cancel_button') }}</button>
         </router-link>
       </div>
     </form>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'ProfilView',
@@ -62,8 +62,7 @@ export default {
     ...mapState('account', ['currentUser']),
   },
   methods: {
-    ...mapActions('account', ['modifyCustomerAccount']),
-    ...mapActions('account', ['loginUser']),
+    ...mapActions('account', ['modifyCustomerAccount', 'loginUser']),
     async ModifyCustomer() {
       let modifyUser = {
         _id: this.id,
@@ -79,11 +78,12 @@ export default {
         let response = await this.modifyCustomerAccount(modifyUser);
         if (response.error === 0) {
           await this.loginUser(modifyUser);
+          alert(this.$t('profile.modify_success'));
         } else {
-          alert(response.data.modifyUser);
+          alert(this.$t('profile.modify_error') + ': ' + response.data.modifyUser);
         }
       } catch (error) {
-        console.error('Erreur lors de la modification de l\'utilisateur:', error);
+        console.error(this.$t('profile.modify_error'), error);
       }
     },
   },
