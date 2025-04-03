@@ -1582,12 +1582,14 @@ let goodies_variations = [
     { "_id": "7", "goodie_id": "3", "stock": "10", "size_id": "3" },
     { "_id": "8", "goodie_id": "3", "stock": "15", "size_id": "4" },
 
-    { "_id": "9", "goodie_id": "4", "stock": "5", "size_id": "1" },
-    { "_id": "10", "goodie_id": "4", "stock": "9", "size_id": "2" },
-    { "_id": "11", "goodie_id": "4", "stock": "2", "size_id": "3" },
-    { "_id": "12", "goodie_id": "4", "stock": "15", "size_id": "4" },
+    { "_id": "13", "goodie_id": "4", "stock": "10", "size_id": "6" },
 
-    { "_id": "13", "goodie_id": "5", "stock": "10", "size_id": "6" },
+    { "_id": "9", "goodie_id": "5", "stock": "5", "size_id": "1" },
+    { "_id": "10", "goodie_id": "5", "stock": "9", "size_id": "2" },
+    { "_id": "11", "goodie_id": "5", "stock": "2", "size_id": "3" },
+    { "_id": "12", "goodie_id": "5", "stock": "15", "size_id": "4" },
+
+
 ]
 
 let baskets = [
