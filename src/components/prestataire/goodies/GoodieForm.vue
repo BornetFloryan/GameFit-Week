@@ -1,26 +1,26 @@
 <template>
   <div class="goodie-form">
-    <button class="btn-back" @click="goBack">Retour</button>
-    <h2>{{ isEdit ? 'Modifier le Goodie' : 'Ajouter un Goodie' }}</h2>
+    <button class="btn-back" @click="goBack">{{ $t('goodieForm.back') }}</button>
+    <h2>{{ isEdit ? $t('goodieForm.editGoodie') : $t('goodieForm.addGoodie') }}</h2>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
-        <label for="name">Nom du Goodie:</label>
+        <label for="name">{{ $t('goodieForm.name') }}</label>
         <input type="text" v-model="localGoodie.name" id="name" required>
       </div>
       <div class="form-group">
-        <label for="price">Prix du Goodie:</label>
+        <label for="price">{{ $t('goodieForm.price') }}</label>
         <input type="number" v-model="localGoodie.price" id="price" step="0.01" required>
       </div>
       <div class="form-group">
-        <label for="image">Image du Goodie:</label>
+        <label for="image">{{ $t('goodieForm.image') }}</label>
         <input type="file" name="image" @change="handleImageUpload" id="image">
-        <img v-if="localGoodie.imagePreview" :src="localGoodie.imagePreview" alt="Image du Goodie" class="goodie-image">
+        <img v-if="localGoodie.imagePreview" :src="localGoodie.imagePreview" :alt="$t('goodieForm.image')" class="goodie-image">
       </div>
       <div v-if="goodieSizes && goodieSizes.length">
         <div v-for="(variation, index) in localGoodie.variations" :key="index" class="variation">
-          <h3>Variation {{ index + 1 }}</h3>
+          <h3>{{ $t('goodieForm.variation') }} {{ index + 1 }}</h3>
           <div class="form-group">
-            <label for="size">Taille:</label>
+            <label for="size">{{ $t('goodieForm.size') }}</label>
             <select v-model="variation.size_id" id="size" required>
               <option v-for="size in goodieSizes" :key="size._id" :value="size._id"
                       :disabled="isSizeDisabled(size._id, index)">
@@ -29,14 +29,14 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="stock">Stock:</label>
+            <label for="stock">{{ $t('goodieForm.stock') }}</label>
             <input type="number" v-model="variation.stock" id="stock" required>
           </div>
-          <button type="button" class="btn-remove" @click="removeVariation(index)">Supprimer cette variation</button>
+          <button type="button" class="btn-remove" @click="removeVariation(index)">{{ $t('goodieForm.removeVariation') }}</button>
         </div>
       </div>
-      <button type="button" class="btn-add" @click="addVariation" :disabled="isSingleSizeSelected">Ajouter une variation</button>
-      <button type="submit" class="btn-submit" :disabled="localGoodie.variations.length === 0">{{ isEdit ? 'Enregistrer les modifications' : 'Ajouter le Goodie' }}</button>
+      <button type="button" class="btn-add" @click="addVariation" :disabled="isSingleSizeSelected">{{ $t('goodieForm.addVariation') }}</button>
+      <button type="submit" class="btn-submit" :disabled="localGoodie.variations.length === 0">{{ isEdit ? $t('goodieForm.saveChanges') : $t('goodieForm.addNewGoodie') }}</button>
     </form>
   </div>
 </template>

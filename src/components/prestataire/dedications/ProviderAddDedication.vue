@@ -1,10 +1,10 @@
 <template>
   <div class="add-dedication-form">
     <AdminForm
-        :title="'Ajouter une dédicace'"
-        :backButtonText="'Retour'"
-        :submitButtonText="'Ajouter'"
-        :cancelButtonText="'Annuler'"
+        :title="$t('providerAddDedication.addDedication')"
+        :backButtonText="$t('providerAddDedication.back')"
+        :submitButtonText="$t('providerAddDedication.submit')"
+        :cancelButtonText="$t('providerAddDedication.cancel')"
         :formFields="formFields"
         :initialFormData="formData"
         @submit="handleAddStandReservation"
@@ -23,7 +23,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "ProviderAddDedication",
-  components: { AdminForm },
+  components: {AdminForm},
   data() {
     return {
       formData: {
@@ -52,7 +52,7 @@ export default {
     ...mapActions("prestation", ["getProviderServiceCategories"]),
 
     async handleAddStandReservation(data) {
-      await this.addStandReservation({ ...this.formData, ...data });
+      await this.addStandReservation({...this.formData, ...data});
       await this.$router.push("/provider-dashboard/provider-dedication");
     },
 
@@ -61,7 +61,7 @@ export default {
     },
 
     generateAvailableTimes() {
-      return Array.from({ length: 10 }, (_, i) => `${(9 + i).toString().padStart(2, '0')}:00`);
+      return Array.from({length: 10}, (_, i) => `${(9 + i).toString().padStart(2, '0')}:00`);
     },
 
     filterAvailableTimes(date, stand_id) {
@@ -75,7 +75,7 @@ export default {
           .flatMap((res) => {
             const start = parseInt(res.start_time.split(':')[0], 10);
             const end = parseInt(res.end_time.split(':')[0], 10);
-            return Array.from({ length: end - start }, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
+            return Array.from({length: end - start}, (_, i) => `${(start + i).toString().padStart(2, '0')}:00`);
           });
       const availableTimes = this.availableTimes.filter(
           (time) => !usedTimes.includes(time) && time !== "18:00"
@@ -99,31 +99,31 @@ export default {
       this.formFields = [
         {
           id: "customer_id",
-          label: "Prestataire",
+          label: this.$t('providerAddDedication.provider'),
           type: "select",
           model: "customer_id",
-          options: this.prestataires.map((p) => ({ value: p._id, text: p.name })),
-          props: { required: true, disabled: true },
+          options: this.prestataires.map((p) => ({value: p._id, text: p.name})),
+          props: {required: true, disabled: true},
         },
         {
           id: "service_id",
-          label: "Service du prestataire",
+          label: this.$t('providerAddDedication.providerService'),
           type: "select",
           model: "service_id",
-          options: [{ value: "0", text: "Dédicace" }],
-          props: { required: true, disabled: true },
+          options: [{value: "0", text: "Dédicace"}],
+          props: {required: true, disabled: true},
         },
         {
           id: "stand_id",
-          label: "Stand",
+          label: this.$t('providerAddDedication.stand'),
           type: "select",
           model: "stand_id",
-          options: this.stands.map((stand) => ({ value: stand._id, text: stand.name })),
-          props: { required: true, disabled: !this.formData.customer_id },
+          options: this.stands.map((stand) => ({value: stand._id, text: stand.name})),
+          props: {required: true, disabled: !this.formData.customer_id},
         },
         {
           id: "date",
-          label: "Date",
+          label: this.$t('providerAddDedication.date'),
           type: "date",
           model: "date",
           props: {
@@ -135,26 +135,26 @@ export default {
         },
         {
           id: "start_time",
-          label: "Heure de début",
+          label: this.$t('providerAddDedication.startTime'),
           type: "select",
           model: "start_time",
-          options: this.availableTimes.map(time => ({ value: time, text: time })),
-          props: { required: true, disabled: !this.formData.date },
+          options: this.availableTimes.map(time => ({value: time, text: time})),
+          props: {required: true, disabled: !this.formData.date},
         },
         {
           id: "end_time",
-          label: "Heure de fin",
+          label: this.$t('providerAddDedication.endTime'),
           type: "select",
           model: "end_time",
-          options: this.availableTimes.map(time => ({ value: time, text: time })),
-          props: { required: true, disabled: true },
+          options: this.availableTimes.map(time => ({value: time, text: time})),
+          props: {required: true, disabled: true},
         },
         {
           id: "description",
-          label: "Description",
+          label: this.$t('providerAddDedication.description'),
           type: "textarea",
           model: "description",
-          props: { required: true, disabled: !this.formData.date },
+          props: {required: true, disabled: !this.formData.date},
         },
       ];
     },
@@ -168,7 +168,7 @@ export default {
     updateFormVisibility(stand_id) {
       this.formData.stand_id = stand_id;
       const availableDates = this.getAvailableDates(stand_id);
-      this.updateFieldOptions("date", availableDates.map(date => ({ value: date, text: date })));
+      this.updateFieldOptions("date", availableDates.map(date => ({value: date, text: date})));
       this.updateVisibility("date", this.formData.customer_id && stand_id);
       const availableTimes = this.filterAvailableTimes(this.formData.date, stand_id);
       this.updateFieldOptions("start_time", availableTimes);
@@ -215,7 +215,7 @@ export default {
 
     updateFieldOptions(fieldId, options) {
       const field = this.formFields.find((f) => f.id === fieldId);
-      if (field) field.options = options.map((time) => ({ value: time, text: time }));
+      if (field) field.options = options.map((time) => ({value: time, text: time}));
     },
   },
 

@@ -2,17 +2,17 @@
   <div class="goodie-sales-list">
     <div>
       <label>
-        <input type="radio" v-model="serviceStatus" value="1" @change="toggleServiceStatus"> Activer le service
+        <input type="radio" v-model="serviceStatus" value="1" @change="toggleServiceStatus"> {{ $t('providerGoodieList.activateService') }}
       </label>
       <label>
-        <input type="radio" v-model="serviceStatus" value="0" @change="toggleServiceStatus"> Désactiver le service
+        <input type="radio" v-model="serviceStatus" value="0" @change="toggleServiceStatus"> {{ $t('providerGoodieList.deactivateService') }}
       </label>
     </div>
     <div v-if="serviceStatus === '1'">
-      <h2>Liste des ventes de goodies</h2>
-      <button class="add-goodies" @click="goToAddGoodie">Ajouter un Goodies</button>
-      <button class="view-orders" @click="viewOrders">Voir les commandes réalisées</button>
-      <button class="view-orders" @click="viewValidation">Récupération d'une commande ?</button>
+      <h2>{{ $t('providerGoodieList.goodieSalesList') }}</h2>
+      <button class="add-goodies" @click="goToAddGoodie">{{ $t('providerGoodieList.addGoodie') }}</button>
+      <button class="view-orders" @click="viewOrders">{{ $t('providerGoodieList.viewOrders') }}</button>
+      <button class="view-orders" @click="viewValidation">{{ $t('providerGoodieList.viewValidation') }}</button>
       <AdminTable
           :title="title"
           :headers="headers"
@@ -25,7 +25,7 @@
           @delete="handleDelete"
       />
     </div>
-    <p v-else>Le service est désactivé.</p>
+    <p v-else>{{ $t('providerGoodieList.serviceDeactivated') }}</p>
   </div>
 </template>
 
@@ -40,8 +40,14 @@ export default {
   components: { AdminTable },
   data() {
     return {
-      title: "Liste des ventes de goodies",
-      headers: ['Numéro', 'Goodie', 'Image', 'Prix', 'Tailles et Stocks'],
+      title: this.$t('providerGoodieList.goodieSalesList'),
+      headers: [
+        this.$t('providerGoodieList.number'),
+        this.$t('providerGoodieList.goodie'),
+        this.$t('providerGoodieList.image'),
+        this.$t('providerGoodieList.price'),
+        this.$t('providerGoodieList.sizesAndStocks')
+      ],
       fields: ['_id', 'name', 'image', 'price', 'sizesAndStocks'],
       sales: [],
       providerServiceCategory: {},
@@ -63,9 +69,9 @@ export default {
       try {
         this.providerServiceCategory.state = this.serviceStatus;
         await this.updateProviderServiceCategoryState(this.providerServiceCategory);
-        alert(`Service ${this.serviceStatus === '1' ? 'activé' : 'désactivé'} avec succès`);
+        alert(this.serviceStatus === '1' ? this.$t('providerGoodieList.serviceActivatedSuccess') : this.$t('providerGoodieList.serviceDeactivatedSuccess'));
       } catch (e) {
-        alert('Erreur lors de la mise à jour du statut du service');
+        alert(this.$t('providerGoodieList.serviceStatusUpdateError'));
       }
     },
     async fetchSales() {
@@ -115,33 +121,33 @@ export default {
     async handleDelete(itemId) {
       const isInOrderedBasket = await this.isGoodieInOrderedBasket(itemId);
       if (isInOrderedBasket) {
-        alert('Ce goodie ne peut pas être supprimé car il est dans un panier avec une commande.');
+        alert(this.$t('providerGoodieList.goodieInOrderedBasket'));
         return;
       }
 
-      if (confirm('Êtes-vous sûr de vouloir supprimer ce goodie ?')) {
+      if (confirm(this.$t('providerGoodieList.deleteConfirmation'))) {
         try {
           await this.deleteGoodie(itemId);
           this.sales = this.sales.filter(item => item._id !== itemId);
-          alert('Goodie supprimé avec succès');
+          alert(this.$t('providerGoodieList.deleteSuccess'));
         } catch (e) {
-          alert('Erreur lors de la suppression du goodie');
+          alert(this.$t('providerGoodieList.deleteError'));
         }
       }
     },
     async viewOrders() {
       const providerServiceCategory = this.getProviderServiceCategoriesByCustomerIdAndServiceID(this.currentUser._id, '1');
       if (providerServiceCategory) {
-        this.$router.push({ name: 'provider-order-view'});
+        this.$router.push({name: 'provider-order-view'});
       } else {
-        alert('Aucune catégorie de service trouvée pour cet utilisateur.');
+        alert(this.$t('providerGoodieList.noServiceCategoryFound'));
       }
     },
     goToAddGoodie() {
-      this.$router.push({ name: 'add-goodie' });
+      this.$router.push({name: 'add-goodie'});
     },
     viewValidation() {
-      this.$router.push({ name: 'order-validation' });
+      this.$router.push({name: 'order-validation'});
     },
   },
   async mounted() {

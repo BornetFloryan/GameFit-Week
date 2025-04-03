@@ -1,22 +1,22 @@
 <template>
   <div>
     <router-link :to="{ name: 'provider-dedication' }">
-      <button class="btn-action">Retour à la gestion des dédicaces</button>
+      <button class="btn-action">{{ $t('providerDedicationReservation.backToManagement') }}</button>
     </router-link>
     <router-link v-if="this.$route.query.stand_reservation_id" :to="{ name: 'provider-dedication-reservation'}">
-      <button class="btn-action">Voir toutes les réservations de dédicaces</button>
+      <button class="btn-action">{{ $t('providerDedicationReservation.viewAllReservations') }}</button>
     </router-link>
     <AdminTable
-        :title="title"
-        :headers="headers"
+        :title="$t('providerDedicationReservation.title')"
+        :headers="translatedHeaders"
         :fields="fields"
         :modifyName="modifyName"
         :showModifyButton="false"
-        :modifyButtonText="'Modifier'"
+        :modifyButtonText="$t('providerDedicationReservation.modify')"
         :showReservationsButton="enableRes"
-        :reservationsButtonText="'Voir les réservations'"
+        :reservationsButtonText="$t('providerDedicationReservation.viewReservations')"
         :showDeleteButton="enableDelete"
-        :deleteButtonText="'Supprimer'"
+        :deleteButtonText="$t('providerDedicationReservation.delete')"
         @delete="handleDeleteButton"
         :dataSource="dataSource"
     />
@@ -32,8 +32,6 @@ export default {
   components: { AdminTable },
   data() {
     return {
-      title: "Gestion des réservations de dédicace",
-      headers: ['Numéro', 'Date', 'Heure', 'Numéro de ticket', 'Numéro de service', 'Numéro de réservation de stand'],
       fields: ['_id', 'date', 'time', 'ticket_id', 'service_id', 'stand_reservation_id'],
       modifyName: '',
       enableRes: false,
@@ -46,13 +44,23 @@ export default {
     ...mapState('account', ['currentUser']),
     ...mapGetters('prestation', ['getServiceReservationsByStandsReservationsIdAndServiceId']),
     ...mapGetters('stands', ['getStandsReservationsByCustomerIdAndServiceId']),
+    translatedHeaders() {
+      return [
+        this.$t('providerDedicationReservation.number'),
+        this.$t('providerDedicationReservation.date'),
+        this.$t('providerDedicationReservation.time'),
+        this.$t('providerDedicationReservation.ticketNumber'),
+        this.$t('providerDedicationReservation.serviceNumber'),
+        this.$t('providerDedicationReservation.standReservationNumber')
+      ];
+    }
   },
   methods: {
     ...mapActions('account', ['getCustomersAccounts', 'getProviderRequests']),
     ...mapActions('prestation', ['getServiceCategories', 'getServiceReservations', 'deleteServiceReservation']),
 
     async handleDeleteButton(id) {
-      if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
+      if (confirm(this.$t('providerDedicationReservation.deleteConfirmation'))) {
         try {
           let response = await this.deleteServiceReservation(id);
           if (response.error !== 0) {
@@ -61,7 +69,7 @@ export default {
             this.filterReservations();
           }
         } catch (e) {
-          alert('Impossible de supprimer cette réservation');
+          alert(this.$t('providerDedicationReservation.deleteError'));
         }
       }
     },

@@ -294,7 +294,13 @@ export default {
     showQRCode: "Afficher QR Code",
     orderDetails: "Détails de la commande",
     total: "Total",
-    noOrders: "Aucune commande"
+    noOrders: "Aucune commande",
+    states: {
+      0: "En préparation",
+      1: "À venir récupérer",
+      2: "Récupérée",
+      unknown: "Inconnu"
+    }
   },
 
   registerProvider: {
@@ -412,7 +418,167 @@ export default {
     bookedSlot: "Vous avez réservé un créneau avec",
   },
 
+  providerGuestbook: {
+    activateService: "Activer le service",
+    deactivateService: "Désactiver le service",
+    guestbookTitle: "Votre Livre d'Or",
+    date: "Date",
+    rating: "Note",
+    comment: "Commentaire",
+    user: "Utilisateur",
+    report: "Signaler",
+    serviceNotActivated: "Le service n'est pas activé.",
+    reportEntry: "Signaler une entrée",
+    reason: "Raison",
+    submit: "Valider",
+    reportSuccess: "Votre signalement a bien été pris en compte.",
+    reportError: "Erreur lors de la soumission du signalement.",
+    serviceStatusError: "Erreur: Statut du livre d'or non trouvé pour ce prestataire",
+    serviceStatusUpdateError: "Erreur lors de la mise à jour du statut du service",
+    serviceActivated: "Service activé avec succès",
+    serviceDeactivated: "Service désactivé avec succès"
+  },
 
-    
+  providerDedicationManagement: {
+    activateService: "Activer le service",
+    deactivateService: "Désactiver le service",
+    viewAllReservations: "Voir toutes les réservations",
+    addDedicationSlot: "Ajouter un créneau de dédicace",
+    serviceDeactivated: "Le service est désactivé.",
+    deleteConfirmation: "Voulez-vous vraiment supprimer cette réservation ?",
+    serviceActivatedSuccess: "Service activé avec succès",
+    serviceDeactivatedSuccess: "Service désactivé avec succès",
+    serviceStatusUpdateError: "Erreur lors de la mise à jour du statut du service",
+    title: "Gestion des dédicaces",
+    number: "Numéro",
+    date: "Date",
+    startTime: "Heure de début",
+    endTime: "Heure de fin",
+    description: "Description",
+    provider: "Prestataire",
+    service: "Service",
+    stand: "Stand",
+    modify: "Modifier",
+    viewReservations: "Voir les réservations",
+    delete: "Supprimer"
+  },
+
+  providerDedicationReservation: {
+    backToManagement: "Retour à la gestion des dédicaces",
+    viewAllReservations: "Voir toutes les réservations de dédicaces",
+    title: "Gestion des réservations de dédicace",
+    number: "Numéro",
+    date: "Date",
+    time: "Heure",
+    ticketNumber: "Numéro de ticket",
+    serviceNumber: "Numéro de service",
+    standReservationNumber: "Numéro de réservation de stand",
+    modify: "Modifier",
+    viewReservations: "Voir les réservations",
+    delete: "Supprimer",
+    deleteConfirmation: "Voulez-vous vraiment supprimer cette réservation ?",
+    deleteError: "Impossible de supprimer cette réservation"
+  },
+
+  providerAddDedication: {
+    addDedication: "Ajouter une dédicace",
+    back: "Retour",
+    submit: "Ajouter",
+    cancel: "Annuler",
+    provider: "Prestataire",
+    providerService: "Service du prestataire",
+    stand: "Stand",
+    date: "Date",
+    startTime: "Heure de début",
+    endTime: "Heure de fin",
+    description: "Description"
+  },
+
+  providerSidebar: {
+    logout: "Déconnexion",
+    menu: "Menu",
+    schedule: "Emploi du temps",
+    editor: "Page de présentation",
+    dedications: "Dédicaces",
+    goodies: "Goodies",
+    foodProducts: "Produits Alimentaires",
+    guestbook: "Livre d'Or"
+  },
+
+  providerGoodieList: {
+    activateService: "Activer le service",
+    deactivateService: "Désactiver le service",
+    goodieSalesList: "Liste des ventes de goodies",
+    addGoodie: "Ajouter un Goodies",
+    viewOrders: "Voir les commandes réalisées",
+    viewValidation: "Récupération d'une commande ?",
+    serviceDeactivated: "Le service est désactivé.",
+    number: "Numéro",
+    goodie: "Goodie",
+    image: "Image",
+    price: "Prix",
+    sizesAndStocks: "Tailles et Stocks",
+    modify: "Modifier",
+    delete: "Supprimer",
+    deleteConfirmation: "Êtes-vous sûr de vouloir supprimer ce goodie ?",
+    deleteError: "Erreur lors de la suppression du goodie",
+    deleteSuccess: "Goodie supprimé avec succès",
+    serviceStatusUpdateError: "Erreur lors de la mise à jour du statut du service",
+    serviceActivatedSuccess: "Service activé avec succès",
+    serviceDeactivatedSuccess: "Service désactivé avec succès",
+    goodieInOrderedBasket: "Ce goodie ne peut pas être supprimé car il est dans un panier avec une commande.",
+    noServiceCategoryFound: "Aucune catégorie de service trouvée pour cet utilisateur."
+  },
+
+  goodieForm: {
+    back: "Retour",
+    editGoodie: "Modifier le Goodie",
+    addGoodie: "Ajouter un Goodie",
+    name: "Nom du Goodie:",
+    price: "Prix du Goodie:",
+    image: "Image du Goodie:",
+    variation: "Variation",
+    size: "Taille:",
+    stock: "Stock:",
+    removeVariation: "Supprimer cette variation",
+    addVariation: "Ajouter une variation",
+    saveChanges: "Enregistrer les modifications",
+    addNewGoodie: "Ajouter le Goodie"
+  },
+
+  providerOrderView: {
+    back: "Retour",
+    orderNumber: "Numéro de commande",
+    date: "Date",
+    ticketNumber: "Numéro de ticket",
+    state: "État",
+    actions: "Actions",
+    viewDetails: "Voir le détail",
+    markAsProcessed: "Commande traitée",
+    orderDetails: "Détails de la commande",
+    total: "Total",
+    noOrders: "Aucune commande",
+    confirmMarkAsProcessed: "Êtes-vous sûr de vouloir marquer cette commande comme traitée ?",
+    orderProcessed: "Commande marquée comme traitée",
+    orderProcessingError: "Erreur lors de la mise à jour de l'état de la commande"
+  },
+
+  orderValidation: {
+    title: "Valider la récupération d'une commande",
+    basketId: "ID du panier :",
+    search: "Rechercher",
+    orderDetails: "Détails de la commande",
+    total: "Total",
+    validateOrder: "Valider la récupération",
+    back: "Retour",
+    errorFetchingItems: "Erreur lors de la récupération des articles du panier.",
+    invalidOrder: "Le panier n'est pas une commande valide ou n'est pas prêt à être récupéré.",
+    errorFetchingDetails: "Erreur lors de la récupération des détails du panier.",
+    orderMarkedAsRetrieved: "Commande marquée comme récupérée",
+    errorValidatingOrder: "Erreur lors de la validation de la récupération de la commande"
+  }
+
+
+
   };
   

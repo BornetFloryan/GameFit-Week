@@ -2,38 +2,38 @@
   <div class="provider-dedication-home">
     <div>
       <label>
-        <input type="radio" v-model="serviceStatus" value="1" @change="toggleServiceStatus"> Activer le service
+        <input type="radio" v-model="serviceStatus" value="1" @change="toggleServiceStatus"> {{ $t('providerDedicationManagement.activateService') }}
       </label>
       <label>
-        <input type="radio" v-model="serviceStatus" value="0" @change="toggleServiceStatus"> Désactiver le service
+        <input type="radio" v-model="serviceStatus" value="0" @change="toggleServiceStatus"> {{ $t('providerDedicationManagement.deactivateService') }}
       </label>
     </div>
     <div v-if="serviceStatus === '1'">
       <router-link :to="{ name: 'provider-dedication-reservation'}">
-        <button class="btn-action">Voir toutes les réservations</button>
+        <button class="btn-action">{{ $t('providerDedicationManagement.viewAllReservations') }}</button>
       </router-link>
       <router-link to="/provider-dashboard/provider-dedication-add">
-        <button class="btn-action">Ajouter un créneau de dédicace</button>
+        <button class="btn-action">{{ $t('providerDedicationManagement.addDedicationSlot') }}</button>
       </router-link>
       <AdminTable
-          :title="title"
-          :headers="headers"
+          :title="$t('providerDedicationManagement.title')"
+          :headers="translatedHeaders"
           :fields="fields"
           :modifyName="modifyName"
           :showModifyButton="false"
-          :modifyButtonText="'Modifier'"
+          :modifyButtonText="$t('providerDedicationManagement.modify')"
           :showReservationsButton="enableRes"
-          :reservationsButtonText="'Voir les réservations'"
+          :reservationsButtonText="$t('providerDedicationManagement.viewReservations')"
           :reservationsRouteName="'provider-dedication-reservation'"
           :reservationsQueryParams="(item) => ({ stand_reservation_id: item._id })"
           :showDeleteButton="enableDelete"
-          :deleteButtonText="'Supprimer'"
+          :deleteButtonText="$t('providerDedicationManagement.delete')"
           @delete="handleDeleteButton"
           :dataSource="dataSource"
       />
     </div>
     <div v-else>
-      <p>Le service est désactivé.</p>
+      <p>{{ $t('providerDedicationManagement.serviceDeactivated') }}</p>
     </div>
   </div>
 </template>
@@ -47,8 +47,7 @@ export default {
   components: { AdminTable },
   data() {
     return {
-      title: "Gestion des dédicaces",
-      headers: ['Numéro', 'Date', 'Heure de début', 'Heure de fin', 'Description', 'Prestataire', 'Service', 'Stand'],
+      title: this.$t('providerDedicationManagement.title'),
       fields: ['_id', 'date', 'start_time', 'end_time', 'description', 'customer_id', 'service_id', 'stand_id'],
       modifyName: '',
       enableRes: true,
@@ -64,6 +63,18 @@ export default {
     ...mapState('prestation', ['serviceReservations', "providerServiceCategories"]),
     ...mapGetters('stands', ['getStandReservationsByStandId', 'getStandsReservationsByServiceId', 'getStandsReservationsByCustomerIdAndServiceId']),
     ...mapGetters('prestation', ["getProviderServiceCategoriesByCustomerIdAndServiceID"]),
+    translatedHeaders() {
+      return [
+        this.$t('providerDedicationManagement.number'),
+        this.$t('providerDedicationManagement.date'),
+        this.$t('providerDedicationManagement.startTime'),
+        this.$t('providerDedicationManagement.endTime'),
+        this.$t('providerDedicationManagement.description'),
+        this.$t('providerDedicationManagement.provider'),
+        this.$t('providerDedicationManagement.service'),
+        this.$t('providerDedicationManagement.stand')
+      ];
+    }
   },
   methods: {
     ...mapActions('stands', ['getStands', 'getStandsReservations', 'deleteStandReservation']),
@@ -71,7 +82,7 @@ export default {
     ...mapActions('prestation', ['getServiceCategories', "getProviderServiceCategories", 'updateProviderServiceCategoryState']),
 
     async handleDeleteButton(id) {
-      if (confirm('Voulez-vous vraiment supprimer cette réservation ?')) {
+      if (confirm(this.$t('providerDedicationManagement.deleteConfirmation'))) {
         await this.deleteStandReservation({ _id: id });
         this.filterReservations();
       }
@@ -89,9 +100,9 @@ export default {
       try {
         this.providerServiceCategory.state = this.serviceStatus;
         await this.updateProviderServiceCategoryState(this.providerServiceCategory);
-        alert(`Service ${this.serviceStatus === '1' ? 'activé' : 'désactivé'} avec succès`);
+        alert(this.serviceStatus === '1' ? this.$t('providerDedicationManagement.serviceActivatedSuccess') : this.$t('providerDedicationManagement.serviceDeactivatedSuccess'));
       } catch (e) {
-        alert('Erreur lors de la mise à jour du statut du service');
+        alert(this.$t('providerDedicationManagement.serviceStatusUpdateError'));
       }
     },
   },

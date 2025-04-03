@@ -39,7 +39,6 @@
           </ul>
         </li>
 
-        <!-- Sélecteur de langue ici -->
         <li class="language-selector">
           <button @click="changeLanguage('fr')" class="lang-button" :class="{ active: $i18n.locale === 'fr' }">FR</button>
           <button @click="changeLanguage('en')" class="lang-button" :class="{ active: $i18n.locale === 'en' }">EN</button>

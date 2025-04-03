@@ -1,15 +1,15 @@
 <template>
   <div class="order-view">
     <div v-if="currentUser">
-      <button @click="goBack">Retour</button>
+      <button @click="goBack">{{ $t('providerOrderView.back') }}</button>
       <table v-if="providerOrders.length > 0">
         <thead>
         <tr>
-          <th>Numéro de commande</th>
-          <th>Date</th>
-          <th>Numéro de ticket</th>
-          <th>État</th>
-          <th>Actions</th>
+          <th>{{ $t('providerOrderView.orderNumber') }}</th>
+          <th>{{ $t('providerOrderView.date') }}</th>
+          <th>{{ $t('providerOrderView.ticketNumber') }}</th>
+          <th>{{ $t('providerOrderView.state') }}</th>
+          <th>{{ $t('providerOrderView.actions') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -19,26 +19,26 @@
           <td>{{ order.ticket_id }}</td>
           <td>{{ orderState(order.state) }}</td>
           <td>
-            <button @click="toggleOrderDetails(order._id)">Voir le détail</button>
-            <button v-if="order.state === '0'" @click="markOrderAsProcessed(order._id)">Commande traitée</button>
+            <button @click="toggleOrderDetails(order._id)">{{ $t('providerOrderView.viewDetails') }}</button>
+            <button v-if="order.state === '0'" @click="markOrderAsProcessed(order._id)">{{ $t('providerOrderView.markAsProcessed') }}</button>
           </td>
         </tr>
         <tr v-for="order in visibleOrders" :key="order._id + '-details'">
           <td colspan="5">
             <div class="order-details">
-              <h4>Détails de la commande</h4>
+              <h4>{{ $t('providerOrderView.orderDetails') }}</h4>
               <ul>
                 <li v-for="item in order.items" :key="item._id">
                   {{ item.name }} - {{ item.size }} - {{ item.price }} € x {{ item.quantity }}
                 </li>
               </ul>
-              <p><strong>Total:</strong> {{ calculateTotal(order.items) }} €</p>
+              <p><strong>{{ $t('providerOrderView.total') }}:</strong> {{ calculateTotal(order.items) }} €</p>
             </div>
           </td>
         </tr>
         </tbody>
       </table>
-      <p v-else>Aucune commande</p>
+      <p v-else>{{ $t('providerOrderView.noOrders') }}</p>
     </div>
   </div>
 </template>
@@ -132,15 +132,15 @@ export default {
     async markOrderAsProcessed(orderId) {
       const order = this.providerOrders.find(order => order._id === orderId);
       if (order) {
-        const confirmation = confirm('Êtes-vous sûr de vouloir marquer cette commande comme traitée ?');
+        const confirmation = confirm(this.$t('providerOrderView.confirmMarkAsProcessed'));
         if (confirmation) {
           try {
             order.state = '1';
             await this.updateBasketState({ basket_id: orderId, data: { state: '1', is_order: true } });
-            alert('Commande marquée comme traitée');
+            alert(this.$t('providerOrderView.orderProcessed'));
           } catch (error) {
             console.error('Erreur lors de la mise à jour de l\'état de la commande :', error);
-            alert('Erreur lors de la mise à jour de l\'état de la commande');
+            alert(this.$t('providerOrderView.orderProcessingError'));
           }
         }
       }

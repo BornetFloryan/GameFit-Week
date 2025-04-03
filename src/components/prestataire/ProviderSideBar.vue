@@ -5,33 +5,40 @@
         <div class="logo">
           <img :src="logoURL" alt="GameFit Week Logo" />
         </div>
-        <button @click="logout" class="button logout-button" title="Déconnexion">
-          <span class="material-icons">Déconnexion</span>
+        <button @click="logout" class="button logout-button" :title="$t('providerSidebar.logout')">
+          <span class="material-icons">{{ $t('providerSidebar.logout') }}</span>
         </button>
       </div>
-
-      <h3>Menu</h3>
+      <ul class="language-selector">
+        <li>
+          <button @click="changeLanguage('fr')" class="lang-button" :class="{ active: $i18n.locale === 'fr' }">FR</button>
+        </li>
+        <li>
+          <button @click="changeLanguage('en')" class="lang-button" :class="{ active: $i18n.locale === 'en' }">EN</button>
+        </li>
+      </ul>
+      <h3>{{ $t('providerSidebar.menu') }}</h3>
       <div class="menu">
         <router-link :to="{ path: '/provider-dashboard/provider-schedule' }" class="button">
-          <span class="material-icons">Emploi du temps</span>
+          <span class="material-icons">{{ $t('providerSidebar.schedule') }}</span>
         </router-link>
         <router-link :to="{ path: '/provider-dashboard/provider-editor' }" class="button">
-          <span class="material-icons">Page de présentation</span>
+          <span class="material-icons">{{ $t('providerSidebar.editor') }}</span>
         </router-link>
         <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '0')"
                      :to="{ path: '/provider-dashboard/provider-dedication' }" class="button">
-          <span class="material-icons">Dédicaces</span>
+          <span class="material-icons">{{ $t('providerSidebar.dedications') }}</span>
         </router-link>
         <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '1')"
                      :to="{ path: '/provider-dashboard/provider-goodies' }" class="button">
-          <span class="material-icons">Goodies</span>
+          <span class="material-icons">{{ $t('providerSidebar.goodies') }}</span>
         </router-link>
         <router-link v-if="getProviderServiceCategoriesByCustomerIdAndServiceID(currentUser._id, '2')"
                      :to="{ path: '/provider-dashboard/provider-restaurant/provider-restaurant-management' }" class="button">
-          <span class="material-icons">Produits Alimentaires</span>
+          <span class="material-icons">{{ $t('providerSidebar.foodProducts') }}</span>
         </router-link>
         <router-link :to="{ path: '/provider-dashboard/provider-guestbook' }" class="button">
-          <span class="material-icons">Livre d'Or</span>
+          <span class="material-icons">{{ $t('providerSidebar.guestbook') }}</span>
         </router-link>
       </div>
     </aside>
@@ -63,12 +70,17 @@ export default {
       this.logoutUser();
       this.$router.push('/');
     },
+
+    changeLanguage(language) {
+      this.$i18n.locale = language;
+    },
   },
   async mounted() {
     await this.getProviderServiceCategories();
   }
 };
 </script>
+
 
 <style scoped>
 :root {
@@ -112,6 +124,45 @@ export default {
   width: 3rem;
   border-radius: 50%;
   border: 2px solid var(--primary-color);
+}
+
+.language-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.language-selector li {
+  margin: 0 0.5rem;
+}
+
+.language-selector .lang-button {
+  background: none;
+  border: 2px solid var(--text-color);
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.language-selector .lang-button:hover {
+  background-color: var(--hover-color);
+}
+
+.language-selector .lang-button.active {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: 2px solid var(--hover-color);
+  color: blue; /* Ajoutez cette ligne pour changer la couleur du texte en bleu */
+}
+
+.lang-button.active {
+  background-color: #00afea;
+  color: #fff;
 }
 
 h3 {
@@ -165,10 +216,11 @@ h3 {
   align-items: center;
   justify-content: center;
   width: auto;
+  margin-bottom: 1rem;
 }
 
 .logout-button:hover {
-  background-color: var(--logout-hover-color);
+  background-color: var (--logout-hover-color);
   transform: scale(1.05);
 }
 

@@ -1,21 +1,21 @@
 <template>
   <div class="order-validation">
-    <h2>Valider la récupération d'une commande</h2>
+    <h2>{{ $t('orderValidation.title') }}</h2>
     <form @submit.prevent="fetchOrderDetails">
-      <label for="basketId">ID du panier :</label>
+      <label for="basketId">{{ $t('orderValidation.basketId') }}</label>
       <input type="text" v-model="basketId" required />
-      <button type="submit">Rechercher</button>
+      <button type="submit">{{ $t('orderValidation.search') }}</button>
     </form>
     <div v-if="order">
-      <h3>Détails de la commande</h3>
+      <h3>{{ $t('orderValidation.orderDetails') }}</h3>
       <ul>
         <li v-for="item in order.items" :key="item._id">
           {{ item.name }} - {{ item.size }} - {{ item.price }} € x {{ item.quantity }}
         </li>
       </ul>
-      <p><strong>Total:</strong> {{ calculateTotal(order.items) }} €</p>
-      <button @click="validateOrder">Valider la récupération</button>
-      <button @click="goBack">Retour</button>
+      <p><strong>{{ $t('orderValidation.total') }}:</strong> {{ calculateTotal(order.items) }} €</p>
+      <button @click="validateOrder">{{ $t('orderValidation.validateOrder') }}</button>
+      <button @click="goBack">{{ $t('orderValidation.back') }}</button>
     </div>
     <p v-else-if="errorMessage">{{ errorMessage }}</p>
   </div>
@@ -62,22 +62,22 @@ export default {
             this.order = { ...response, items: itemsResponse.data };
             this.errorMessage = "";
           } else {
-            this.errorMessage = "Erreur lors de la récupération des articles du panier.";
+            this.errorMessage = this.$t('orderValidation.errorFetchingItems');
           }
         } else {
-          this.errorMessage = "Le panier n'est pas une commande valide ou n'est pas prêt à être récupéré.";
+          this.errorMessage = this.$t('orderValidation.invalidOrder');
         }
       } catch (error) {
-        this.errorMessage = "Erreur lors de la récupération des détails du panier.";
+        this.errorMessage = this.$t('orderValidation.errorFetchingDetails');
       }
     },
     async validateOrder() {
       try {
         await basketService.updateBasketState(this.basketId, { state: '2', is_order: true });
-        alert("Commande marquée comme récupérée");
+        alert(this.$t('orderValidation.orderMarkedAsRetrieved'));
         this.$router.push({ name: 'provider-order-view' });
       } catch (error) {
-        alert("Erreur lors de la validation de la récupération de la commande");
+        alert(this.$t('orderValidation.errorValidatingOrder'));
       }
     },
     calculateTotal(items) {

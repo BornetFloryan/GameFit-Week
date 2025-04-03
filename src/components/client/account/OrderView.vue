@@ -146,10 +146,7 @@ export default {
       return date.split('T')[0];
     },
     orderState(state) {
-      if (state === '0') return 'En préparation';
-      if (state === '1') return 'À venir récupérer';
-      if (state === '2') return 'Récupérée';
-      return 'Inconnu';
+      return this.$t(`orderView.states.${state}`) || this.$t('orderView.states.unknown');
     },
     toggleOrderDetails(orderId) {
       const order = this.userOrders.find(order => order._id === orderId);

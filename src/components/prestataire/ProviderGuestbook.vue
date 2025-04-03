@@ -2,37 +2,37 @@
   <div class="provider-guestbook-container">
     <div>
       <label>
-        <input type="radio" v-model="serviceStatus" :value="true" @change="toggleServiceStatus"> Activer le service
+        <input type="radio" v-model="serviceStatus" :value="true" @change="toggleServiceStatus"> {{ $t('providerGuestbook.activateService') }}
       </label>
       <label>
-        <input type="radio" v-model="serviceStatus" :value="false" @change="toggleServiceStatus"> Désactiver le service
+        <input type="radio" v-model="serviceStatus" :value="false" @change="toggleServiceStatus"> {{ $t('providerGuestbook.deactivateService') }}
       </label>
     </div>
-    <h2 class="section-title">Votre Livre d'Or</h2>
+    <h2 class="section-title">{{ $t('providerGuestbook.guestbookTitle') }}</h2>
     <div v-if="serviceStatus">
       <div class="entries">
         <div v-for="entry in entries" :key="entry._id" class="entry">
-          <p><strong>Date :</strong> {{ formatDate(entry.date) }}</p>
-          <p><strong>Note :</strong> <span v-html="getStars(entry.rating)"></span></p>
-          <p><strong>Commentaire :</strong> {{ entry.comment }}</p>
-          <p><strong>Utilisateur :</strong> {{
+          <p><strong>{{ $t('providerGuestbook.date') }} :</strong> {{ formatDate(entry.date) }}</p>
+          <p><strong>{{ $t('providerGuestbook.rating') }} :</strong> <span v-html="getStars(entry.rating)"></span></p>
+          <p><strong>{{ $t('providerGuestbook.comment') }} :</strong> {{ entry.comment }}</p>
+          <p><strong>{{ $t('providerGuestbook.user') }} :</strong> {{
               getCustomerById(getTicketById(getServiceReservationsById(entry.service_reservations_id)?.ticket_id)?.customer_id)?.name
             }}</p>
-          <button class="report-button" @click="openReportModal(entry._id)">Signaler</button>
+          <button class="report-button" @click="openReportModal(entry._id)">{{ $t('providerGuestbook.report') }}</button>
         </div>
       </div>
     </div>
-    <p v-else>Le service n'est pas activé.</p>
+    <p v-else>{{ $t('providerGuestbook.serviceNotActivated') }}</p>
     <div v-if="showReportModal" class="modal">
       <div class="modal-content">
         <span class="close" @click="closeReportModal">&times;</span>
-        <h2>Signaler une entrée</h2>
+        <h2>{{ $t('providerGuestbook.reportEntry') }}</h2>
         <form @submit.prevent="submitReport">
           <div class="form-group">
-            <label for="reason">Raison</label>
+            <label for="reason">{{ $t('providerGuestbook.reason') }}</label>
             <textarea v-model="reportReason" id="reason" required></textarea>
           </div>
-          <button type="submit" class="form-submit-button">Valider</button>
+          <button type="submit" class="form-submit-button">{{ $t('providerGuestbook.submit') }}</button>
         </form>
       </div>
     </div>
@@ -96,14 +96,14 @@ export default {
       try {
         const providerGuestbookStatus = this.getProviderGuestbookStatusByCustomerId(this.currentUser._id);
         if (!providerGuestbookStatus) {
-          alert('Erreur: Statut du livre d\'or non trouvé pour ce prestataire');
+          alert(this.$t('providerGuestbook.serviceStatusError'));
           return;
         }
         providerGuestbookStatus.guestbook_activated = this.serviceStatus;
         await this.modifyProviderGuestbookStatus(providerGuestbookStatus);
-        alert(`Service ${this.serviceStatus ? 'activé' : 'désactivé'} avec succès`);
+        alert(this.serviceStatus ? this.$t('providerGuestbook.serviceActivated') : this.$t('providerGuestbook.serviceDeactivated'));
       } catch (e) {
-        alert('Erreur lors de la mise à jour du statut du service');
+        alert(this.$t('providerGuestbook.serviceStatusUpdateError'));
       }
     },
     openReportModal(entryId) {
@@ -119,9 +119,9 @@ export default {
       if (this.reportEntryId && this.reportReason) {
         const response = await this.addReport({ date: new Date().toISOString(), reason: this.reportReason, state: "0", guestbook_entry_id: this.reportEntryId });
         if(response.error !== 0) {
-          alert(response.data);
+          alert(this.$t('providerGuestbook.reportError'));
         } else {
-          alert(`Votre signalement a bien été pris en compte.`);
+          alert(this.$t('providerGuestbook.reportSuccess'));
           this.closeReportModal();
         }
       }

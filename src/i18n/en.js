@@ -302,7 +302,13 @@ export default {
     showQRCode: "Show QR Code",
     orderDetails: "Order Details",
     total: "Total",
-    noOrders: "No orders"
+    noOrders: "No orders",
+    states: {
+        0: "In preparation",
+        1: "Ready for pickup",
+        2: "Retrieved",
+        unknown: "Unknown"
+    }
   },
 
   registerProvider: {
@@ -420,12 +426,166 @@ export default {
         bookedSlot: "You have booked a slot with",
     },
 
+    providerGuestbook: {
+        activateService: "Activate service",
+        deactivateService: "Deactivate service",
+        guestbookTitle: "Your Guestbook",
+        date: "Date",
+        rating: "Rating",
+        comment: "Comment",
+        user: "User",
+        report: "Report",
+        serviceNotActivated: "The service is not activated.",
+        reportEntry: "Report an entry",
+        reason: "Reason",
+        submit: "Submit",
+        reportSuccess: "Your report has been successfully submitted.",
+        reportError: "Error submitting the report.",
+        serviceStatusError: "Error: Guestbook status not found for this provider",
+        serviceStatusUpdateError: "Error updating service status",
+        serviceActivated: "Service successfully activated",
+        serviceDeactivated: "Service successfully deactivated"
+    },
 
+    providerDedicationManagement: {
+        activateService: "Activate service",
+        deactivateService: "Deactivate service",
+        viewAllReservations: "View all reservations",
+        addDedicationSlot: "Add a dedication slot",
+        serviceDeactivated: "The service is deactivated.",
+        deleteConfirmation: "Do you really want to delete this reservation?",
+        serviceActivatedSuccess: "Service successfully activated",
+        serviceDeactivatedSuccess: "Service successfully deactivated",
+        serviceStatusUpdateError: "Error updating service status",
+        title: "Dedication Management",
+        number: "Number",
+        date: "Date",
+        startTime: "Start Time",
+        endTime: "End Time",
+        description: "Description",
+        provider: "Provider",
+        service: "Service",
+        stand: "Stand",
+        modify: "Modify",
+        viewReservations: "View reservations",
+        delete: "Delete"
+    },
 
+    providerDedicationReservation: {
+        backToManagement: "Back to dedication management",
+        viewAllReservations: "View all dedication reservations",
+        title: "Dedication Reservation Management",
+        number: "Number",
+        date: "Date",
+        time: "Time",
+        ticketNumber: "Ticket Number",
+        serviceNumber: "Service Number",
+        standReservationNumber: "Stand Reservation Number",
+        modify: "Modify",
+        viewReservations: "View reservations",
+        delete: "Delete",
+        deleteConfirmation: "Do you really want to delete this reservation?",
+        deleteError: "Unable to delete this reservation"
+    },
 
+    providerAddDedication: {
+        addDedication: "Add a dedication",
+        back: "Back",
+        submit: "Add",
+        cancel: "Cancel",
+        provider: "Provider",
+        providerService: "Provider Service",
+        stand: "Stand",
+        date: "Date",
+        startTime: "Start Time",
+        endTime: "End Time",
+        description: "Description"
+    },
 
+    providerSidebar: {
+        logout: "Logout",
+        menu: "Menu",
+        schedule: "Schedule",
+        editor: "Presentation Page",
+        dedications: "Dedications",
+        goodies: "Goodies",
+        foodProducts: "Food Products",
+        guestbook: "Guestbook"
+    },
 
+    providerGoodieList: {
+        activateService: "Activate service",
+        deactivateService: "Deactivate service",
+        goodieSalesList: "Goodie Sales List",
+        addGoodie: "Add a Goodie",
+        viewOrders: "View Orders",
+        viewValidation: "Order Pickup?",
+        serviceDeactivated: "The service is deactivated.",
+        number: "Number",
+        goodie: "Goodie",
+        image: "Image",
+        price: "Price",
+        sizesAndStocks: "Sizes and Stocks",
+        modify: "Modify",
+        delete: "Delete",
+        deleteConfirmation: "Are you sure you want to delete this goodie?",
+        deleteError: "Error deleting the goodie",
+        deleteSuccess: "Goodie deleted successfully",
+        serviceStatusUpdateError: "Error updating service status",
+        serviceActivatedSuccess: "Service activated successfully",
+        serviceDeactivatedSuccess: "Service deactivated successfully",
+        goodieInOrderedBasket: "This goodie cannot be deleted because it is in an ordered basket.",
+        noServiceCategoryFound: "No service category found for this user."
+    },
 
+    goodieForm: {
+        back: "Back",
+        editGoodie: "Edit Goodie",
+        addGoodie: "Add Goodie",
+        name: "Goodie Name:",
+        price: "Goodie Price:",
+        image: "Goodie Image:",
+        variation: "Variation",
+        size: "Size:",
+        stock: "Stock:",
+        removeVariation: "Remove this variation",
+        addVariation: "Add a variation",
+        saveChanges: "Save Changes",
+        addNewGoodie: "Add Goodie"
+    },
+
+    providerOrderView: {
+        back: "Back",
+        orderNumber: "Order Number",
+        date: "Date",
+        ticketNumber: "Ticket Number",
+        state: "State",
+        actions: "Actions",
+        viewDetails: "View Details",
+        markAsProcessed: "Mark as Processed",
+        orderDetails: "Order Details",
+        total: "Total",
+        noOrders: "No Orders",
+        confirmMarkAsProcessed: "Are you sure you want to mark this order as processed?",
+        orderProcessed: "Order marked as processed",
+        orderProcessingError: "Error updating order status",
+        shop: "Shop",
+    },
+
+    orderValidation: {
+        title: "Validate Order Pickup",
+        basketId: "Basket ID:",
+        search: "Search",
+        orderDetails: "Order Details",
+        total: "Total",
+        validateOrder: "Validate Pickup",
+        back: "Back",
+        errorFetchingItems: "Error fetching basket items.",
+        invalidOrder: "The basket is not a valid order or is not ready for pickup.",
+        errorFetchingDetails: "Error fetching basket details.",
+        orderMarkedAsRetrieved: "Order marked as retrieved",
+        errorValidatingOrder: "Error validating order pickup"
+    }
 
 };
   
