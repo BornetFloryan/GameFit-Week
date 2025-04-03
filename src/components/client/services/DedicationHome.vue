@@ -3,27 +3,32 @@
     <div class="hero">
       <img class="hero-image" src="../../../assets/img/users/Bugha.jpg" alt="Image Hero" />
       <div class="hero-content">
-        <h1>Bienvenue dans le système de dédicace</h1>
-        <p>Réservez un créneau pour rencontrer votre animateur préféré et obtenir une dédicace personnalisée !</p>
+        <h1>{{ $t('dedication_home.title') }}</h1>
+        <p>{{ $t('dedication_home.description') }}</p>
         <br>
-        <input type="text" v-model="ticketNumber" @input="validateTicket" placeholder="Entrez votre numéro de billet">
+        <input 
+          type="text" 
+          v-model="ticketNumber" 
+          @input="validateTicket" 
+          :placeholder="$t('dedication_home.search_placeholder')"
+        >
         <router-link :to="dedicationFormLink">
-          <button class="cta-button" :disabled="!isTicketValid">Réservez maintenant</button>
+          <button class="cta-button" :disabled="!isTicketValid">{{ $t('dedication_home.reserve_button') }}</button>
         </router-link>
       </div>
     </div>
     <div class="features">
       <div class="feature">
-        <h2>Simple à utiliser</h2>
-        <p>Une interface intuitive pour choisir votre animateur et réserver un créneau horaire rapidement.</p>
+        <h2>{{ $t('dedication_home.feature_simple') }}</h2>
+        <p>{{ $t('dedication_home.feature_simple_desc') }}</p>
       </div>
       <div class="feature">
-        <h2>Disponible à tout moment</h2>
-        <p>Réservez votre créneau horaire 24h/24, 7j/7 selon les disponibilités des animateurs.</p>
+        <h2>{{ $t('dedication_home.feature_anytime') }}</h2>
+        <p>{{ $t('dedication_home.feature_anytime_desc') }}</p>
       </div>
       <div class="feature">
-        <h2>Dédicaces personnalisées</h2>
-        <p>Obtenez une dédicace unique et mémorable pour vous ou vos proches.</p>
+        <h2>{{ $t('dedication_home.feature_custom') }}</h2>
+        <p>{{ $t('dedication_home.feature_custom_desc') }}</p>
       </div>
     </div>
   </div>
