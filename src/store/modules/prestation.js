@@ -231,8 +231,6 @@ const actions = {
             let response = await PrestationService.getGuestbookEntries();
             if (response.error === 0) {
                 commit('updateGuestbookEntries', response.data);
-            } else {
-                console.error(response.data);
             }
         } catch (error) {
             console.error('Erreur lors de la récupération des commentaires:', error);
