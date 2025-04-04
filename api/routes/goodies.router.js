@@ -111,6 +111,10 @@ router.put('/:id', [verifyToken, hasRole([1])], goodiesController.updateGoodie);
  *                 type: string
  *               description:
  *                 type: string
+ *               price:
+ *                 type: integer
+ *               provider_service_categories_id:
+ *                  type: integer
  *     responses:
  *       200:
  *         description: Goodie mis à jour
@@ -230,13 +234,12 @@ router.put('/variations/:id', goodiesController.updateGoodieVariation);
  *           schema:
  *             type: object
  *             properties:
+ *               stock:
+ *                 type: integer
  *               goodie_id:
  *                 type: integer
  *               size_id:
  *                 type: integer
- *               price:
- *                 type: number
- *                 format: float
  *     responses:
  *       200:
  *         description: Variation mise à jour avec succès

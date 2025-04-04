@@ -127,14 +127,6 @@ router.post("/reservations", [verifyToken, hasRole([0, 1, 2])], standsController
  *   post:
  *     summary: Ajouter une nouvelle réservation de stand
  *     tags: [Réservations de stands]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -208,14 +200,6 @@ router.put("/", [verifyToken, hasRole([2])], standsController.modifyStand);
  *   put:
  *     summary: Modifier un stand
  *     tags: [Stands]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -270,14 +254,6 @@ router.put("/reservations", [verifyToken, hasRole([1, 2])], standsController.mod
  *   put:
  *     summary: Modifier une réservation de stand
  *     tags: [Réservations de stands]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -364,13 +340,6 @@ router.delete("/reservations/:id", [verifyToken, hasRole([1, 2])], standsControl
  *           type: integer
  *           example: 1
  *         description: L'ID de la réservation de stand
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: L'ID de la réservation de stand supprimée
@@ -403,13 +372,6 @@ router.delete("/:id", [verifyToken, hasRole([2])], standsController.deleteStand)
  *           type: integer
  *           example: 1
  *         description: L'ID du stand
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: L'ID du stand supprimé
@@ -612,13 +574,6 @@ router.get("/customer/:customer_id/reservations", standsController.getStandsRese
  *           type: integer
  *           example: 3
  *         description: L'ID du client
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de stand
@@ -872,13 +827,6 @@ router.get("/customer/:customer_id/date/:date/excluding-stand/:stand_id/reservat
  *           type: integer
  *           example: 3
  *         description: L'ID du stand à exclure
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de stand

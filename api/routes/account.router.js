@@ -48,6 +48,7 @@ router.post("/token/refreshtoken", accountController.refreshToken);
  * @swagger
  * /accounts/token/refreshtoken:
  *   post:
+ *     tags: [Comptes]
  *     description: Utilisé pour rafraîchir le token
  *     requestBody:
  *       required: true
@@ -250,14 +251,6 @@ router.put("/profil", [verifyToken, hasRole([0, 1, 2])], accountController.modif
  *   put:
  *     summary: Modifier le profil de l'utilisateur
  *     tags: [Comptes]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -363,13 +356,6 @@ router.delete("/profil/:id", [verifyToken, hasRole([2])], accountController.dele
  *     summary: Supprimer le profil de l'utilisateur
  *     tags: [Comptes]
  *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *       - in: path
  *         name: id
  *         required: true

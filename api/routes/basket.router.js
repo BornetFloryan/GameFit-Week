@@ -53,6 +53,8 @@ router.post('/', basketController.createBasket);
  *             properties:
  *               ticket_id:
  *                 type: integer
+ *               provider_service_categories_id:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Panier créé avec succès

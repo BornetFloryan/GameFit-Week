@@ -62,7 +62,13 @@ async function addServiceReservation(serviceReservation) {
 async function modifyServiceReservation(serviceReservation) {
     const client = await pool.connect();
     try {
-        if (!serviceReservation || !serviceReservation._id || !serviceReservation.date || !serviceReservation.time || !serviceReservation.ticket_id || !serviceReservation.service_id || !serviceReservation.stand_reservation_id) {
+        if (!serviceReservation
+            || serviceReservation._id == null
+            || !serviceReservation.date
+            || !serviceReservation.time
+            || serviceReservation.ticket_id == null
+            || serviceReservation.service_id == null
+            || serviceReservation.stand_reservation_id == null) {
             return { error: 1, status: 404, data: 'Champs manquants' };
         }
 

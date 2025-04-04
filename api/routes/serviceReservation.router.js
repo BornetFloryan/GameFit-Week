@@ -125,14 +125,6 @@ router.put('/', [verifyToken, hasRole([2])], serviceReservationController.modify
  *   put:
  *     summary: Modifier une réservation de service existante
  *     tags: [Réservations de service]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -204,13 +196,6 @@ router.delete('/:id', [verifyToken, hasRole([0, 1, 2])], serviceReservationContr
  *     summary: Supprimer une réservation de service
  *     tags: [Réservations de service]
  *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *       - in: path
  *         name: id
  *         required: true
@@ -256,13 +241,6 @@ router.get('/:id', serviceReservationController.getServiceReservationsById);
  *           type: string
  *           example: "0"
  *         description: L'ID de la réservation de service
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une réservation de service
@@ -357,13 +335,6 @@ router.get('/service/:service_id', serviceReservationController.getServiceReserv
  *           type: string
  *           example: "0"
  *         description: L'ID du service
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de service
@@ -418,13 +389,6 @@ router.get('/stand/:standsReservationsId/service/:service_id', serviceReservatio
  *           type: string
  *           example: "0"
  *         description: L'ID du service
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de service
@@ -478,7 +442,7 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *         schema:
  *           type: string
  *           format: date-time
- *           example: "2025-07-06T22:00:00.000Z"
+ *           example: "2025-07-06"
  *         description: La date
  *     responses:
  *       200:
@@ -496,7 +460,7 @@ router.get('/ticket/:ticket_id/date/:date', serviceReservationController.getServ
  *                   date:
  *                     type: string
  *                     format: date-time
- *                     example: "2025-07-06T22:00:00.000Z"
+ *                     example: "2025-07-06"
  *                   time:
  *                     type: string
  *                     example: "09:00:00"
@@ -527,15 +491,8 @@ router.get('/date/:date', serviceReservationController.getServiceReservationsByD
  *         schema:
  *           type: string
  *           format: date-time
- *           example: "2025-07-06T22:00:00.000Z"
+ *           example: "2025-07-06"
  *         description: La date
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de réservations de service
@@ -551,7 +508,7 @@ router.get('/date/:date', serviceReservationController.getServiceReservationsByD
  *                     example: "1"
  *                   date:
  *                     type: string
- *                     example: "2025-07-06T22:00:00.000Z"
+ *                     example: "2025-07-06"
  *                   time:
  *                     type: string
  *                     example: "10:00:00"

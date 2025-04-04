@@ -92,16 +92,16 @@ async function modifyProviderRequest(request) {
         if (!request) {
             return {error: 1, status: 404, data: 'Requête manquante'};
         }
-        if (!request._id) {
+        if (request._id === undefined || request._id === null) {
             return {error: 1, status: 404, data: 'ID manquant'};
         }
-        if (!request.customer_id) {
+        if (request.customer_id === undefined || request.customer_id === null) {
             return {error: 1, status: 404, data: 'ID client manquant'};
         }
         if (!request.date) {
             return {error: 1, status: 404, data: 'Date manquante'};
         }
-        if (!request.state) {
+        if (request.state === undefined || request.state === null) {
             return {error: 1, status: 404, data: 'État manquant'};
         }
 

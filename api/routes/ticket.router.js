@@ -172,7 +172,7 @@ router.post('/', ticketController.addTickets);
  *               ticketCount:
  *                 type: integer
  *                 example: 1
- *               age_category_id:
+ *               _idTicketAgeCategories:
  *                 type: integer
  *                 example: 0
  *     responses:
@@ -216,13 +216,6 @@ router.delete('/:id', [verifyToken, hasRole([0, 1, 2])], ticketController.delete
  *       - Tickets
  *     description: Supprimer un ticket
  *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *       - in: path
  *         name: id
  *         required: true

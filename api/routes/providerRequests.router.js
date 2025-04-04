@@ -131,14 +131,6 @@ router.put("/", [verifyToken, hasRole([2])], providerRequestsController.modifyPr
  *   put:
  *     summary: Modifier une demande de prestataire
  *     tags: [Demandes des prestataires]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -216,13 +208,6 @@ router.delete("/:id", [verifyToken, hasRole([2])], providerRequestsController.de
  *     summary: Supprimer une demande de prestataire
  *     tags: [Demandes des prestataires]
  *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *       - in: path
  *         name: id
  *         required: true

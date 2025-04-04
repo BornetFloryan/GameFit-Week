@@ -67,7 +67,7 @@ router.post('/', providerServiceCategoriesController.addProviderServiceCategory)
  *                     example: "prestataire@prestataire.com"
  *               serviceCategory:
  *                 type: string
- *                 example: "2"
+ *                 example: "1"
  *     responses:
  *       200:
  *         description: La catégorie de services des prestataires créée
@@ -107,14 +107,6 @@ router.put('/', [verifyToken, hasRole([1, 2])], providerServiceCategoriesControl
  *   put:
  *     summary: Modifier une catégorie de services des prestataires existante
  *     tags: [Catégories de services des prestataires]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
@@ -174,13 +166,6 @@ router.delete('/:id', [verifyToken, hasRole([1, 2])], providerServiceCategoriesC
  *     summary: Supprimer une catégorie de services des prestataires
  *     tags: [Catégories de services des prestataires]
  *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *       - in: path
  *         name: id
  *         required: true
@@ -274,13 +259,6 @@ router.get('/customer/:customer_id/service/:service_id', providerServiceCategori
  *           type: string
  *           example: "0"
  *         description: L'ID du service
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une catégorie de services des prestataires
@@ -314,14 +292,6 @@ router.get('/customer-ids', providerServiceCategoriesController.getProviderServi
  *   get:
  *     summary: Récupérer les IDs distincts des clients des catégories de services des prestataires
  *     tags: [Catégories de services des prestataires]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste d'IDs de clients
@@ -343,14 +313,6 @@ router.get('/provider-offering-services', providerServiceCategoriesController.ge
  *   get:
  *     summary: Récupérer les prestataires offrant des services
  *     tags: [Catégories de services des prestataires]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     responses:
  *       200:
  *         description: Une liste de prestataires offrant des services

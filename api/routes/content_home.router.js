@@ -35,6 +35,7 @@ router.get("/", contentHomeController.getContentHome);
  *                   type: string
  *                   example: "Erreur lors de la récupération de la page principale"
  */
+
 router.put("/", [verifyToken, hasRole([2])], contentHomeController.modifyContentHome);
 /**
  * @swagger
@@ -42,27 +43,48 @@ router.put("/", [verifyToken, hasRole([2])], contentHomeController.modifyContent
  *   put:
  *     summary: Modifier le contenu de la page principale
  *     tags: [Content Home]
- *     parameters:
- *       - in: query
- *         name: session
- *         required: true
- *         schema:
- *           type: string
- *           example: "12abc45-953-cfb12"
- *         description: ID de session
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
- *               file:
- *                 type: string
- *                 format: binary
- *               content:
- *                 type: string
- *                 example: "Nouveau contenu"
+ *               explain:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   image_url:
+ *                     type: string
+ *               main:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: integer
+ *                   title:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *                   image_url:
+ *                     type: string
+ *               cards:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: integer
+ *                     title:
+ *                       type: string
+ *                     description:
+ *                       type: string
+ *                     image_url:
+ *                       type: string
  *     responses:
  *       200:
  *         description: Contenu de la page principale modifié avec succès
@@ -72,7 +94,9 @@ router.put("/", [verifyToken, hasRole([2])], contentHomeController.modifyContent
  *               type: object
  *               properties:
  *                 data:
- *                   type: object
+ *                   type: array
+ *                   items:
+ *                     type: object
  *       400:
  *         description: Mauvaise requête
  *         content:
